@@ -1,0 +1,7 @@
+import { notFound } from 'next/navigation';
+import { readSite } from '@/repositories/site';
+import { Shell, EntryCards } from '@/components/public';
+import { metadataFor } from '@/lib/seo';
+const names:Record<string,string>={servicios:'Servicios de catering',menus:'Menús para compartir',eventos:'Eventos realizados',complementos:'Complementos',paginas:'Conócenos'};
+export async function generateMetadata({params}:{params:Promise<{kind:string}>}) {const {kind}=await params;const site=await readSite();return metadataFor(site,{title:`${names[kind]||'Página'} en Lima`,description:site.settings.seo.description,noindex:false},`/${kind}`);}
+export default async function Listing({params}:{params:Promise<{kind:string}>}) {const {kind}=await params;if(!names[kind])notFound();const site=await readSite();const entries=site.entries.filter(e=>e.kind===kind&&e.status==='published').sort((a,b)=>a.sortOrder-b.sortOrder);return <Shell site={site}><section className="section wrap"><nav className="breadcrumbs" aria-label="Ruta de navegación"><a href="/">Inicio</a><span>/</span><span>{names[kind]}</span></nav><p className="eyebrow">{site.settings.tagline}</p><h1 className="page-title">{names[kind]}</h1>{entries.length?<EntryCards entries={entries} site={site}/>:<div className="empty"><p>Estamos preparando esta selección.</p><a className="button" href="/cotizar">Consultar opciones</a></div>}</section></Shell>}
