@@ -1,13 +1,14 @@
 # Plataforma de catering — primera base funcional
 
-Los HTML y capturas originales de Stitch permanecen intactos en las carpetas del directorio superior. La aplicación vive en `web/`.
+Este repositorio contiene la aplicación. En el espacio de trabajo original vive en `web/`; los HTML y capturas de Stitch permanecen intactos en las carpetas del directorio superior y no forman parte de este repositorio.
 
 ## Ejecutar en local
 
 Requiere Node 22.13 o posterior.
 
 ```powershell
-cd web
+git clone https://github.com/jorgemaza123/web-gladis.git
+cd web-gladis
 npm install
 node scripts/setup.mjs
 npx wrangler d1 migrations apply DB --local --config wrangler.local.json
