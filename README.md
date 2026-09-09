@@ -1,71 +1,57 @@
-# Plataforma de catering — primera base funcional
+# Plataforma de catering
 
-Este repositorio contiene la aplicación. En el espacio de trabajo original vive en `web/`; los HTML y capturas de Stitch permanecen intactos en las carpetas del directorio superior y no forman parte de este repositorio.
+Web con contenido editable, renderizado en servidor y cotizador. El nombre continúa provisional. Las siguientes iteraciones se concentran en la experiencia pública; la ampliación del CMS queda pausada por petición del usuario.
 
-## Ejecutar en local
+## Desarrollo local
 
 Requiere Node 22.13 o posterior.
 
 ```powershell
-git clone https://github.com/jorgemaza123/web-gladis.git
-cd web-gladis
 npm install
 node scripts/setup.mjs
 npx wrangler d1 migrations apply DB --local --config wrangler.local.json
 npm run dev
 ```
 
-Abre la dirección que imprime el servidor. El panel está en `/admin`. La clave local es el valor de `ADMIN_PASSWORD` del archivo privado `.dev.vars`. Nunca debe ponerse en el código, Git ni una variable pública. En alojamiento se configura como secreto del servidor. Una clave no configurada o de menos de 24 caracteres deshabilita el acceso.
+El sitio está en la dirección que imprime el servidor; administración en `/admin`. `.dev.vars` contiene la clave privada de arranque y no se versiona. `ADMIN_PASSWORD` sólo crea el primer propietario cuando se introduce correctamente; después se utiliza su contraseña almacenada como hash. Cambiar esa variable no cambia la contraseña de un usuario existente. Las sesiones individuales caducan a las ocho horas y pueden revocarse.
 
-## Uso del panel
+## Experiencia pública
 
-1. Configuración: cambia nombre, frase, contacto, WhatsApp, navegación y pie de página.
-2. Biblioteca: sube fotos JPG/PNG/WebP de hasta 5 MB. Escribe su texto alternativo y guarda. Los archivos se almacenan en R2; sus referencias se guardan en la base de datos.
-3. Servicios o Menús: crea un contenido, selecciona una imagen, completa el texto y su SEO. Elige Publicado y guarda. Los borradores no tienen página pública.
-4. Secciones de inicio: cambia títulos, fotos, visibilidad y orden. Los listados del inicio muestran los elementos publicados marcados como destacados.
-5. SEO: configura el dominio HTTPS real. Mantén la indexación apagada hasta verificar el contenido y sustituir las muestras. Cada detalle tiene título, descripción, imagen social y canonical generado con ese dominio.
+- Portada compuesta por bloques configurables; navegación móvil, jerarquía editorial, colores y tipografía controlados por configuración.
+- Catálogos con búsqueda, filtros y paginación. Detalles con relaciones entre propuestas, platos, modalidades y complementos, condiciones y galerías según los datos publicados.
+- Fotografías responsive, dimensiones reservadas, carga diferida y prioridad para la imagen principal. La subida desde el editor genera WebP de hasta 480, 960 y 1600 píxeles sin ampliar la imagen original; admite archivos fuente de hasta 10 MB y 24 megapíxeles.
+- Animaciones discretas con IntersectionObserver y CSS, respetando movimiento reducido. El contenido permanece visible sin JavaScript.
+- Cotizador con borrador temporal en esta pestaña (24 horas), propuesta y complementos independientes, consentimiento y revisión previa. Enviar registra una referencia; reintentar no duplica la solicitud. WhatsApp es una acción adicional que prepara un mensaje.
+- Los textos comerciales, imágenes y ofertas proceden de los datos, separados de las plantillas. Los datos de demostración no representan condiciones comerciales confirmadas.
 
-Guardar aplica todas las modificaciones pendientes. Ver web abre la última versión guardada. Si otra sesión guardó antes, se rechaza la sobrescritura y se pide recargar. La sesión de acceso caduca como máximo a las 8 horas y también al cambiar de día UTC o al rotar la clave.
+## SEO
 
-## Arquitectura
+HTML inicial rastreable, un H1 por página, títulos y descripciones por contenido/listado, canonical, Open Graph, sitemap y breadcrumbs. Cambiar un slug publicado crea una redirección permanente hacia su dirección actual. Robots permite rastrear imágenes propias en `/api/media/` cuando se activa la indexación. Las búsquedas filtradas se excluyen del índice.
 
-- TypeScript, React y Vinext: HTML generado en el servidor, rutas por slug, componentes reutilizables y CSS local sin Tailwind CDN.
-- `models/content.ts`: tipos del contenido.
-- `data/demo.ts`: datos iniciales separados de la presentación. No se vuelven a cargar encima de los cambios del administrador.
-- `repositories/site.ts`: acceso a D1. Un documento versionado mantiene el guardado de esta primera etapa atómico. No usa localStorage. La capa permite migrar a colecciones normalizadas o a otro CMS sin cambiar las plantillas públicas.
-- `db/schema.ts` y `drizzle/`: esquema y migraciones versionadas. No se crean tablas durante las peticiones.
-- `lib/validation.ts`: validación del lado del servidor; rechaza slugs duplicados, referencias inexistentes, URL inseguras y activación de SEO con modo demo.
-- `components/public.tsx`: registro de bloques disponibles.
-- `components/admin.tsx`: editor de colecciones, bloques, imágenes, configuración y SEO.
-- `app/api/`: sesiones con cookie HttpOnly, comprobación de origen para cambios, contenido y archivos. No se envía la contraseña al cliente desde el servidor.
+La demostración permanece fuera de Google. Antes de habilitar la indexación hay que confirmar dominio, información del negocio, oferta, fotografías propias y sus textos alternativos. Los datos estructurados comerciales sólo se generan con información verificada. No se inventan reseñas ni valoraciones.
 
-La base D1 y el almacén R2 locales quedan en `.wrangler/`. No equivalen al almacenamiento alojado: cada entorno conserva sus propios contenidos. Las fotos iniciales son las URL de muestra de Stitch; deben sustituirse por archivos propios antes del lanzamiento.
+## Base técnica existente
 
-## SEO implementado
+React, TypeScript y Vinext sobre Workers, D1 y R2. Los registros se almacenan en colecciones normalizadas; las versiones evitan sobrescrituras concurrentes y el historial conserva las últimas 30 versiones. La migración mantiene la tabla original y permite leer los datos anteriores. El guardado editorial sigue siendo agregado y las páginas aún leen el conjunto de contenido: no supone paginación total del almacenamiento en todos los recorridos.
 
-HTML rastreable, un H1 por página, navegación semántica, breadcrumbs visibles, metatítulo y descripción editables por detalle e inicio, Open Graph y Twitter con la imagen elegida, canonical desde dominio configurado, estado noindex y sitemap solo con páginas publicadas indexables. `/admin` no es indexable y no publica el documento CMS sin autenticación. El dominio no se deduce de cabeceras de visitantes. No se generan reseñas, precios, direcciones ni páginas repetidas por distrito.
+Existen roles propietario, editor y consulta, auditoría, previsualización autenticada de borradores y solicitudes con seguimiento. Cada solicitud conserva una instantánea de la propuesta original. El límite de contenido es 5000 entradas y 5000 imágenes, sujeto también al límite de tamaño de la petición.
 
-## Alcance y siguiente etapa
+Los datos locales de D1/R2 viven en `.wrangler/` y son independientes de cualquier alojamiento. La eliminación física de archivos huérfanos está desactivada: sólo se informa su cantidad hasta disponer de coordinación atómica con la publicación. El historial editorial no sustituye copias de seguridad externas.
 
-Esta entrega inicia la implementación; no cubre todavía el prompt completo de Stitch.
-
-- Cotizador de tres pasos y resumen para WhatsApp con selección preservada. No guarda solicitudes ni simula envíos. Falta el registro de solicitudes y su panel de seguimiento.
-- Acceso con una clave de administración. Falta identidad individual, recuperación, roles, auditoría y endurecimiento operativo para administración multiusuario.
-- Faltan modelos y editores especializados de platos, precios, modalidades, paquetes, cobertura, testimonios, galerías múltiples, relaciones entre servicios y menús, y opciones controladas de colores/tipografías/logo.
-- Las páginas de listado y algunos textos comerciales del cotizador todavía usan textos de plantilla; deben incorporarse a la configuración antes de considerar todo el contenido administrable.
-- Se puede crear y duplicar contenido, despublicarlo y ordenarlo; no hay borrado ni historial editorial, previsualización de borradores, redirecciones automáticas al cambiar slugs o archivado separado del borrador.
-- Biblioteca con subida múltiple, búsqueda, alt y selección. Pendientes transformación responsive, compresión, dimensiones, punto focal, reemplazo, limpieza de archivos huérfanos y borrado con comprobación de uso. Por ahora subir imágenes web optimizadas.
-- Faltan datos estructurados comerciales cuando se confirme la información real del negocio, analítica consentida y revisión editorial local de SEO.
-- El guardado agregado está limitado a 300 contenidos, 300 imágenes y aproximadamente 1 MB de metadatos. Para un catálogo mayor, paginar y normalizar colecciones en el repositorio.
-- Revisar avisos de dependencias del scaffold antes de un lanzamiento público; se aplicó la corrección de React 19.2.8. Vinext es una dependencia beta, por lo que conviene valorar su estabilidad para producción.
+Los enlaces internos usan navegación de documento; las imágenes usan la canalización responsive propia, por lo que las reglas específicas de Next Link/Image están desactivadas en esos casos.
 
 ## Verificación
 
 ```powershell
-npx tsc --noEmit
+npm run typecheck
+npm run lint
 npm run build
-# Con el servidor de desarrollo activo:
-node scripts/smoke.mjs
+npm test
+# Con el servidor local activo:
+npm run test:integration
+npm audit
 ```
 
-La prueba de integración crea contenido temporal, verifica acceso, CSRF, borradores, publicación, SEO en HTML, H1, configuración compartida, conflictos de guardado y carga/selección de imagen. Restaura el documento original al terminar. Una imagen mínima de prueba queda en el almacenamiento local sin referencia. No se han hecho pruebas visuales en navegador ni auditoría Lighthouse.
+Las pruebas cubren autenticación y permisos, CSRF, publicación y borradores, referencias de imágenes, SEO en HTML, redirecciones, conflictos de escritura, validación de cotizaciones, idempotencia, instantáneas e historial. Las pruebas de integración crean datos temporales y restauran el contenido previo; pueden dejar imágenes de prueba sin referencia en R2 local.
+
+Se revisaron portada y cotizador en navegador, incluyendo tamaños móviles, navegación y revisión de la solicitud. No se ha realizado una auditoría Lighthouse ni una medición de conversiones; no se atribuye una puntuación 10/10. Vinext continúa en beta. No se han activado analítica de terceros, publicación pública ni indexación de la demostración.

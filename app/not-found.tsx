@@ -1,1 +1,14 @@
-export default function NotFound(){return <main className="section wrap"><p className="eyebrow">404</p><h1 className="page-title">Esta página no está disponible.</h1><p>Puede que haya cambiado de dirección o que todavía no esté publicada.</p><a className="button" href="/">Volver al inicio</a></main>}
+export default function NotFound() {
+  return (
+    <main className="section wrap">
+      <p className="eyebrow">404</p>
+      <h1 className="page-title">Esta página no está disponible.</h1>
+      <p>
+        Puede que haya cambiado de dirección o que todavía no esté publicada.
+      </p>
+      <a className="button" href="/">
+        Volver al inicio
+      </a>
+    </main>
+  );
+}

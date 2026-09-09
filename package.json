@@ -10,7 +10,10 @@
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/security-tests.mjs",
+    "test:integration": "node scripts/smoke.mjs && node scripts/platform-tests.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -21,27 +24,33 @@
     "react-dom": "^19.2.8",
     "react-server-dom-webpack": "^19.2.8",
     "tailwind-merge": "^3.6.0",
-    "vinext": "1.0.0-beta.5",
+    "vinext": "^1.0.0-beta.9",
     "zod": "^4.5.4"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.37.1",
-    "@cloudflare/workers-types": "4.20260515.1",
-    "@openai/sites-vite-plugin": "0.2.0",
+    "@cloudflare/vite-plugin": "^1.54.6",
+    "@cloudflare/workers-types": "^5.20260908.1",
+    "@openai/sites-vite-plugin": "^0.2.0",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
-    "@vitejs/plugin-rsc": "0.5.26",
+    "@vitejs/plugin-rsc": "^0.5.34",
     "drizzle-kit": "^0.31.10",
     "oxfmt": "0.61.0",
     "oxlint": "1.76.0",
     "oxlint-tsgolint": "7.0.2001",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vite": "8.0.13",
-    "wrangler": "4.92.0"
+    "vite": "^8.2.2",
+    "wrangler": "^4.130.0"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "@esbuild-kit/core-utils": {
+      "esbuild": "0.25.12"
+    },
+    "sharp": "0.35.4"
+  }
 }
