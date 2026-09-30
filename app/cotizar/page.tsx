@@ -2,6 +2,7 @@ import { readSite } from '@/repositories/site';
 import { Shell, publicEntries } from '@/components/public';
 import { Quote, type QuoteSite } from '@/components/quote';
 import { metadataFor } from '@/lib/seo';
+import { resolveBusinessContact, resolveWhatsAppDestination } from '@/lib/business-contacts';
 export async function generateMetadata() {
   const site = await readSite();
   return metadataFor(
@@ -35,10 +36,8 @@ export default async function QuotePage({
   const copy = site.settings.copy;
   const quoteSite: QuoteSite = {
     settings: {
-      whatsapp: site.settings.whatsapp,
       whatsappMessage: site.settings.whatsappMessage,
       copy: {
-        consent: copy.consent,
         coverageTitle: copy.coverageTitle,
         privacyTitle: copy.privacyTitle,
         quoteAsideDescription: copy.quoteAsideDescription,
@@ -48,13 +47,18 @@ export default async function QuotePage({
       },
     },
     entries: entries.map(
-      ({ id, kind, title, minimumGuests, modalityIds, addOnIds }) => ({
+      ({ id, kind, title, minimumGuests, modalityIds, addOnIds, coverageIds, ownerId, requestable, quoteConfig }) => ({
         id,
         kind,
         title,
         minimumGuests,
         modalityIds,
         addOnIds,
+        coverageIds,
+        requestable,
+        quoteConfig,
+        recipient: resolveBusinessContact(ownerId),
+        whatsappDestination: resolveWhatsAppDestination(ownerId),
       }),
     ),
   };

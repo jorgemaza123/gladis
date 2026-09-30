@@ -7,6 +7,12 @@ import type {
 import { contentKinds } from '@/models/content';
 import { Photo } from './photo';
 import { Motion } from './motion';
+import { QuoteCartProvider } from './quote-cart-provider';
+import { AttributionProvider } from './attribution-provider';
+import { QuoteCartDialog, type QuoteCartDialogEntry } from './quote-cart-dialog';
+import { QuoteCta } from './quote-cta';
+import { ServiceRecommendations, type RecommendationEntry } from './service-recommendations';
+import { resolveBusinessContact } from '@/lib/business-contacts';
 export const publicEntries = (site: SiteContent) =>
   site.entries
     .filter(
@@ -15,6 +21,43 @@ export const publicEntries = (site: SiteContent) =>
         (!(e.kind === 'testimonios' || e.kind === 'eventos') || e.verified),
     )
     .sort((a, b) => a.sortOrder - b.sortOrder);
+
+function publicNavigation(site: SiteContent) {
+  const entries = publicEntries(site);
+  return site.settings.navigation.filter(({ href }) => {
+    if (href === '/' || href === '/cotizar' || href === '/privacidad') return true;
+    const parts = href.split('/').filter(Boolean);
+    const kind = parts[0] as ContentKind | undefined;
+    if (!kind || !contentKinds.includes(kind)) return false;
+    return parts[1]
+      ? entries.some((entry) => entry.kind === kind && entry.slug === parts[1])
+      : entries.some((entry) => entry.kind === kind);
+  });
+}
+
+function CatalogNavigation({ site }: { site: SiteContent }) {
+  const entries = publicEntries(site);
+  const kinds = contentKinds.filter((kind) => entries.some((entry) => entry.kind === kind));
+  if (!kinds.length) return null;
+  return (
+    <nav className="catalog-navigation wrap" aria-label="Explorar propuestas">
+      <p className="eyebrow">Explora</p>
+      <div>
+        <h2>Encuentra el punto de partida para tu evento</h2>
+        <ul>
+          {kinds.map((kind) => (
+            <li key={kind}>
+              <a href={`/${kind}`}>
+                <span>{site.settings.catalogs[kind].title}</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  );
+}
 export function JsonLd({ data }: { data: unknown }) {
   return data ? (
     <script
@@ -34,8 +77,43 @@ export function Shell({
 }) {
   const s = site.settings,
     c = s.copy;
+  const navigation = publicNavigation(site);
+  const quoteEntryIds = site.entries
+    .filter(
+      (entry) =>
+        entry.status === 'published' &&
+        entry.requestable &&
+        entry.ownerId !== null &&
+        entry.quoteConfig !== null,
+    )
+    .map((entry) => entry.id);
+  const quoteCartEntries: QuoteCartDialogEntry[] = site.entries
+    .filter((entry) => quoteEntryIds.includes(entry.id))
+    .map((entry) => ({
+      id: entry.id,
+      title: entry.title,
+      quoteConfig: entry.quoteConfig!,
+      recipient: resolveBusinessContact(entry.ownerId),
+    }));
+  const recommendationEntries: RecommendationEntry[] = publicEntries(site).map((entry) => ({
+    id: entry.id,
+    kind: entry.kind,
+    slug: entry.slug,
+    title: entry.title,
+    description: entry.description,
+    status: entry.status,
+    sortOrder: entry.sortOrder,
+    imageId: entry.imageId,
+    requestable: entry.requestable,
+    ownerId: entry.ownerId,
+    quoteConfig: entry.quoteConfig,
+    recommendations: entry.recommendations,
+    image: site.media.find((media) => media.id === entry.imageId),
+  }));
   return (
-    <div
+    <AttributionProvider>
+      <QuoteCartProvider entryIds={quoteEntryIds}>
+      <div
       className={`public-site palette-${s.palette} typography-${s.typography}`}
       data-motion={s.animations && s.motionLevel !== 'off' ? 'on' : 'off'}
     >
@@ -61,20 +139,21 @@ export function Shell({
           </span>
         </a>
         <nav className="desktop-nav" aria-label="Navegación principal">
-          {s.navigation.map((n) => (
+          {navigation.map((n) => (
             <a key={n.href} href={n.href}>
               {n.label}
             </a>
           ))}
         </nav>
-        <a className="button small" href="/cotizar">
+        <QuoteCta className="button small" placement="navigation">
           {c.primaryCta}
           <span aria-hidden="true">↗</span>
-        </a>
+        </QuoteCta>
+        <QuoteCartDialog entries={quoteCartEntries} recommendationEntries={recommendationEntries} />
         <details className="mobile-menu">
           <summary aria-label="Abrir navegación">☰</summary>
           <nav aria-label="Navegación móvil">
-            {s.navigation.map((n) => (
+            {navigation.map((n) => (
               <a key={n.href} href={n.href}>
                 {n.label}
               </a>
@@ -92,7 +171,7 @@ export function Shell({
             {s.businessVerified && s.hours && <p>{s.hours}</p>}
           </div>
           <nav aria-label="Pie de página">
-            {s.navigation.map((n) => (
+            {navigation.map((n) => (
               <a key={n.href} href={n.href}>
                 {n.label}
               </a>
@@ -101,14 +180,7 @@ export function Shell({
           <div>
             <p>{c.footerHeading}</p>
             {s.email && <a href={`mailto:${s.email}`}>{s.email}</a>}
-            {s.whatsapp && (
-              <a
-                href={`https://wa.me/${s.whatsapp}?text=${encodeURIComponent(s.whatsappMessage)}`}
-              >
-                WhatsApp ↗
-              </a>
-            )}
-            <a href="/cotizar">{c.primaryCta} ↗</a>
+            <QuoteCta placement="footer">{c.primaryCta} ↗</QuoteCta>
             {s.socialLinks.map((l) => (
               <a key={l.url} href={l.url} rel="noopener noreferrer">
                 {l.label} ↗
@@ -122,7 +194,9 @@ export function Shell({
           <a href="/admin">Administración</a>
         </div>
       </footer>
-    </div>
+      </div>
+      </QuoteCartProvider>
+    </AttributionProvider>
   );
 }
 export function EntryPrice({ entry: e }: { entry: ContentEntry }) {
@@ -193,6 +267,15 @@ export function EntryCards({
           </h3>
           <p>{e.description}</p>
           <EntryPrice entry={e} />
+          {e.requestable && e.ownerId !== null && e.quoteConfig && (
+            <QuoteCta
+              className="text-link"
+              entryId={e.id}
+              placement="catalog_card"
+            >
+              {site.settings.copy.inquire} →
+            </QuoteCta>
+          )}
           {e.dietaryConfirmed && e.dietary.length > 0 && (
             <div className="chips">
               {e.dietary.map((d) => (
@@ -232,9 +315,9 @@ function Hero({
         <h1>{s.title}</h1>
         <p className="lead">{s.description}</p>
         <div className="actions">
-          <a className="button" href={s.primaryHref || '/cotizar'}>
+          <QuoteCta className="button" placement="hero" href={s.primaryHref || '/cotizar'}>
             {s.primaryLabel || c.primaryCta} ↗
-          </a>
+          </QuoteCta>
           <a className="text-link" href={s.secondaryHref || '/menus'}>
             {s.secondaryLabel || c.secondaryCta} →
           </a>
@@ -296,9 +379,9 @@ function TextImage({
       <div>
         <Heading s={s} />
         {s.primaryLabel && (
-          <a className="text-link" href={s.primaryHref || '/cotizar'}>
+          <QuoteCta className="text-link" placement="navigation" href={s.primaryHref || '/cotizar'}>
             {s.primaryLabel} ↗
-          </a>
+          </QuoteCta>
         )}
       </div>
     </section>
@@ -337,9 +420,9 @@ function Cta({
     <section className="cta" data-reveal>
       <span aria-hidden="true">✳</span>
       <Heading s={s} />
-      <a className="button light" href={s.primaryHref || '/cotizar'}>
+      <QuoteCta className="button light" placement="hero" href={s.primaryHref || '/cotizar'}>
         {s.primaryLabel || site.settings.copy.primaryCta} ↗
-      </a>
+      </QuoteCta>
     </section>
   );
 }
@@ -442,16 +525,18 @@ function Testimonials({
   );
 }
 export function Sections({ site }: { site: SiteContent }) {
+  const visibleSections = site.sections
+    .filter((s) => s.visible)
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+  const hero = visibleSections.find((section) => section.type === 'hero');
+  const remaining = visibleSections.filter((section) => section !== hero);
   return (
     <>
-      {site.sections
-        .filter((s) => s.visible)
-        .sort((a, b) => a.sortOrder - b.sortOrder)
-        .map((section) => {
+      {hero && <Hero site={site} section={hero} />}
+      {hero && <CatalogNavigation site={site} />}
+      {remaining.map((section) => {
           const Block =
-            section.type === 'hero'
-              ? Hero
-              : section.type === 'texto'
+            section.type === 'texto'
                 ? TextImage
                 : section.type === 'faq'
                   ? Faq
@@ -466,9 +551,7 @@ export function Sections({ site }: { site: SiteContent }) {
                           : contentKinds.includes(section.type as ContentKind)
                             ? Catalog
                             : null;
-          return Block ? (
-            <Block key={section.id} site={site} section={section} />
-          ) : null;
+          return Block ? <Block key={section.id} site={site} section={section} /> : null;
         })}
     </>
   );
@@ -488,6 +571,7 @@ export function EntryDetail({
     ['modalidades', e.modalityIds],
     ['complementos', e.addOnIds],
     ['tipos-evento', e.eventTypeIds],
+    ['cobertura', e.coverageIds],
   ] as [ContentKind, string[]][];
   return (
     <>
@@ -530,13 +614,40 @@ export function EntryDetail({
                 ))}
               </div>
             )}
+            {e.processSteps.length > 0 && (
+              <section className="detail-process" aria-labelledby={`proceso-${e.id}`}>
+                <h2 id={`proceso-${e.id}`}>Cómo coordinamos</h2>
+                <ol>
+                  {e.processSteps.map((step, index) => (
+                    <li key={`${step.title}-${index}`}>
+                      <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                      <div><h3>{step.title}</h3><p>{step.description}</p></div>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )}
+            {e.externalCatalog && (
+              <QuoteCta
+                addToCart={false}
+                className="text-link"
+                entryId={e.id}
+                placement="external_catalog"
+                href={e.externalCatalog.url}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {e.externalCatalog.label} ↗
+              </QuoteCta>
+            )}
             <div className="actions">
-              <a
+              <QuoteCta
                 className="button"
-                href={`/cotizar?seleccion=${encodeURIComponent(e.id)}`}
+                entryId={e.requestable && e.ownerId !== null && e.quoteConfig ? e.id : null}
+                placement="service_detail"
               >
                 {c.inquire} ↗
-              </a>
+              </QuoteCta>
             </div>
           </div>
           <Photo asset={site.media.find((m) => m.id === e.imageId)} priority />
@@ -570,6 +681,17 @@ export function EntryDetail({
           ids={e.imageIds.filter((id) => id !== e.imageId)}
           title={c.galleryTitle}
         />
+        {e.faqItems.length > 0 && (
+          <section className="detail-faq" aria-labelledby={`faq-${e.id}`}>
+            <h2 id={`faq-${e.id}`}>Preguntas sobre esta propuesta</h2>
+            {e.faqItems.map((item) => (
+              <details key={item.id}>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </section>
+        )}
       </section>
       {groups.map(([kind, ids]) => {
         const entries = publicEntries(site).filter(
@@ -584,6 +706,24 @@ export function EntryDetail({
           </section>
         ) : null;
       })}
+      <ServiceRecommendations
+        entries={publicEntries(site).map((entry) => ({
+          id: entry.id,
+          kind: entry.kind,
+          slug: entry.slug,
+          title: entry.title,
+          description: entry.description,
+          status: entry.status,
+          sortOrder: entry.sortOrder,
+          imageId: entry.imageId,
+          requestable: entry.requestable,
+          ownerId: entry.ownerId,
+          quoteConfig: entry.quoteConfig,
+          recommendations: entry.recommendations,
+          image: site.media.find((media) => media.id === entry.imageId),
+        }))}
+        heading={c.relatedTitle}
+      />
     </>
   );
 }

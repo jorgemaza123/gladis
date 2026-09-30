@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { businessOwnerIds } from '@/config/business-contacts';
 import { contentKinds } from '@/models/content';
 const short = z.string().max(300),
   para = z.string().max(12000),
@@ -49,6 +50,88 @@ export const priceSchema = z
         message: 'Indica un importe para un precio fijo o desde.',
       });
   });
+const quoteOptionValueSchema = z.object({
+  id: identifier,
+  label: z.string().min(1).max(80),
+});
+const quoteOptionSchema = z
+  .object({
+    id: identifier,
+    label: z.string().min(1).max(80),
+    required: z.boolean(),
+    values: z.array(quoteOptionValueSchema).min(1).max(20),
+  })
+  .superRefine((option, context) => {
+    if (new Set(option.values.map((value) => value.id)).size !== option.values.length)
+      context.addIssue({ code: 'custom', message: 'Los valores de una opción deben tener IDs únicos.' });
+  });
+const decimalPlaces = (value: number) => {
+  const decimal = String(value).split('.')[1];
+  return decimal ? decimal.length : 0;
+};
+const quoteConfigSchema = z
+  .object({
+    quantityUnit: z.enum(['person', 'unit', 'event', 'hour']),
+    minimum: z.number().positive(),
+    maximum: z.number().positive(),
+    step: z.number().positive(),
+    dateRequired: z.boolean(),
+    districtRequired: z.boolean(),
+    guestsRequired: z.boolean(),
+    options: z.array(quoteOptionSchema).max(8),
+  })
+  .superRefine((config, context) => {
+    if (config.maximum < config.minimum)
+      context.addIssue({ code: 'custom', message: 'El máximo debe ser igual o mayor que el mínimo.' });
+    if (
+      Math.max(
+        decimalPlaces(config.minimum),
+        decimalPlaces(config.maximum),
+        decimalPlaces(config.step),
+      ) > 6
+    )
+      context.addIssue({ code: 'custom', message: 'Las cantidades admiten hasta seis decimales.' });
+    else {
+      const scale = 10 ** Math.max(
+        decimalPlaces(config.minimum),
+        decimalPlaces(config.maximum),
+        decimalPlaces(config.step),
+      );
+      const increment = Math.round(config.step * scale);
+      if (increment && Math.round((config.maximum - config.minimum) * scale) % increment)
+        context.addIssue({ code: 'custom', message: 'El rango debe respetar el incremento configurado.' });
+    }
+    if (new Set(config.options.map((option) => option.id)).size !== config.options.length)
+      context.addIssue({ code: 'custom', message: 'Los grupos de opciones deben tener IDs únicos.' });
+  });
+const recommendationSchema = z.object({
+  entryId: identifier,
+  priority: z.number().int().min(0).max(100000),
+  eventTypeIds: ids,
+  reason: z.string().max(300),
+});
+const entryFaqItemSchema = z.object({
+  id: identifier,
+  question: short,
+  answer: para,
+});
+const entryProcessStepSchema = z.object({
+  title: short,
+  description: para,
+});
+const externalCatalogSchema = z
+  .object({ url: z.url().max(2048), label: short })
+  .nullable()
+  .superRefine((catalog, context) => {
+    if (!catalog) return;
+    try {
+      const url = new URL(catalog.url);
+      if (url.protocol !== 'https:' || url.username || url.password)
+        context.addIssue({ code: 'custom', message: 'El catálogo externo debe usar HTTPS sin credenciales.' });
+    } catch {
+      context.addIssue({ code: 'custom', message: 'La URL de catálogo externo no es válida.' });
+    }
+  });
 export const entrySchema = z.object({
   id: identifier,
   kind: z.enum(contentKinds),
@@ -74,6 +157,7 @@ export const entrySchema = z.object({
   modalityIds: ids,
   addOnIds: ids,
   eventTypeIds: ids,
+  coverageIds: ids,
   excluded: z.array(short).max(100),
   price: priceSchema,
   minimumGuests: z.number().int().min(1).max(100000).nullable(),
@@ -85,6 +169,14 @@ export const entrySchema = z.object({
   attribution: short,
   verified: z.boolean(),
   provider: z.enum(['', 'own', 'partner']),
+  requestable: z.boolean(),
+  ownerId: z.enum(businessOwnerIds).nullable(),
+  prominence: z.enum(['primary', 'secondary']),
+  quoteConfig: quoteConfigSchema.nullable(),
+  recommendations: z.array(recommendationSchema).max(30),
+  faqItems: z.array(entryFaqItemSchema).max(20),
+  processSteps: z.array(entryProcessStepSchema).max(12),
+  externalCatalog: externalCatalogSchema,
   createdAt: z.string().max(50),
   updatedAt: z.string().max(50),
 });
@@ -270,6 +362,7 @@ export const siteSchema = z
         modalityIds: 'modalidades',
         addOnIds: 'complementos',
         eventTypeIds: 'tipos-evento',
+        coverageIds: 'cobertura',
       })) {
         for (const id of e[field as 'dishIds']) {
           if (records.get(id)?.kind !== kind)
@@ -287,6 +380,19 @@ export const siteSchema = z
           fail(`Completa la descripción de ${e.title}.`);
         if (e.kind === 'testimonios' && !e.verified)
           fail('Confirma la autorización del testimonio antes de publicarlo.');
+      }
+      if (e.requestable && !e.ownerId)
+        fail(`Una oferta cotizable necesita responsable: ${e.title}.`);
+      if (e.requestable && !e.quoteConfig)
+        fail(`Una oferta cotizable necesita reglas completas: ${e.title}.`);
+      for (const recommendation of e.recommendations) {
+        if (!records.has(recommendation.entryId))
+          fail(`Una recomendación de ${e.title} apunta a contenido inexistente.`);
+        if (recommendation.entryId === e.id)
+          fail(`Una recomendación no puede apuntar a sí misma: ${e.title}.`);
+        for (const eventTypeId of recommendation.eventTypeIds)
+          if (records.get(eventTypeId)?.kind !== 'tipos-evento')
+            fail(`Una recomendación de ${e.title} usa un tipo de evento inválido.`);
       }
     }
     for (const b of s.sections) {

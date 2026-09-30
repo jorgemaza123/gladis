@@ -48,6 +48,33 @@ export type Price = {
   minimum: number | null;
   conditions: string;
 };
+export type QuoteQuantityUnit = 'person' | 'unit' | 'event' | 'hour';
+export type QuoteOptionValue = { id: string; label: string };
+export type QuoteOption = {
+  id: string;
+  label: string;
+  required: boolean;
+  values: QuoteOptionValue[];
+};
+export type QuoteConfig = {
+  quantityUnit: QuoteQuantityUnit;
+  minimum: number;
+  maximum: number;
+  step: number;
+  dateRequired: boolean;
+  districtRequired: boolean;
+  guestsRequired: boolean;
+  options: QuoteOption[];
+};
+export type Recommendation = {
+  entryId: string;
+  priority: number;
+  eventTypeIds: string[];
+  reason: string;
+};
+export type EntryFaqItem = { id: string; question: string; answer: string };
+export type EntryProcessStep = { title: string; description: string };
+export type ExternalCatalog = { url: string; label: string };
 export type ContentEntry = {
   id: string;
   kind: ContentKind;
@@ -69,6 +96,7 @@ export type ContentEntry = {
   modalityIds: string[];
   addOnIds: string[];
   eventTypeIds: string[];
+  coverageIds: string[];
   excluded: string[];
   price: Price;
   minimumGuests: number | null;
@@ -80,6 +108,14 @@ export type ContentEntry = {
   attribution: string;
   verified: boolean;
   provider: 'own' | 'partner' | '';
+  requestable: boolean;
+  ownerId: BusinessOwnerId | null;
+  prominence: 'primary' | 'secondary';
+  quoteConfig: QuoteConfig | null;
+  recommendations: Recommendation[];
+  faqItems: EntryFaqItem[];
+  processSteps: EntryProcessStep[];
+  externalCatalog: ExternalCatalog | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -206,7 +242,7 @@ export type QuoteInput = {
   website: string;
   startedAt: number;
 };
-export type QuoteRequest = {
+type QuoteRequestBase = {
   id: string;
   reference: string;
   createdAt: string;
@@ -215,13 +251,21 @@ export type QuoteRequest = {
   notes: string;
   version: number;
   demo: boolean;
-  input: QuoteInput;
-  snapshot: {
+};
+export type QuoteRequest =
+  | (QuoteRequestBase & {
+      input: QuoteInput;
+      snapshot: {
     selection: string;
     modality: string;
     addOns: string[];
     eventType: string;
     price: Price | null;
     consentText: string;
-  };
-};
+      };
+    })
+  | (QuoteRequestBase & {
+      input: import('@/models/quote-v2').QuoteInputV2;
+      snapshot: import('@/models/quote-v2').QuoteSnapshotV2;
+    });
+import type { BusinessOwnerId } from '@/config/business-contacts';

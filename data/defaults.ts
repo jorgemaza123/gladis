@@ -41,6 +41,7 @@ export const emptyEntry = (): ContentEntry => ({
   modalityIds: [],
   addOnIds: [],
   eventTypeIds: [],
+  coverageIds: [],
   excluded: [],
   price: {
     mode: 'consult',
@@ -59,6 +60,14 @@ export const emptyEntry = (): ContentEntry => ({
   attribution: '',
   verified: false,
   provider: '',
+  requestable: false,
+  ownerId: null,
+  prominence: 'secondary',
+  quoteConfig: null,
+  recommendations: [],
+  faqItems: [],
+  processSteps: [],
+  externalCatalog: null,
   createdAt: '',
   updatedAt: '',
 });
@@ -79,18 +88,18 @@ export const defaultCopy: PublicCopy = {
   coverageTitle: 'Consulta la atención en tu distrito',
   quoteTitle: 'Organicemos tu próximo evento.',
   quoteDescription:
-    'Cuéntanos la fecha, el lugar y lo que tienes en mente. Recibiremos tu solicitud para coordinar una propuesta.',
+    'Indica la fecha, el lugar y lo que necesitas para preparar un mensaje de WhatsApp. Tú decides si lo envías.',
   quoteAsideTitle: 'Una buena mesa empieza por conocerte.',
   quoteAsideDescription:
     'La disponibilidad y las condiciones se confirman en la propuesta.',
   consent:
-    'Autorizo el uso de mis datos para atender esta solicitud de cotización.',
+    'La versión estática no solicita consentimiento porque no guarda datos personales.',
   privacyTitle: 'Privacidad de tu solicitud',
   privacyBody:
-    'Usaremos la información que nos compartas para responder tu consulta y coordinar tu evento. No incluyas información sensible en los comentarios. Puedes solicitar la eliminación de tu consulta a través del contacto del negocio.',
-  successTitle: 'Recibimos tu solicitud',
+    'Esta web no guarda solicitudes ni nombre, teléfono, correo o comentarios. La selección se conserva sólo de forma temporal en este navegador. Si eliges abrir WhatsApp, el mensaje preparado contiene únicamente los datos del evento que escribiste; el envío y el tratamiento posterior dependen de tu decisión y de WhatsApp.',
+  successTitle: 'La conversación está lista',
   successDescription:
-    'Guarda tu número de referencia. También puedes continuar la conversación por WhatsApp.',
+    'La conversación se prepara en tu navegador; no se crea una solicitud ni un número de referencia.',
   demoNotice: 'Vista de demostración · Fotografías y propuestas de muestra',
 };
 export const defaultSettings: SiteSettings = {

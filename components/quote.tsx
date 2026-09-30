@@ -1,15 +1,17 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import type { ContentEntry, PublicCopy, QuoteInput } from '@/models/content';
+import type { ContentEntry, PublicCopy } from '@/models/content';
+import { createWhatsAppMessage, createWhatsAppUrl } from '@/lib/whatsapp-message';
+import type { PublicBusinessContact } from '@/lib/business-contacts';
+import { useQuoteCart } from '@/components/quote-cart-provider';
+import { useAttribution } from '@/components/attribution-provider';
 
 // Explicit public projection: never serialize the CMS aggregate into this client.
 export type QuoteSite = {
   settings: {
-    whatsapp: string;
     whatsappMessage: string;
     copy: Pick<
       PublicCopy,
-      | 'consent'
       | 'coverageTitle'
       | 'privacyTitle'
       | 'quoteAsideDescription'
@@ -18,10 +20,21 @@ export type QuoteSite = {
       | 'successTitle'
     >;
   };
-  entries: Pick<
+  entries: (Pick<
     ContentEntry,
-    'id' | 'kind' | 'title' | 'minimumGuests' | 'modalityIds' | 'addOnIds'
-  >[];
+    'id' | 'kind' | 'title' | 'minimumGuests' | 'modalityIds' | 'addOnIds' | 'coverageIds' | 'requestable' | 'quoteConfig'
+  > & { recipient: PublicBusinessContact; whatsappDestination: string | null })[];
+};
+type QuoteFormData = {
+  eventTypeId: string;
+  eventTypeOther: string;
+  date: string;
+  district: string;
+  people: number;
+  selectionId: string;
+  modalityId: string;
+  addOnIds: string[];
+  budget: string;
 };
 import { todayInLima } from '@/lib/quote-validation';
 const storageKey = 'catering.quote-draft.v2';
@@ -32,15 +45,15 @@ export function Quote({
   site: QuoteSite;
   selection: string;
 }) {
+  const { cart, restored: cartRestored } = useQuoteCart();
+  const { recordCta } = useAttribution();
   const [step, setStep] = useState(1),
     [ready, setReady] = useState(false),
     [busy, setBusy] = useState(false),
     [loaded, setLoaded] = useState(false),
     [error, setError] = useState(''),
     [fieldErrors, setFieldErrors] = useState<Record<string, string>>({}),
-    [result, setResult] = useState<{ reference: string; demo: boolean } | null>(
-      null,
-    );
+    [result, setResult] = useState(false);
   const lock = useRef(false);
   const reviewHeading = useRef<HTMLHeadingElement>(null);
   const errorSummary = useRef<HTMLDivElement>(null);
@@ -50,8 +63,7 @@ export function Quote({
   useEffect(() => {
     if (error) errorSummary.current?.focus();
   }, [error]);
-  const [data, setData] = useState<QuoteInput>({
-    requestId: '',
+  const [data, setData] = useState<QuoteFormData>({
     eventTypeId: '',
     eventTypeOther: '',
     date: '',
@@ -61,13 +73,6 @@ export function Quote({
     modalityId: '',
     addOnIds: [],
     budget: '',
-    name: '',
-    phone: '',
-    email: '',
-    notes: '',
-    consent: false,
-    website: '',
-    startedAt: 0,
   });
   const c = site.settings.copy;
   const entries = site.entries;
@@ -75,7 +80,14 @@ export function Quote({
   const main = entries.filter((e) =>
     ['servicios', 'menus', 'paquetes'].includes(e.kind),
   );
-  const chosen = main.find((e) => e.id === data.selectionId);
+  const cartPrimary = cart.items.find((item) => item.itemId === cart.primaryItemId) || null;
+  const cartPrimaryEntry = cartPrimary
+    ? entries.find((entry) => entry.id === cartPrimary.entryId)
+    : undefined;
+  const usingCart = cartRestored && cart.items.length > 0;
+  const chosen = usingCart
+    ? cartPrimaryEntry
+    : main.find((e) => e.id === data.selectionId);
   const modalities = entries.filter(
     (e) =>
       e.kind === 'modalidades' &&
@@ -86,9 +98,19 @@ export function Quote({
       e.kind === 'complementos' &&
       (!chosen?.addOnIds.length || chosen.addOnIds.includes(e.id)),
   );
+  const coverage = entries.filter(
+    (e) =>
+      e.kind === 'cobertura' &&
+      (!chosen?.coverageIds.length || chosen.coverageIds.includes(e.id)),
+  );
   const event = events.find((e) => e.id === data.eventTypeId);
   const modality = modalities.find((e) => e.id === data.modalityId);
-  const addons = extras.filter((e) => data.addOnIds.includes(e.id));
+  const addons = usingCart
+    ? cart.items
+      .filter((item) => item.itemId !== cart.primaryItemId)
+      .map((item) => entries.find((entry) => entry.id === item.entryId))
+      .filter((entry): entry is QuoteSite['entries'][number] => !!entry)
+    : extras.filter((e) => data.addOnIds.includes(e.id));
   useEffect(() => {
     let active = true;
     queueMicrotask(() => {
@@ -96,26 +118,23 @@ export function Quote({
       try {
         const draft = JSON.parse(sessionStorage.getItem(storageKey) || 'null');
         if (draft && draft.savedAt > Date.now() - 86400000 && draft.data) {
+          const saved = draft.data as Partial<QuoteFormData>;
           setData((current) => ({
             ...current,
-            ...draft.data,
-            selectionId: selection || draft.data.selectionId,
-            consent: false,
-            requestId: draft.data.requestId || crypto.randomUUID(),
+            eventTypeId: typeof saved.eventTypeId === 'string' ? saved.eventTypeId : '',
+            eventTypeOther: typeof saved.eventTypeOther === 'string' ? saved.eventTypeOther : '',
+            date: typeof saved.date === 'string' ? saved.date : '',
+            district: typeof saved.district === 'string' ? saved.district : '',
+            people: typeof saved.people === 'number' ? saved.people : 0,
+            selectionId: selection || (typeof saved.selectionId === 'string' ? saved.selectionId : ''),
+            modalityId: typeof saved.modalityId === 'string' ? saved.modalityId : '',
+            addOnIds: Array.isArray(saved.addOnIds)
+              ? saved.addOnIds.filter((id): id is string => typeof id === 'string')
+              : [],
+            budget: typeof saved.budget === 'string' ? saved.budget : '',
           }));
-        } else
-          setData((d) => ({
-            ...d,
-            requestId: crypto.randomUUID(),
-            startedAt: Date.now(),
-          }));
-      } catch {
-        setData((d) => ({
-          ...d,
-          requestId: crypto.randomUUID(),
-          startedAt: Date.now(),
-        }));
-      }
+        }
+      } catch {}
       setLoaded(true);
     });
     return () => {
@@ -127,53 +146,53 @@ export function Quote({
     try {
       sessionStorage.setItem(
         storageKey,
-        JSON.stringify({ data, savedAt: Date.now() }),
+        JSON.stringify({
+          data: {
+            eventTypeId: data.eventTypeId,
+            eventTypeOther: data.eventTypeOther,
+            date: data.date,
+            district: data.district,
+            people: data.people,
+            selectionId: data.selectionId,
+            modalityId: data.modalityId,
+            addOnIds: data.addOnIds,
+            budget: data.budget,
+          },
+          savedAt: Date.now(),
+        }),
       );
     } catch {
       /* Storage can be disabled. The form remains usable in memory. */
     }
   }, [data, loaded, result]);
-  function change<K extends keyof QuoteInput>(key: K, value: QuoteInput[K]) {
+  function change<K extends keyof QuoteFormData>(key: K, value: QuoteFormData[K]) {
     if (lock.current) return;
     setData((d) => ({ ...d, [key]: value }));
     setReady(false);
     setFieldErrors((e) => ({ ...e, [key]: '' }));
     setError('');
   }
-  const summary = `${site.settings.whatsappMessage}\n${result ? `Referencia: ${result.reference}\n` : ''}\nEvento: ${event?.title || data.eventTypeOther}\nFecha: ${data.date}\nDistrito: ${data.district}\nPersonas: ${data.people}\nPropuesta: ${chosen?.title || 'Necesito orientación'}\nModalidad: ${modality?.title || 'Por coordinar'}\nComplementos: ${addons.map((e) => e.title).join(', ') || 'Ninguno seleccionado'}\nPresupuesto orientativo: ${data.budget || 'Por definir'}\nNombre: ${data.name}\nTeléfono: ${data.phone}\nCorreo: ${data.email || 'No indicado'}\nComentarios: ${data.notes}`;
-  async function send() {
+  const summary = createWhatsAppMessage({
+    introduction: site.settings.whatsappMessage,
+    eventType: event?.title || data.eventTypeOther,
+    date: data.date,
+    district: data.district,
+    guests: data.people,
+    primary: chosen?.title || 'Necesito orientación',
+    extras: addons.map((entry) => entry.title),
+    budget: data.budget,
+  });
+  function send() {
     if (lock.current) return;
     lock.current = true;
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/api/quotes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!r.ok) {
-        if (r.headers.get('content-type')?.includes('application/json')) {
-          const failure = (await r.json()) as {
-            message: string;
-            errors: Record<string, string>;
-          };
-          setFieldErrors(failure.errors || {});
-          throw new Error(failure.message);
-        }
-        throw new Error(await r.text());
-      }
-      const saved = (await r.json()) as { reference: string; demo: boolean };
-      setResult(saved);
+      recordCta(chosen?.id || null, 'quote_form');
+      setResult(true);
       try {
         sessionStorage.removeItem(storageKey);
       } catch {}
-    } catch (e) {
-      setError(
-        e instanceof Error
-          ? e.message
-          : 'No se pudo conectar. Tu borrador se conserva para reintentar.',
-      );
     } finally {
       lock.current = false;
       setBusy(false);
@@ -185,9 +204,6 @@ export function Quote({
       | 'district'
       | 'people'
       | 'budget'
-      | 'name'
-      | 'phone'
-      | 'email'
       | 'eventTypeOther',
     label: string,
     type = 'text',
@@ -205,20 +221,11 @@ export function Quote({
           type === 'number' ? 1 : type === 'date' ? todayInLima() : undefined
         }
         max={type === 'number' ? 100000 : undefined}
-        maxLength={key === 'phone' ? 25 : 150}
-        autoComplete={
-          key === 'name'
-            ? 'name'
-            : key === 'phone'
-              ? 'tel'
-              : key === 'email'
-                ? 'email'
-                : 'off'
-        }
+        maxLength={150}
+        autoComplete="off"
         inputMode={
-          key === 'phone' ? 'tel' : type === 'number' ? 'numeric' : undefined
+          type === 'number' ? 'numeric' : undefined
         }
-        pattern={key === 'phone' ? '[+()0-9\\s-]{7,25}' : undefined}
         aria-invalid={!!fieldErrors[key]}
         aria-describedby={fieldErrors[key] ? `error-${key}` : undefined}
         onInput={
@@ -281,29 +288,15 @@ export function Quote({
           <dd>{data.budget}</dd>
         </div>
       )}
-      {data.name && (
-        <div>
-          <dt>Contacto</dt>
-          <dd>
-            {data.name} · {data.phone}
-            {data.email && ` · ${data.email}`}
-          </dd>
-        </div>
-      )}
-      {data.notes && (
-        <div>
-          <dt>Comentarios</dt>
-          <dd>{data.notes}</dd>
-        </div>
-      )}
     </dl>
   );
-  const whatsapp = site.settings.whatsapp ? (
+  const whatsappUrl = createWhatsAppUrl(chosen?.whatsappDestination || null, summary);
+  const whatsapp = whatsappUrl ? (
     <a
       className="button secondary"
       target="_blank"
       rel="noreferrer"
-      href={`https://wa.me/${site.settings.whatsapp}?text=${encodeURIComponent(summary)}`}
+      href={whatsappUrl}
     >
       Continuar por WhatsApp ↗
     </a>
@@ -312,20 +305,21 @@ export function Quote({
     return (
       <section className="quote-result" aria-live="polite">
         <p className="eyebrow">
-          {result.demo
-            ? 'Solicitud de demostración guardada'
-            : 'Solicitud registrada'}
+          Conversación preparada
         </p>
         <h2>{c.successTitle}</h2>
         <p>
-          {result.demo
-            ? 'Este registro es una prueba del sistema; no confirma una reserva ni solicita atención comercial.'
-            : c.successDescription}
+          Esta versión no guarda solicitudes en una base de datos. Puedes abrir
+            WhatsApp y decidir si envías el mensaje para continuar la coordinación.
         </p>
-        <p className="reference">{result.reference}</p>
         {recap}
         {whatsapp}
         {whatsapp && <p>Abrir WhatsApp no envía el mensaje automáticamente.</p>}
+        {!whatsapp && (
+          <p className="notice error">
+            No hay WhatsApp disponible para esta oferta. No se guardó ninguna solicitud.
+          </p>
+        )}
         <a className="text-link" href="/">
           Volver al inicio
         </a>
@@ -334,16 +328,21 @@ export function Quote({
   return (
     <div className="quote-layout">
       <div>
+        <noscript>
+          <output className="notice">
+            Esta cotización prepara la conversación en tu navegador. Activa JavaScript y vuelve a seleccionar una oferta para ver el responsable correspondiente.
+          </output>
+        </noscript>
         <ol className="stepper" aria-label="Pasos de la cotización">
-          {['Tu evento', 'La propuesta', 'Contacto'].map((label, i) => (
+          {['Tu evento', 'La propuesta', 'Revisión'].map((label, i) => (
             <li key={label} aria-current={step === i + 1 ? 'step' : undefined}>
               {i + 1}. {label}
             </li>
           ))}
         </ol>
         <p className="draft-note">
-          El borrador se conserva temporalmente en esta pestaña. No se registra
-          hasta pulsar Enviar solicitud.
+          La selección y los datos del evento se conservan temporalmente en esta
+          pestaña. No se registran solicitudes ni datos de contacto en un servidor.
         </p>
         {error && (
           <div
@@ -390,18 +389,19 @@ export function Quote({
                   )}
                   {!data.eventTypeId &&
                     field('eventTypeOther', 'Tipo de evento')}
-                  {field('date', 'Fecha del evento', 'date')}
-                  {field('district', 'Distrito')}
-                  {field('people', 'Número de personas', 'number')}
+                  {field('date', 'Fecha del evento', 'date', chosen?.quoteConfig?.dateRequired ?? true)}
+                  {field('district', 'Distrito', 'text', chosen?.quoteConfig?.districtRequired ?? true)}
+                  {field('people', 'Número de personas', 'number', chosen?.quoteConfig?.guestsRequired ?? true)}
                   <div className="wide">
                     <p className="field-help">{c.coverageTitle}</p>
-                    {entries.filter((e) => e.kind === 'cobertura').length >
-                      0 && (
+                    {coverage.length > 0 ? (
                       <p className="field-help">
-                        {entries
-                          .filter((e) => e.kind === 'cobertura')
-                          .map((e) => e.title)
-                          .join(' · ')}
+                        {coverage.map((e) => e.title).join(' · ')}. La disponibilidad
+                        final se confirma al coordinar.
+                      </p>
+                    ) : (
+                      <p className="field-help">
+                        Indica tu distrito. Confirmaremos cobertura y condiciones antes de coordinar.
                       </p>
                     )}
                   </div>
@@ -409,6 +409,12 @@ export function Quote({
               )}
               {step === 2 && (
                 <>
+                  {usingCart && (
+                    <p className="wide field-help">
+                      Tu bolsa tiene {cart.items.length} {cart.items.length === 1 ? 'oferta' : 'ofertas'}.
+                      {chosen ? ` La principal es ${chosen.title}.` : ' Elige una oferta principal en “Revisar bolsa”.'}
+                    </p>
+                  )}
                   <label className="field wide">
                     Servicio, menú o paquete
                     <select
@@ -479,47 +485,19 @@ export function Quote({
                     'text',
                     false,
                   )}
-                  <label className="field wide">
-                    Comentarios y necesidades (opcional)
-                    <textarea
-                      maxLength={2500}
-                      value={data.notes}
-                      onChange={(e) => change('notes', e.target.value)}
-                    />
-                  </label>
                 </>
               )}
               {step === 3 && (
                 <>
-                  {field('name', 'Nombre')}
-                  {field('phone', 'Teléfono', 'tel')}
-                  {field('email', 'Correo (opcional)', 'email', false)}
-                  <label className="check wide">
-                    <input
-                      required
-                      type="checkbox"
-                      checked={data.consent}
-                      onChange={(e) => change('consent', e.target.checked)}
-                    />
-                    {c.consent}
-                  </label>
+                  <p className="wide field-help">
+                    No pedimos ni guardamos tu nombre, teléfono, correo o comentarios en esta web. Al continuar, podrás decidir si abres WhatsApp y envías el mensaje preparado.
+                  </p>
                   <a
                     className="text-link"
-                    target="_blank"
-                    rel="noreferrer"
                     href="/privacidad"
                   >
-                    {c.privacyTitle} ↗
+                    {c.privacyTitle}
                   </a>
-                  <label className="honeypot" aria-hidden="true">
-                    Sitio web
-                    <input
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={data.website}
-                      onChange={(e) => change('website', e.target.value)}
-                    />
-                  </label>
                 </>
               )}
             </div>
@@ -545,7 +523,7 @@ export function Quote({
         {ready && (
           <section className="panel quote-review">
             <h2 ref={reviewHeading} tabIndex={-1}>
-              Revisa tu solicitud
+              Revisa la conversación
             </h2>
             {recap}
             <div className="form-actions">
@@ -555,13 +533,13 @@ export function Quote({
                 disabled={busy}
                 onClick={send}
               >
-                {busy ? 'Guardando solicitud…' : 'Enviar solicitud'}
+                {busy ? 'Preparando conversación…' : 'Preparar conversación'}
               </button>
               {!busy && whatsapp}
             </div>
             <p className="field-help">
-              Enviar solicitud guarda los datos. Abrir WhatsApp prepara un
-              mensaje que tú decides enviar.
+              Preparar conversación no guarda los datos. Abrir WhatsApp prepara
+              un mensaje que tú decides enviar.
             </p>
           </section>
         )}

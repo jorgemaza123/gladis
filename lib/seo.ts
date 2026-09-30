@@ -27,6 +27,31 @@ export function canonicalFor(
     return fallback;
   }
 }
+
+type QueryValue = string | string[] | undefined;
+
+function scalar(value: QueryValue) {
+  return typeof value === 'string' ? value : '';
+}
+
+/** Keeps only the internally generated page number in canonical catalogue URLs. */
+export function catalogUrlPolicy(
+  kind: string,
+  query: Record<string, QueryValue>,
+) {
+  const rawPage = scalar(query.pagina);
+  const parsedPage = /^[1-9][0-9]*$/.test(rawPage) ? Number(rawPage) : 1;
+  const page = Number.isSafeInteger(parsedPage) ? parsedPage : 1;
+  const hasFilters = Boolean(
+    scalar(query.q).trim() || scalar(query.categoria) || scalar(query.modalidad),
+  );
+  return {
+    page,
+    pageParamPresent: rawPage.length > 0,
+    noindex: hasFilters,
+    canonicalPath: hasFilters || page === 1 ? `/${kind}` : `/${kind}?pagina=${page}`,
+  };
+}
 export function metadataFor(
   site: SiteContent,
   fields: SEOFields,
@@ -107,7 +132,6 @@ export function businessData(site: SiteContent) {
     url: absoluteUrl(site, '/'),
     description: s.seo.description || s.footer,
     address: { '@type': 'PostalAddress', streetAddress: s.publicAddress },
-    ...(s.whatsapp ? { telephone: `+${s.whatsapp}` } : {}),
     ...(s.email ? { email: s.email } : {}),
     sameAs: s.socialLinks.map((l) => l.url),
   };

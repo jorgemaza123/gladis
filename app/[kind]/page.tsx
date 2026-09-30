@@ -1,7 +1,7 @@
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { readSite } from '@/repositories/site';
 import { Shell, EntryCards, publicEntries, JsonLd } from '@/components/public';
-import { metadataFor, breadcrumbsData } from '@/lib/seo';
+import { metadataFor, breadcrumbsData, catalogUrlPolicy } from '@/lib/seo';
 import { contentKinds, type ContentKind } from '@/models/content';
 type Props = {
   params: Promise<{ kind: string }>;
@@ -14,16 +14,17 @@ export async function generateMetadata({ params, searchParams }: Props) {
   if (!contentKinds.includes(kind as ContentKind)) notFound();
   const site = await readSite(),
     c = site.settings.catalogs[kind as ContentKind],
-    q = await searchParams;
+    q = await searchParams,
+    policy = catalogUrlPolicy(kind, q);
   return metadataFor(
     site,
     {
       ...c.seo,
       title: c.seo.title || `${c.title} | ${site.settings.name}`,
       description: c.seo.description || c.description,
-      noindex: c.seo.noindex || Object.keys(q).length > 0,
+      noindex: c.seo.noindex || policy.noindex,
     },
-    `/${kind}`,
+    policy.canonicalPath,
   );
 }
 export default async function Listing({ params, searchParams }: Props) {
@@ -31,7 +32,8 @@ export default async function Listing({ params, searchParams }: Props) {
   if (!contentKinds.includes(kind as ContentKind)) notFound();
   const site = await readSite(),
     c = site.settings.catalogs[kind as ContentKind],
-    q = await searchParams;
+    q = await searchParams,
+    policy = catalogUrlPolicy(kind, q);
   const all = publicEntries(site).filter((e) => e.kind === kind),
     query = scalar(q.q).trim().slice(0, 120),
     category = scalar(q.categoria),
@@ -49,10 +51,8 @@ export default async function Listing({ params, searchParams }: Props) {
       (!modality || e.modalityIds.includes(modality)),
   );
   const pageCount = Math.max(1, Math.ceil(filtered.length / 9)),
-    requested = Number(scalar(q.pagina) || 1),
-    page = Number.isSafeInteger(requested)
-      ? Math.max(1, Math.min(pageCount, requested))
-      : 1;
+    requested = policy.page,
+    page = Math.max(1, Math.min(pageCount, requested));
   const entries = filtered.slice((page - 1) * 9, page * 9);
   const categories = [...new Set(all.map((e) => e.category).filter(Boolean))];
   const modes = publicEntries(site).filter(
@@ -68,6 +68,8 @@ export default async function Listing({ params, searchParams }: Props) {
     if (n > 1) sp.set('pagina', String(n));
     return `/${kind}${sp.size ? '?' + sp : ''}`;
   };
+  if (policy.pageParamPresent && (requested !== page || requested === 1))
+    permanentRedirect(pageHref(page));
   return (
     <Shell site={site}>
       <JsonLd
