@@ -36,6 +36,7 @@ audit-report.json
 .vercel
 next-env.d.ts
 /dist/
+/.output/
 /.wrangler/
 /.test-state/
 /outputs/

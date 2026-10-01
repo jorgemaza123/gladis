@@ -6,9 +6,9 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "vinext dev",
-    "build": "vinext build",
-    "start": "vinext start",
+    "dev": "vite dev",
+    "build": "vite build",
+    "start": "node .output/server/index.mjs",
     "lint": "oxlint",
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",
@@ -20,6 +20,7 @@
     "@base-ui/react": "^1.8.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "nitro": "^3.0.260903-beta",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-server-dom-webpack": "^19.2.8",
@@ -28,7 +29,6 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
-    "@openai/sites-vite-plugin": "^0.2.0",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
