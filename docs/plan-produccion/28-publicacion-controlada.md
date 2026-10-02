@@ -1,6 +1,6 @@
 # 28. Publicar sólo en destino autorizado y verificar captación
 
-Estado: BLOQUEADO por falta de autorización, destino y datos comerciales. Anterior: [27. Validar recorridos reales en el entorno de ensayo](27-aceptacion-integral.md). Siguiente: [29. Evaluar calidad demostrada y entregar operación](29-evaluacion-final-y-traspaso.md).
+Estado: BLOQUEADO por falta de autorización comercial, dominio final y datos comerciales. Anterior: [27. Validar recorridos reales en el entorno de ensayo](27-aceptacion-integral.md). Siguiente: [29. Evaluar calidad demostrada y entregar operación](29-evaluacion-final-y-traspaso.md).
 
 ## Objetivo
 
@@ -35,4 +35,4 @@ El identificador de proyecto en `.openai/hosting.json` no es un destino ni una a
 
 ## Bloqueo actual y traspaso
 
-No se cumple ninguna puerta externa: faltan destino, autorización, dominio, datos comerciales y ensayo. Por ello no se ejecutó un comando de despliegue, no se cambió indexación y no hay sitio público que verificar. Cuando se cumplan todas las puertas, registrar la evidencia y continuar con [29. Evaluar calidad demostrada y entregar operación](29-evaluacion-final-y-traspaso.md).
+El despliegue de demostración en Vercel ya existe y permanece no indexable. Siguen faltando autorización comercial explícita, dominio final, datos comerciales y aceptación integral; por ello no se declara publicación comercial ni se cambia indexación. Cuando se cumplan esas puertas, registrar la evidencia y continuar con [29. Evaluar calidad demostrada y entregar operación](29-evaluacion-final-y-traspaso.md).

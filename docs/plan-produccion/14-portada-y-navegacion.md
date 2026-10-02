@@ -1,6 +1,6 @@
 # 14. Clarificar portada, categorías y navegación comercial
 
-Estado inicial: TODO. Anterior: [13. Recomendaciones visuales](13-recomendaciones-visuales.md). Siguiente: [15. Fichas comerciales](15-fichas-comerciales-y-personalizados.md).
+Estado: HECHO el 2026-10-01. Anterior: [13. Recomendaciones visuales](13-recomendaciones-visuales.md). Siguiente: [15. Fichas comerciales](15-fichas-comerciales-y-personalizados.md).
 
 ## Objetivo adaptado
 

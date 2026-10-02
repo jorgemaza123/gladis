@@ -15,7 +15,7 @@ Está documentado cómo editar una oferta, modificar teléfonos en una fuente ú
 - Despliegue, indexación, recuperación remota, Search Console, analítica, métricas, solicitudes, avisos o atención por operadores.
 - Envío, entrega o venta por WhatsApp. El enlace sólo prepara una conversación bajo decisión de la persona visitante.
 
-Las tareas 25–28 permanecen bloqueadas por esos prerrequisitos. No se declara una nota global, ausencia total de errores ni aceptación comercial.
+Las tareas 26–28 permanecen bloqueadas por esos prerrequisitos. No se declara una nota global, ausencia total de errores ni aceptación comercial.
 
 ## Guía de mantenimiento
 

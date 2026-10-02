@@ -1,6 +1,6 @@
 # 27. Validar recorridos reales en el entorno de ensayo
 
-Estado: BLOQUEADO por falta de datos comerciales y destino de ensayo autorizado. Anterior: [26. Completar datos reales y validar la oferta antes de indexar](26-datos-reales-y-puerta-comercial.md). Siguiente: [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).
+Estado: BLOQUEADO por falta de datos comerciales confirmados y aceptación humana completa. Anterior: [26. Completar datos reales y validar la oferta antes de indexar](26-datos-reales-y-puerta-comercial.md). Siguiente: [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).
 
 ## Objetivo
 
@@ -39,4 +39,4 @@ La [matriz histórica](MATRIZ-DE-PRUEBAS.md) sigue como antecedente de contrato,
 
 ## Bloqueo actual y traspaso
 
-No existe URL/dominio de ensayo autorizado y la tarea 26 conserva datos comerciales críticos pendientes, incluido el teléfono confirmado de Jorge y el de cocina. Por ello no hay recorrido humano, URL, informe ni evidencia de ensayo que registrar. Cuando ambos prerrequisitos estén resueltos, ejecutar esta lista y sólo entonces evaluar [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).
+Existe el ensayo HTTPS de demostración `https://gladis-vr6r.vercel.app`, pero la tarea 26 conserva datos comerciales críticos pendientes, incluido el teléfono confirmado de Jorge y el de cocina. Por ello no hay recorrido comercial completo ni informe de aceptación que registrar. Cuando esos datos estén resueltos, ejecutar esta lista sobre el ensayo y sólo entonces evaluar [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).

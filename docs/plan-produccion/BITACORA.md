@@ -285,6 +285,16 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - Verificaciones ejecutadas el 2026-09-30: se revisaron la tarea 28, ESTADO, BITACORA, README, runbook, criterios y `package.json`. Los enlaces locales del cierre resolvieron y `git diff --check` terminó con exit 0; sólo informó avisos LF→CRLF preexistentes. Como el cierre modifica sólo documentación, no se repitieron compilaciones ni pruebas de código.
 - Traspaso: no queda tarea siguiente automática. Para continuar, resolver T26, T25, T27 y T28 en ese orden, siguiendo los documentos rediseñados. Para revertir, restaurar estas entradas documentales; no hay datos de usuario que recuperar.
 
+## Verificación pública de tareas bloqueadas — 2026-10-01
+
+- Alcance: comprobación de sólo lectura del despliegue de demostración ya creado por el usuario en `https://gladis-vr6r.vercel.app`. No se modificó Vercel, no se abrió WhatsApp, no se introdujeron datos personales ni comerciales y no se publicó contenido nuevo.
+- Base: el commit desplegado incluye `25ed66c` (`Fix Vercel SSR deployment output`). `npm.cmd run quality` había terminado correctamente al validar esa corrección: typecheck, lint, comercio, seguridad y build.
+- Entorno y rutas: Vercel respondió HTTPS con `Server: Vercel` y estado 200 para `/`, `/cotizar`, `/admin`, `/admin/security`, `/privacidad`, `/robots.txt`, `/sitemap.xml`, `/servicios` y `/servicios/buffet-criollo`. Esto acredita un entorno de ensayo de demostración, no una publicación comercial.
+- T14 — HECHO: en navegador se comprobó navegación principal, foco de teclado en CTA, menú móvil desplegable y el diálogo de bolsa. La portada no presentó desbordamiento horizontal en 320, 360, 390, 768 ni 1440 px; a 320 px el menú móvil se abre correctamente. No se alteraron contenidos ni se siguieron enlaces hacia WhatsApp.
+- T17 — HECHO: la portada devuelve `<meta name="robots" content="noindex, follow">`; `robots.txt` contiene `Disallow: /`; el sitemap es válido y vacío, coherente con la demostración. `/servicios?pagina=1` y `/servicios?pagina=999` devuelven 308 con `Location: /servicios`; consultas UTM y filtros permanecen 200 con `noindex`. No se afirma indexación, canónica pública o SEO comercial porque `origin` continúa vacío.
+- T25 — HECHO: el despliegue HTTPS anterior queda identificado como ensayo en Vercel. La recuperación se mantiene documentada en `docs/operations/release-runbook.md` desde el commit recuperable; no se ejecutó una recuperación remota para no alterar el despliegue de demostración.
+- Bloqueos que permanecen: T01, T06, T09 y T21 requieren capacidades retiradas por la arquitectura estática (D1/API/persistencia/analítica); T07, T08, T10, T12, T13, T15, T16 y T19 necesitan una oferta cotizable y relaciones comerciales confirmadas para completar sus recorridos; T18 necesita mediciones de rendimiento e imágenes reales con dimensiones/variantes; T26 necesita identidad, dominio, teléfonos, oferta, condiciones y fotos confirmadas; T27 requiere esos datos y una aceptación humana completa; T28 requiere autorización comercial de publicación y T29 depende de esos cierres.
+
 ## Plantilla
 
 - Tarea y estado: TODO / EN_CURSO / HECHO / BLOQUEADO.

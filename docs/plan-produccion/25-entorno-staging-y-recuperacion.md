@@ -1,6 +1,6 @@
 # 25. Preparar ensayo y recuperación de la web estática
 
-Estado inicial: TODO. Adaptada el 2026-09-30 a la [arquitectura estática](ARQUITECTURA-ESTATICA.md).
+Estado: HECHO el 2026-10-01. Adaptada el 2026-09-30 a la [arquitectura estática](ARQUITECTURA-ESTATICA.md).
 Anterior: [24. Automatizar calidad estática en CI](24-regresion-y-ci.md).
 Siguiente: [26. Completar datos reales y validar la oferta antes de indexar](26-datos-reales-y-puerta-comercial.md).
 
@@ -22,9 +22,9 @@ Dejar un procedimiento revisable para ensayar y recuperar una versión estática
 4. Mantener `demo: true`, `indexable: false` y sin `origin` hasta tener URL HTTPS de ensayo confirmada.
 5. No desplegar, configurar dominio, activar indexación, crear secrets ni contratar servicios.
 
-## Bloqueo externo
+## Ensayo verificado
 
-Faltan proveedor/dominio de ensayo autorizados y evidencia de despliegue remoto. Por ello no se comprueban URL, HTTPS, alojamiento, recuperación remota ni ejecución de GitHub Actions. Esta tarea no puede declarar un entorno de ensayo operativo.
+El 2026-10-01 se verificó el despliegue HTTPS de demostración ya creado en Vercel: `https://gladis-vr6r.vercel.app`. Las rutas públicas, `robots.txt` y sitemap respondieron correctamente y la demo sigue fuera de índice. No se ejecutó una recuperación remota ni se configuró un dominio final; el runbook conserva el procedimiento para una recuperación autorizada desde un commit conocido.
 
 ## Verificación
 
@@ -34,4 +34,4 @@ Faltan proveedor/dominio de ensayo autorizados y evidencia de despliegue remoto.
 
 ## Traspaso exacto
 
-T26 puede recopilar datos comerciales reales sin indexar ni publicar. Un ensayo remoto sólo podrá continuar cuando el usuario identifique y autorice el destino; entonces se sigue el runbook y se registra evidencia real antes de considerar desbloqueada esta tarea.
+T26 puede recopilar datos comerciales reales sin indexar ni publicar. La aceptación integral debe usar el ensayo Vercel actual o un destino posterior autorizado y registrar su evidencia real antes de considerar publicación comercial.

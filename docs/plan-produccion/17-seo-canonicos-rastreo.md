@@ -1,6 +1,6 @@
 # 17. Corregir SEO técnico y señales de indexación
 
-Estado inicial: TODO. Anterior: [16. Ocasiones y cobertura](16-ocasiones-y-cobertura-lima.md). Siguiente: [18. Rendimiento](18-imagenes-y-rendimiento.md).
+Estado: HECHO el 2026-10-01. Anterior: [16. Ocasiones y cobertura](16-ocasiones-y-cobertura-lima.md). Siguiente: [18. Rendimiento](18-imagenes-y-rendimiento.md).
 
 ## Objetivo adaptado
 
