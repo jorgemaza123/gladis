@@ -4,18 +4,18 @@ Los faltantes no impiden desarrollar y probar con fixtures aislados; sí pueden 
 
 | Dato | Estado | Uso y puerta |
 |---|---|---|
-| Teléfono WhatsApp de cocina/bar | PENDIENTE | Necesario antes de activar contacto real de cocina en tareas 26–28. Nunca reutilizar Jorge por defecto. |
-| Teléfono Jorge | REQUIERE CONFIRMACIÓN | El registro histórico indica 902843481, mientras `config/business-contacts.ts` activo contiene 51902843481. Confirmar un único número antes de activar oferta o publicación; no usar uno como fallback del otro. |
-| Nombre/marca definitiva | Pospuesto por usuario | Mantener provisional en desarrollo; confirmar identidad pública antes de lanzamiento comercial. |
-| Dominio y proveedor de alojamiento | PENDIENTE | Preparar runbook reversible; no contratar servicios ni publicar por crear estos documentos. |
+| Teléfono WhatsApp de cocina/bar/menaje | CONFIRMADO 2026-10-01 por el usuario | Local `902843481`; la configuración usa `51902843481` para el enlace internacional de WhatsApp. Atiende comida, buffet, bartender y menaje; no se usa como fallback para otros servicios. |
+| Teléfono WhatsApp de complementos y producción | CONFIRMADO 2026-10-01 por el usuario | Local `923106197`; la configuración usa `51923106197` para el enlace internacional de WhatsApp. Atiende mozos, sillas, flores, recuerdos y polos; no se usa como fallback para cocina. |
+| Nombre/marca definitiva | Usar Catering Gladis | El usuario indicó que el sitio debe quedar listo para captar clientes; se adopta el nombre del proyecto como marca pública hasta que comunique otro. |
+| Dominio y proveedor de alojamiento | URL operativa confirmada | `https://gladis-vr6r.vercel.app` es la URL pública actual. Un dominio propio puede reemplazarla después sin cambiar el catálogo. |
 | URL de web DTF/sublimación | PENDIENTE | Enlace configurable, no inventar dominio. tarea 15 funciona con enlace ausente. |
 | Oferta por responsable | Cocina: comida/buffet/catering/bartender; Jorge: sillas/toldos/decoración/personalizados | Confirmar entradas existentes por ID y nuevas propuestas reales; no clasificar por búsqueda de palabras. |
-| Modelos, cantidades mínimas, horarios, precios y logística | PENDIENTE | Datos de oferta, no promesas predeterminadas. Cotización a medida es válida. |
-| Cobertura/traslado por zona | Intención: Lima Metropolitana | No afirmar entrega gratuita/disponibilidad incondicional ni añadir Callao sin confirmación. |
+| Modelos, cantidades mínimas, horarios, precios y logística | Cotización por WhatsApp | Todos los precios quedan «a consulta por WhatsApp». Se mantienen mínimos referenciales de catálogo y no se prometen horarios, traslado ni disponibilidad. |
+| Cobertura/traslado por zona | CONFIRMADO 2026-10-01 por el usuario | Todo Lima Metropolitana. No se promete traslado gratuito ni disponibilidad incondicional; Callao no se incluye. |
 | Fotos propias y permiso de publicación | PENDIENTE | Sustituir demo; no usar imágenes generadas como prueba de trabajos reales. |
 | Contacto de privacidad, conservación, aviso y responsabilidades | PENDIENTE | Validación comercial/legal aplicable; checkbox no demuestra cumplimiento completo. |
 | Emails/servicio para avisos automáticos | PENDIENTE | Aviso in-app local primero; integración externa sólo configurada y probada. Enlaces wa.me no son notificación automática. |
 | Presupuesto/credenciales del proveedor | PENDIENTE | No incluir secretos en Git, logs ni capturas. |
 | Responsables de atención y tiempos prometidos | PENDIENTE | Acordar quién consulta solicitudes guardadas sin WhatsApp y coordina extras de la otra persona. |
 
-Cuando llegue un dato, registrar fuente y fecha aquí. El ejecutor continúa tareas independientes; no activa un destino falso. Para pruebas WhatsApp sustituir navegación externa por stub; no mandar mensajes a teléfonos reales.
+Los teléfonos, cobertura y política de precios de arriba fueron confirmados por el usuario el 2026-10-01. Para pruebas WhatsApp se sustituye la navegación externa por un stub; no se mandan mensajes a teléfonos reales.

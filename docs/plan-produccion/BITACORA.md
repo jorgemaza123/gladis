@@ -304,6 +304,14 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - Recorrido local: con `npm.cmd start` se abrió `/servicios/buffet-para-eventos`; el CTA añadió el buffet a la bolsa y llevó a `/cotizar`. Se registraron datos ficticios de evento, se añadió «Mozos para atención», la bolsa conservó buffet como principal, el diálogo mostró recomendaciones y el estado persistió tras recargar. Se comprobaron foco inicial y cierre Escape. No se continuó hacia WhatsApp.
 - Estado: T07, T08, T10, T12, T13, T15, T16 y T18 quedan HECHO para la demostración funcional. T19 conserva pruebas pendientes de zoom 200 %, almacenamiento bloqueado y foto ausente. T26 sigue BLOQUEADO hasta recibir datos comerciales verdaderos; T28 no se convierte en publicación comercial sin autorización, dominio final y aceptación humana.
 
+## Preparación comercial y SEO local — 2026-10-01
+
+- Alcance autorizado: el usuario confirmó atención en todo Lima Metropolitana, precios exclusivamente a consulta por WhatsApp, y dos destinos comerciales: local `902843481` para comida, buffet, bartender y menaje; local `923106197` para mozos, sillas, flores, recuerdos y polos. La configuración los normaliza como `51902843481` y `51923106197` para enlaces internacionales `wa.me`. No se abrió WhatsApp, no se enviaron mensajes, no se hizo push ni se publicó.
+- Implementación: `config/business-contacts.ts` configura ambos responsables sin fallback. `data/demo.ts` pasa a marca «Catering Gladis», usa precios `consult`, elimina Callao, muestra cobertura de Lima Metropolitana y deja el SEO indexable con canónicas, sitemap y robots para `https://gladis-vr6r.vercel.app`. Las imágenes de IA locales se mantienen con textos alternativos y se declaran referenciales.
+- Validación: se amplió de forma restringida `lib/validation.ts` para aceptar archivos locales de imagen sólo en `/images/` y con extensiones de imagen; `scripts/commerce-tests.mjs` valida ahora el catálogo comercial real, sus responsables y reglas. Los slugs públicos de cobertura y ocasiones ya no contienen «demo».
+- Pruebas ejecutadas: `npm.cmd run quality` terminó con exit 0: typecheck, lint, comercio, seguridad estática, presupuesto de imágenes (830,882 bytes de 1 MB) y build. En el servidor local compilado, `/` devolvió 200 con `index, follow` y canónica de Vercel; `robots.txt` permitió el rastreo y `sitemap.xml` listó rutas canónicas comerciales. Los avisos de importación dinámica del compilador no detuvieron la compilación.
+- Estado y traspaso: T26 queda HECHO localmente. T27 requiere desplegar este commit y ejecutar la aceptación humana; T28 requiere la orden del usuario de desplegar y verificar ese commit. T29 depende de esas evidencias. T01, T06, T09 y T21 continúan retiradas por la arquitectura estática, sin base de datos, API ni analítica persistente.
+
 ## Plantilla
 
 - Tarea y estado: TODO / EN_CURSO / HECHO / BLOQUEADO.

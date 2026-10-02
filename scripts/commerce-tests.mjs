@@ -37,6 +37,12 @@ const defaults = await import(
     ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
   ]),
 );
+const demo = await import(
+  await moduleUrl('data/demo.ts', [
+    ["from './defaults'", `from ${JSON.stringify(await moduleUrl('data/defaults.ts', [["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`]]) )}`],
+    ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
+  ]),
+);
 const validation = await import(
   await moduleUrl('lib/validation.ts', [
     [
@@ -76,15 +82,23 @@ const attribution = await import(attributionUrl);
 const recommendations = await import(await moduleUrl('lib/recommendations.ts'));
 const { diagnoseCatalog } = await import('./catalog-readiness.mjs');
 
+const parsedCommercialCatalog = validation.siteSchema.safeParse(demo.demoContent);
+assert.equal(
+  parsedCommercialCatalog.success,
+  true,
+  parsedCommercialCatalog.success ? '' : parsedCommercialCatalog.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`).join('; '),
+);
+assert.deepEqual(diagnoseCatalog(demo.demoContent), [], 'el catálogo comercial no debe tener reglas ni responsables incompletos');
+
 assert.deepEqual(commerce.resolveBusinessContact('eventos'), {
   ownerId: 'eventos',
-  label: 'Jorge',
+  label: 'Complementos y producción',
   available: true,
 });
 assert.deepEqual(commerce.resolveBusinessContact('cocina'), {
   ownerId: 'cocina',
-  label: 'Cocina y bar',
-  available: false,
+  label: 'Cocina, bartender y menaje',
+  available: true,
 });
 assert.deepEqual(commerce.resolveBusinessContact(null), {
   ownerId: null,
@@ -96,7 +110,8 @@ assert.deepEqual(commerce.resolveBusinessContact('desconocido'), {
   label: null,
   available: false,
 });
-assert.equal(commerce.resolveWhatsAppDestination('cocina'), null);
+assert.equal(commerce.resolveWhatsAppDestination('cocina'), '51902843481');
+assert.equal(commerce.resolveWhatsAppDestination('eventos'), '51923106197');
 assert.equal(commerce.isValidWhatsAppNumber('51999111222'), true);
 assert.equal(commerce.isValidWhatsAppNumber('+51999111222'), false);
 assert.equal(commerce.isValidWhatsAppNumber('51999 111222'), false);

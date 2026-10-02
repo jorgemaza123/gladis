@@ -1,6 +1,6 @@
 # 27. Validar recorridos reales en el entorno de ensayo
 
-Estado: BLOQUEADO por falta de datos comerciales confirmados y aceptación humana completa. Anterior: [26. Completar datos reales y validar la oferta antes de indexar](26-datos-reales-y-puerta-comercial.md). Siguiente: [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).
+Estado: TODO. Los datos comerciales ya están cargados localmente; falta desplegar este commit y realizar la aceptación humana. Anterior: [26. Completar datos reales y validar la oferta antes de indexar](26-datos-reales-y-puerta-comercial.md). Siguiente: [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).
 
 ## Objetivo
 
@@ -15,9 +15,9 @@ La [matriz histórica](MATRIZ-DE-PRUEBAS.md) sigue como antecedente de contrato,
 ## Prerrequisitos
 
 - Tarea 25: URL HTTPS de ensayo, proveedor y autorización de despliegue.
-- Tarea 26: identidad, contactos sin contradicción, oferta, fotos y condiciones confirmadas.
+- Tarea 26: identidad, contactos sin contradicción, oferta, imágenes referenciales identificadas y condiciones confirmadas.
 - Un commit identificable que haya pasado `npm run quality`.
-- Confirmación de que el destino de prueba conserva `demo: true`, `indexable: false` y no contiene datos personales de visitantes.
+- Confirmación de que el destino de prueba contiene este commit y no contiene datos personales de visitantes.
 
 ## Recorrido de aceptación cuando estén disponibles
 
@@ -39,4 +39,4 @@ La [matriz histórica](MATRIZ-DE-PRUEBAS.md) sigue como antecedente de contrato,
 
 ## Bloqueo actual y traspaso
 
-Existe el ensayo HTTPS de demostración `https://gladis-vr6r.vercel.app`, pero la tarea 26 conserva datos comerciales críticos pendientes, incluido el teléfono confirmado de Jorge y el de cocina. Por ello no hay recorrido comercial completo ni informe de aceptación que registrar. Cuando esos datos estén resueltos, ejecutar esta lista sobre el ensayo y sólo entonces evaluar [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).
+El despliegue existente no contiene todavía este commit comercial. Después de desplegar el commit actual en la URL autorizada, ejecutar esta lista sin enviar WhatsApp y sólo entonces evaluar [28. Publicar sólo en destino autorizado y verificar captación](28-publicacion-controlada.md).

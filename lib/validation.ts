@@ -23,8 +23,11 @@ const imageUrl = z
   .string()
   .max(2000)
   .refine(
-    (v) => /^\/api\/media\/[a-zA-Z0-9_-]+$/.test(v) || v.startsWith('https://'),
-    'Selecciona una imagen de la biblioteca.',
+    (v) =>
+      /^\/api\/media\/[a-zA-Z0-9_-]+$/.test(v) ||
+      /^\/images\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_-]+\.(?:avif|jpe?g|png|webp)$/i.test(v) ||
+      v.startsWith('https://'),
+    'Selecciona una imagen HTTPS o un archivo local de /images.',
   );
 const ids = z.array(identifier).max(100);
 const seo = z.object({
