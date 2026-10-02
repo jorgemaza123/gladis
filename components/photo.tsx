@@ -53,6 +53,9 @@ export function Photo({
           </text>
         </svg>
       )}
+      {asset?.caption.includes('IA') && (
+        <span className="image-reference">Imagen referencial · IA</span>
+      )}
     </div>
   );
 }

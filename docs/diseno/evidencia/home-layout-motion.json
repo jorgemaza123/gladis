@@ -1,0 +1,25 @@
+{
+  "figureClip": "none",
+  "introTransform": "none",
+  "photoClip": "none",
+  "photoTransform": "none",
+  "platePaths": [
+    {
+      "dash": "none",
+      "offset": "0px"
+    },
+    {
+      "dash": "none",
+      "offset": "0px"
+    },
+    {
+      "dash": "none",
+      "offset": "0px"
+    },
+    {
+      "dash": "none",
+      "offset": "0px"
+    }
+  ],
+  "reducedMotion": false
+}

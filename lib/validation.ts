@@ -25,7 +25,9 @@ const imageUrl = z
   .refine(
     (v) =>
       /^\/api\/media\/[a-zA-Z0-9_-]+$/.test(v) ||
-      /^\/images\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_-]+\.(?:avif|jpe?g|png|webp)$/i.test(v) ||
+      /^\/images\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_-]+\.(?:avif|jpe?g|png|webp)$/i.test(
+        v,
+      ) ||
       v.startsWith('https://'),
     'Selecciona una imagen HTTPS o un archivo local de /images.',
   );
@@ -65,8 +67,14 @@ const quoteOptionSchema = z
     values: z.array(quoteOptionValueSchema).min(1).max(20),
   })
   .superRefine((option, context) => {
-    if (new Set(option.values.map((value) => value.id)).size !== option.values.length)
-      context.addIssue({ code: 'custom', message: 'Los valores de una opción deben tener IDs únicos.' });
+    if (
+      new Set(option.values.map((value) => value.id)).size !==
+      option.values.length
+    )
+      context.addIssue({
+        code: 'custom',
+        message: 'Los valores de una opción deben tener IDs únicos.',
+      });
   });
 const decimalPlaces = (value: number) => {
   const decimal = String(value).split('.')[1];
@@ -85,7 +93,10 @@ const quoteConfigSchema = z
   })
   .superRefine((config, context) => {
     if (config.maximum < config.minimum)
-      context.addIssue({ code: 'custom', message: 'El máximo debe ser igual o mayor que el mínimo.' });
+      context.addIssue({
+        code: 'custom',
+        message: 'El máximo debe ser igual o mayor que el mínimo.',
+      });
     if (
       Math.max(
         decimalPlaces(config.minimum),
@@ -93,19 +104,36 @@ const quoteConfigSchema = z
         decimalPlaces(config.step),
       ) > 6
     )
-      context.addIssue({ code: 'custom', message: 'Las cantidades admiten hasta seis decimales.' });
+      context.addIssue({
+        code: 'custom',
+        message: 'Las cantidades admiten hasta seis decimales.',
+      });
     else {
-      const scale = 10 ** Math.max(
-        decimalPlaces(config.minimum),
-        decimalPlaces(config.maximum),
-        decimalPlaces(config.step),
-      );
+      const scale =
+        10 **
+        Math.max(
+          decimalPlaces(config.minimum),
+          decimalPlaces(config.maximum),
+          decimalPlaces(config.step),
+        );
       const increment = Math.round(config.step * scale);
-      if (increment && Math.round((config.maximum - config.minimum) * scale) % increment)
-        context.addIssue({ code: 'custom', message: 'El rango debe respetar el incremento configurado.' });
+      if (
+        increment &&
+        Math.round((config.maximum - config.minimum) * scale) % increment
+      )
+        context.addIssue({
+          code: 'custom',
+          message: 'El rango debe respetar el incremento configurado.',
+        });
     }
-    if (new Set(config.options.map((option) => option.id)).size !== config.options.length)
-      context.addIssue({ code: 'custom', message: 'Los grupos de opciones deben tener IDs únicos.' });
+    if (
+      new Set(config.options.map((option) => option.id)).size !==
+      config.options.length
+    )
+      context.addIssue({
+        code: 'custom',
+        message: 'Los grupos de opciones deben tener IDs únicos.',
+      });
   });
 const recommendationSchema = z.object({
   entryId: identifier,
@@ -130,9 +158,15 @@ const externalCatalogSchema = z
     try {
       const url = new URL(catalog.url);
       if (url.protocol !== 'https:' || url.username || url.password)
-        context.addIssue({ code: 'custom', message: 'El catálogo externo debe usar HTTPS sin credenciales.' });
+        context.addIssue({
+          code: 'custom',
+          message: 'El catálogo externo debe usar HTTPS sin credenciales.',
+        });
     } catch {
-      context.addIssue({ code: 'custom', message: 'La URL de catálogo externo no es válida.' });
+      context.addIssue({
+        code: 'custom',
+        message: 'La URL de catálogo externo no es válida.',
+      });
     }
   });
 export const entrySchema = z.object({
@@ -228,7 +262,12 @@ export const siteSchema = z
       demo: z.boolean(),
       seo,
       navigation: z
-        .array(z.object({ label: short.min(1), href: path }))
+        .array(
+          z.object({
+            label: short.min(1),
+            href: z.union([path, z.literal('/#como-cotizar')]),
+          }),
+        )
         .max(20),
       footer: para,
       logoId: z.string().max(100),
@@ -390,12 +429,16 @@ export const siteSchema = z
         fail(`Una oferta cotizable necesita reglas completas: ${e.title}.`);
       for (const recommendation of e.recommendations) {
         if (!records.has(recommendation.entryId))
-          fail(`Una recomendación de ${e.title} apunta a contenido inexistente.`);
+          fail(
+            `Una recomendación de ${e.title} apunta a contenido inexistente.`,
+          );
         if (recommendation.entryId === e.id)
           fail(`Una recomendación no puede apuntar a sí misma: ${e.title}.`);
         for (const eventTypeId of recommendation.eventTypeIds)
           if (records.get(eventTypeId)?.kind !== 'tipos-evento')
-            fail(`Una recomendación de ${e.title} usa un tipo de evento inválido.`);
+            fail(
+              `Una recomendación de ${e.title} usa un tipo de evento inválido.`,
+            );
       }
     }
     for (const b of s.sections) {

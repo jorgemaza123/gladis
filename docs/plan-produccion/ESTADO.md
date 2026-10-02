@@ -3,6 +3,14 @@
 Creado: 2026-09-18. La auditoría y creación de documentos no equivalen a implementación.
 Arquitectura revisada el 2026-09-30: [web estática sin base de datos](ARQUITECTURA-ESTATICA.md). Las tareas que dependen de D1, CMS, APIs, migraciones o persistencia deben rediseñarse antes de ejecutarse.
 
+Rediseño autorizado e implementado localmente el 2026-10-02: [informe de implementación y verificación](../diseno/IMPLEMENTACION.md). Portada, identidad blanca/jade, animaciones, imágenes IA, catálogo y cotización de tres etapas aplicados. CTA y selección compartida corregidos; cantidades, opciones y responsable verificados en el mensaje de WhatsApp. Quality y build pasan; pruebas de rutas y navegador registradas. Sin push ni despliegue. Pendientes de aceptación: estudio con usuarios, lector de pantalla/zoom/preferencia de movimiento y medición móvil LCP/CLS. La [propuesta](../diseno/PROPUESTA-UX-UI.md) y [lámina inicial](../diseno/direccion-visual.html) son antecedentes; no sustituyen el resultado implementado. Los estados históricos de tareas retiradas no se convierten en HECHO por este rediseño.
+
+Corrección posterior de portada (2026-10-02): columnas, márgenes, tablet, pie de página y animaciones revisados. Build final y geometría en 14 anchos efectivos de 320–2560 px verificados; menú móvil y FAQ abiertas probados. Evidencias y límites en [IMPLEMENTACION.md](../diseno/IMPLEMENTACION.md#corrección-de-espacios-y-animaciones-de-portada--2026-10-02). Esta revisión local no cambia los estados históricos ni equivale a publicación.
+
+Hero ajustado también a la altura disponible: en escritorio bajo conserva dos columnas y muestra foto, leyenda y botones completos en los siete tamaños verificados, incluido 1366×650. Build correcto; detalle en [el informe visual](../diseno/IMPLEMENTACION.md#ajuste-del-hero-según-la-altura-de-escritorio). Móvil mantiene su disposición apilada.
+
+Paleta vigente tras la petición del propietario: **palo de rosa `#EAD4D1` y jade**, sustituyendo el fondo blanco inicial. Superficies claras `#F6E8E5`, texto secundario ajustado por contraste, build y revisión visual local completados. Evidencia en [el informe](../diseno/IMPLEMENTACION.md#fondo-palo-de-rosa--2026-10-02).
+
 | Tarea | Estado | Evidencia / bloqueo |
 |---|---|---|
 | [01](01-base-y-pruebas-seguras.md) Fijar base reproducible y aislar pruebas mutantes | BLOQUEADO | El alcance original dependía de D1 y API. La web estática usa ahora typecheck, lint, pruebas de comercio/arquitectura y build; rediseñar esta tarea antes de reabrirla. |

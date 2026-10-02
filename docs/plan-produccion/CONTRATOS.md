@@ -89,3 +89,13 @@ Payload de eventos: eventId UUID, name permitido, placement, entryId opcional, o
 Clicks no equivalen a personas únicas, WhatsApp enviado, reserva ni venta. Datos aceptados por endpoint pueden tener spam/adblock; rotular tasas con esta limitación. Sin consentimiento de analítica, cotización y WhatsApp funcionan igual y puede constar sólo el contexto del CTA de solicitud.
 Endpoint de eventos aislado y acotado creado en tarea 09; error de métricas no impide CTA. Registro operativo de solicitud sí es obligatorio antes del enlace.
 No perfilado, fingerprinting, seguimiento entre dominios automático ni GTM/GA añadidos sin decisión. No reutilizar tokens de autenticación para tracking.
+
+## Ajuste UX autorizado — 2026-10-02
+
+La implementación visual conserva la arquitectura estática y los contactos vigentes de `config/business-contacts.ts`. La interfaz llama **Mi evento** a la bolsa. Tres etapas: selección, datos del evento y revisión con un único enlace a WhatsApp. No se recogen datos de contacto ni se envía automáticamente el mensaje.
+
+La consulta pública acepta cantidades orientativas enteras desde 1; el límite técnico es 100000 (el servicio por evento continúa 1). Se retiran mínimos comerciales simulados de 20/10 personas o unidades, que no constituían condiciones confirmadas. Fecha/distrito/invitados continúan según `quoteConfig`. No hay cálculo de precio ni garantía de disponibilidad. Abrir otra vez un CTA de un servicio ya seleccionado conserva su cantidad y opciones, en vez de sumar una unidad; el reducer conserva compatibilidad con variantes históricas.
+
+Cada línea y sus opciones con etiquetas se incluyen en el resumen y el mensaje. El mensaje admite hasta 6000 caracteres: si se excede, no se construye un enlace truncado. El responsable procede exclusivamente del principal. Agregar extras conserva el principal; eliminarlo exige elegir otro. La selección de URL acepta también servicios independientes de tipo complemento. Se conserva el origen inicial y UTM saneado; el resumen muestra ese contexto antes de abrir WhatsApp. No se transmite a un servidor de la web.
+
+La navegación permite el ancla exacta `/#como-cotizar`, además de rutas internas. El resto del validador de URL no se amplía. Las imágenes nuevas son ilustraciones IA identificadas como referenciales, con variantes JPEG y dimensiones/pesos reales en `data/design-images.json`. No representan eventos realizados.

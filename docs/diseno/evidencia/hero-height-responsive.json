@@ -1,0 +1,258 @@
+[
+  {
+    "actions": {
+      "bottom": 501.2248840332031,
+      "height": 47.986114501953125,
+      "top": 453.23876953125,
+      "width": 553.6111450195312
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "553.611px 592.378px",
+    "figure": {
+      "bottom": 544.4792022705078,
+      "height": 422.5000305175781,
+      "top": 121.97917175292967,
+      "width": 592.3784790039062
+    },
+    "figureFitsFirstScreen": true,
+    "height": 650,
+    "hero": {
+      "bottom": 631.5625305175781,
+      "height": 533.576416015625,
+      "top": 97.98611450195312,
+      "width": 1200
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 503.31497955322266,
+      "height": 380.0000305175781,
+      "top": 123.31494903564452,
+      "width": 592.3784790039062
+    },
+    "width": 1366
+  },
+  {
+    "actions": {
+      "bottom": 470.3645935058594,
+      "height": 47.986114501953125,
+      "top": 422.37847900390625,
+      "width": 553.6111450195312
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "553.611px 592.378px",
+    "figure": {
+      "bottom": 494.4792022705078,
+      "height": 372.5000305175781,
+      "top": 121.97917175292967,
+      "width": 592.3784790039062
+    },
+    "figureFitsFirstScreen": true,
+    "height": 600,
+    "hero": {
+      "bottom": 581.5625305175781,
+      "height": 483.576416015625,
+      "top": 97.98611450195312,
+      "width": 1200
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 452.1443557739258,
+      "height": 330.0000305175781,
+      "top": 122.14432525634766,
+      "width": 592.3784790039062
+    },
+    "width": 1366
+  },
+  {
+    "actions": {
+      "bottom": 544.0625305175781,
+      "height": 47.986114501953125,
+      "top": 496.076416015625,
+      "width": 539.18408203125
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "539.184px 576.927px",
+    "figure": {
+      "bottom": 614.4792022705078,
+      "height": 492.5000305175781,
+      "top": 121.97917175292967,
+      "width": 576.9271240234375
+    },
+    "figureFitsFirstScreen": true,
+    "height": 720,
+    "hero": {
+      "bottom": 701.5625305175781,
+      "height": 603.576416015625,
+      "top": 97.98611450195312,
+      "width": 1167.326416015625
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 571.9792022705078,
+      "height": 450.0000305175781,
+      "top": 121.97917175292967,
+      "width": 576.9271240234375
+    },
+    "width": 1280
+  },
+  {
+    "actions": {
+      "bottom": 514.6875305175781,
+      "height": 47.986114501953125,
+      "top": 466.701416015625,
+      "width": 425.97222900390625
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "425.972px 455.781px",
+    "figure": {
+      "bottom": 564.8090667724609,
+      "height": 435.920166015625,
+      "top": 128.88890075683594,
+      "width": 455.7812805175781
+    },
+    "figureFitsFirstScreen": true,
+    "height": 650,
+    "hero": {
+      "bottom": 651.8924179077148,
+      "height": 546.99658203125,
+      "top": 104.89583587646484,
+      "width": 911.7708740234376
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 508.88893127441406,
+      "height": 380.0000305175781,
+      "top": 128.88890075683594,
+      "width": 455.7812805175781
+    },
+    "width": 1024
+  },
+  {
+    "actions": {
+      "bottom": 514.6875305175781,
+      "height": 47.986114501953125,
+      "top": 466.701416015625,
+      "width": 395.3645935058594
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "395.365px 423.073px",
+    "figure": {
+      "bottom": 564.8090667724609,
+      "height": 435.920166015625,
+      "top": 128.88890075683594,
+      "width": 423.0729370117187
+    },
+    "figureFitsFirstScreen": true,
+    "height": 650,
+    "hero": {
+      "bottom": 651.8924179077148,
+      "height": 546.99658203125,
+      "top": 104.89583587646484,
+      "width": 848.4375610351562
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 508.88893127441406,
+      "height": 380.0000305175781,
+      "top": 128.88890075683594,
+      "width": 423.0729370117187
+    },
+    "width": 961
+  },
+  {
+    "actions": {
+      "bottom": 587.5347595214844,
+      "height": 47.986114501953125,
+      "top": 539.5486450195312,
+      "width": 553.6111450195312
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "553.611px 592.378px",
+    "figure": {
+      "bottom": 684.4791717529297,
+      "height": 562.5,
+      "top": 121.97917175292967,
+      "width": 592.3784790039062
+    },
+    "figureFitsFirstScreen": true,
+    "height": 820,
+    "hero": {
+      "bottom": 771.5625305175781,
+      "height": 673.576416015625,
+      "top": 97.98611450195312,
+      "width": 1200
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 641.9791717529297,
+      "height": 520,
+      "top": 121.97917175292967,
+      "width": 592.3784790039062
+    },
+    "width": 1440
+  },
+  {
+    "actions": {
+      "bottom": 637.3437576293945,
+      "height": 50.59027862548828,
+      "top": 586.7534790039062,
+      "width": 553.6111450195312
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "553.611px 592.378px",
+    "figure": {
+      "bottom": 808.4722900390625,
+      "height": 652.5000610351562,
+      "top": 155.97222900390625,
+      "width": 592.3784790039062
+    },
+    "figureFitsFirstScreen": true,
+    "height": 900,
+    "hero": {
+      "bottom": 943.5243225097656,
+      "height": 845.5382080078125,
+      "top": 97.98611450195312,
+      "width": 1200
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 755.9722290039062,
+      "height": 600,
+      "top": 155.97222900390625,
+      "width": 592.3784790039062
+    },
+    "width": 1440
+  },
+  {
+    "actions": {
+      "bottom": 477.3611450195313,
+      "height": 104.09722900390624,
+      "top": 373.263916015625,
+      "width": 333.3333435058594
+    },
+    "actionsFitFirstScreen": true,
+    "columns": "minmax(0px, 1fr) minmax(0px, 1.07fr)",
+    "figure": {
+      "bottom": 870.5556030273438,
+      "height": 365.2083435058594,
+      "top": 505.3472595214844,
+      "width": 333.3333435058594
+    },
+    "figureFitsFirstScreen": false,
+    "height": 650,
+    "hero": {
+      "bottom": 977.6041870117188,
+      "height": 894.7569580078125,
+      "top": 82.84722900390625,
+      "width": 333.3333435058594
+    },
+    "horizontalOverflow": [],
+    "photo": {
+      "bottom": 825.1389465332031,
+      "height": 319.79168701171875,
+      "top": 505.3472595214844,
+      "width": 333.3333435058594
+    },
+    "width": 390
+  }
+]

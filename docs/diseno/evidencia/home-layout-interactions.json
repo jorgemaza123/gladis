@@ -1,0 +1,37 @@
+{
+  "menu": {
+    "header": {
+      "bottom": 82.84722900390625,
+      "height": 82.84722900390625,
+      "left": 0,
+      "right": 373.3333435058594,
+      "top": 0,
+      "width": 373.3333435058594,
+      "x": 0,
+      "y": 0
+    },
+    "menu": {
+      "bottom": 255.2951507568359,
+      "height": 174.56597900390625,
+      "left": 20,
+      "right": 353.3333435058594,
+      "top": 80.72917175292969,
+      "width": 333.3333435058594,
+      "x": 20,
+      "y": 80.72917175292969
+    },
+    "open": true,
+    "width": 390
+  },
+  "faq": {
+    "allImagesLoaded": true,
+    "faqBottom": 625.5208892822266,
+    "invitationTop": 625.5208740234375,
+    "mobileHeadings": [
+      "Las mejores conversaciones suceden alrededor de una mesa.",
+      "Lo que hace completo tu evento."
+    ],
+    "openFaq": 3,
+    "width": 390
+  }
+}

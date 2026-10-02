@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { readSite } from '@/repositories/site';
 import { Shell, EntryCards, publicEntries, JsonLd } from '@/components/public';
@@ -34,7 +35,9 @@ export default async function Listing({ params, searchParams }: Props) {
     c = site.settings.catalogs[kind as ContentKind],
     q = await searchParams,
     policy = catalogUrlPolicy(kind, q);
-  const all = publicEntries(site).filter((e) => e.kind === kind),
+  const all = publicEntries(site).filter(
+      (e) => e.kind === kind || (kind === 'servicios' && e.kind === 'menus'),
+    ),
     query = scalar(q.q).trim().slice(0, 120),
     category = scalar(q.categoria),
     modality = scalar(q.modalidad);
@@ -80,14 +83,32 @@ export default async function Listing({ params, searchParams }: Props) {
       />
       <section className="section wrap">
         <nav className="breadcrumbs" aria-label="Ruta de navegación">
-          <a href="/">Inicio</a>
+          <Link href="/">Inicio</Link>
           <span>/</span>
           <span aria-current="page">{c.title}</span>
         </nav>
         <p className="eyebrow">{site.settings.tagline}</p>
         <h1 className="page-title">{c.title}</h1>
         {c.description && <p className="lead catalog-lead">{c.description}</p>}
-        {all.length > 0 && (
+        {['servicios', 'menus', 'complementos'].includes(kind) && (
+          <nav className="catalog-tabs" aria-label="Tipo de servicio">
+            <Link
+              href="/servicios"
+              aria-current={
+                kind === 'servicios' || kind === 'menus' ? 'page' : undefined
+              }
+            >
+              Buffet y menús
+            </Link>
+            <Link
+              href="/complementos"
+              aria-current={kind === 'complementos' ? 'page' : undefined}
+            >
+              Servicios para eventos
+            </Link>
+          </nav>
+        )}
+        {all.length > 4 && (
           <form className="catalog-filters" action={`/${kind}`} method="get">
             <label className="field">
               Buscar
@@ -128,9 +149,9 @@ export default async function Listing({ params, searchParams }: Props) {
               Filtrar
             </button>
             {(query || category || modality) && (
-              <a className="text-link" href={`/${kind}`}>
+              <Link className="text-link" href={`/${kind}`}>
                 Limpiar filtros
-              </a>
+              </Link>
             )}
           </form>
         )}
@@ -143,22 +164,22 @@ export default async function Listing({ params, searchParams }: Props) {
             <EntryCards entries={entries} site={site} />
             {pageCount > 1 && (
               <nav className="pagination" aria-label="Páginas de resultados">
-                {page > 1 && <a href={pageHref(page - 1)}>← Anterior</a>}
+                {page > 1 && <Link href={pageHref(page - 1)}>← Anterior</Link>}
                 {Array.from({ length: pageCount }, (_, i) => i + 1)
                   .filter(
                     (n) => n === 1 || n === pageCount || Math.abs(n - page) < 3,
                   )
                   .map((n) => (
-                    <a
+                    <Link
                       key={n}
                       href={pageHref(n)}
                       aria-current={n === page ? 'page' : undefined}
                     >
                       {n}
-                    </a>
+                    </Link>
                   ))}
                 {page < pageCount && (
-                  <a href={pageHref(page + 1)}>Siguiente →</a>
+                  <Link href={pageHref(page + 1)}>Siguiente →</Link>
                 )}
               </nav>
             )}
@@ -171,9 +192,9 @@ export default async function Listing({ params, searchParams }: Props) {
                 : site.settings.copy.emptyTitle}
             </h2>
             <p>{site.settings.copy.emptyDescription}</p>
-            <a className="button" href="/cotizar">
+            <Link className="button" href="/cotizar">
               {site.settings.copy.primaryCta}
-            </a>
+            </Link>
           </div>
         )}
       </section>

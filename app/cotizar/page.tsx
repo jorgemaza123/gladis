@@ -2,7 +2,10 @@ import { readSite } from '@/repositories/site';
 import { Shell, publicEntries } from '@/components/public';
 import { Quote, type QuoteSite } from '@/components/quote';
 import { metadataFor } from '@/lib/seo';
-import { resolveBusinessContact, resolveWhatsAppDestination } from '@/lib/business-contacts';
+import {
+  resolveBusinessContact,
+  resolveWhatsAppDestination,
+} from '@/lib/business-contacts';
 export async function generateMetadata() {
   const site = await readSite();
   return metadataFor(
@@ -47,7 +50,18 @@ export default async function QuotePage({
       },
     },
     entries: entries.map(
-      ({ id, kind, title, minimumGuests, modalityIds, addOnIds, coverageIds, ownerId, requestable, quoteConfig }) => ({
+      ({
+        id,
+        kind,
+        title,
+        minimumGuests,
+        modalityIds,
+        addOnIds,
+        coverageIds,
+        ownerId,
+        requestable,
+        quoteConfig,
+      }) => ({
         id,
         kind,
         title,
@@ -63,8 +77,7 @@ export default async function QuotePage({
     ),
   };
   const selection = entries.some(
-    (e) =>
-      e.id === seleccion && ['servicios', 'menus', 'paquetes'].includes(e.kind),
+    (e) => e.id === seleccion && e.requestable && !!e.quoteConfig,
   )
     ? seleccion!
     : '';

@@ -1,0 +1,162 @@
+{
+  "polos": [
+    {
+      "bytes": 28565,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/polos-480.jpg"
+    },
+    {
+      "bytes": 57987,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/polos-768.jpg"
+    },
+    {
+      "bytes": 127470,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/polos-1280.jpg"
+    }
+  ],
+  "sillas": [
+    {
+      "bytes": 42857,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/sillas-480.jpg"
+    },
+    {
+      "bytes": 87752,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/sillas-768.jpg"
+    },
+    {
+      "bytes": 189124,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/sillas-1280.jpg"
+    }
+  ],
+  "bartender": [
+    {
+      "bytes": 38308,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/bartender-480.jpg"
+    },
+    {
+      "bytes": 80459,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/bartender-768.jpg"
+    },
+    {
+      "bytes": 176151,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/bartender-1280.jpg"
+    }
+  ],
+  "menaje": [
+    {
+      "bytes": 40621,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/menaje-480.jpg"
+    },
+    {
+      "bytes": 82688,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/menaje-768.jpg"
+    },
+    {
+      "bytes": 175933,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/menaje-1280.jpg"
+    }
+  ],
+  "recuerdos": [
+    {
+      "bytes": 35890,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/recuerdos-480.jpg"
+    },
+    {
+      "bytes": 70024,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/recuerdos-768.jpg"
+    },
+    {
+      "bytes": 144066,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/recuerdos-1280.jpg"
+    }
+  ],
+  "mozos": [
+    {
+      "bytes": 35621,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/mozos-480.jpg"
+    },
+    {
+      "bytes": 70943,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/mozos-768.jpg"
+    },
+    {
+      "bytes": 150860,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/mozos-1280.jpg"
+    }
+  ],
+  "flores": [
+    {
+      "bytes": 38152,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/flores-480.jpg"
+    },
+    {
+      "bytes": 77721,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/flores-768.jpg"
+    },
+    {
+      "bytes": 164286,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/flores-1280.jpg"
+    }
+  ],
+  "buffet": [
+    {
+      "bytes": 55366,
+      "height": 320,
+      "width": 480,
+      "url": "/images/mesa/buffet-480.jpg"
+    },
+    {
+      "bytes": 120000,
+      "height": 512,
+      "width": 768,
+      "url": "/images/mesa/buffet-768.jpg"
+    },
+    {
+      "bytes": 266112,
+      "height": 853,
+      "width": 1280,
+      "url": "/images/mesa/buffet-1280.jpg"
+    }
+  ]
+}

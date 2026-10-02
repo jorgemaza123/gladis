@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-02T13:38:22.186Z",
+  "origin": "http://127.0.0.1:4173",
+  "node": "v22.16.0",
+  "environment": "Production build, loopback HTTP, no throttling, same running process. HTTP timing only, not browser LCP/CLS.",
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "bytes": 62162
+    },
+    {
+      "route": "/servicios",
+      "status": 200,
+      "bytes": 43032
+    },
+    {
+      "route": "/menus",
+      "status": 200,
+      "bytes": 39949
+    },
+    {
+      "route": "/complementos",
+      "status": 200,
+      "bytes": 57079
+    },
+    {
+      "route": "/servicios/buffet-para-eventos",
+      "status": 200,
+      "bytes": 64634
+    },
+    {
+      "route": "/menus/menu-criollo-eventos",
+      "status": 200,
+      "bytes": 49021
+    },
+    {
+      "route": "/complementos/bar-bartender",
+      "status": 200,
+      "bytes": 49106
+    },
+    {
+      "route": "/complementos/mozos-evento",
+      "status": 200,
+      "bytes": 48349
+    },
+    {
+      "route": "/complementos/menaje-evento",
+      "status": 200,
+      "bytes": 48265
+    },
+    {
+      "route": "/complementos/sillas-evento",
+      "status": 200,
+      "bytes": 48225
+    },
+    {
+      "route": "/complementos/arreglos-florales",
+      "status": 200,
+      "bytes": 48244
+    },
+    {
+      "route": "/complementos/recuerdos-evento",
+      "status": 200,
+      "bytes": 48273
+    },
+    {
+      "route": "/complementos/polos-estampados",
+      "status": 200,
+      "bytes": 48366
+    },
+    {
+      "route": "/cotizar",
+      "status": 200,
+      "bytes": 43083
+    },
+    {
+      "route": "/privacidad",
+      "status": 200,
+      "bytes": 35575
+    }
+  ],
+  "measurements": [
+    {
+      "run": 1,
+      "ttfbMs": 32.77,
+      "htmlCompleteMs": 34.15
+    },
+    {
+      "run": 2,
+      "ttfbMs": 29.51,
+      "htmlCompleteMs": 29.92
+    },
+    {
+      "run": 3,
+      "ttfbMs": 30.67,
+      "htmlCompleteMs": 31.21
+    }
+  ]
+}

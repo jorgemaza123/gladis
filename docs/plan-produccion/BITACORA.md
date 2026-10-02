@@ -312,6 +312,17 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - Pruebas ejecutadas: `npm.cmd run quality` terminó con exit 0: typecheck, lint, comercio, seguridad estática, presupuesto de imágenes (830,882 bytes de 1 MB) y build. En el servidor local compilado, `/` devolvió 200 con `index, follow` y canónica de Vercel; `robots.txt` permitió el rastreo y `sitemap.xml` listó rutas canónicas comerciales. Los avisos de importación dinámica del compilador no detuvieron la compilación.
 - Estado y traspaso: T26 queda HECHO localmente. T27 requiere desplegar este commit y ejecutar la aceptación humana; T28 requiere la orden del usuario de desplegar y verificar ese commit. T29 depende de esas evidencias. T01, T06, T09 y T21 continúan retiradas por la arquitectura estática, sin base de datos, API ni analítica persistente.
 
+## Auditoría UX/UI y propuesta visual — 2026-10-02
+
+- Alcance: petición de analizar y proponer antes de implementar. Se aplicó la habilidad `frontend-design`. Base inspeccionada: `63784cd`, sin cambios previos en el árbol al empezar. No se editó código de la aplicación ni se hizo push o despliegue.
+- Entregables: `docs/diseno/PROPUESTA-UX-UI.md` (diagnóstico priorizado, paleta, tipografía, arquitectura, recorrido y seis etapas futuras) y `docs/diseno/direccion-visual.html` (lámina adaptable con fotografía IA existente y fuentes de sustitución declaradas). ESTADO enlaza la propuesta sin dar por implementados sus cambios.
+- Evidencia: lectura de los componentes y datos reales; portada y recorrido al formulario en el navegador local iniciado con `npm.cmd start`; revisión de portada a 1440 × 900 y formulario a 390 × 844, además de la ficha de buffet. Se observó que «Cotizar un buffet» no preselecciona el servicio y que la cabecera móvil apila dos acciones dominantes. Código confirma selección duplicada y ausencia de cantidades/opciones de las líneas en `WhatsAppMessageInput`. Son hallazgos nuevos que la calidad automatizada anterior no cubría integralmente.
+- Dirección propuesta: blanco, jade, verde suave y un acento amarillo contenido; buffet protagonista, servicios agrupados por necesidad, tipografías Lora y Source Sans 3, mensaje cercano sin segmentación socioeconómica ni precios ficticios. La lámina usa Georgia/Arial, no las fuentes finales.
+- Comprobaciones documentales: referencias internas de la lámina resueltas, sin IDs duplicados, imagen local existente, cero scripts y cero recursos remotos; comando PowerShell de inspección terminó con exit 0. `git diff --check` pasó. Se calcularon los contrastes principales de la paleta; no se hizo auditoría integral WCAG ni estudio con usuarios.
+- Límite de previsualización: el navegador integrado rechazó el protocolo local `file:` por su política de URL. No se intentó eludirlo. La lámina queda disponible como archivo y no se declara renderizado verificado. La inspección visual del sitio local anterior sí fue realizada.
+- No se repitió `npm run quality` porque sólo se crearon artefactos de propuesta y documentación; no se atribuyen nuevas pruebas de compilación o velocidad. No se abrió WhatsApp.
+- Traspaso: implementar la propuesta cuando el usuario lo solicite, empezando por la entrega A (coherencia del flujo) y B (identidad/cabecera), seguidas de C–F. Conservar destinatario por principal, origen inicial, arquitectura sin base de datos y datos comerciales confirmados. No cerrar tareas 19 o 27–29 por este análisis.
+
 ## Plantilla
 
 - Tarea y estado: TODO / EN_CURSO / HECHO / BLOQUEADO.
@@ -325,3 +336,40 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - Cambios al contrato (si hubo):
 - Siguiente archivo permitido:
 - Cómo reproducir y revertir sin perder datos:
+
+## 2026-10-02 — Implementación autorizada del plan visual y UX
+
+- Estado: implementación local realizada; aceptación humana y rendimiento móvil de laboratorio pendientes. Autorización del usuario: «aplica todo tu plan visual ... coloca animaciones». No se ejecutan tareas de D1/CMS retiradas.
+- Se conserva el working tree previo: documentos de propuesta y las modificaciones anteriores de ESTADO/BITACORA. No se hizo commit, push ni despliegue.
+- Aplicado «Una mesa para todos»: identidad blanca/jade, fuentes locales Lora y Source Sans 3, nueva portada, familias de servicios, fichas, catálogo y Mi evento; animación de entrada en portada, dibujo de vajilla y transiciones de interacción con reducción de movimiento.
+- ImageGen creó ocho escenas identificadas como IA; variantes 480/768/1280 y manifiesto real. Se conservan originales. Prompts, archivos y licencias documentados en `docs/diseno/IMAGENES-IA.md`.
+- Flujo corregido: CTA buffet con selección, cualquier servicio independiente, una sola selección compartida desde el layout, navegación interna que conserva estado, tres etapas, revisión única, cantidades/opciones completas, origen saneado y contacto derivado exclusivamente del principal. No se recolecta contacto del visitante ni se envía automáticamente.
+- Contrato ajustado: mínimos simulados retirados, consultas con cantidades orientativas desde 1, navegación admite el ancla exacta del proceso, mensaje máximo 6000 sin truncamiento silencioso. Los cambios están en CONTRATOS.md.
+- Pruebas: `npm.cmd run quality` exit 0 (tipos, lint, comercio, seguridad, activos y build). La suite añade nueve servicios y mensajes completos. `node scripts/design-smoke.mjs` exit 0: 15 rutas, H1, títulos/canonical/noindex y tres mediciones HTTP. Registros en `docs/diseno/evidencia/`.
+- Navegador local de producción: buffet 30 + sillas 35 conserva 902843481; cambiar principal a sillas usa 923106197; eliminar principal impide enlace; sillas independiente 12 unidades; restauración; opciones requeridas; Escape y retorno de foco. Sin abrir ni enviar WhatsApp. Revisión visual encontró y corrigió cabecera móvil y contenedores de fotografías; se volvió a compilar.
+- Incidencias del entorno: Node necesitó ejecución fuera del aislamiento por EPERM al resolver `C:/Users/jorge`. Una ejecución inicial de comercio falló por el nuevo import JSON; se adaptó el cargador de pruebas. Otra detectó el ancla no admitida; se permitió sólo el literal acordado. Dev y build concurrentes provocaron errores del plugin RSC; la aceptación se hizo contra servidor de producción local, con reinicio entre builds. El campo fecha necesitó `onInput` además de `onChange`; se verificó después.
+- Límites: no afirmar nota 10/10, WCAG integral, Lighthouse o LCP/CLS. Pendientes exactos en IMPLEMENTACION.md: participantes humanos, lector de pantalla, zoom 200%, preferencia reducida activada y storage bloqueado en navegador real. El sitio continúa sin base de datos.
+- Traspaso: revisar visualmente el resultado local y completar esas pruebas de aceptación. Publicar sólo cuando el usuario lo solicite. No reabrir tareas de persistencia ni alterar retrospectivamente los estados históricos.
+
+### 2026-10-02 — Corrección responsive de espacios y animaciones de la portada
+
+- Solicitud: corregir cortes y distribución de toda la página principal en distintas pantallas. Se usó la skill frontend-design y una segunda revisión de código de solo lectura, respetando el working tree previo.
+- Causas verificadas: mínimos intrínsecos de imágenes con altura fija ensanchaban las columnas de buffet/ocasiones; una máscara animada permanente afectaba al figure del hero; el footer mezclaba máximo de ancho con padding dependiente de toda la pantalla. La ocultación horizontal global hacía insuficiente comprobar solo scrollWidth.
+- Solución en `app/design.css` y `components/home-experience.tsx`: columnas con mínimos cero, imágenes proporcionales, leyenda en flujo, espacios de sección fluidos, composición tablet, alineación de familias, footer limitado por contenido y menú móvil con márgenes. La entrada de foto ya no usa máscara; el dibujo termina completo. Se corrigió además la unión de palabras al ocultar saltos de títulos en móvil y se ajustaron `sizes` a las nuevas composiciones.
+- Verificado: `npm.cmd run quality` exit 0 y compilación final posterior exit 0. Geometría de cabecera, las siete secciones y footer en 14 anchos CSS efectivos de 320 a 2560 px: sin contenido fuera del viewport, desbordamiento de textos hoja ni intersecciones de hermanos en las cuadrículas revisadas. Menú abre/cierra, ancla servicios funciona, tres FAQ abiertas no solapan el cierre y las seis imágenes cargan. Animaciones observadas durante la entrada y al terminar; estado final sin clip/transform ni trazos discontinuos.
+- Evidencias: `docs/diseno/evidencia/home-layout-*`; detalles y alcance en `docs/diseno/IMPLEMENTACION.md`. Las comprobaciones geométricas no sustituyen la revisión visual; se capturó también móvil, tablet y escritorio.
+- Límites: probado en el navegador integrado local, sin matriz de dispositivos físicos, otros motores o preferencia de sistema de movimiento reducido activada. Se mantienen los límites de aceptación general del rediseño y no se cambian estados históricos de tareas bloqueadas. Sin cambios comerciales ni de persistencia, sin push ni publicación.
+- Traspaso: portada corregida disponible en `http://127.0.0.1:4173/`; revisión del propietario y pruebas generales de aceptación pendientes en el informe. No adelantar despliegue sin una nueva solicitud.
+
+### 2026-10-02 — Hero completo en ventanas de escritorio bajas
+
+- El propietario aportó una captura donde la foto y la leyenda continuaban debajo de la ventana. Se confirmó que hacía falta adaptar el hero a la altura, además de a la anchura.
+- Cambio limitado a `app/design.css`: composición compacta desde 961 px de ancho y hasta 820 px de alto; altura de imagen según `svh`, título y espacios reducidos, sin máscara ni altura máxima que oculte contenido. Se mantienen dos columnas en escritorio y el apilado móvil.
+- Build exit 0. Ocho combinaciones de viewport medidas; figura y acciones enteras en los siete tamaños de escritorio, incluido 1366×650, y sin desbordamiento horizontal en los ocho. Móvil 390×650 conserva desplazamiento natural y no se afirma que toda la imagen entre en el primer pantallazo.
+- Evidencia: `docs/diseno/evidencia/hero-height-build.log`, `hero-height-responsive.json` y `hero-height-escritorio.png`. Vista local reiniciada en 4173. Sin push ni publicación; se mantienen las limitaciones generales de aceptación del informe visual.
+
+### 2026-10-02 — Fondo palo de rosa solicitado por el propietario
+
+- Sustituido el blanco del fondo por `#EAD4D1`; cabecera y footer coherentes, superficies de apoyo `#F6E8E5`. Se conservan jade, fotografías y distribución del hero.
+- Texto secundario ajustado a `#4E605A`: contraste 4,72:1 sobre el rosa; principal 8,87:1 y jade 4,94:1. Datos en `docs/diseno/evidencia/palo-rosa-contraste.json`; no equivalen a auditoría WCAG integral.
+- `npm.cmd run build` exit 0. Colores computados y captura de escritorio comprobados en una nueva pestaña tras dejar de responder la anterior. Evidencias `palo-rosa-build.log`, `palo-rosa-navegador.json`, `palo-rosa-portada.png`. Cambio de producto limitado a CSS, sin push ni despliegue.

@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 
 import type { ReactNode } from 'react';
 import { useAttribution } from '@/components/attribution-provider';
@@ -43,21 +44,22 @@ export function QuoteCta({
   const { recordCta } = useAttribution();
   const destination = quoteHref(href, entryId);
 
-  if (mode === 'add') return (
-    <button
-      className={className}
-      onClick={() => {
-        recordCta(entryId, placement);
-        if (entryId && addToCart) add(entryId);
-      }}
-      type="button"
-    >
-      {children}
-    </button>
-  );
+  if (mode === 'add')
+    return (
+      <button
+        className={className}
+        onClick={() => {
+          recordCta(entryId, placement);
+          if (entryId && addToCart) add(entryId);
+        }}
+        type="button"
+      >
+        {children}
+      </button>
+    );
 
   return (
-    <a
+    <Link
       className={className}
       href={destination}
       target={target}
@@ -68,6 +70,6 @@ export function QuoteCta({
       }}
     >
       {children}
-    </a>
+    </Link>
   );
 }

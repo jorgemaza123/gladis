@@ -1,0 +1,861 @@
+{
+  "date": "2026-10-02",
+  "url": "http://127.0.0.1:4173/",
+  "method": "DOM geometry at effective innerWidth, viewport scale 90%. Excludes decorative SVG and closed details. Checks viewport boundaries, leaf text widths and sibling intersections in the main grids.",
+  "checks": [
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2790.7119140625,
+          "titleY": 2651.4931640625
+        },
+        {
+          "linksY": 3246.0244140625,
+          "titleY": 3138.10791015625
+        },
+        {
+          "linksY": 3701.3369140625,
+          "titleY": 3593.42041015625
+        }
+      ],
+      "figureWidth": 263.3333435058594,
+      "footerWidth": 263.3333435058594,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 901,
+          "node": "section.mesa-hero.wrap",
+          "padding": "25px 0px"
+        },
+        {
+          "height": 1194,
+          "node": "section.buffet-story.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 1748,
+          "node": "section.service-garden",
+          "padding": "56px"
+        },
+        {
+          "height": 987,
+          "node": "section.conversation-section.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 967,
+          "node": "section.occasion-section",
+          "padding": "56px"
+        },
+        {
+          "height": 533,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "56px"
+        },
+        {
+          "height": 471,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "45px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 320,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2722.604248046875,
+          "titleY": 2614.687744140625
+        },
+        {
+          "linksY": 3204.58349609375,
+          "titleY": 3096.666748046875
+        },
+        {
+          "linksY": 3686.562744140625,
+          "titleY": 3578.64599609375
+        }
+      ],
+      "figureWidth": 303.3333435058594,
+      "footerWidth": 303.3333435058594,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 883,
+          "node": "section.mesa-hero.wrap",
+          "padding": "25px 0px"
+        },
+        {
+          "height": 1174,
+          "node": "section.buffet-story.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 1770,
+          "node": "section.service-garden",
+          "padding": "56px"
+        },
+        {
+          "height": 934,
+          "node": "section.conversation-section.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 901,
+          "node": "section.occasion-section",
+          "padding": "56px"
+        },
+        {
+          "height": 506,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "56px"
+        },
+        {
+          "height": 418,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "45px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 360,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2723.819580078125,
+          "titleY": 2615.90283203125
+        },
+        {
+          "linksY": 3225.798828125,
+          "titleY": 3117.882080078125
+        },
+        {
+          "linksY": 3727.778076171875,
+          "titleY": 3619.861328125
+        }
+      ],
+      "figureWidth": 333.3333435058594,
+      "footerWidth": 333.3333435058594,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 895,
+          "node": "section.mesa-hero.wrap",
+          "padding": "25px 0px"
+        },
+        {
+          "height": 1144,
+          "node": "section.buffet-story.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 1830,
+          "node": "section.service-garden",
+          "padding": "56px"
+        },
+        {
+          "height": 934,
+          "node": "section.conversation-section.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 855,
+          "node": "section.occasion-section",
+          "padding": "56px"
+        },
+        {
+          "height": 506,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "56px"
+        },
+        {
+          "height": 418,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "45px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 390,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2965.972412109375,
+          "titleY": 2882.86474609375
+        },
+        {
+          "linksY": 3583.142578125,
+          "titleY": 3500.034912109375
+        },
+        {
+          "linksY": 4200.3125,
+          "titleY": 4117.205078125
+        }
+      ],
+      "figureWidth": 543.3333740234375,
+      "footerWidth": 543.3333740234375,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 1015,
+          "node": "section.mesa-hero.wrap",
+          "padding": "25px 0px"
+        },
+        {
+          "height": 1211,
+          "node": "section.buffet-story.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 2115,
+          "node": "section.service-garden",
+          "padding": "56px"
+        },
+        {
+          "height": 802,
+          "node": "section.conversation-section.wrap",
+          "padding": "56px"
+        },
+        {
+          "height": 961,
+          "node": "section.occasion-section",
+          "padding": "56px"
+        },
+        {
+          "height": 480,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "56px"
+        },
+        {
+          "height": 375,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "45px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 600,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 3203.663330078125,
+          "titleY": 3120.5556640625
+        },
+        {
+          "linksY": 3927.500244140625,
+          "titleY": 3844.392578125
+        },
+        {
+          "linksY": 4651.3369140625,
+          "titleY": 4568.2294921875
+        }
+      ],
+      "figureWidth": 703.3333740234375,
+      "footerWidth": 703.3333740234375,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 1015,
+          "node": "section.mesa-hero.wrap",
+          "padding": "25px 0px"
+        },
+        {
+          "height": 1341,
+          "node": "section.buffet-story.wrap",
+          "padding": "57px"
+        },
+        {
+          "height": 2437,
+          "node": "section.service-garden",
+          "padding": "57px"
+        },
+        {
+          "height": 751,
+          "node": "section.conversation-section.wrap",
+          "padding": "57px"
+        },
+        {
+          "height": 1103,
+          "node": "section.occasion-section",
+          "padding": "57px"
+        },
+        {
+          "height": 482,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "57px"
+        },
+        {
+          "height": 375,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "45px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 760,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2405.330078125,
+          "titleY": 2290.572998046875
+        },
+        {
+          "linksY": 2671.92724609375,
+          "titleY": 2557.170166015625
+        },
+        {
+          "linksY": 2938.5244140625,
+          "titleY": 2823.767578125
+        }
+      ],
+      "figureWidth": 680.43408203125,
+      "footerWidth": 680.451416015625,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 985,
+          "node": "section.mesa-hero.wrap",
+          "padding": "34.25px 0px"
+        },
+        {
+          "height": 980,
+          "node": "section.buffet-story.wrap",
+          "padding": "57.0833px"
+        },
+        {
+          "height": 1059,
+          "node": "section.service-garden",
+          "padding": "57.0833px"
+        },
+        {
+          "height": 736,
+          "node": "section.conversation-section.wrap",
+          "padding": "57.0833px"
+        },
+        {
+          "height": 536,
+          "node": "section.occasion-section",
+          "padding": "57.0833px"
+        },
+        {
+          "height": 496,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "57.0833px"
+        },
+        {
+          "height": 413,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 761,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2415.83349609375,
+          "titleY": 2301.076416015625
+        },
+        {
+          "linksY": 2682.4306640625,
+          "titleY": 2567.673828125
+        },
+        {
+          "linksY": 2949.02783203125,
+          "titleY": 2834.27099609375
+        }
+      ],
+      "figureWidth": 688.2118530273438,
+      "footerWidth": 688.2291870117188,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 989,
+          "node": "section.mesa-hero.wrap",
+          "padding": "34.6px 0px"
+        },
+        {
+          "height": 986,
+          "node": "section.buffet-story.wrap",
+          "padding": "57.6667px"
+        },
+        {
+          "height": 1060,
+          "node": "section.service-garden",
+          "padding": "57.6667px"
+        },
+        {
+          "height": 737,
+          "node": "section.conversation-section.wrap",
+          "padding": "57.6667px"
+        },
+        {
+          "height": 537,
+          "node": "section.occasion-section",
+          "padding": "57.6667px"
+        },
+        {
+          "height": 497,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "57.6667px"
+        },
+        {
+          "height": 413,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 768,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2562.534912109375,
+          "titleY": 2447.77783203125
+        },
+        {
+          "linksY": 2804.322998046875,
+          "titleY": 2714.375244140625
+        },
+        {
+          "linksY": 3046.111328125,
+          "titleY": 2956.163330078125
+        }
+      ],
+      "figureWidth": 819.3229370117188,
+      "footerWidth": 819.34033203125,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 1058,
+          "node": "section.mesa-hero.wrap",
+          "padding": "40.5px 0px"
+        },
+        {
+          "height": 1089,
+          "node": "section.buffet-story.wrap",
+          "padding": "67.5px"
+        },
+        {
+          "height": 1030,
+          "node": "section.service-garden",
+          "padding": "67.5px"
+        },
+        {
+          "height": 763,
+          "node": "section.conversation-section.wrap",
+          "padding": "67.5px"
+        },
+        {
+          "height": 531,
+          "node": "section.occasion-section",
+          "padding": "67.5px"
+        },
+        {
+          "height": 517,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "67.5px"
+        },
+        {
+          "height": 424,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 900,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2647.93408203125,
+          "titleY": 2533.17724609375
+        },
+        {
+          "linksY": 2889.722412109375,
+          "titleY": 2799.7744140625
+        },
+        {
+          "linksY": 3131.510498046875,
+          "titleY": 3041.562744140625
+        }
+      ],
+      "figureWidth": 879.3229370117188,
+      "footerWidth": 879.34033203125,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 1089,
+          "node": "section.mesa-hero.wrap",
+          "padding": "43.2px 0px"
+        },
+        {
+          "height": 1139,
+          "node": "section.buffet-story.wrap",
+          "padding": "72px"
+        },
+        {
+          "height": 1039,
+          "node": "section.service-garden",
+          "padding": "72px"
+        },
+        {
+          "height": 779,
+          "node": "section.conversation-section.wrap",
+          "padding": "72px"
+        },
+        {
+          "height": 543,
+          "node": "section.occasion-section",
+          "padding": "72px"
+        },
+        {
+          "height": 529,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "72px"
+        },
+        {
+          "height": 430,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 960,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2177.135498046875,
+          "titleY": 2062.378662109375
+        },
+        {
+          "linksY": 2177.135498046875,
+          "titleY": 2062.378662109375
+        },
+        {
+          "linksY": 2177.135498046875,
+          "titleY": 2062.378662109375
+        }
+      ],
+      "figureWidth": 423.0729370117187,
+      "footerWidth": 848.4722900390625,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 733,
+          "node": "section.mesa-hero.wrap",
+          "padding": "43.25px 0px"
+        },
+        {
+          "height": 790,
+          "node": "section.buffet-story.wrap",
+          "padding": "72.0833px"
+        },
+        {
+          "height": 790,
+          "node": "section.service-garden",
+          "padding": "72.0833px"
+        },
+        {
+          "height": 580,
+          "node": "section.conversation-section.wrap",
+          "padding": "72.0833px"
+        },
+        {
+          "height": 543,
+          "node": "section.occasion-section",
+          "padding": "72.0833px"
+        },
+        {
+          "height": 369,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "72.0833px"
+        },
+        {
+          "height": 430,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 961,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2144.11474609375,
+          "titleY": 2029.3577880859375
+        },
+        {
+          "linksY": 2144.11474609375,
+          "titleY": 2029.3577880859375
+        },
+        {
+          "linksY": 2144.11474609375,
+          "titleY": 2029.3577880859375
+        }
+      ],
+      "figureWidth": 455.7812805175781,
+      "footerWidth": 911.8056030273438,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 690,
+          "node": "section.mesa-hero.wrap",
+          "padding": "46.1px 0px"
+        },
+        {
+          "height": 778,
+          "node": "section.buffet-story.wrap",
+          "padding": "76.8333px"
+        },
+        {
+          "height": 816,
+          "node": "section.service-garden",
+          "padding": "76.8333px"
+        },
+        {
+          "height": 590,
+          "node": "section.conversation-section.wrap",
+          "padding": "76.8333px"
+        },
+        {
+          "height": 557,
+          "node": "section.occasion-section",
+          "padding": "76.8333px"
+        },
+        {
+          "height": 379,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "76.8333px"
+        },
+        {
+          "height": 437,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 1024,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        },
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        },
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        }
+      ],
+      "figureWidth": 592.3784790039062,
+      "footerWidth": 1200,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 846,
+          "node": "section.mesa-hero.wrap",
+          "padding": "58px 0px"
+        },
+        {
+          "height": 867,
+          "node": "section.buffet-story.wrap",
+          "padding": "96px"
+        },
+        {
+          "height": 954,
+          "node": "section.service-garden",
+          "padding": "96px"
+        },
+        {
+          "height": 602,
+          "node": "section.conversation-section.wrap",
+          "padding": "96px"
+        },
+        {
+          "height": 686,
+          "node": "section.occasion-section",
+          "padding": "96px"
+        },
+        {
+          "height": 417,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "96px"
+        },
+        {
+          "height": 469,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 1440,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        },
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        },
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        }
+      ],
+      "figureWidth": 592.3784790039062,
+      "footerWidth": 1200,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 846,
+          "node": "section.mesa-hero.wrap",
+          "padding": "58px 0px"
+        },
+        {
+          "height": 867,
+          "node": "section.buffet-story.wrap",
+          "padding": "96px"
+        },
+        {
+          "height": 954,
+          "node": "section.service-garden",
+          "padding": "96px"
+        },
+        {
+          "height": 602,
+          "node": "section.conversation-section.wrap",
+          "padding": "96px"
+        },
+        {
+          "height": 686,
+          "node": "section.occasion-section",
+          "padding": "96px"
+        },
+        {
+          "height": 417,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "96px"
+        },
+        {
+          "height": 469,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 1920,
+      "overlaps": []
+    },
+    {
+      "captionClip": "none",
+      "families": [
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        },
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        },
+        {
+          "linksY": 2500.74658203125,
+          "titleY": 2385.98974609375
+        }
+      ],
+      "figureWidth": 592.3784790039062,
+      "footerWidth": 1200,
+      "height": 900,
+      "overflow": [],
+      "sections": [
+        {
+          "height": 846,
+          "node": "section.mesa-hero.wrap",
+          "padding": "58px 0px"
+        },
+        {
+          "height": 867,
+          "node": "section.buffet-story.wrap",
+          "padding": "96px"
+        },
+        {
+          "height": 954,
+          "node": "section.service-garden",
+          "padding": "96px"
+        },
+        {
+          "height": 602,
+          "node": "section.conversation-section.wrap",
+          "padding": "96px"
+        },
+        {
+          "height": 686,
+          "node": "section.occasion-section",
+          "padding": "96px"
+        },
+        {
+          "height": 417,
+          "node": "section.section.wrap.faq.home-faq",
+          "padding": "96px"
+        },
+        {
+          "height": 469,
+          "node": "section.mesa-invitation.wrap",
+          "padding": "65px"
+        }
+      ],
+      "textOverflow": [],
+      "width": 2560,
+      "overlaps": []
+    }
+  ]
+}

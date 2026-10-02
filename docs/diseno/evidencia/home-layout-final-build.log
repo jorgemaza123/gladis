@@ -1,0 +1,362 @@
+
+> sites-project@0.1.0 build
+> vite build
+
+(node:2652) ExperimentalWarning: glob is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/5] analyze client references...
+vite v8.2.2 building rsc environment for production...
+transforming...
+✓ 268 modules transformed.
+rendering chunks...
+✓ built in 1.79s
+[2/5] analyze server references...
+vite v8.2.2 building ssr environment for production...
+transforming...
+✓ 293 modules transformed.
+rendering chunks...
+✓ built in 889ms
+[3/5] build rsc environment...
+vite v8.2.2 building rsc environment for production...
+transforming...
+✓ 259 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/rsc/__vinext_cacheability_manifest.js                                                                                                0.02 kB
+node_modules/.nitro/vite/services/rsc/_next/static/css/index.BNxLs191.css                                                                                             63.16 kB │ gzip: 13.46 kB
+node_modules/.nitro/vite/services/rsc/_next/static/error-oWU7RRCr.js                                                                                                   0.20 kB │ gzip:  0.17 kB
+node_modules/.nitro/vite/services/rsc/_next/static/route-BBjY37Yg.js                                                                                                   0.35 kB │ gzip:  0.27 kB
+node_modules/.nitro/vite/services/rsc/_next/static/request-context-j6mbp4z0.js                                                                                         0.53 kB │ gzip:  0.35 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-DZx7c1ny.js                                                                                                    0.55 kB │ gzip:  0.37 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-BEF3pu4y.js                                                                                                    0.60 kB │ gzip:  0.39 kB
+node_modules/.nitro/vite/services/rsc/_next/static/rolldown-runtime-lQxo6jP8.js                                                                                        0.74 kB │ gzip:  0.44 kB
+node_modules/.nitro/vite/services/rsc/_next/static/server-DEd6MpmQ.js                                                                                                  0.83 kB │ gzip:  0.49 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-CP1CLuvH.js                                                                                                    0.86 kB │ gzip:  0.45 kB
+node_modules/.nitro/vite/services/rsc/_next/static/framework~index~page~page~page~page~page~layout~not-found~page~page~route~app-page-cache-re~elw1d4u9-DfMha0W5.js    0.89 kB │ gzip:  0.58 kB
+node_modules/.nitro/vite/services/rsc/_next/static/isr-decision-DxM6jOKe.js                                                                                            0.89 kB │ gzip:  0.42 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-static-generation-BX8cz43B.js                                                                                   0.91 kB │ gzip:  0.51 kB
+node_modules/.nitro/vite/services/rsc/_next/static/route-DZ-pG7VO.js                                                                                                   0.94 kB │ gzip:  0.61 kB
+node_modules/.nitro/vite/services/rsc/_next/static/navigation-context-state-9tEUX_5E.js                                                                                1.04 kB │ gzip:  0.52 kB
+node_modules/.nitro/vite/services/rsc/_next/static/next-error-digest-D489CTgr.js                                                                                       1.07 kB │ gzip:  0.61 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-B7BVdjiT.js                                                                                                    1.15 kB │ gzip:  0.63 kB
+node_modules/.nitro/vite/services/rsc/_next/static/root-params-IahqMc4V.js                                                                                             1.40 kB │ gzip:  0.71 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-6OpWXsPh.js                                                                                                    1.84 kB │ gzip:  0.90 kB
+node_modules/.nitro/vite/services/rsc/_next/static/cacheability-classification-DuWxHTQZ.js                                                                             1.95 kB │ gzip:  0.78 kB
+node_modules/.nitro/vite/services/rsc/_next/static/cacheability-request-CVBRwTFt.js                                                                                    1.95 kB │ gzip:  0.98 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-page-cache-render-CmvHBhx2.js                                                                                   2.29 kB │ gzip:  1.04 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-prerender-endpoints-DmHuyCAZ.js                                                                                 2.40 kB │ gzip:  0.96 kB
+node_modules/.nitro/vite/services/rsc/_next/static/seed-cache-33NoZ0SF.js                                                                                              3.37 kB │ gzip:  1.44 kB
+node_modules/.nitro/vite/services/rsc/_next/static/framework~index-DznP-Iat.js                                                                                         3.94 kB │ gzip:  1.57 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-C8Mpm1Fw.js                                                                                                    4.45 kB │ gzip:  1.86 kB
+node_modules/.nitro/vite/services/rsc/_next/static/framework~index~page~page~page~page~page~error~layout~not-found~page~page~route~app-page-ca~o8xykjrg-DGH54MhP.js    5.53 kB │ gzip:  2.31 kB
+node_modules/.nitro/vite/services/rsc/_next/static/isr-cache-Y3dTSns8.js                                                                                               6.05 kB │ gzip:  2.65 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-page-cache-9ZRUHbCn.js                                                                                          6.26 kB │ gzip:  2.12 kB
+node_modules/.nitro/vite/services/rsc/_next/static/headers-RVjPgrit.js                                                                                                 6.45 kB │ gzip:  2.54 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-CE4Jg0Vb.js                                                                                                    9.70 kB │ gzip:  3.03 kB
+node_modules/.nitro/vite/services/rsc/_next/static/cache-request-state-Bfwatkk8.js                                                                                    10.79 kB │ gzip:  3.59 kB
+node_modules/.nitro/vite/services/rsc/_next/static/public-04Yfh9rC.js                                                                                                 13.42 kB │ gzip:  4.42 kB
+node_modules/.nitro/vite/services/rsc/_next/static/text-stream-DVpxirNE.js                                                                                            21.11 kB │ gzip:  6.24 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-route-handler-dispatch-DTFXgGS_.js                                                                             34.31 kB │ gzip: 10.66 kB
+node_modules/.nitro/vite/services/rsc/_next/static/implicit-tags-DR1Wh4br.js                                                                                          42.84 kB │ gzip: 13.88 kB
+node_modules/.nitro/vite/services/rsc/_next/static/framework~index~page~page~page~error~layout~page~page~route~app-route-handler-dispatch-D-0WGRn5.js                 53.29 kB │ gzip: 16.06 kB
+node_modules/.nitro/vite/services/rsc/index.js                                                                                                                       262.02 kB │ gzip: 75.49 kB
+
+[INEFFECTIVE_DYNAMIC_IMPORT] app/not-found.tsx is dynamically imported by \0virtual:vinext-rsc-entry but also statically imported by \0virtual:vinext-rsc-entry, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] app/layout.tsx is dynamically imported by \0virtual:vinext-rsc-entry but also statically imported by \0virtual:vinext-rsc-entry, dynamic import will not move module into another chunk.
+
+✓ built in 1.18s
+[4/5] build client environment...
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 399 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/public/vinext-client-entry-manifest.json                            0.06 kB │ gzip:  0.08 kB
+.output/public/.vite/manifest.json                                          6.04 kB │ gzip:  0.86 kB
+.output/public/_next/static/css/index.BNxLs191.css                         63.16 kB │ gzip: 13.46 kB
+.output/public/_next/static/chunks/error-BtNVmDlk.js                        0.34 kB │ gzip:  0.25 kB
+.output/public/_next/static/chunks/layout-segment-context-BseET8rk.js       0.49 kB │ gzip:  0.34 kB
+.output/public/_next/static/chunks/motion-u7PdN5db.js                       0.55 kB │ gzip:  0.38 kB
+.output/public/_next/static/chunks/rolldown-runtime-hePW80VL.js             0.71 kB │ gzip:  0.42 kB
+.output/public/_next/static/chunks/quote-cta-V6W-F-XC.js                    0.77 kB │ gzip:  0.48 kB
+.output/public/_next/static/chunks/query-DugiHe4Q.js                        0.98 kB │ gzip:  0.49 kB
+.output/public/_next/static/chunks/photo-DxSI9GAm.js                        1.14 kB │ gzip:  0.71 kB
+.output/public/_next/static/chunks/service-recommendations-CwbwA_1K.js      2.24 kB │ gzip:  1.05 kB
+.output/public/_next/static/chunks/event-selection-DBEocLGO.js              3.28 kB │ gzip:  1.40 kB
+.output/public/_next/static/chunks/attribution-provider-BOJy8AGz.js         3.48 kB │ gzip:  1.56 kB
+.output/public/_next/static/chunks/quote-cart-provider-t5x0NOnk.js          4.65 kB │ gzip:  1.75 kB
+.output/public/_next/static/chunks/link-Dyq_1qce.js                        12.58 kB │ gzip:  4.83 kB
+.output/public/_next/static/chunks/hybrid-client-route-owner-BX7Ktlfe.js   19.48 kB │ gzip:  6.25 kB
+.output/public/_next/static/chunks/quote-cart-dialog-B-h-sj6V.js           62.33 kB │ gzip: 21.05 kB
+.output/public/_next/static/chunks/quote-CVZTmHkl.js                       91.94 kB │ gzip: 26.72 kB
+.output/public/_next/static/chunks/index-DZkwZfiq.js                      114.53 kB │ gzip: 33.53 kB
+.output/public/_next/static/chunks/vinext--wDiCHR3.js                     132.66 kB │ gzip: 39.76 kB
+.output/public/_next/static/chunks/framework-DTZGTDtF.js                  190.10 kB │ gzip: 59.74 kB
+
+✓ built in 1.49s
+[5/5] build ssr environment...
+vite v8.2.2 building ssr environment for production...
+transforming...
+✓ 293 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/_next/static/navigation-server-i7yJMEKD.js            0.05 kB │ gzip:  0.07 kB
+node_modules/.nitro/vite/services/ssr/_next/static/record-D4kICXU3.js                       0.09 kB │ gzip:  0.10 kB
+node_modules/.nitro/vite/services/ssr/_next/static/app-nav-failure-handler-XG1when4.js      0.16 kB │ gzip:  0.11 kB
+node_modules/.nitro/vite/services/ssr/_next/static/hybrid-client-route-owner-Dxjl-Vr8.js    0.16 kB │ gzip:  0.13 kB
+node_modules/.nitro/vite/services/ssr/_next/static/static.edge-ClGYShEa.js                  0.27 kB │ gzip:  0.20 kB
+node_modules/.nitro/vite/services/ssr/_next/static/error-klhaFQOy.js                        0.36 kB │ gzip:  0.26 kB
+node_modules/.nitro/vite/services/ssr/_next/static/jsx-runtime-Dh1h6dUp.js                  0.46 kB │ gzip:  0.32 kB
+node_modules/.nitro/vite/services/ssr/_next/static/layout-segment-context-C7TSqk4z.js       0.56 kB │ gzip:  0.37 kB
+node_modules/.nitro/vite/services/ssr/_next/static/motion-B4Va0Py4.js                       0.56 kB │ gzip:  0.39 kB
+node_modules/.nitro/vite/services/ssr/_next/static/app-prefetch-fetch-queue-qGba3LOV.js     0.60 kB │ gzip:  0.33 kB
+node_modules/.nitro/vite/services/ssr/_next/static/rolldown-runtime-lQxo6jP8.js             0.74 kB │ gzip:  0.44 kB
+node_modules/.nitro/vite/services/ssr/_next/static/streamed-icons-ClQx-mmy.js               0.75 kB │ gzip:  0.48 kB
+node_modules/.nitro/vite/services/ssr/_next/static/quote-cta-BWKxYzMm.js                    0.81 kB │ gzip:  0.49 kB
+node_modules/.nitro/vite/services/ssr/_next/static/photo-D9_cBu-J.js                        1.21 kB │ gzip:  0.74 kB
+node_modules/.nitro/vite/services/ssr/_next/static/app-router-scroll-state-DlbtuME5.js      1.26 kB │ gzip:  0.60 kB
+node_modules/.nitro/vite/services/ssr/_next/static/navigation-context-state-BusuQDYS.js     1.90 kB │ gzip:  0.73 kB
+node_modules/.nitro/vite/services/ssr/_next/static/service-recommendations-2qWAjT0D.js      2.27 kB │ gzip:  1.07 kB
+node_modules/.nitro/vite/services/ssr/_next/static/app-router-scroll-Ac2hGSTR.js            2.42 kB │ gzip:  1.12 kB
+node_modules/.nitro/vite/services/ssr/_next/static/navigation-errors-CcROvpPQ.js            2.47 kB │ gzip:  1.06 kB
+node_modules/.nitro/vite/services/ssr/_next/static/event-selection-BXz1ag9t.js              3.34 kB │ gzip:  1.43 kB
+node_modules/.nitro/vite/services/ssr/_next/static/attribution-provider-BFtb8UVI.js         3.61 kB │ gzip:  1.60 kB
+node_modules/.nitro/vite/services/ssr/_next/static/react-dom-LuAAIZJ-.js                    3.62 kB │ gzip:  1.38 kB
+node_modules/.nitro/vite/services/ssr/_next/static/quote-cart-provider-Bdpeg7EB.js          4.72 kB │ gzip:  1.78 kB
+node_modules/.nitro/vite/services/ssr/_next/static/error-boundary-3lFWupSh.js               5.88 kB │ gzip:  1.82 kB
+node_modules/.nitro/vite/services/ssr/_next/static/react-Ceq1z7Bl.js                        7.29 kB │ gzip:  2.81 kB
+node_modules/.nitro/vite/services/ssr/_next/static/link-CvrEx2cr.js                         9.83 kB │ gzip:  4.10 kB
+node_modules/.nitro/vite/services/ssr/_next/static/quote-DSqrQECl.js                       10.81 kB │ gzip:  4.26 kB
+node_modules/.nitro/vite/services/ssr/_next/static/app-elements-Bsx6HbB4.js                11.52 kB │ gzip:  3.64 kB
+node_modules/.nitro/vite/services/ssr/_next/static/navigation-D-YC0xFO.js                  56.15 kB │ gzip: 16.76 kB
+node_modules/.nitro/vite/services/ssr/_next/static/quote-cart-dialog-CtFvjKpL.js           61.24 kB │ gzip: 20.77 kB
+node_modules/.nitro/vite/services/ssr/index.js                                            264.87 kB │ gzip: 83.16 kB
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/default-global-error.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-ssr-entry.js, node_modules/vinext/dist/shims/error-boundary.js, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/slot.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-ssr-entry.js, dynamic import will not move module into another chunk.
+
+✓ built in 1.24s
+[nitro] i Skipping RSC (already built)
+
+[nitro] o Building [Nitro] (preset: node-server, compatibility: 2026-09-27)
+[nitro] √ Generated public .output/public
+vite v8.2.2 building nitro environment for production...
+transforming...
+✓ 226 modules transformed.
+nf3: could not resolve `traceInclude` entry "@alinea/generated" from any root
+nf3: could not resolve `traceInclude` entry "@appsignal/nodejs" from any root
+nf3: could not resolve `traceInclude` entry "@aws-sdk/client-s3" from any root
+nf3: could not resolve `traceInclude` entry "@aws-sdk/s3-presigned-post" from any root
+nf3: could not resolve `traceInclude` entry "@blockfrost/blockfrost-js" from any root
+nf3: could not resolve `traceInclude` entry "@highlight-run/node" from any root
+nf3: could not resolve `traceInclude` entry "@huggingface/transformers" from any root
+nf3: could not resolve `traceInclude` entry "@jpg-store/lucid-cardano" from any root
+nf3: could not resolve `traceInclude` entry "@libsql/client" from any root
+nf3: could not resolve `traceInclude` entry "@mikro-orm/core" from any root
+nf3: could not resolve `traceInclude` entry "@mikro-orm/knex" from any root
+nf3: could not resolve `traceInclude` entry "@node-rs/argon2" from any root
+nf3: could not resolve `traceInclude` entry "@node-rs/bcrypt" from any root
+nf3: could not resolve `traceInclude` entry "@prisma/client" from any root
+nf3: could not resolve `traceInclude` entry "@react-pdf/renderer" from any root
+nf3: could not resolve `traceInclude` entry "@sentry/profiling-node" from any root
+nf3: could not resolve `traceInclude` entry "@sparticuz/chromium" from any root
+nf3: could not resolve `traceInclude` entry "@sparticuz/chromium-min" from any root
+nf3: could not resolve `traceInclude` entry "@statsig/statsig-node-core" from any root
+nf3: could not resolve `traceInclude` entry "@swc/core" from any root
+nf3: could not resolve `traceInclude` entry "@xenova/transformers" from any root
+nf3: could not resolve `traceInclude` entry "@zenstackhq/runtime" from any root
+nf3: could not resolve `traceInclude` entry "argon2" from any root
+nf3: could not resolve `traceInclude` entry "autoprefixer" from any root
+nf3: could not resolve `traceInclude` entry "aws-crt" from any root
+nf3: could not resolve `traceInclude` entry "bcrypt" from any root
+nf3: could not resolve `traceInclude` entry "better-sqlite3" from any root
+nf3: could not resolve `traceInclude` entry "canvas" from any root
+nf3: could not resolve `traceInclude` entry "chromadb-default-embed" from any root
+nf3: could not resolve `traceInclude` entry "config" from any root
+nf3: could not resolve `traceInclude` entry "cpu-features" from any root
+nf3: could not resolve `traceInclude` entry "cypress" from any root
+nf3: could not resolve `traceInclude` entry "dd-trace" from any root
+nf3: could not resolve `traceInclude` entry "eslint" from any root
+nf3: could not resolve `traceInclude` entry "express" from any root
+nf3: could not resolve `traceInclude` entry "firebase-admin" from any root
+nf3: could not resolve `traceInclude` entry "htmlrewriter" from any root
+nf3: could not resolve `traceInclude` entry "import-in-the-middle" from any root
+nf3: could not resolve `traceInclude` entry "isolated-vm" from any root
+nf3: could not resolve `traceInclude` entry "jest" from any root
+nf3: could not resolve `traceInclude` entry "jsdom" from any root
+nf3: could not resolve `traceInclude` entry "keyv" from any root
+nf3: could not resolve `traceInclude` entry "libsql" from any root
+nf3: could not resolve `traceInclude` entry "mdx-bundler" from any root
+nf3: could not resolve `traceInclude` entry "mongodb" from any root
+nf3: could not resolve `traceInclude` entry "mongoose" from any root
+nf3: could not resolve `traceInclude` entry "newrelic" from any root
+nf3: could not resolve `traceInclude` entry "next-mdx-remote" from any root
+nf3: could not resolve `traceInclude` entry "next-seo" from any root
+nf3: could not resolve `traceInclude` entry "node-cron" from any root
+nf3: could not resolve `traceInclude` entry "node-pty" from any root
+nf3: could not resolve `traceInclude` entry "node-web-audio-api" from any root
+nf3: could not resolve `traceInclude` entry "onnxruntime-node" from any root
+nf3: could not resolve `traceInclude` entry "oslo" from any root
+nf3: could not resolve `traceInclude` entry "pg" from any root
+nf3: could not resolve `traceInclude` entry "pino" from any root
+nf3: could not resolve `traceInclude` entry "pino-pretty" from any root
+nf3: could not resolve `traceInclude` entry "pino-roll" from any root
+nf3: could not resolve `traceInclude` entry "playwright" from any root
+nf3: could not resolve `traceInclude` entry "playwright-core" from any root
+nf3: could not resolve `traceInclude` entry "prettier" from any root
+nf3: could not resolve `traceInclude` entry "prisma" from any root
+nf3: could not resolve `traceInclude` entry "puppeteer" from any root
+nf3: could not resolve `traceInclude` entry "puppeteer-core" from any root
+nf3: could not resolve `traceInclude` entry "ravendb" from any root
+nf3: could not resolve `traceInclude` entry "require-in-the-middle" from any root
+nf3: could not resolve `traceInclude` entry "rimraf" from any root
+nf3: could not resolve `traceInclude` entry "sharp" from any root
+nf3: could not resolve `traceInclude` entry "shiki" from any root
+nf3: could not resolve `traceInclude` entry "sqlite3" from any root
+nf3: could not resolve `traceInclude` entry "thread-stream" from any root
+nf3: could not resolve `traceInclude` entry "ts-morph" from any root
+nf3: could not resolve `traceInclude` entry "ts-node" from any root
+nf3: could not resolve `traceInclude` entry "vscode-oniguruma" from any root
+nf3: could not resolve `traceInclude` entry "websocket" from any root
+nf3: could not resolve `traceInclude` entry "zeromq" from any root
+i Tracing dependencies:
+- postcss (8.5.28)
+- typescript (5.9.3)
+- webpack (5.110.3)
+- nanoid (3.3.18)
+- picocolors (1.1.1)
+- source-map-js (1.2.1)
+- neo-async (2.6.2)
+- webpack-sources (3.5.1)
+- schema-utils (4.3.3)
+- tapable (2.3.3)
+- graceful-fs (4.2.11)
+- enhanced-resolve (5.24.5)
+- chrome-trace-event (1.0.4)
+- es-module-lexer (2.3.2)
+- acorn (8.18.0)
+- watchpack (2.5.2)
+- mime-db (1.54.0)
+- @webassemblyjs/ast (1.14.1)
+- @webassemblyjs/wasm-parser (1.14.1)
+- source-map-support (0.5.21)
+- minimizer-webpack-plugin (5.10.0)
+- @webassemblyjs/wasm-edit (1.14.1)
+- ajv-formats (2.1.1)
+- ajv-keywords (5.1.0)
+- ajv (8.20.0)
+- source-map (0.6.1)
+- browserslist (4.28.9)
+- jest-worker (27.5.1)
+- buffer-from (1.1.2)
+- @jridgewell/trace-mapping (0.3.31)
+- @webassemblyjs/utf8 (1.13.2)
+- @webassemblyjs/ieee754 (1.13.2)
+- @webassemblyjs/helper-api-error (1.13.2)
+- @webassemblyjs/leb128 (1.13.2)
+- @webassemblyjs/helper-wasm-bytecode (1.13.2)
+- terser (5.51.2)
+- lightningcss (1.31.1)
+- @webassemblyjs/helper-numbers (1.13.2)
+- esbuild (0.28.1)
+- @webassemblyjs/wasm-opt (1.14.1)
+- @webassemblyjs/helper-buffer (1.14.1)
+- @webassemblyjs/helper-wasm-section (1.14.1)
+- @webassemblyjs/wasm-gen (1.14.1)
+- baseline-browser-mapping (2.11.21)
+- electron-to-chromium (1.5.425)
+- node-releases (2.0.54)
+- caniuse-lite (1.0.30001810)
+- fast-uri (3.1.7)
+- json-schema-traverse (1.0.0)
+- fast-deep-equal (3.1.3)
+- @jridgewell/sourcemap-codec (1.6.0)
+- @jridgewell/resolve-uri (3.1.2)
+- detect-libc (2.1.2)
+- @jridgewell/source-map (0.3.11)
+- @xtuc/ieee754 (1.2.0)
+- @webassemblyjs/floating-point-hex-parser (1.13.2)
+- @xtuc/long (4.2.2)
+- supports-color (8.1.1)
+- merge-stream (2.0.0)
+- @jridgewell/gen-mapping (0.3.13)
+- has-flag (4.0.0)
+- @esbuild/win32-x64 (0.28.1)
+- lightningcss-win32-x64-msvc (1.31.1)
+√ Traced 63 dependencies (1210 files) in 11713ms.
+i Ensure your production environment matches the builder OS and architecture (win32-x64) to avoid native module issues.
+rendering chunks...
+computing gzip size...
+.output/server/_ssr/app-nav-failure-handler-XG1when4.mjs                                                                                 0.06 kB │ gzip:   0.06 kB
+.output/server/_ssr/hybrid-client-route-owner-Dxjl-Vr8.mjs                                                                               0.16 kB │ gzip:   0.13 kB
+.output/server/_runtime.mjs                                                                                                              0.17 kB │ gzip:   0.16 kB
+.output/server/_ssr/error-oWU7RRCr.mjs                                                                                                   0.17 kB │ gzip:   0.15 kB
+.output/server/_ssr/static.edge-ClGYShEa.mjs                                                                                             0.25 kB │ gzip:   0.18 kB
+.output/server/_ssr/error-klhaFQOy.mjs                                                                                                   0.35 kB │ gzip:   0.25 kB
+.output/server/_ssr/route-BBjY37Yg.mjs                                                                                                   0.35 kB │ gzip:   0.27 kB
+.output/server/_ssr/page-DZx7c1ny.mjs                                                                                                    0.42 kB │ gzip:   0.29 kB
+.output/server/_ssr/jsx-runtime-Dh1h6dUp.mjs                                                                                             0.43 kB │ gzip:   0.30 kB
+.output/server/_chunks/ssr-renderer.mjs                                                                                                  0.46 kB │ gzip:   0.29 kB
+.output/server/_ssr/page-BEF3pu4y.mjs                                                                                                    0.47 kB │ gzip:   0.31 kB
+.output/server/_ssr/layout-segment-context-C7TSqk4z.mjs                                                                                  0.47 kB │ gzip:   0.33 kB
+.output/server/_ssr/app-prefetch-fetch-queue-qGba3LOV.mjs                                                                                0.51 kB │ gzip:   0.32 kB
+.output/server/_ssr/motion-B4Va0Py4.mjs                                                                                                  0.55 kB │ gzip:   0.37 kB
+.output/server/_libs/hookable.mjs                                                                                                        0.63 kB │ gzip:   0.36 kB
+.output/server/_ssr/page-CP1CLuvH.mjs                                                                                                    0.68 kB │ gzip:   0.36 kB
+.output/server/_ssr/rolldown-runtime-lQxo6jP8.mjs                                                                                        0.70 kB │ gzip:   0.41 kB
+.output/server/_ssr/isr-decision-DxM6jOKe.mjs                                                                                            0.73 kB │ gzip:   0.35 kB
+.output/server/_ssr/streamed-icons-ClQx-mmy.mjs                                                                                          0.74 kB │ gzip:   0.47 kB
+.output/server/_ssr/quote-cta-BWKxYzMm.mjs                                                                                               0.77 kB │ gzip:   0.47 kB
+.output/server/_ssr/app-static-generation-BX8cz43B.mjs                                                                                   0.87 kB │ gzip:   0.49 kB
+.output/server/_ssr/route-DZ-pG7VO.mjs                                                                                                   0.90 kB │ gzip:   0.59 kB
+.output/server/_ssr/page-B7BVdjiT.mjs                                                                                                    0.94 kB │ gzip:   0.50 kB
+.output/server/_libs/ufo.mjs                                                                                                             1.04 kB │ gzip:   0.51 kB
+.output/server/_ssr/app-router-scroll-state-DlbtuME5.mjs                                                                                 1.05 kB │ gzip:   0.54 kB
+.output/server/_libs/floating-ui__utils.mjs                                                                                              1.17 kB │ gzip:   0.53 kB
+.output/server/_ssr/photo-D9_cBu-J.mjs                                                                                                   1.18 kB │ gzip:   0.72 kB
+.output/server/_ssr/navigation-server-i7yJMEKD.mjs                                                                                       1.55 kB │ gzip:   0.62 kB
+.output/server/_ssr/page-6OpWXsPh.mjs                                                                                                    1.56 kB │ gzip:   0.75 kB
+.output/server/_ssr/cacheability-request-CVBRwTFt.mjs                                                                                    1.80 kB │ gzip:   0.88 kB
+.output/server/_ssr/app-page-cache-render-CmvHBhx2.mjs                                                                                   1.93 kB │ gzip:   0.89 kB
+.output/server/_ssr/service-recommendations-2qWAjT0D.mjs                                                                                 2.24 kB │ gzip:   1.05 kB
+.output/server/_ssr/app-router-scroll-Ac2hGSTR.mjs                                                                                       2.25 kB │ gzip:   1.05 kB
+.output/server/_ssr/app-prerender-endpoints-DmHuyCAZ.mjs                                                                                 2.31 kB │ gzip:   0.91 kB
+.output/server/_ssr/seed-cache-33NoZ0SF.mjs                                                                                              3.24 kB │ gzip:   1.39 kB
+.output/server/_ssr/event-selection-BXz1ag9t.mjs                                                                                         3.26 kB │ gzip:   1.39 kB
+.output/server/_ssr/react-dom-LuAAIZJ-.mjs                                                                                               3.58 kB │ gzip:   1.36 kB
+.output/server/_ssr/attribution-provider-BFtb8UVI.mjs                                                                                    3.67 kB │ gzip:   1.62 kB
+.output/server/_ssr/page-C8Mpm1Fw.mjs                                                                                                    4.21 kB │ gzip:   1.74 kB
+.output/server/_ssr/quote-cart-provider-Bdpeg7EB.mjs                                                                                     4.67 kB │ gzip:   1.76 kB
+.output/server/_ssr/error-boundary-3lFWupSh.mjs                                                                                          5.67 kB │ gzip:   1.75 kB
+.output/server/_ssr/app-page-cache-9ZRUHbCn.mjs                                                                                          5.74 kB │ gzip:   1.91 kB
+.output/server/_ssr/framework~index~page~page~page~page~page~error~layout~not-found~page~page~route~app-page-ca~o8xykjrg-DGH54MhP.mjs    6.13 kB │ gzip:   2.54 kB
+.output/server/_ssr/react-Ceq1z7Bl.mjs                                                                                                   7.26 kB │ gzip:   2.79 kB
+.output/server/_ssr/page-CE4Jg0Vb.mjs                                                                                                    9.48 kB │ gzip:   2.91 kB
+.output/server/_ssr/link-CvrEx2cr.mjs                                                                                                    9.66 kB │ gzip:   4.00 kB
+.output/server/_ssr/quote-DSqrQECl.mjs                                                                                                  10.67 kB │ gzip:   4.23 kB
+.output/server/_ssr/public-04Yfh9rC.mjs                                                                                                 12.94 kB │ gzip:   4.19 kB
+.output/server/index.mjs                                                                                                                16.25 kB │ gzip:   5.46 kB
+.output/server/_libs/h3+rou3+srvx.mjs                                                                                                   19.88 kB │ gzip:   7.40 kB
+.output/server/_libs/srvx.mjs                                                                                                           21.30 kB │ gzip:   7.61 kB
+.output/server/_ssr/app-route-handler-dispatch-DTFXgGS_.mjs                                                                             32.54 kB │ gzip:  10.08 kB
+.output/server/_ssr/navigation-D-YC0xFO.mjs                                                                                             52.33 kB │ gzip:  15.84 kB
+.output/server/_ssr/quote-cart-dialog-CtFvjKpL.mjs                                                                                      61.14 kB │ gzip:  20.72 kB
+.output/server/_libs/zod.mjs                                                                                                            81.41 kB │ gzip:  22.66 kB
+.output/server/_ssr/ssr.mjs                                                                                                            289.16 kB │ gzip:  88.51 kB
+.output/server/_ssr/rsc.mjs                                                                                                            402.78 kB │ gzip: 116.02 kB
+
+✓ built in 14.09s
+[PLUGIN_TIMINGS] Plugin hooks ran for 13.5s of this 14.1s build (96%).
+The slowest hooks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - nitro:externals buildEnd (85%, 12.0s, 1 call)
+Additional hook time came from the hooks below and from hooks under 1s.
+2 hooks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - nitro:virtual-deps resolveId (29 calls)
+  - vinext:og-inline-fetch-assets resolveId (577 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+i Generated .output/nitro.json
+
+[nitro] √ You can preview this build using npx vite preview
