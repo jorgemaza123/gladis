@@ -295,6 +295,15 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - T25 — HECHO: el despliegue HTTPS anterior queda identificado como ensayo en Vercel. La recuperación se mantiene documentada en `docs/operations/release-runbook.md` desde el commit recuperable; no se ejecutó una recuperación remota para no alterar el despliegue de demostración.
 - Bloqueos que permanecen: T01, T06, T09 y T21 requieren capacidades retiradas por la arquitectura estática (D1/API/persistencia/analítica); T07, T08, T10, T12, T13, T15, T16 y T19 necesitan una oferta cotizable y relaciones comerciales confirmadas para completar sus recorridos; T18 necesita mediciones de rendimiento e imágenes reales con dimensiones/variantes; T26 necesita identidad, dominio, teléfonos, oferta, condiciones y fotos confirmadas; T27 requiere esos datos y una aceptación humana completa; T28 requiere autorización comercial de publicación y T29 depende de esos cierres.
 
+## Catálogo funcional simulado — 2026-10-01
+
+- Alcance autorizado: se creó una demostración funcional para validar bolsa, CTA, origen, responsable, recomendaciones, cobertura, fichas y rendimiento. No se presentó como catálogo real, no se cambió el número de WhatsApp existente, no se abrió WhatsApp, no se envió ningún mensaje y la demostración continúa con `demo: true` e `indexable: false`.
+- Datos: `data/demo.ts` define la marca provisional «Cocina para Celebrar», buffet como propuesta principal, menú criollo, bartender, mozos, menaje, sillas, arreglos florales, recuerdos y polos. Cada oferta cotizable declara responsable, reglas, precios de demostración, cobertura y condiciones explícitas. El buffet conserva al responsable `eventos`; el bartender conserva `cocina`, sin fallback silencioso.
+- Imágenes: se generaron con ImageGen tres fotos de muestra, se optimizaron a JPEG local de 1280 px de ancho y se guardaron en `public/images/demo/`. Sus textos alternativos, dimensiones, bytes y avisos de demostración están en la fuente. Son imágenes IA de muestra, no fotos de trabajos, personal ni inventario reales.
+- Rendimiento: `scripts/performance-assets.mjs` comprueba que las tres imágenes locales sumen como máximo 1 MB. El resultado observado fue 830,882 bytes. `npm.cmd run quality` pasó: typecheck, lint, comercio, seguridad, presupuesto de imágenes y build.
+- Recorrido local: con `npm.cmd start` se abrió `/servicios/buffet-para-eventos`; el CTA añadió el buffet a la bolsa y llevó a `/cotizar`. Se registraron datos ficticios de evento, se añadió «Mozos para atención», la bolsa conservó buffet como principal, el diálogo mostró recomendaciones y el estado persistió tras recargar. Se comprobaron foco inicial y cierre Escape. No se continuó hacia WhatsApp.
+- Estado: T07, T08, T10, T12, T13, T15, T16 y T18 quedan HECHO para la demostración funcional. T19 conserva pruebas pendientes de zoom 200 %, almacenamiento bloqueado y foto ausente. T26 sigue BLOQUEADO hasta recibir datos comerciales verdaderos; T28 no se convierte en publicación comercial sin autorización, dominio final y aceptación humana.
+
 ## Plantilla
 
 - Tarea y estado: TODO / EN_CURSO / HECHO / BLOQUEADO.
