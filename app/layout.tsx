@@ -1,5 +1,6 @@
 import './globals.css';
 import './design.css';
+import './motion.css';
 import { readSite } from '@/repositories/site';
 import { QuoteCartProvider } from '@/components/quote-cart-provider';
 import { AttributionProvider } from '@/components/attribution-provider';

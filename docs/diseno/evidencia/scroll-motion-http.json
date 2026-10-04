@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-04T14:16:36.145Z",
+  "origin": "http://127.0.0.1:4173",
+  "node": "v22.16.0",
+  "environment": "Production build, loopback HTTP, no throttling, same running process. HTTP timing only, not browser LCP/CLS.",
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "bytes": 65063
+    },
+    {
+      "route": "/servicios",
+      "status": 200,
+      "bytes": 44124
+    },
+    {
+      "route": "/menus",
+      "status": 200,
+      "bytes": 40869
+    },
+    {
+      "route": "/complementos",
+      "status": 200,
+      "bytes": 60057
+    },
+    {
+      "route": "/servicios/buffet-para-eventos",
+      "status": 200,
+      "bytes": 67209
+    },
+    {
+      "route": "/menus/menu-criollo-eventos",
+      "status": 200,
+      "bytes": 50984
+    },
+    {
+      "route": "/complementos/bar-bartender",
+      "status": 200,
+      "bytes": 51013
+    },
+    {
+      "route": "/complementos/mozos-evento",
+      "status": 200,
+      "bytes": 49976
+    },
+    {
+      "route": "/complementos/menaje-evento",
+      "status": 200,
+      "bytes": 50052
+    },
+    {
+      "route": "/complementos/sillas-evento",
+      "status": 200,
+      "bytes": 50052
+    },
+    {
+      "route": "/complementos/arreglos-florales",
+      "status": 200,
+      "bytes": 50263
+    },
+    {
+      "route": "/complementos/recuerdos-evento",
+      "status": 200,
+      "bytes": 50396
+    },
+    {
+      "route": "/complementos/polos-estampados",
+      "status": 200,
+      "bytes": 50321
+    },
+    {
+      "route": "/cotizar",
+      "status": 200,
+      "bytes": 44144
+    },
+    {
+      "route": "/privacidad",
+      "status": 200,
+      "bytes": 36331
+    }
+  ],
+  "measurements": [
+    {
+      "run": 1,
+      "ttfbMs": 30.31,
+      "htmlCompleteMs": 31.7
+    },
+    {
+      "run": 2,
+      "ttfbMs": 28.81,
+      "htmlCompleteMs": 29.38
+    },
+    {
+      "run": 3,
+      "ttfbMs": 30.29,
+      "htmlCompleteMs": 30.76
+    }
+  ]
+}

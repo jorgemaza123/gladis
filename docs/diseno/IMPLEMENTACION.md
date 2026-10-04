@@ -78,3 +78,13 @@ Se añadió en `app/design.css` una composición compacta para ancho ≥961 px y
 A petición del propietario, el fondo blanco se sustituye por palo de rosa suave `#EAD4D1`. Cabecera, fondo público y footer comparten ese tono; leyendas, menú y superficies de selección usan `#F6E8E5`. Se conserva el jade y las secciones verde suave. El texto secundario pasa a `#4E605A` para conservar legibilidad; campos de entrada y textos de botones mantienen sus colores funcionales.
 
 Cambio de producto limitado a `app/design.css`. Build final exit 0 (`evidencia/palo-rosa-build.log`). Contraste calculado sobre el fondo: texto principal 8,87:1, secundario 4,72:1 y jade 4,94:1; sobre superficies claras todos superan 5,5:1. Son pares CSS comprobados, no una auditoría integral. Resultados en `palo-rosa-contraste.json`. Se confirmó el color computado de body, sitio, cabecera, footer, leyenda y texto secundario en el navegador; revisión visual en escritorio y captura `palo-rosa-portada.png`. La pestaña anterior dejó de responder y la comprobación se completó en una nueva pestaña del mismo navegador. Sin cambios de distribución, push ni publicación.
+
+### Textos cercanos y animaciones de scroll — 2026-10-04
+
+Se conservan los textos humanizados de portada, catálogo, preguntas frecuentes y cotizador: lenguaje cercano, servicios y Lima presentes, sin alterar H1, títulos SEO, rutas, precios a consulta, responsables ni atribución. La verificación anterior de textos quedó interrumpida por EPERM de Node y una limitación de Computer Use; no se toma su log como prueba aprobada. El conjunto actual sí pasó `quality` y el comprobador de 15 rutas.
+
+Se incorpora la coreografía [La mesa se prepara](ANIMACIONES.md): telón dentro de las fotos, títulos, secuencia de familias, trazos de menú/proceso e ilustración final. La profundidad nativa es opcional y solo de escritorio; móvil conserva su distribución y acorta las entradas. Contenido visible sin JS, foco que termina los efectos, preferencia reducida reactiva y limpieza de observadores incluidos. Los efectos no cambian el modelo comercial ni añaden dependencias.
+
+`npm.cmd run quality` exit 0, incluidas 12 pruebas nuevas de ciclo de vida; 15 rutas locales HTTP 200 con H1/metadatos válidos. Evidencias `evidencia/scroll-motion-quality.log` y `scroll-motion-http.json`. La revisión visual de este cambio aún no está verificada; no se afirma rendimiento de campo, aumento de cotizaciones ni aceptación móvil integral. Sin push ni despliegue.
+
+En la revisión de CSS se corrigió la especificidad del tiempo móvil y se añadió duración positiva a las timelines nativas. Build final posterior exit 0 (`evidencia/scroll-motion-final-build.log`).

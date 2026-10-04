@@ -13,9 +13,10 @@
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/security-tests.mjs",
+    "test:motion": "node scripts/motion-tests.mjs",
     "test:commerce": "node scripts/commerce-tests.mjs",
     "test:performance": "node scripts/performance-assets.mjs",
-    "quality": "npm run typecheck && npm run lint && npm run test:commerce && npm test && npm run test:performance && npm run build"
+    "quality": "npm run typecheck && npm run lint && npm run test:motion && npm run test:commerce && npm test && npm run test:performance && npm run build"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

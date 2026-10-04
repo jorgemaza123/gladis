@@ -1,0 +1,265 @@
+/* La mesa se prepara: photographic curtains, a drawn process and a final invitation.
+   HTML stays visible without JS. Effects never set layout sizes or capture scrolling. */
+@keyframes mesa-title-open {
+  from {
+    opacity: 0.45;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mesa-curtain {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}
+@keyframes mesa-lens {
+  from {
+    transform: scale(1.09);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes mesa-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes mesa-step {
+  from {
+    transform: scale(0.82);
+    background-color: var(--rose-page);
+  }
+  to {
+    transform: scale(1);
+    background-color: var(--soft);
+  }
+}
+@keyframes mesa-invitation-ink {
+  from {
+    opacity: 0.45;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mesa-depth {
+  from {
+    transform: translateY(-3%) scale(1.07);
+  }
+  to {
+    transform: translateY(3%) scale(1.07);
+  }
+}
+@keyframes mesa-process-thread {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .public-site[data-motion='on'][data-scroll-motion='ready'] {
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-duration: 900ms;
+    --motion-delay: 0ms;
+  }
+
+  /* Animate the title only: nearby copy and calls to action stay available. */
+  .public-site[data-scroll-motion='ready'] [data-reveal='heading'].arrived > h2,
+  .public-site[data-scroll-motion='ready'] h2[data-reveal='heading'].arrived {
+    animation: mesa-title-open 750ms var(--motion-ease) backwards;
+  }
+
+  /* The curtain lives inside the photo, never over its caption or adjacent text. */
+  .public-site[data-scroll-motion='ready']
+    :is(
+      [data-reveal='photograph'],
+      [data-reveal='service'],
+      .entry-card
+    ).arrived
+    .photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--motion-curtain, var(--rose-page));
+    pointer-events: none;
+    z-index: 2;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    animation: mesa-curtain var(--motion-duration) var(--motion-ease)
+      var(--motion-delay) backwards;
+  }
+  .public-site[data-scroll-motion='ready']
+    :is(
+      [data-reveal='photograph'],
+      [data-reveal='service'],
+      .entry-card
+    ).arrived
+    .photo
+    img {
+    animation: mesa-lens 1200ms var(--motion-ease) var(--motion-delay) backwards;
+  }
+  .service-garden {
+    --motion-curtain: var(--soft);
+  }
+  .occasion-section {
+    --motion-curtain: var(--surface);
+  }
+  .public-site[data-scroll-motion='ready'] .service-family:nth-child(2) {
+    --motion-delay: 90ms;
+  }
+  .public-site[data-scroll-motion='ready'] .service-family:nth-child(3) {
+    --motion-delay: 180ms;
+  }
+  .public-site[data-scroll-motion='ready'] .service-family.arrived > h3 {
+    animation: mesa-title-open 700ms var(--motion-ease) var(--motion-delay)
+      backwards;
+  }
+
+  /* Menu rules and numbered steps carry the motion through the actual buying path. */
+  .public-site[data-scroll-motion='ready'] [data-reveal='menu'],
+  .public-site[data-scroll-motion='ready'] [data-reveal='step'] {
+    position: relative;
+  }
+  .public-site[data-scroll-motion='ready'] [data-reveal='menu'].arrived::before,
+  .public-site[data-scroll-motion='ready'] [data-reveal='step'].arrived::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    height: 1px;
+    background: var(--olive);
+    transform-origin: left;
+    animation: mesa-rule 1000ms var(--motion-ease) backwards;
+    pointer-events: none;
+  }
+  .public-site[data-scroll-motion='ready'] [data-reveal='menu']::before {
+    top: -1px;
+  }
+  .public-site[data-scroll-motion='ready'] [data-reveal='step']::after {
+    bottom: -1px;
+  }
+  .public-site[data-scroll-motion='ready'] [data-reveal='step'].arrived > span {
+    animation: mesa-step 650ms var(--motion-ease) backwards;
+  }
+
+  /* The signature illustration is drawn once as the closing invitation arrives. */
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='invitation'].arrived
+    .table-drawing
+    > * {
+    animation: draw-plate 1600ms var(--motion-ease) backwards;
+  }
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='invitation'].arrived
+    h2 {
+    animation: mesa-invitation-ink 850ms var(--motion-ease) 120ms backwards;
+  }
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='invitation'].arrived
+    .button
+    > span {
+    animation: mesa-title-open 650ms var(--motion-ease) 220ms backwards;
+  }
+
+  /* Native scroll depth is progressive enhancement, with a still-image fallback. */
+  @supports (animation-timeline: view()) and
+    (animation-range: entry 0% exit 100%) {
+    @media (min-width: 961px) {
+      .public-site[data-scroll-motion='ready'] [data-depth] .photo {
+        view-timeline-name: --mesa-photo-view;
+        view-timeline-axis: block;
+      }
+      .public-site[data-scroll-motion='ready'] [data-depth].arrived .photo img {
+        animation: mesa-depth 1ms linear both;
+        animation-timeline: --mesa-photo-view;
+        animation-range: entry 0% exit 100%;
+      }
+    }
+    .public-site[data-scroll-motion='ready'] .conversation-steps {
+      position: relative;
+      view-timeline-name: --mesa-process-view;
+      view-timeline-axis: block;
+    }
+    .public-site[data-scroll-motion='ready'] .conversation-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      bottom: 46px;
+      left: 18px;
+      width: 1px;
+      background: var(--olive);
+      opacity: 0.3;
+      transform-origin: top;
+      pointer-events: none;
+      animation: mesa-process-thread 1ms linear both;
+      animation-timeline: --mesa-process-view;
+      animation-range: entry 15% cover 65%;
+    }
+    .public-site[data-scroll-motion='ready'] .conversation-steps li > span {
+      position: relative;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .public-site[data-motion='on']
+      :is(.button, .text-link, .service-family a)
+      > span[aria-hidden] {
+      display: inline-block;
+      transition: transform 250ms var(--motion-ease, ease);
+    }
+    .public-site[data-motion='on']
+      :is(.button, .text-link, .service-family a):hover
+      > span[aria-hidden] {
+      transform: translate(3px, -3px);
+    }
+    .public-site[data-motion='on'] .service-family li a {
+      transition:
+        color 200ms ease,
+        background-color 200ms ease;
+    }
+    .public-site[data-motion='on'] .service-family li a:hover {
+      background-color: #e1eee7;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .public-site[data-motion='on'][data-scroll-motion='ready'] {
+      --motion-duration: 650ms;
+    }
+    .public-site[data-scroll-motion='ready'] .service-family:nth-child(n) {
+      --motion-delay: 0ms;
+    }
+  }
+}
+
+/* Keyboard focus, restored positions and live preference changes always win. */
+.public-site[data-scroll-motion='ready'] [data-motion-settled],
+.public-site[data-scroll-motion='ready'] [data-motion-settled] *,
+.public-site[data-scroll-motion='ready'] [data-motion-settled]::before,
+.public-site[data-scroll-motion='ready'] [data-motion-settled]::after,
+.public-site[data-scroll-motion='ready'] [data-motion-settled] *::before,
+.public-site[data-scroll-motion='ready'] [data-motion-settled] *::after {
+  animation: none !important;
+}
+@media print {
+  .public-site *,
+  .public-site *::before,
+  .public-site *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

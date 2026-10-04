@@ -17,7 +17,7 @@ export type RecommendationEntry = RecommendationCandidate & {
 export function ServiceRecommendations({
   entries,
   eventTypeId,
-  heading = 'Completa tu propuesta',
+  heading = '¿Necesitas algo más para tu evento?',
 }: {
   entries: RecommendationEntry[];
   eventTypeId?: string | null;
@@ -38,8 +38,8 @@ export function ServiceRecommendations({
     <section className="service-recommendations" aria-label={heading}>
       <h2>{heading}</h2>
       <p className="field-help">
-        Puedes añadir opciones sin cambiar la oferta principal ni su
-        responsable.
+        Si alguno te sirve, añádelo a tu evento. Tu consulta seguirá llegando
+        al equipo del servicio principal.
       </p>
       <div className="service-recommendation-grid">
         {recommendations.map(({ entry, reason }) => (

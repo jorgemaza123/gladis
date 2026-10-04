@@ -56,7 +56,7 @@ function CatalogNavigation({ site }: { site: SiteContent }) {
     <nav className="catalog-navigation wrap" aria-label="Explorar propuestas">
       <p className="eyebrow">Explora</p>
       <div>
-        <h2>Encuentra el punto de partida para tu evento</h2>
+        <h2>¿Por dónde quieres empezar?</h2>
         <ul>
           {kinds.map((kind) => (
             <li key={kind}>
@@ -719,7 +719,7 @@ export function EntryDetail({
         />
         {e.faqItems.length > 0 && (
           <section className="detail-faq" aria-labelledby={`faq-${e.id}`}>
-            <h2 id={`faq-${e.id}`}>Preguntas sobre esta propuesta</h2>
+            <h2 id={`faq-${e.id}`}>Lo que quizá quieras saber</h2>
             {e.faqItems.map((item) => (
               <details key={item.id}>
                 <summary>{item.question}</summary>

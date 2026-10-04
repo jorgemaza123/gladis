@@ -287,8 +287,9 @@ export function Quote({
           {step === 1 && (
             <>
               <p>
-                Elige uno o varios servicios. El principal define quién recibe
-                tu consulta; los adicionales no cambian ese contacto.
+                Elige lo que necesitas y marca un servicio como principal:
+                su equipo recibirá tu consulta. Puedes añadir otros servicios
+                sin cambiar de contacto.
               </p>
               <div
                 className="service-picker"
@@ -318,8 +319,8 @@ export function Quote({
               </div>
               <EventSelection entries={entries} />
               <p className="field-help">
-                Las cantidades son estimadas. El precio, la disponibilidad y las
-                condiciones se confirman por WhatsApp.
+                Puedes empezar con cantidades aproximadas. Por WhatsApp
+                confirmaremos el precio, la disponibilidad y los detalles.
               </p>
             </>
           )}
@@ -343,7 +344,7 @@ export function Quote({
                 )}
                 {field(
                   'guests',
-                  'Invitados estimados',
+                  '¿Cuántos invitados esperas?',
                   'number',
                   selected.some(
                     ({ entry }) => entry.quoteConfig.guestsRequired,
@@ -352,8 +353,8 @@ export function Quote({
                 {field('budget', 'Presupuesto que tienes en mente (opcional)')}
               </div>
               <p className="field-help">
-                Atendemos todo Lima Metropolitana. Revisaremos el acceso y el
-                traslado al preparar tu propuesta.
+                Llegamos a todo Lima Metropolitana. Con el distrito y la fecha
+                podremos coordinar el traslado y el acceso al lugar.
               </p>
             </>
           )}
@@ -377,7 +378,7 @@ export function Quote({
                 </div>
                 {data.budget && (
                   <div>
-                    <dt>Presupuesto orientativo</dt>
+                    <dt>Presupuesto aproximado</dt>
                     <dd>{data.budget}</dd>
                   </div>
                 )}
@@ -421,8 +422,8 @@ export function Quote({
                 </p>
               )}
               <p className="field-help">
-                Se abrirá el mensaje para que tú decidas enviarlo. Esto aún no
-                es una reserva.
+                Podrás revisar el mensaje en WhatsApp antes de enviarlo.
+                La reserva se coordina después, al confirmar los detalles.
               </p>
               <details className="message-preview">
                 <summary>Ver el mensaje completo</summary>
@@ -461,8 +462,8 @@ export function Quote({
         </span>
         <h2>Tu celebración empieza con una conversación.</h2>
         <p>
-          Cuéntanos lo que imaginas y el presupuesto que tienes en mente. Te
-          ayudamos a explorar las opciones.
+          Si todavía estás viendo opciones, cuéntanos tu idea y el presupuesto
+          que tienes en mente. Lo vamos pensando contigo.
         </p>
         <hr />
         <p>Todos los precios se consultan por WhatsApp.</p>

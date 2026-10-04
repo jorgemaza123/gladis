@@ -105,7 +105,7 @@ const consultationPrice = (
   unit,
   minimum: null,
   conditions:
-    'Precio a consulta por WhatsApp. Disponibilidad, traslado y condiciones se confirman antes de reservar.',
+    'Consulta el precio por WhatsApp. Antes de reservar, revisamos contigo la disponibilidad, el traslado y las condiciones.',
 });
 
 const addon = (
@@ -150,7 +150,7 @@ export const demoContent: SiteContent = normalizeSite({
       servicios: {
         title: 'Buffet y menús',
         description:
-          'Cocina para compartir en bodas, cumpleaños, reuniones y eventos de trabajo en Lima Metropolitana.',
+          'Un buffet para tu boda, un menú para tu cumpleaños o un almuerzo con tu equipo. Cuéntanos qué celebras en Lima Metropolitana.',
         seo: seo(
           'Buffet y menús para eventos en Lima | Catering Gladis',
           'Explora el buffet y el menú criollo. Cuéntanos tu fecha, distrito e invitados para cotizar por WhatsApp.',
@@ -159,7 +159,7 @@ export const demoContent: SiteContent = normalizeSite({
       complementos: {
         title: 'Servicios para tu evento',
         description:
-          'Bartender, mozos, menaje, sillas, flores, recuerdos y polos. Consulta cada servicio por separado o reúne lo que necesites.',
+          'Bartender, mozos, menaje, sillas, flores, recuerdos y polos. Elige lo que te hace falta para tu evento; también puedes pedir un solo servicio.',
         seo: seo(
           'Servicios para eventos en Lima | Catering Gladis',
           'Bartender, mozos, alquiler de menaje y sillas, arreglos florales, recuerdos y polos para eventos. Precios a consulta por WhatsApp.',
@@ -173,11 +173,11 @@ export const demoContent: SiteContent = normalizeSite({
         'Imágenes referenciales generadas con IA. Cada propuesta se confirma por WhatsApp antes de reservar.',
       quoteTitle: 'Hagamos espacio para tu celebración.',
       quoteDescription:
-        'Elige lo que necesitas. Revisaremos los detalles contigo por WhatsApp.',
+        'Cuéntanos qué tienes en mente y elige lo que necesitas. Seguimos la conversación por WhatsApp.',
       inquire: 'Añadir a mi evento',
       primaryCta: 'Preparar mi evento',
       quoteAsideDescription:
-        'Todos los precios se cotizan por WhatsApp. Disponibilidad, cobertura y condiciones se confirman antes de reservar.',
+        'Te damos el precio por WhatsApp según lo que necesites. Antes de reservar, revisamos contigo la fecha, el lugar y las condiciones del servicio.',
     },
   },
   media: Object.entries(designImages)
@@ -224,7 +224,7 @@ export const demoContent: SiteContent = normalizeSite({
       'boda',
       'tipos-evento',
       'Bodas y celebraciones',
-      'Propuesta completa de buffet y complementos para celebrar.',
+      'Buffet y servicios para compartir tu boda con las personas que quieres.',
       'imagen-detalles-demo',
       { featured: false, sortOrder: 1 },
     ),
@@ -232,7 +232,7 @@ export const demoContent: SiteContent = normalizeSite({
       'cumpleanos',
       'tipos-evento',
       'Cumpleaños y reuniones familiares',
-      'Mesa compartida y atención coordinada para tu celebración.',
+      'Un buffet para reunirse en familia, celebrar un cumpleaños y compartir la mesa.',
       'imagen-buffet-demo',
       { featured: false, sortOrder: 2 },
     ),
@@ -240,7 +240,7 @@ export const demoContent: SiteContent = normalizeSite({
       'corporativo',
       'tipos-evento',
       'Eventos corporativos',
-      'Almuerzos, pausas y activaciones de equipo.',
+      'Comida y servicios para almuerzos, reuniones y eventos con tu equipo.',
       'imagen-bar-demo',
       { featured: false, sortOrder: 3 },
     ),
@@ -248,7 +248,7 @@ export const demoContent: SiteContent = normalizeSite({
       'lima-metropolitana',
       'cobertura',
       'Lima Metropolitana',
-      'Atendemos todo Lima Metropolitana. Fecha, distrito, acceso y traslado se confirman al cotizar.',
+      'Atendemos en toda Lima Metropolitana. Dinos la fecha y el distrito de tu evento para revisar juntos el acceso y el traslado.',
       'imagen-buffet-demo',
       { featured: false, sortOrder: 1 },
     ),
@@ -256,20 +256,20 @@ export const demoContent: SiteContent = normalizeSite({
       'buffet-para-eventos',
       'servicios',
       'Buffet para todo tipo de eventos',
-      'Comida para compartir, montaje y opciones según la ocasión.',
+      'Un buffet para reunir a los tuyos, con opciones de comida y montaje según lo que quieras celebrar.',
       'imagen-buffet-demo',
       {
         sortOrder: 1,
         category: 'Propuesta principal',
-        body: 'Usa este buffet como punto de partida para bodas, cumpleaños, reuniones familiares o eventos corporativos. Cotiza cada detalle por WhatsApp.',
+        body: '¿Una boda, un cumpleaños, una reunión familiar o un evento de trabajo? Cuéntanos cuántos serán y qué les gustaría comer. Armamos contigo una propuesta de buffet en Lima Metropolitana y te damos el precio por WhatsApp.',
         details: [
           'Selección de entradas, fondos y guarniciones',
           'Montaje básico según modalidad elegida',
-          'Coordinación de fecha, distrito y asistentes',
+          'Coordinamos contigo la fecha, el distrito y el número de invitados',
         ],
         excluded: [
-          'Disponibilidad, traslado y montaje especial por confirmar',
-          'Bebidas, personal y alquileres se añaden a la propuesta según necesidad',
+          'Confirmamos la disponibilidad, el traslado y cualquier montaje especial al cotizar',
+          'Puedes añadir bebidas, personal y alquileres; se cotizan por separado',
         ],
         imageIds: [
           'imagen-buffet-demo',
@@ -301,50 +301,50 @@ export const demoContent: SiteContent = normalizeSite({
             entryId: 'bar-bartender',
             priority: 1,
             eventTypeIds: [],
-            reason: 'Complementa el buffet con bebidas preparadas.',
+            reason: 'Acompaña la comida con una barra de bebidas para tus invitados.',
           },
           {
             entryId: 'mozos-evento',
             priority: 2,
             eventTypeIds: [],
-            reason: 'Añade atención durante el servicio.',
+            reason: 'Cuenta con mozos para atender las mesas o el buffet.',
           },
           {
             entryId: 'menaje-evento',
             priority: 3,
             eventTypeIds: [],
-            reason: 'Completa la presentación de la mesa.',
+            reason: 'Añade la vajilla, los cubiertos y las copas que te hagan falta.',
           },
         ],
         processSteps: [
           {
             title: 'Cuéntanos tu evento',
             description:
-              'Indica fecha, distrito, asistentes y estilo de servicio.',
+              'Dinos cuándo y dónde será, cuántos invitados esperas y cómo te gustaría servir la comida.',
           },
           {
             title: 'Ajustamos la propuesta',
             description:
-              'Revisamos menú, complementos y condiciones antes de confirmar.',
+              'Conversamos sobre el menú, los servicios que necesitas y el precio por WhatsApp.',
           },
           {
             title: 'Coordinamos el servicio',
             description:
-              'La disponibilidad y logística se validan antes de la venta.',
+              'Antes de reservar, confirmamos contigo la disponibilidad, el traslado y los detalles del servicio.',
           },
         ],
         faqItems: [
           {
             id: 'buffet-minimo',
-            question: '¿Cuál es el mínimo?',
+            question: '¿Para cuántas personas puedo pedir un buffet?',
             answer:
-              'Cuéntanos cuántas personas asistirán. Las cantidades y las condiciones se acuerdan al cotizar.',
+              'Dinos cuántos invitados esperas. Revisaremos las opciones contigo y te confirmaremos las cantidades y condiciones al cotizar.',
           },
           {
             id: 'buffet-cobertura',
             question: '¿Dónde atienden?',
             answer:
-              'Atendemos todo Lima Metropolitana. Confirma fecha, distrito, acceso y traslado al cotizar.',
+              'Atendemos en toda Lima Metropolitana. Cuéntanos la fecha y el distrito; por WhatsApp revisamos contigo el acceso al lugar y el traslado.',
           },
         ],
       },
@@ -353,7 +353,7 @@ export const demoContent: SiteContent = normalizeSite({
       'menu-criollo-eventos',
       'menus',
       'Menú criollo para compartir',
-      'Menú criollo como alternativa dentro de una propuesta de evento.',
+      'Un menú criollo para compartir en tu reunión, cumpleaños o evento de trabajo. Conversemos sobre los platos que tienes en mente.',
       'imagen-buffet-demo',
       {
         sortOrder: 2,
@@ -371,7 +371,7 @@ export const demoContent: SiteContent = normalizeSite({
       'bar-bartender',
       'complementos',
       'Bartender y barra de bebidas',
-      'Servicio de barra para acompañar una recepción o celebración.',
+      'Un bartender y una barra de bebidas para acompañar tu celebración. Cuéntanos qué te gustaría ofrecer a tus invitados.',
       'imagen-bar-demo',
       {
         sortOrder: 1,
@@ -390,7 +390,7 @@ export const demoContent: SiteContent = normalizeSite({
     addon(
       'mozos-evento',
       'Mozos para atención',
-      'Personal de atención para servicio en mesa, buffet o recepción.',
+      'Mozos para atender a tus invitados en las mesas, el buffet o la recepción de tu evento.',
       2,
       1,
       'eventos',
@@ -399,7 +399,7 @@ export const demoContent: SiteContent = normalizeSite({
     addon(
       'menaje-evento',
       'Alquiler de menaje',
-      'Vajilla, cubiertos y cristalería para presentar la mesa.',
+      'Alquiler de vajilla, cubiertos y copas para tu evento. Cuéntanos qué necesitas para poner la mesa.',
       3,
       20,
       'cocina',
@@ -408,7 +408,7 @@ export const demoContent: SiteContent = normalizeSite({
     addon(
       'sillas-evento',
       'Alquiler de sillas',
-      'Sillas para invitados como complemento del evento.',
+      'Alquiler de sillas para reunir a tus invitados. Dinos cuántas necesitas y dónde será tu evento.',
       4,
       20,
       'eventos',
@@ -417,7 +417,7 @@ export const demoContent: SiteContent = normalizeSite({
     addon(
       'arreglos-florales',
       'Arreglos florales',
-      'Arreglos florales para mesas y recepción.',
+      'Arreglos florales para dar tu toque a las mesas y la recepción. Cuéntanos los colores y el estilo que te gustan.',
       5,
       1,
       'eventos',
@@ -426,7 +426,7 @@ export const demoContent: SiteContent = normalizeSite({
     addon(
       'recuerdos-evento',
       'Recuerdos para invitados',
-      'Detalles para acompañar un evento.',
+      'Recuerdos para que tus invitados se lleven un detalle de tu celebración. Conversemos sobre la idea que tienes en mente.',
       6,
       20,
       'eventos',
@@ -435,7 +435,7 @@ export const demoContent: SiteContent = normalizeSite({
     addon(
       'polos-estampados',
       'Polos estampados para eventos',
-      'Polos para equipos, activaciones o recuerdos.',
+      'Polos estampados para tu equipo, una activación o una celebración. Cuéntanos tu idea y cuántos necesitas.',
       7,
       10,
       'eventos',
@@ -445,7 +445,7 @@ export const demoContent: SiteContent = normalizeSite({
       'nosotros',
       'paginas',
       'Cocinamos para celebrar',
-      'Reunimos buffet, atención y detalles para eventos de distintas escalas.',
+      'Cocinamos para que compartas la mesa con los tuyos. Además del buffet, puedes elegir los servicios y detalles que necesites para tu evento.',
       'imagen-buffet-demo',
       {
         sortOrder: 1,
@@ -463,7 +463,7 @@ export const demoContent: SiteContent = normalizeSite({
       type: 'hero',
       title: 'Buffet y detalles para celebrar cualquier evento',
       description:
-        'Catering, barra, atención y complementos para una propuesta completa en Lima Metropolitana.',
+        'Catering, barra y servicios para tu evento en Lima Metropolitana. Cuéntanos qué celebras y armemos juntos tu propuesta.',
       imageId: 'imagen-buffet-demo',
       visible: true,
       sortOrder: 0,
@@ -477,7 +477,7 @@ export const demoContent: SiteContent = normalizeSite({
       type: 'servicios',
       title: 'El buffet es nuestro punto de partida.',
       description:
-        'Elige una propuesta principal y añade lo que tu evento necesita.',
+        'Empieza por la comida que quieres compartir y añade lo que necesites para tu celebración.',
       imageId: '',
       visible: true,
       sortOrder: 1,
@@ -499,7 +499,7 @@ export const demoContent: SiteContent = normalizeSite({
       type: 'texto',
       title: 'Una sola propuesta, varios detalles.',
       description:
-        'La disponibilidad, el traslado y las condiciones se coordinan por WhatsApp antes de reservar.',
+        'Cuéntanos tu idea por WhatsApp. Antes de reservar, revisamos contigo la disponibilidad, el traslado y las condiciones.',
       imageId: 'imagen-detalles-demo',
       visible: true,
       sortOrder: 3,
@@ -509,7 +509,7 @@ export const demoContent: SiteContent = normalizeSite({
       type: 'faq',
       title: 'Preguntas frecuentes',
       description:
-        'Resolvemos los detalles de tu evento al momento de cotizar.',
+        'Quizá te estés preguntando esto antes de empezar. Si te queda alguna duda, conversemos por WhatsApp.',
       imageId: '',
       visible: true,
       sortOrder: 4,
@@ -532,19 +532,19 @@ export const demoContent: SiteContent = normalizeSite({
       id: 'cobertura',
       question: '¿Dónde atienden?',
       answer:
-        'Atendemos todo Lima Metropolitana. Confirma la fecha, distrito, acceso y traslado por WhatsApp.',
+        'Atendemos en toda Lima Metropolitana. Dinos la fecha y el distrito de tu evento; revisamos contigo el acceso al lugar y el traslado por WhatsApp.',
     },
     {
       id: 'invitados',
       question: '¿Para cuántas personas puedo cotizar?',
       answer:
-        'Cuéntanos cuántas personas asistirán y el presupuesto que tienes en mente. Revisaremos las opciones y condiciones contigo.',
+        'Cuéntanos cuántos invitados esperas y qué presupuesto tienes en mente. Con esos datos, revisamos las opciones y te confirmamos las cantidades y condiciones por WhatsApp.',
     },
     {
       id: 'incluye',
       question: '¿El buffet incluye barra, mozos o alquileres?',
       answer:
-        'Son complementos independientes. Puedes añadirlos sin cambiar la propuesta principal ni su responsable.',
+        'Se cotizan por separado. Puedes añadir bartender, mozos, menaje, sillas u otros servicios a tu evento. Antes de reservar, te confirmamos qué incluye cada uno y su precio.',
     },
   ],
 });

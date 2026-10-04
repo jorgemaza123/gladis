@@ -11,6 +11,8 @@ Hero ajustado también a la altura disponible: en escritorio bajo conserva dos c
 
 Paleta vigente tras la petición del propietario: **palo de rosa `#EAD4D1` y jade**, sustituyendo el fondo blanco inicial. Superficies claras `#F6E8E5`, texto secundario ajustado por contraste, build y revisión visual local completados. Evidencia en [el informe](../diseno/IMPLEMENTACION.md#fondo-palo-de-rosa--2026-10-02).
 
+Actualización local del 2026-10-04: textos más cercanos y [animaciones de scroll](../diseno/ANIMACIONES.md) aplicados. `quality` exit 0 con 12 pruebas nuevas de movimiento; 15 rutas, H1 y metadatos comprobados. Vista previa en 4173. La validación visual de esta coreografía sigue pendiente; no se cierran por ello los pendientes humanos de T19/T27. Sin push ni publicación.
+
 | Tarea | Estado | Evidencia / bloqueo |
 |---|---|---|
 | [01](01-base-y-pruebas-seguras.md) Fijar base reproducible y aislar pruebas mutantes | BLOQUEADO | El alcance original dependía de D1 y API. La web estática usa ahora typecheck, lint, pruebas de comercio/arquitectura y build; rediseñar esta tarea antes de reabrirla. |

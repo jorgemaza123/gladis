@@ -46,14 +46,14 @@ export function QuoteCartDialog({
               </Dialog.Close>
             </div>
             <Dialog.Description>
-              Revisa los servicios que quieres consultar. El principal define
-              quién te atenderá.
+              Aquí están los servicios que elegiste. El equipo de tu servicio
+              principal recibirá la consulta.
             </Dialog.Description>
             {!restored && <p>Preparando tu selección…</p>}
             {restoreNotice && <p className="notice">{restoreNotice}</p>}
             {!cart.items.length ? (
               <div className="quote-cart-empty">
-                <p>Aquí reuniremos lo que necesitas para celebrar.</p>
+                <p>¿Empezamos? Añade los servicios que te interesan.</p>
                 <Link className="text-link" href="/cotizar">
                   Elegir mis servicios
                 </Link>
@@ -84,7 +84,7 @@ export function QuoteCartDialog({
                   : 'Continuar con mi evento'}
               </Link>
               <Dialog.Close className="text-link" type="button">
-                Seguir explorando
+                Seguir viendo servicios
               </Dialog.Close>
             </div>
           </Dialog.Popup>

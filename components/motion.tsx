@@ -1,27 +1,11 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { observeScrollMotion } from '@/lib/scroll-motion';
 export function Motion({ enabled }: { enabled: boolean }) {
+  const anchor = useRef<HTMLSpanElement>(null);
   useEffect(() => {
-    if (
-      !enabled ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-      !('IntersectionObserver' in window)
-    )
-      return;
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('arrived');
-            observer.unobserve(entry.target);
-          }
-        }),
-      { threshold: 0.08 },
-    );
-    document
-      .querySelectorAll('.public-site [data-reveal]')
-      .forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const root = anchor.current?.closest<HTMLElement>('.public-site');
+    if (enabled && root) return observeScrollMotion(root);
   }, [enabled]);
-  return null;
+  return <span ref={anchor} hidden aria-hidden="true" />;
 }

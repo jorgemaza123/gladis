@@ -1094,7 +1094,7 @@ body {
   padding: 12px;
   min-height: 44px;
 }
-/* One entrance on the home page; interactions respond, content never depends on animation. */
+/* Base entrances and interactions. Scroll choreography lives in motion.css. */
 .public-site[data-motion='on'] .arrived {
   animation: none;
 }

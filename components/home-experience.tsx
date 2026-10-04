@@ -31,20 +31,20 @@ export function HomeExperience({ site }: { site: SiteContent }) {
     {
       title: 'Para atender y brindar',
       description:
-        'La compañía se disfruta más cuando alguien se ocupa de los detalles.',
+        'Para servir la comida, preparar los tragos y atender a tus invitados.',
       image: 'imagen-bar-demo',
       ids: ['bar-bartender', 'mozos-evento'],
     },
     {
       title: 'Para poner la mesa',
-      description:
-        'Elige el menaje y las sillas que acompañarán a tus invitados.',
+      description: 'Menaje y sillas para que todos tengan su lugar en la mesa.',
       image: 'imagen-menaje',
       ids: ['menaje-evento', 'sillas-evento'],
     },
     {
       title: 'Para hacerlo tuyo',
-      description: 'Flores, recuerdos y detalles que hablan de tu celebración.',
+      description:
+        'Flores, recuerdos y polos con ese detalle que tienes en mente.',
       image: 'imagen-detalles-demo',
       ids: ['arreglos-florales', 'recuerdos-evento', 'polos-estampados'],
     },
@@ -59,8 +59,8 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           </p>
           <h1 id="home-title">Cocinamos para que disfrutes tu celebración.</h1>
           <p className="lead">
-            Buffet, buena compañía y todo lo que necesitas para reunir a los
-            tuyos.
+            Tú reúne a los tuyos. Nosotros ponemos el buffet y te ayudamos con
+            los detalles.
           </p>
           <div className="actions">
             <QuoteCta
@@ -71,7 +71,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
               Quiero cotizar un buffet <span aria-hidden="true">↗</span>
             </QuoteCta>
             <Link className="text-link" href="#servicios">
-              Explorar los servicios
+              Ver los servicios
             </Link>
           </div>
           <div className="hero-personal-note">
@@ -79,7 +79,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
             <p>
               Una mesa para todos.
               <br />
-              <span>Una propuesta pensada contigo.</span>
+              <span>Lo planeamos contigo.</span>
             </p>
           </div>
         </div>
@@ -95,7 +95,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           </figcaption>
         </figure>
         <Link className="text-link mesa-mobile-explore" href="#servicios">
-          Explorar los servicios
+          Ver los servicios
         </Link>
         <div className="hero-bottom">
           <p>
@@ -103,26 +103,25 @@ export function HomeExperience({ site }: { site: SiteContent }) {
             <br />a ese día que tanto esperas.
           </p>
           <Link href="#la-mesa" className="scroll-cue">
-            <span aria-hidden="true">↓</span> Descubre tu próxima celebración
+            <span aria-hidden="true">↓</span> Empecemos por el buffet
           </Link>
           <p>
             Todo Lima Metropolitana
             <br />
-            Precios a consulta por WhatsApp
+            Consulta precios por WhatsApp
           </p>
         </div>
       </section>
       <section className="buffet-story wrap" id="la-mesa">
-        <div className="story-heading">
+        <div className="story-heading" data-reveal="heading">
           <p className="section-kicker">Empecemos por la comida</p>
           <h2>
-            Las mejores conversaciones{' '}
-            <br />
-            suceden alrededor de una mesa.
+            Un buen buffet <br />
+            para sentarse a compartir.
           </h2>
         </div>
         <div className="buffet-composition">
-          <figure className="buffet-image">
+          <figure className="buffet-image" data-reveal="photograph" data-depth>
             <Photo
               asset={photo('imagen-buffet-demo')}
               sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 960px) calc(100vw - 64px), (max-width: 1296px) 50vw, 580px"
@@ -131,10 +130,10 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           </figure>
           <div className="buffet-options">
             <p>
-              No hay dos celebraciones iguales. Cuéntanos la ocasión, cuántos
-              serán y el presupuesto que tienes en mente.
+              ¿Qué vas a celebrar y cuántos serán? Cuéntanos qué te gustaría
+              servir y cuánto tienes pensado invertir.
             </p>
-            <article>
+            <article data-reveal="menu">
               <h3>Buffet para tu evento</h3>
               <p>
                 Entradas, fondos y guarniciones para bodas, cumpleaños,
@@ -144,11 +143,11 @@ export function HomeExperience({ site }: { site: SiteContent }) {
                 Conocer el buffet <span aria-hidden="true">↗</span>
               </Link>
             </article>
-            <article>
+            <article data-reveal="menu">
               <h3>El sabor de un menú criollo</h3>
               <p>
-                Una alternativa para quienes quieren poner nuestros sabores al
-                centro de la celebración.
+                Los sabores criollos que nos gusta compartir, también en ese día
+                especial.
               </p>
               <Link className="text-link" href="/menus/menu-criollo-eventos">
                 Ver el menú criollo <span aria-hidden="true">↗</span>
@@ -159,20 +158,23 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       </section>
       <section className="service-garden" id="servicios">
         <div className="wrap">
-          <div className="garden-heading">
+          <div className="garden-heading" data-reveal="heading">
             <h2>
-              Lo que hace{' '}
-              <br />
-              completo tu evento.
+              Además del buffet, <br />
+              lo que tu evento necesita.
             </h2>
             <p>
-              Empieza por lo que necesitas. Puedes consultar cada servicio por
-              separado o reunir varios en tu evento.
+              ¿También necesitas mozos, sillas o flores? Puedes pedir un solo
+              servicio o combinar varios. Tú eliges.
             </p>
           </div>
           <div className="service-families">
             {families.map((family) => (
-              <article className="service-family" key={family.title}>
+              <article
+                className="service-family"
+                key={family.title}
+                data-reveal="service"
+              >
                 <Photo
                   asset={photo(family.image)}
                   sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 960px) 45vw, (max-width: 1296px) 33vw, 380px"
@@ -198,7 +200,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
         </div>
       </section>
       <section className="conversation-section wrap" id="como-cotizar">
-        <div>
+        <div data-reveal="heading">
           <p className="section-kicker">De la idea a tu celebración</p>
           <h2>
             Lo conversamos.
@@ -212,33 +214,33 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           </QuoteCta>
         </div>
         <ol className="conversation-steps">
-          <li>
+          <li data-reveal="step">
             <span>1</span>
             <div>
               <h3>Elige lo que necesitas</h3>
               <p>
-                Reúne tus servicios en Mi evento. Elige uno como principal y
-                ajusta las cantidades.
+                Añade los servicios a Mi evento y dinos las cantidades
+                aproximadas. Marca el principal para saber quién te atenderá.
               </p>
             </div>
           </li>
-          <li>
+          <li data-reveal="step">
             <span>2</span>
             <div>
               <h3>Cuéntanos tu idea</h3>
               <p>
-                Fecha, distrito, invitados y presupuesto. Con esos detalles
-                podemos empezar.
+                Dinos la fecha, el distrito y cuántos invitados esperas. Si ya
+                tienes un presupuesto en mente, también puedes contárnoslo.
               </p>
             </div>
           </li>
-          <li>
+          <li data-reveal="step">
             <span>3</span>
             <div>
               <h3>Conversemos por WhatsApp</h3>
               <p>
-                Revisa tu mensaje y envíalo al responsable. Confirmamos
-                disponibilidad, precio y condiciones contigo.
+                Revisa tu mensaje y envíanoslo por WhatsApp. Allí conversamos
+                sobre precios, disponibilidad y lo que incluirá tu servicio.
               </p>
             </div>
           </li>
@@ -246,12 +248,12 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       </section>
       <section className="occasion-section">
         <div className="wrap occasion-layout">
-          <div className="occasion-photo">
+          <div className="occasion-photo" data-reveal="photograph" data-depth>
             <Photo asset={photo('imagen-sillas')} />
           </div>
           <div>
             <p className="section-kicker">Cerca de tu celebración</p>
-            <h2>
+            <h2 data-reveal="heading">
               Hay muchas razones
               <br />
               para encontrarnos.
@@ -278,18 +280,18 @@ export function HomeExperience({ site }: { site: SiteContent }) {
             <p className="coverage-note">
               Atendemos todo Lima Metropolitana.
               <br />
-              Coordinamos contigo el distrito, el acceso y el traslado.
+              Cuéntanos dónde será para coordinar cómo llegar.
             </p>
           </div>
         </div>
       </section>
       <section className="section wrap faq home-faq">
-        <div>
+        <div data-reveal="heading">
           <p className="section-kicker">Antes de empezar</p>
           <h2>
-            Hagamos las cosas
+            ¿Tienes alguna
             <br />
-            más sencillas.
+            duda?
           </h2>
         </div>
         <div>
@@ -304,18 +306,18 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           ))}
         </div>
       </section>
-      <section className="mesa-invitation wrap">
+      <section className="mesa-invitation wrap" data-reveal="invitation">
         <TableDrawing />
         <p>Tu próxima celebración</p>
         <h2>
-          Guardemos un lugar
+          ¿Qué tienes ganas
           <br />
-          para tu idea.
+          de celebrar?
         </h2>
         <p>
-          Cuéntanos qué estás imaginando.
+          Cuéntanos tu idea, aunque todavía falten detalles.
           <br />
-          Empezamos por una conversación.
+          La vamos viendo contigo.
         </p>
         <QuoteCta className="button light" placement="footer">
           Preparar mi evento <span aria-hidden="true">↗</span>
