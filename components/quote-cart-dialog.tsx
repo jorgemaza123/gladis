@@ -16,9 +16,11 @@ export type QuoteCartDialogEntry = {
 };
 export function QuoteCartDialog({
   entries,
+  motionEnabled,
 }: {
   entries: QuoteCartDialogEntry[];
   recommendationEntries: RecommendationEntry[];
+  motionEnabled: boolean;
 }) {
   const { cart, restored, restoreNotice } = useQuoteCart();
   const { recordCta } = useAttribution();
@@ -35,7 +37,11 @@ export function QuoteCartDialog({
       <Dialog.Portal>
         <Dialog.Backdrop className="quote-cart-backdrop" />
         <Dialog.Viewport className="quote-cart-viewport">
-          <Dialog.Popup className="quote-cart-dialog" initialFocus>
+          <Dialog.Popup
+            className="quote-cart-dialog"
+            data-motion={motionEnabled ? 'on' : 'off'}
+            initialFocus
+          >
             <div className="quote-cart-heading">
               <Dialog.Title>Tu evento, a tu manera</Dialog.Title>
               <Dialog.Close

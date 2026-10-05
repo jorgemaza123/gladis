@@ -13,6 +13,10 @@ Paleta vigente tras la petición del propietario: **palo de rosa `#EAD4D1` y jad
 
 Actualización local del 2026-10-04: textos más cercanos y [animaciones de scroll](../diseno/ANIMACIONES.md) aplicados. `quality` exit 0 con 12 pruebas nuevas de movimiento; 15 rutas, H1 y metadatos comprobados. Vista previa en 4173. La validación visual de esta coreografía sigue pendiente; no se cierran por ello los pendientes humanos de T19/T27. Sin push ni publicación.
 
+Ajuste del 2026-10-05: retiradas de la interfaz pública las etiquetas de IA sobre las fotografías y la frase equivalente del pie. Las galerías conservan únicamente «Imagen referencial» y el origen sigue documentado internamente. No cambia el catálogo, SEO, responsables ni las imágenes.
+
+Revisión de movimiento del 2026-10-05: los servicios pasan a tres capítulos editoriales con profundidad y giro moderados ligados al scroll en escritorio; móvil conserva tarjetas apiladas y desactiva el 3D continuo. Se separaron las capas de reveal y profundidad, se acortaron tiempos, se eliminó la repetición en FAQ y se optimizó el observador. `quality` aprobó y el recorrido local registró 59,8 FPS estimados sin cuadros mayores de 34 ms ni desbordamiento en 360/390 px. Evidencia y límites en [ANIMACIONES.md](../diseno/ANIMACIONES.md) y [scroll-motion-browser-performance.json](../diseno/evidencia/scroll-motion-browser-performance.json). No cambia los estados históricos, no se hizo push ni publicación.
+
 | Tarea | Estado | Evidencia / bloqueo |
 |---|---|---|
 | [01](01-base-y-pruebas-seguras.md) Fijar base reproducible y aislar pruebas mutantes | BLOQUEADO | El alcance original dependía de D1 y API. La web estática usa ahora typecheck, lint, pruebas de comercio/arquitectura y build; rediseñar esta tarea antes de reabrirla. |

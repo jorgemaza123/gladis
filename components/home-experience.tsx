@@ -113,7 +113,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
         </div>
       </section>
       <section className="buffet-story wrap" id="la-mesa">
-        <div className="story-heading" data-reveal="heading">
+        <div className="story-heading" data-reveal="chapter">
           <p className="section-kicker">Empecemos por la comida</p>
           <h2>
             Un buen buffet <br />
@@ -158,7 +158,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       </section>
       <section className="service-garden" id="servicios">
         <div className="wrap">
-          <div className="garden-heading" data-reveal="heading">
+          <div className="garden-heading" data-reveal="chapter">
             <h2>
               Además del buffet, <br />
               lo que tu evento necesita.
@@ -169,38 +169,47 @@ export function HomeExperience({ site }: { site: SiteContent }) {
             </p>
           </div>
           <div className="service-families">
-            {families.map((family) => (
+            {families.map((family, index) => (
               <article
                 className="service-family"
                 key={family.title}
                 data-reveal="service"
               >
-                <Photo
-                  asset={photo(family.image)}
-                  sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 960px) 45vw, (max-width: 1296px) 33vw, 380px"
-                />
-                <h3>{family.title}</h3>
-                <p>{family.description}</p>
-                <ul>
-                  {family.ids.map((id) => {
-                    const entry = site.entries.find((e) => e.id === id)!;
-                    return (
-                      <li key={id}>
-                        <Link href={`/${entry.kind}/${entry.slug}`}>
-                          <span>{entry.title}</span>
-                          <span aria-hidden="true">↗</span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="service-card">
+                  <div className="service-visual">
+                    <span className="service-number" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <Photo
+                      asset={photo(family.image)}
+                      sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 960px) 45vw, (max-width: 1296px) 52vw, 620px"
+                    />
+                  </div>
+                  <div className="service-copy">
+                    <h3>{family.title}</h3>
+                    <p>{family.description}</p>
+                    <ul>
+                      {family.ids.map((id) => {
+                        const entry = site.entries.find((e) => e.id === id)!;
+                        return (
+                          <li key={id}>
+                            <Link href={`/${entry.kind}/${entry.slug}`}>
+                              <span>{entry.title}</span>
+                              <span aria-hidden="true">↗</span>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
         </div>
       </section>
       <section className="conversation-section wrap" id="como-cotizar">
-        <div data-reveal="heading">
+        <div data-reveal="support-heading">
           <p className="section-kicker">De la idea a tu celebración</p>
           <h2>
             Lo conversamos.
@@ -248,12 +257,12 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       </section>
       <section className="occasion-section">
         <div className="wrap occasion-layout">
-          <div className="occasion-photo" data-reveal="photograph" data-depth>
+          <div className="occasion-photo" data-reveal="photograph">
             <Photo asset={photo('imagen-sillas')} />
           </div>
           <div>
             <p className="section-kicker">Cerca de tu celebración</p>
-            <h2 data-reveal="heading">
+            <h2 data-reveal="support-heading">
               Hay muchas razones
               <br />
               para encontrarnos.
@@ -286,7 +295,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
         </div>
       </section>
       <section className="section wrap faq home-faq">
-        <div data-reveal="heading">
+        <div>
           <p className="section-kicker">Antes de empezar</p>
           <h2>
             ¿Tienes alguna

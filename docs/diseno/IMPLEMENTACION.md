@@ -6,7 +6,7 @@ Fecha: 2026-10-02. Alcance autorizado por el usuario: aplicar toda la propuesta 
 
 - Palo de rosa y jade (el fondo blanco inicial fue sustituido a petición del propietario), Lora para títulos y Source Sans 3 para lectura/controles, alojadas localmente con licencias OFL. Portada centrada en comida peruana, fotografía en arco y dibujo de vajilla. Una entrada animada en portada; respuesta en botones, FAQ y diálogo. `prefers-reduced-motion` desactiva las animaciones; el contenido no depende de IntersectionObserver para aparecer.
 - Portada con buffet y menú criollo, tres familias de servicios, proceso, ocasiones, cobertura, preguntas y cierre. Los nueve servicios son descubribles. El catálogo de buffet incluye también menús; se conservan los slugs existentes.
-- Cabecera con una acción «Mi evento», navegación móvil, fichas con CTA antes del proceso y fotografías específicas. No se muestran testimonios ni eventos ficticios. Todas las imágenes nuevas se identifican como referenciales IA.
+- Cabecera con una acción «Mi evento», navegación móvil, fichas con CTA antes del proceso y fotografías específicas. No se muestran testimonios ni eventos ficticios. El origen de las imágenes nuevas permanece documentado; desde el 2026-10-05 la interfaz no muestra etiquetas de IA sobre las fotos ni en el pie.
 - Cotización en tres etapas: selección compartida, datos del evento y revisión. Sin pantalla adicional de «conversación preparada». Cantidades y opciones llegan al mensaje; el número visible y el enlace provienen del principal. Eliminarlo requiere elegir otro, sin fallback.
 - Estado compartido en el layout y navegación interna con Link para conservar la selección durante el recorrido. TTL de selección de 24 horas. Los datos del evento se restauran con un esquema propio, sin recoger nombre, teléfono ni correo.
 - Se retiran mínimos comerciales simulados. Las cantidades son estimadas y el precio se consulta por WhatsApp. Fecha, distrito e invitados se exigen según la configuración de los servicios seleccionados.
@@ -88,3 +88,20 @@ Se incorpora la coreografía [La mesa se prepara](ANIMACIONES.md): telón dentro
 `npm.cmd run quality` exit 0, incluidas 12 pruebas nuevas de ciclo de vida; 15 rutas locales HTTP 200 con H1/metadatos válidos. Evidencias `evidencia/scroll-motion-quality.log` y `scroll-motion-http.json`. La revisión visual de este cambio aún no está verificada; no se afirma rendimiento de campo, aumento de cotizaciones ni aceptación móvil integral. Sin push ni despliegue.
 
 En la revisión de CSS se corrigió la especificidad del tiempo móvil y se añadió duración positiva a las timelines nativas. Build final posterior exit 0 (`evidencia/scroll-motion-final-build.log`).
+
+## Experiencia de scroll y servicios con profundidad — 2026-10-05
+
+La revisión solicitada convierte la presentación de servicios en tres capítulos editoriales. En escritorio las fotos alternan de lado y responden al scroll con una profundidad máxima de 55 px y un giro máximo de 3,5 grados; el texto permanece frontal. Buffet conserva profundidad propia, el proceso dibuja su hilo y el cierre traza la mesa. Ocasiones y FAQ quedan como pausas para evitar una entrada repetida en todas las secciones.
+
+Se separaron marco, escena e imagen en `Photo`: la cortina pertenece al marco, la profundidad a `.photo-scene` y el zoom a `img`. Esto elimina el conflicto entre `mesa-lens` y `mesa-depth`. La cortina se prepara antes de que una foto futura entre en pantalla y ya no aparece después de haber mostrado la imagen. Las duraciones bajan a 340–980 ms en escritorio; hasta 960 px no hay 3D continuo y las entradas quedan entre 420 y 540 ms, con lente de 480 ms en móvil.
+
+El controlador de scroll corrige saltos que atraviesan una escena completa y procesa de forma incremental solo las ramas añadidas o retiradas. `data-motion-settled` ya no cancela indiscriminadamente la profundidad continua. `motionLevel: off` desactiva también la transición de FAQ y del diálogo.
+
+Verificación:
+
+- `npm.cmd run quality`: exit 0. Incluye TypeScript, lint, 12 pruebas del controlador, comercio, seguridad, presupuesto de 24 variantes JPEG y dos fuentes, y build de producción.
+- Navegador integrado, 1280 × 720: View Timelines activas y matrices distintas para foto, plano 3D y copia durante el recorrido. Composición alternada inspeccionada sin recortes.
+- Navegador integrado, 390 × 844 y 360 × 740: capa 3D desactivada, tarjetas apiladas, acciones táctiles y cero desbordamiento horizontal.
+- Recorrido completo de siete segundos en 360 × 740, 390 × 844 y 1280 × 720: 59,8 FPS estimados, p95 de 16,8 ms, ningún cuadro mayor de 34 ms, cero Long Animation Frames, tareas largas o layout shifts durante el recorrido. Datos en `evidencia/scroll-motion-browser-performance.json`.
+
+La medición se hizo en Chromium integrado, a 60 Hz, sin limitación de CPU o red. No equivale a un teléfono modesto físico, Lighthouse, Core Web Vitals de campo o aceptación en otros motores. No se afirma aumento de conversiones. El cambio permanece local, sin push ni publicación.

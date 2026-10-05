@@ -383,3 +383,20 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - `npm.cmd run quality` exit 0; tipos, lint, movimiento, comercio, seguridad, activos y build. Prueba HTTP de 15 rutas: exit 0, títulos/H1/canonical/noindex válidos. Evidencias separadas `scroll-motion-quality.log` y `scroll-motion-http.json` en `docs/diseno/evidencia/`. No se añadieron imágenes ni dependencias.
 - Build local servido en `http://127.0.0.1:4173/`. Pendiente revisión visual de la coreografía en navegador; no confundir los tests de controlador con FPS, LCP/CLS, todos los dispositivos o conversiones reales. Sin push ni publicación; estados históricos conservados.
 - Revisión CSS final: corregida la especificidad de la duración móvil a 650 ms y declarada duración positiva para las timelines nativas. Build posterior exit 0 (`scroll-motion-final-build.log`).
+
+### 2026-10-05 — Retiro de etiquetas públicas de IA
+
+- Por solicitud del propietario se elimina la etiqueta superpuesta «Imagen referencial · IA» de todas las fotografías y la frase equivalente del pie. Los captions públicos quedan como «Imagen referencial» cuando una galería los muestra.
+- El origen de los activos continúa documentado en `docs/diseno/IMAGENES-IA.md`; se conservan textos alternativos, dimensiones, variantes y archivos. No se reemplazaron imágenes ni se alteraron SEO, servicios, precios, responsables o WhatsApp.
+- `npm.cmd run build` terminó con exit 0. La portada y la ficha de buffet respondieron HTTP 200 en el servidor local y su HTML no contiene las frases públicas «Imagen referencial · IA» ni «generada con IA». Servidor de pruebas activo en `http://127.0.0.1:4173/`.
+
+### 2026-10-05 — Coreografía premium de servicios y scroll
+
+- Solicitud: corregir repetición, conflicto entre lente y profundidad, tiempos largos, jerarquía y falta de medición; presentar servicios como una experiencia elegante con 3D moderado. Se aplicó `frontend-design` sobre el código real y se conservaron los cambios previos del working tree.
+- Portada: apertura del hero más corta y escalonada; CTA completo antes de 600 ms. Buffet mantiene el primer momento de profundidad. FAQ deja de usar reveal de sección y la ocasión recibe solo una entrada breve. El cierre conserva el dibujo, reducido a 980 ms.
+- Servicios: las tres columnas simultáneas pasan a capítulos editoriales alternados. Cada foto tiene número, marco propio y un plano que avanza desde 55 px y ±3,5 grados hasta quedar frontal según el scroll. La copia permanece sin inclinación. Hasta 960 px no se ejecutan transformaciones 3D continuas.
+- Arquitectura: `Photo` separa `.photo`, `.photo-scene` e `img`; cortina, parallax y lente no compiten por `transform`. Las fotos pendientes preparan la cortina antes de llegar. El estado asentado cancela entradas puntuales sin apagar el movimiento continuo. `motionLevel: off` cubre FAQ y diálogo.
+- Controlador: salto rápido corregido y MutationObserver incremental; se recorren ramas añadidas o retiradas en lugar de consultar todas las escenas. Las 12 pruebas aisladas verifican ciclo de vida, foco, preferencias, reinserción y APIs ausentes.
+- Calidad: `npm.cmd run quality` exit 0; tipos, lint, movimiento, comercio, seguridad, activos y build. No se añadieron dependencias ni imágenes.
+- Navegador: 1280 × 720 comprobó View Timelines y matrices 3D en curso; 390 × 844 y 360 × 740 comprobaron 3D desactivado y cero desbordamiento horizontal. Un recorrido de siete segundos en esos tres tamaños midió 59,8 FPS estimados, p95 16,8 ms, cero cuadros >34 ms, Long Animation Frames, tareas largas y CLS durante el scroll. Evidencia: `docs/diseno/evidencia/scroll-motion-browser-performance.json`.
+- Límite: Chromium integrado sin throttling; no sustituye teléfono físico modesto, Lighthouse, métricas de campo, otros motores ni conversión real. Sin push, publicación, cambios comerciales, base de datos o CMS.

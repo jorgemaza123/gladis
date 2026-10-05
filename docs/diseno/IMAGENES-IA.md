@@ -1,6 +1,6 @@
 # Imágenes de la dirección «Una mesa para todos»
 
-Generadas con la herramienta ImageGen el 2026-10-02. Son escenas conceptuales, no fotografías de trabajos realizados. El sitio muestra «Imagen referencial · IA». Los originales permanecen en `C:/Users/jorge/.codex/generated_images/01a0bbbd-5b6a-7a50-a9e8-b6036c3d9a06/`; `scripts/prepare-design-images.ps1` crea copias JPEG de 480, 768 y 1280 px en `public/images/mesa/` y registra dimensiones y bytes reales en `data/design-images.json`.
+Generadas con la herramienta ImageGen el 2026-10-02. Son escenas conceptuales, no fotografías de trabajos realizados. A petición del propietario del 2026-10-05, la interfaz pública no muestra una etiqueta de IA sobre cada fotografía ni en el pie; las galerías pueden conservar la leyenda neutral «Imagen referencial». El origen permanece documentado aquí. Los originales permanecen en `C:/Users/jorge/.codex/generated_images/01a0bbbd-5b6a-7a50-a9e8-b6036c3d9a06/`; `scripts/prepare-design-images.ps1` crea copias JPEG de 480, 768 y 1280 px en `public/images/mesa/` y registra dimensiones y bytes reales en `data/design-images.json`.
 
 | Activo | Original PNG (`exec-` + identificador) | Archivo público principal |
 |---|---|---|

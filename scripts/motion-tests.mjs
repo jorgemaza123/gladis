@@ -44,6 +44,7 @@ class ElementDouble extends EventTargetDouble {
   children = [];
   parentElement = null;
   dataset = {};
+  queryCount = 0;
   classes = new Set();
   classList = {
     add: (...names) => names.forEach((name) => this.classes.add(name)),
@@ -97,6 +98,7 @@ class ElementDouble extends EventTargetDouble {
       : this.parentElement?.closest(selector) || null;
   }
   querySelectorAll(selector) {
+    this.queryCount++;
     return this.children.flatMap((child) => [
       ...(child.matches(selector) ? [child] : []),
       ...child.querySelectorAll(selector),
@@ -172,9 +174,16 @@ function environment({
     disconnect() {
       this.disconnected = true;
     }
-    flush() {
+    flush({ addedNodes = [], removedNodes = [] } = {}) {
       if (!this.disconnected)
-        this.callback([{ type: 'childList', target: this.root }]);
+        this.callback([
+          {
+            type: 'childList',
+            target: this.root,
+            addedNodes,
+            removedNodes,
+          },
+        ]);
     }
   }
   const values = {
@@ -287,10 +296,20 @@ check(
     const wrapper = new ElementDouble({ reveal: false });
     wrapper.append(future, visible);
     root.append(wrapper);
-    mutations[0].flush();
+    const initialRootQueries = root.queryCount;
+    mutations[0].flush({ addedNodes: [wrapper] });
     assert.deepEqual(intersections[0].observed, new Set([existing, future]));
     assert.equal(visible.dataset.motionSettled, 'true');
-    mutations[0].flush();
+    assert.equal(
+      root.queryCount,
+      initialRootQueries,
+      'una mutación no debe volver a consultar todas las escenas del root',
+    );
+    assert.ok(
+      wrapper.queryCount > 0,
+      'solo debe recorrerse la rama que acaba de añadirse',
+    );
+    mutations[0].flush({ addedNodes: [wrapper] });
     assert.equal(intersections[0].observed.size, 2);
   },
 );
@@ -329,7 +348,7 @@ check(
     const observer = intersections[0];
     assert.ok(observer.observed.has(scene));
     scene.remove();
-    mutations[0].flush();
+    mutations[0].flush({ removedNodes: [scene] });
     assert.equal(
       observer.observed.has(scene),
       false,
@@ -337,7 +356,7 @@ check(
     );
     assert.equal(scene.classList.contains('arrived'), false);
     root.append(scene);
-    mutations[0].flush();
+    mutations[0].flush({ addedNodes: [scene] });
     assert.ok(
       observer.observed.has(scene),
       'la misma tarjeta pendiente debe poder animarse después de reinsertarse',
@@ -364,7 +383,7 @@ check(
       boundingClientRect: target.getBoundingClientRect(),
     }));
     removed.remove();
-    mutations[0].flush();
+    mutations[0].flush({ removedNodes: [removed] });
     observer.callback(queuedEntries);
     assert.equal(removed.classList.contains('arrived'), false);
     assert.equal(removed.dataset.motionSettled, undefined);
@@ -374,19 +393,29 @@ check(
 );
 
 check(
-  'un foco ya presente o un salto por encima de una escena evita reanimarla',
+  'un foco presente y un salto rápido por encima evitan reanimar escenas',
   {},
   ({ root, start, intersections }) => {
     const focused = new ElementDouble();
     const skipped = new ElementDouble();
-    root.append(focused, skipped);
+    const below = new ElementDouble();
+    root.append(focused, skipped, below);
     start();
     focused.focused = true;
     skipped.top = -300;
     intersections[0].cross(focused);
-    intersections[0].cross(skipped);
+    intersections[0].cross(skipped, false);
+    intersections[0].cross(below, false);
     assert.equal(focused.dataset.motionSettled, 'true');
     assert.equal(skipped.dataset.motionSettled, 'true');
+    assert.equal(skipped.classList.contains('arrived'), true);
+    assert.equal(intersections[0].observed.has(skipped), false);
+    assert.equal(
+      below.classList.contains('arrived'),
+      false,
+      'una escena futura que aún no intersecta debe seguir pendiente',
+    );
+    assert.equal(intersections[0].observed.has(below), true);
   },
 );
 

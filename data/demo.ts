@@ -170,7 +170,7 @@ export const demoContent: SiteContent = normalizeSite({
       'Buffet y servicios para eventos en Lima Metropolitana. Cotiza por WhatsApp.',
     copy: {
       demoNotice:
-        'Imágenes referenciales generadas con IA. Cada propuesta se confirma por WhatsApp antes de reservar.',
+        'Imágenes referenciales. Cada propuesta se confirma por WhatsApp antes de reservar.',
       quoteTitle: 'Hagamos espacio para tu celebración.',
       quoteDescription:
         'Cuéntanos qué tienes en mente y elige lo que necesitas. Seguimos la conversación por WhatsApp.',
@@ -204,7 +204,7 @@ export const demoContent: SiteContent = normalizeSite({
           polos: 'Polos blancos y verdes para eventos',
         } as Record<string, string>
       )[name],
-      caption: 'Imagen referencial generada con IA.',
+      caption: 'Imagen referencial.',
       demo: false,
       tags: [name],
     }))
@@ -214,7 +214,7 @@ export const demoContent: SiteContent = normalizeSite({
         ...designImages.flores[2],
         variants: designImages.flores,
         alt: 'Arreglo floral blanco con follaje verde',
-        caption: 'Imagen referencial generada con IA.',
+        caption: 'Imagen referencial.',
         demo: false,
         tags: ['flores'],
       },

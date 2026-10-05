@@ -17,23 +17,28 @@ export function Photo({
   return (
     <div className="photo">
       {asset && failedUrl !== asset.url ? (
-        <img
-          src={variants?.length ? variants[variants.length - 1].url : asset.url}
-          srcSet={
-            variants?.map((v) => `${v.url} ${v.width}w`).join(', ') || undefined
-          }
-          sizes={sizes}
-          alt={asset.alt}
-          width={asset.width || 1200}
-          height={asset.height || 900}
-          style={{
-            objectPosition: `${asset.focalX ?? 50}% ${asset.focalY ?? 50}%`,
-          }}
-          loading={priority ? 'eager' : 'lazy'}
-          fetchPriority={priority ? 'high' : 'auto'}
-          decoding="async"
-          onError={() => setFailedUrl(asset.url)}
-        />
+        <span className="photo-scene">
+          <img
+            src={
+              variants?.length ? variants[variants.length - 1].url : asset.url
+            }
+            srcSet={
+              variants?.map((v) => `${v.url} ${v.width}w`).join(', ') ||
+              undefined
+            }
+            sizes={sizes}
+            alt={asset.alt}
+            width={asset.width || 1200}
+            height={asset.height || 900}
+            style={{
+              objectPosition: `${asset.focalX ?? 50}% ${asset.focalY ?? 50}%`,
+            }}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
+            decoding="async"
+            onError={() => setFailedUrl(asset.url)}
+          />
+        </span>
       ) : (
         <svg
           className="photo-empty"
@@ -52,9 +57,6 @@ export function Photo({
             ✳
           </text>
         </svg>
-      )}
-      {asset?.caption.includes('IA') && (
-        <span className="image-reference">Imagen referencial · IA</span>
       )}
     </div>
   );

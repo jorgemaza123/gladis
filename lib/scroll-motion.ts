@@ -1,5 +1,6 @@
 /** Enhances visible HTML; no content is hidden while waiting for JavaScript. */
 export function observeScrollMotion(root: HTMLElement) {
+  const revealSelector = '[data-reveal]';
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const seen = new WeakSet<HTMLElement>();
   const pending = new Set<HTMLElement>();
@@ -18,29 +19,60 @@ export function observeScrollMotion(root: HTMLElement) {
     intersection?.observe(element);
   }
 
-  function register() {
-    // Route/filter replacement must not leave detached cards retained by the observer.
-    for (const element of pending) {
-      if (!root.contains(element)) {
-        intersection?.unobserve(element);
-        pending.delete(element);
-        seen.delete(element);
+  function registerElement(element: HTMLElement, resume = false) {
+    if (seen.has(element) && !resume) return;
+    seen.add(element);
+    const bounds = element.getBoundingClientRect();
+    // Restored scroll positions and in-view route updates stay immediately readable.
+    if (
+      element.classList.contains('arrived') ||
+      bounds.top < window.innerHeight * 0.92
+    ) {
+      arrive(element, true);
+    } else {
+      observe(element);
+    }
+  }
+
+  function collectRevealElements(node: Node) {
+    if (!(node instanceof Element)) return [];
+    const elements: HTMLElement[] = [];
+    if (node.matches(revealSelector)) elements.push(node as HTMLElement);
+    node
+      .querySelectorAll<HTMLElement>(revealSelector)
+      .forEach((element) => elements.push(element));
+    return elements;
+  }
+
+  function updateMutations(records: MutationRecord[]) {
+    const removed = new Set<HTMLElement>();
+    const added = new Set<HTMLElement>();
+
+    for (const record of records) {
+      for (const node of record.removedNodes) {
+        for (const element of collectRevealElements(node)) removed.add(element);
+      }
+      for (const node of record.addedNodes) {
+        for (const element of collectRevealElements(node)) added.add(element);
       }
     }
-    root.querySelectorAll<HTMLElement>('[data-reveal]').forEach((element) => {
-      if (seen.has(element)) return;
-      seen.add(element);
-      const bounds = element.getBoundingClientRect();
-      // Restored scroll positions and in-view route updates stay immediately readable.
-      if (
-        element.classList.contains('arrived') ||
-        bounds.top < window.innerHeight * 0.92
-      ) {
-        arrive(element, true);
-      } else {
-        observe(element);
-      }
-    });
+
+    // A move within the root appears as remove + add. Keep those observations alive.
+    for (const element of removed) {
+      if (root.contains(element) || !pending.has(element)) continue;
+      intersection?.unobserve(element);
+      pending.delete(element);
+      seen.delete(element);
+    }
+    for (const element of added) {
+      if (root.contains(element)) registerElement(element);
+    }
+  }
+
+  function registerCurrent() {
+    root
+      .querySelectorAll<HTMLElement>(revealSelector)
+      .forEach((element) => registerElement(element, seen.has(element)));
   }
 
   function focus(event: FocusEvent) {
@@ -68,32 +100,23 @@ export function observeScrollMotion(root: HTMLElement) {
     intersection = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting || !root.contains(entry.target)) continue;
+          if (!root.contains(entry.target)) continue;
           const element = entry.target as HTMLElement;
-          // A fast jump past a scene never replays motion behind the reader.
-          arrive(
-            element,
-            entry.boundingClientRect.bottom <= 0 ||
-              element.matches(':focus-within'),
-          );
+          if (entry.isIntersecting) {
+            arrive(element, element.matches(':focus-within'));
+          } else if (entry.boundingClientRect.bottom <= 0) {
+            // A fast jump can cross the whole scene without ever intersecting it.
+            arrive(element, true);
+          }
         }
       },
       { threshold: 0, rootMargin: '0px 0px -8% 0px' },
     );
     root.dataset.scrollMotion = 'ready';
-    // Re-register pending nodes after a live preference change.
-    root.querySelectorAll<HTMLElement>('[data-reveal]').forEach((element) => {
-      if (!seen.has(element)) return;
-      if (
-        element.classList.contains('arrived') ||
-        element.getBoundingClientRect().top < window.innerHeight * 0.92
-      ) {
-        arrive(element, true);
-      } else observe(element);
-    });
-    register();
+    // This full scan runs only at startup or after a live preference change.
+    registerCurrent();
     if ('MutationObserver' in window) {
-      mutations = new MutationObserver(register);
+      mutations = new MutationObserver(updateMutations);
       mutations.observe(root, { childList: true, subtree: true });
     }
   }

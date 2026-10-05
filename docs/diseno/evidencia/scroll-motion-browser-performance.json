@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-05",
+  "environment": {
+    "browser": "Codex in-app Chromium",
+    "server": "Vite local development server",
+    "cpuThrottling": false,
+    "physicalDevice": false,
+    "refreshRateHz": 60
+  },
+  "method": {
+    "description": "Recorrido lineal de todo el documento mediante requestAnimationFrame dentro de un iframe visible y del mismo origen.",
+    "durationMs": 7000,
+    "metrics": [
+      "requestAnimationFrame intervals",
+      "long-animation-frame",
+      "longtask",
+      "layout-shift"
+    ],
+    "temporaryHarnessRemoved": true
+  },
+  "results": [
+    {
+      "viewport": [360, 740],
+      "scrollDistancePx": 5911,
+      "frames": 419,
+      "averageFrameMs": 16.73,
+      "estimatedFps": 59.8,
+      "p95FrameMs": 16.8,
+      "p99FrameMs": 16.8,
+      "framesOver34Ms": 0,
+      "framesOver50Ms": 0,
+      "maxFrameMs": 16.9,
+      "longAnimationFrames": 0,
+      "longTasks": 0,
+      "layoutShift": 0,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": [390, 844],
+      "scrollDistancePx": 5732,
+      "frames": 419,
+      "averageFrameMs": 16.73,
+      "estimatedFps": 59.8,
+      "p95FrameMs": 16.8,
+      "p99FrameMs": 16.8,
+      "framesOver34Ms": 0,
+      "framesOver50Ms": 0,
+      "maxFrameMs": 16.9,
+      "longAnimationFrames": 0,
+      "longTasks": 0,
+      "layoutShift": 0,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": [1280, 720],
+      "scrollDistancePx": 5405,
+      "frames": 419,
+      "averageFrameMs": 16.73,
+      "estimatedFps": 59.8,
+      "p95FrameMs": 16.8,
+      "p99FrameMs": 16.8,
+      "framesOver34Ms": 0,
+      "framesOver50Ms": 0,
+      "maxFrameMs": 16.9,
+      "longAnimationFrames": 0,
+      "longTasks": 0,
+      "layoutShift": 0
+    }
+  ],
+  "limitations": [
+    "No se aplicó limitación de CPU o red.",
+    "No se usó un teléfono físico ni un motor distinto de Chromium.",
+    "No es una medición de Core Web Vitals de campo ni una prueba de conversión.",
+    "El harness temporal se retiró de public después de registrar el resultado."
+  ]
+}

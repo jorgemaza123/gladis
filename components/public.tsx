@@ -90,6 +90,7 @@ export function Shell({
 }) {
   const s = site.settings,
     c = s.copy;
+  const motionEnabled = s.animations && s.motionLevel !== 'off';
   const navigation = publicNavigation(site);
   const quoteEntryIds = site.entries
     .filter(
@@ -128,9 +129,9 @@ export function Shell({
   return (
     <div
       className={`public-site palette-${s.palette} typography-${s.typography}`}
-      data-motion={s.animations && s.motionLevel !== 'off' ? 'on' : 'off'}
+      data-motion={motionEnabled ? 'on' : 'off'}
     >
-      <Motion enabled={s.animations && s.motionLevel !== 'off'} />
+      <Motion enabled={motionEnabled} />
       <Link className="skip" href="#contenido">
         Saltar al contenido
       </Link>
@@ -161,6 +162,7 @@ export function Shell({
         <QuoteCartDialog
           entries={quoteCartEntries}
           recommendationEntries={recommendationEntries}
+          motionEnabled={motionEnabled}
         />
         <details className="mobile-menu">
           <summary aria-label="Abrir navegación">☰</summary>
@@ -203,7 +205,6 @@ export function Shell({
         <div className="footer-bottom">
           <span>{s.tagline}</span>
           <Link href="/privacidad">Privacidad</Link>
-          <span>Imágenes referenciales generadas con IA</span>
         </div>
       </footer>
     </div>
