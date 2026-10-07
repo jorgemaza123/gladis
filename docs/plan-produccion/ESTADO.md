@@ -31,6 +31,8 @@ Recorrido posterior al hero reorganizado el 2026-10-07: las ocasiones forman un 
 
 Ajuste de continuidad del 2026-10-07: los capítulos posteriores al hero alternan palo de rosa y marfil cálido; el cierre conserva el jade. Las fotografías dejan de asentarse al tocar el borde inferior: se activan con una porción visible real, usan una cortina translúcida y una curva uniforme de 760–920 ms para que la revelación pueda percibirse. `quality` final y comprobación visual móvil aprobados; no se hizo push ni publicación.
 
+Recorrido de servicios por capas del 2026-10-07: la portada ya usa los recortes entregados por el propietario para componer cuatro capítulos —menaje, bartender, atención/montaje y detalles— con profundidad ligada al scroll en escritorio y una entrada breve en móvil. Cada capítulo conserva descripción, cobertura, precio a consulta, CTA directo al cotizador y enlaces indexables. Las 19 variantes WebP servidas suman 1.840.506 bytes y cargan de forma diferida; los originales de alta resolución quedan fuera de `public`. En Chromium se revisaron las composiciones, los fondos alternos y el ancho 360 px sin desbordamiento ni imágenes rotas. `npm.cmd run quality` terminó con exit 0. Las referencias completas de flores y personalizados no sustituyen todavía un juego separado de capas y no se presentan como escenas independientes. Sin push ni publicación.
+
 | Tarea | Estado | Evidencia / bloqueo |
 |---|---|---|
 | [01](01-base-y-pruebas-seguras.md) Fijar base reproducible y aislar pruebas mutantes | BLOQUEADO | El alcance original dependía de D1 y API. La web estática usa ahora typecheck, lint, pruebas de comercio/arquitectura y build; rediseñar esta tarea antes de reabrirla. |
@@ -65,3 +67,13 @@ Ajuste de continuidad del 2026-10-07: los capítulos posteriores al hero alterna
 
 Estados permitidos: TODO, EN_CURSO, HECHO, BLOQUEADO.
 HECHO requiere las pruebas particulares y el traspaso. BLOQUEADO requiere causa concreta; no usarlo sólo porque la tarea requiere trabajo. No borrar pendientes externos para obtener una calificación.
+
+## 2026-10-07 — Recorrido comercial del home completado
+
+- El alcance visual acordado queda implementado sin backend: el hero comunica cocina, bartender, menaje, mozos, alquileres, personalizados y flores; inmediatamente después ofrece siete accesos directos a las escenas correspondientes.
+- La portada contiene exactamente seis capítulos comerciales definidos en datos locales: Cocina, Bartender, Menaje, Atención y alquileres, Personalizados y Flores. Cada capítulo tiene ambiente propio, tres capas, texto breve, tres puntos esenciales, CTA de cotización, enlace a la ficha y controles para añadir cada oferta disponible a «Mi evento» sin abandonar el recorrido.
+- Cocina, Personalizados y Flores usan fotografías segmentadas en tres planos sincronizados; Bartender, Menaje y Atención usan los recortes transparentes entregados. El recorrido conserva carga diferida, movimiento reducido y una presentación estática legible cuando no hay View Timelines.
+- La antigua sección separada de buffet se integró en Cocina para evitar duplicar el mensaje y para mantener la alternancia de los seis capítulos solicitados.
+- Verificación: `npm.cmd run quality` terminó con exit 0 antes del último ajuste de altura e incluyó tipos, lint, 12 pruebas de movimiento, comercio, seguridad, activos y build. La prueba de activos exige seis escenas, tres capas por escena, siete accesos, listas esenciales y selección directa. La compilación posterior al ajuste responsive también terminó con exit 0.
+- Navegador local: seis escenas, 18 capas, siete accesos, cero imágenes rotas y cero desbordamiento horizontal en escritorio y móvil. «Añadir Menú criollo» incrementó «Mi evento» de 0 a 1 sin navegación. El hero y la escena Cocina fueron revisados en vista móvil y escritorio.
+- Limitación vigente: estas verificaciones no equivalen a Core Web Vitals de campo ni a una medición en teléfonos físicos modestos. No se hizo push ni despliegue.

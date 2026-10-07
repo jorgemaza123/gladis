@@ -70,6 +70,78 @@ assert.ok(
   !storySource.includes('gladys-banquet-master.mp4'),
   'The preserved master video must not be sent to visitors',
 );
+
+const homeSceneManifest = JSON.parse(
+  (await readFile('data/home-scene-assets.json', 'utf8')).replace(/^\uFEFF/, ''),
+);
+const homeSceneSource = await readFile(
+  'components/home-service-journey.tsx',
+  'utf8',
+);
+const homeSceneDataSource = await readFile(
+  'data/home-service-scenes.ts',
+  'utf8',
+);
+const homeSceneRuntimeSource = `${homeSceneSource}\n${homeSceneDataSource}`;
+let homeSceneTotal = 0;
+for (const variants of Object.values(homeSceneManifest)) {
+  for (const asset of variants) {
+    const bytes = (await stat(`public${asset.src}`)).size;
+    assert.equal(bytes, asset.bytes, `${asset.src}: metadata must match file`);
+    assert.ok(bytes <= 270000, `${asset.src} exceeds its layer budget`);
+    assert.ok(
+      homeSceneRuntimeSource.includes(asset.src),
+      `${asset.src} is not wired into the home journey`,
+    );
+    homeSceneTotal += bytes;
+  }
+}
+assert.ok(homeSceneTotal < 1900000, `Home scene layers: ${homeSceneTotal}`);
+
+const sceneKeys = [
+  'cocina',
+  'bartender',
+  'menaje',
+  'atencion',
+  'personalizados',
+  'flores',
+];
+for (const key of sceneKeys) {
+  assert.ok(
+    homeSceneDataSource.includes(`key: '${key}'`),
+    `Missing ${key} home scene`,
+  );
+  assert.ok(
+    homeSceneDataSource.includes(`anchor: 'servicio-${key}'`),
+    `Missing ${key} scene anchor`,
+  );
+}
+assert.equal(
+  (homeSceneDataSource.match(/\n    key: '(cocina|bartender|menaje|atencion|personalizados|flores)'/g) || []).length,
+  6,
+  'The journey must contain exactly six commercial scenes',
+);
+assert.equal(
+  (homeSceneDataSource.match(/essentials: \[/g) || []).length,
+  6,
+  'Every scene must expose its essentials',
+);
+assert.ok(
+  homeSceneSource.includes('mode="add"'),
+  'Scene options must be addable without leaving the journey',
+);
+const homeExperienceSource = await readFile('components/home-experience.tsx', 'utf8');
+assert.match(
+  homeExperienceSource,
+  /<StoryHero\s*\/>\s*<HomeServiceNav\s*\/>/,
+  'The compact service index must immediately follow the hero',
+);
+const homeNavSource = await readFile('components/home-service-nav.tsx', 'utf8');
+assert.ok(homeNavSource.includes('homeServiceNav.map'));
+for (const label of ['Cocina', 'Bartender', 'Menaje', 'Mozos', 'Alquileres', 'Personalizados', 'Flores'])
+  assert.ok(homeSceneDataSource.includes(`label: '${label}'`), `Missing ${label} quick link`);
+assert.ok(storySource.includes('Soluciones para celebraciones y eventos en Lima'));
+assert.ok(storySource.includes('alquileres, personalizados y flores'));
 console.log(
-  `PASS: 24 variantes JPEG con dimensiones reales: ${total} bytes; 2 fuentes locales: ${fontTotal} bytes; 4 activos runtime del relato: ${storyTotal} bytes. Esto no mide Core Web Vitals.`,
+  `PASS: 24 variantes JPEG con dimensiones reales: ${total} bytes; 2 fuentes locales: ${fontTotal} bytes; 4 activos runtime del relato: ${storyTotal} bytes; seis escenas comerciales con capas y ${homeSceneTotal} bytes de WebP lazy. Esto no mide Core Web Vitals.`,
 );

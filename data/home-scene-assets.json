@@ -1,0 +1,136 @@
+{
+  "attention/attention-back-chairs.png": [
+    {
+      "src": "/images/home-scenes/attention/attention-back-chairs-640.webp",
+      "width": 517,
+      "height": 783,
+      "bytes": 134398
+    }
+  ],
+  "attention/attention-main-service-tray.png": [
+    {
+      "src": "/images/home-scenes/attention/attention-main-service-tray-640.webp",
+      "width": 640,
+      "height": 415,
+      "bytes": 64684
+    },
+    {
+      "src": "/images/home-scenes/attention/attention-main-service-tray-1100.webp",
+      "width": 1100,
+      "height": 714,
+      "bytes": 159154
+    }
+  ],
+  "attention/attention-front-napkin-flowers-card.png": [
+    {
+      "src": "/images/home-scenes/attention/attention-front-napkin-flowers-card-640.webp",
+      "width": 640,
+      "height": 240,
+      "bytes": 32614
+    },
+    {
+      "src": "/images/home-scenes/attention/attention-front-napkin-flowers-card-1100.webp",
+      "width": 1100,
+      "height": 412,
+      "bytes": 80206
+    }
+  ],
+  "bartender/bartender-back-bottle-citrus.png": [
+    {
+      "src": "/images/home-scenes/bartender/bartender-back-bottle-citrus-640.webp",
+      "width": 640,
+      "height": 366,
+      "bytes": 69644
+    },
+    {
+      "src": "/images/home-scenes/bartender/bartender-back-bottle-citrus-1100.webp",
+      "width": 1100,
+      "height": 629,
+      "bytes": 168866
+    }
+  ],
+  "bartender/bartender-main-cocktail-tools.png": [
+    {
+      "src": "/images/home-scenes/bartender/bartender-main-cocktail-tools-640.webp",
+      "width": 640,
+      "height": 465,
+      "bytes": 80548
+    },
+    {
+      "src": "/images/home-scenes/bartender/bartender-main-cocktail-tools-1100.webp",
+      "width": 1100,
+      "height": 800,
+      "bytes": 187742
+    }
+  ],
+  "bartender/bartender-front-ice-citrus.png": [
+    {
+      "src": "/images/home-scenes/bartender/bartender-front-ice-citrus-640.webp",
+      "width": 640,
+      "height": 155,
+      "bytes": 26856
+    },
+    {
+      "src": "/images/home-scenes/bartender/bartender-front-ice-citrus-1100.webp",
+      "width": 1100,
+      "height": 266,
+      "bytes": 62808
+    }
+  ],
+  "menaje/menaje-back-serving-elements.png": [
+    {
+      "src": "/images/home-scenes/menaje/menaje-back-serving-elements-640.webp",
+      "width": 640,
+      "height": 237,
+      "bytes": 46880
+    },
+    {
+      "src": "/images/home-scenes/menaje/menaje-back-serving-elements-1100.webp",
+      "width": 1100,
+      "height": 408,
+      "bytes": 114704
+    }
+  ],
+  "menaje/menaje-main-tableware.png": [
+    {
+      "src": "/images/home-scenes/menaje/menaje-main-tableware-640.webp",
+      "width": 640,
+      "height": 373,
+      "bytes": 44246
+    },
+    {
+      "src": "/images/home-scenes/menaje/menaje-main-tableware-1100.webp",
+      "width": 1100,
+      "height": 641,
+      "bytes": 104294
+    }
+  ],
+  "menaje/menaje-front-place-setting.png": [
+    {
+      "src": "/images/home-scenes/menaje/menaje-front-place-setting-640.webp",
+      "width": 640,
+      "height": 155,
+      "bytes": 30532
+    },
+    {
+      "src": "/images/home-scenes/menaje/menaje-front-place-setting-1100.webp",
+      "width": 1100,
+      "height": 267,
+      "bytes": 73540
+    }
+  ],
+  "personalizados/personalizados-cutout-celebration-details.png": [
+    {
+      "src": "/images/home-scenes/personalizados/personalizados-cutout-celebration-details-640.webp",
+      "width": 640,
+      "height": 451,
+      "bytes": 103714
+    },
+    {
+      "src": "/images/home-scenes/personalizados/personalizados-cutout-celebration-details-1100.webp",
+      "width": 1100,
+      "height": 775,
+      "bytes": 255076
+    }
+  ]
+}

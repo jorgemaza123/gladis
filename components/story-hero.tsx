@@ -96,14 +96,17 @@ export function StoryHero() {
         <div className="story-shade" aria-hidden="true" />
         <div className="story-content wrap">
           <div className="story-chapter" data-active="true">
-            <p>Catering y eventos en Lima</p>
-            <h1 id="home-title">Hay días que merecen una mesa inolvidable.</h1>
-            <span>Comida, atención y detalles para que vivas la celebración junto a los tuyos.</span>
+            <p>Soluciones para celebraciones y eventos en Lima</p>
+            <h1 id="home-title">Tú celebra. Nosotros te ayudamos con lo que necesitas.</h1>
+            <span>
+              Cocina, bartender, menaje, mozos, alquileres, personalizados y flores.
+              Contrata un servicio o combina varios en Lima Metropolitana.
+            </span>
             <div className="story-actions">
               <QuoteCta className="button" entryId="buffet-para-eventos" placement="hero">
-                Cotizar mi evento <i aria-hidden="true">↗</i>
+                Armar mi evento <i aria-hidden="true">↗</i>
               </QuoteCta>
-              <Link href="#ocasiones">Ver posibilidades</Link>
+              <Link href="#servicios">Explorar soluciones</Link>
             </div>
           </div>
         </div>
