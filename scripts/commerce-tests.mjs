@@ -857,7 +857,19 @@ console.log(
 // Actual public catalog: all services must be independently quotable, with complete item descriptions.
 const eventSelection = await import(await moduleUrl('lib/event-selection.ts'));
 const actualEntries = demo.demoContent.entries.filter((e) => e.requestable);
-assert.equal(actualEntries.length, 9);
+assert.equal(actualEntries.length, 10);
+const occasionEntries = demo.demoContent.entries.filter(
+  (entry) => entry.kind === 'tipos-evento',
+);
+assert.equal(occasionEntries.length, 6);
+assert.equal(new Set(occasionEntries.map((entry) => entry.slug)).size, 6);
+for (const occasion of occasionEntries) {
+  assert.ok(occasion.seo.title.includes('Gladys'));
+  assert.ok(
+    occasion.serviceIds.length + occasion.menuIds.length + occasion.addOnIds.length >= 4,
+    `${occasion.id}: la página debe ofrecer varias opciones sin navegar a otro catálogo`,
+  );
+}
 for (const entry of actualEntries) {
   const item = {
     itemId: 'single',
@@ -885,6 +897,7 @@ for (const entry of actualEntries) {
       'menu-criollo-eventos',
       'bar-bartender',
       'menaje-evento',
+      'desayuno-corporativo',
     ].includes(entry.id)
       ? '51902843481'
       : '51923106197',
@@ -941,5 +954,5 @@ assert.equal(
   'never silently truncate selected options',
 );
 console.log(
-  'PASS: nueve servicios independientes, cantidades/opciones completas, validación y contactos reales.',
+  'PASS: diez servicios independientes y seis ocasiones, cantidades/opciones completas, validación y contactos reales.',
 );

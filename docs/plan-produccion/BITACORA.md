@@ -400,3 +400,65 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - Calidad: `npm.cmd run quality` exit 0; tipos, lint, movimiento, comercio, seguridad, activos y build. No se añadieron dependencias ni imágenes.
 - Navegador: 1280 × 720 comprobó View Timelines y matrices 3D en curso; 390 × 844 y 360 × 740 comprobaron 3D desactivado y cero desbordamiento horizontal. Un recorrido de siete segundos en esos tres tamaños midió 59,8 FPS estimados, p95 16,8 ms, cero cuadros >34 ms, Long Animation Frames, tareas largas y CLS durante el scroll. Evidencia: `docs/diseno/evidencia/scroll-motion-browser-performance.json`.
 - Límite: Chromium integrado sin throttling; no sustituye teléfono físico modesto, Lighthouse, métricas de campo, otros motores ni conversión real. Sin push, publicación, cambios comerciales, base de datos o CMS.
+
+### 2026-10-06 — Identidad oficial Gladys
+
+- El propietario confirmó el nombre público **Gladys** y entregó el logo oficial «Gladys Eventos & Experiencias» en PNG transparente de 1254 × 1254 px.
+- El activo original se conserva sin redibujarlo en `public/images/brand/gladys-logo.png`. La cabecera muestra el símbolo mediante un encuadre CSS y mantiene nombre y lema como texto accesible; el pie presenta la firma completa.
+- Nombre, títulos SEO y catálogo pasan de «Catering Gladis» a «Gladys». Los datos estructurados incluyen la URL del logo. No cambian el dominio operativo, servicios, cobertura, teléfonos ni reglas de WhatsApp.
+- `npm.cmd run quality` terminó con exit 0 fuera del aislamiento: tipos, lint, 12 pruebas de movimiento, comercio, seguridad, activos y build. En el navegador de producción local se comprobó la cabecera en vista estrecha y escritorio, el logo completo del pie, carga 1254 × 1254 y desbordamiento horizontal cero.
+- Preview local disponible en `http://127.0.0.1:4176/`. Sin push ni publicación en esta actualización.
+
+### 2026-10-06 — Carrusel de ocasiones y conversión en una sola ficha
+
+- Solicitud: mostrar después del hero posibles celebraciones y necesidades empresariales como tarjetas fotográficas deslizables; cada opción debe llevar a una experiencia autosuficiente, indexable y orientada a cotizar por WhatsApp sin recorrer varias páginas.
+- Portada: nuevo carrusel con scroll táctil, controles de teclado y flechas, tarjetas completas seleccionables y vista parcial de la siguiente opción. Incluye cumpleaños, bautizos y comuniones, bodas y aniversarios, reuniones familiares, desayunos corporativos y eventos empresariales.
+- Fichas: se crearon seis rutas estáticas con H1, título, descripción, texto y preguntas propias. Cada ficha combina hero, motivos de confianza, selector visual de servicios, resumen fijo, cotizador integrado y enlaces a otras ocasiones. No se añadió base de datos, API, CMS ni dependencia externa.
+- Conversión: la selección usa la misma bolsa temporal del sitio. Se comprobó en la ficha de cumpleaños que añadir buffet incrementa «Mi evento», se conserva al bajar al cotizador, precarga la ocasión y produce un enlace a `51902843481` con fecha, distrito, invitados, opciones del buffet y origen saneado. El enlace se inspeccionó sin abrir ni enviar WhatsApp.
+- Catálogo: se añadió «Desayuno corporativo y coffee break» como décima oferta cotizable, con opciones, responsable de cocina, recomendaciones y SEO. Las seis ocasiones ofrecen al menos cuatro alternativas configurables y usan los dos responsables comerciales existentes según el servicio principal.
+- Verificación: `npm.cmd run quality` exit 0; TypeScript, lint, 12 pruebas de movimiento, 10 servicios, 6 ocasiones, seguridad, presupuesto de activos y build. Navegador de producción local: flujo de tres pasos en una sola URL y diseño móvil sin desbordamiento horizontal. Las fotografías reutilizan los activos referenciales ya aprobados; no se afirma rendimiento de campo ni conversión real.
+- Traspaso: revisar el contenido comercial y las fotografías por ocasión antes de una publicación definitiva. El resultado permanece local en `http://127.0.0.1:4176/`; no se hizo commit, push ni despliegue.
+
+### 2026-10-06 — Corrección de navegación y escala del carrusel
+
+- El propietario informó un error de compilación al abrir una ocasión. No se reprodujo en la ruta servida, pero se eliminó por completo `.output`, se generó un build limpio y se reinició el servidor de producción para evitar una mezcla de manifiestos o fragmentos anteriores.
+- Las seis rutas de ocasión responden HTTP 200 y ninguna contiene el mensaje `Cannot read properties of undefined`; la navegación cliente a cumpleaños también se verificó con H1 y título correctos.
+- Las tarjetas bajaron de un máximo de 380 × 475 px a 304 × 405 px en escritorio y 270 × 360 px en vista estrecha. El carrusel mantiene gesto horizontal y deja visible la tarjeta siguiente.
+- Se fijaron explícitamente los colores claros del título, descripción, categoría y acción durante reposo, `hover` y foco. Así, las reglas globales de enlaces no oscurecen ni ocultan el texto sobre la fotografía.
+- `npm.cmd run build`, `npm.cmd run typecheck` y `npm.cmd run lint`: exit 0. Preview reiniciado en `http://127.0.0.1:4176/`. Sin push ni publicación.
+
+### 2026-10-06 — Todas las ocasiones visibles sin carrusel
+
+- Por indicación del propietario se retiró el patrón de carrusel: no quedan flechas, scroll horizontal ni opciones ocultas fuera de la vista lateral.
+- Las seis ocasiones se presentan en una cuadrícula de tres columnas por dos filas en escritorio y dos columnas por tres filas en pantallas estrechas. En la comprobación real midieron 387 × 309 px en escritorio y 187 × 234 px en móvil.
+- En móvil se conserva categoría, título y acceso directo; la descripción secundaria se omite dentro de la tarjeta para evitar texto comprimido. Las seis opciones siguen presentes en el DOM y accesibles como enlaces completos.
+- Verificación visual en 1422 px y 433 px efectivos: seis tarjetas, cero controles de carrusel, cero indicaciones de deslizar y cero desbordamiento horizontal. `npm.cmd run quality` pasó antes del renombrado semántico; después, `typecheck` y `build` volvieron a terminar con exit 0.
+- El componente definitivo es `components/occasion-grid.tsx`. Preview local reiniciado en `http://127.0.0.1:4176/`; sin push ni publicación.
+
+### 2026-10-07 — Hero cinematográfico con reproducción automática
+
+- Se integró el video entregado por el propietario como apertura narrativa de la portada. El material original es H.264, 1920 × 1080, 24 fps, 10 s y conserva su archivo de origen; además queda una copia master de trabajo no referenciada por la web.
+- Se generaron versiones silenciosas optimizadas: escritorio 1600 × 900 de 2.910.322 bytes y móvil 540 × 960 de 911.597 bytes, más posters WebP de 69.322 y 16.970 bytes. Los cuatro activos de ejecución suman 3.908.211 bytes. `test:performance` comprueba sus presupuestos, referencias y que el master no llegue al componente.
+- `StoryHero` ocupa un solo hero y reproduce el video automáticamente en bucle, silenciado y con `playsInline`. Al salir del viewport se pausa para ahorrar recursos; cuando vuelve a ser visible se reanuda, salvo que la persona haya usado el control «Pausar video».
+- El contenido comercial permanece fijo sobre el video: H1, Lima, CTA de cotización y acceso a las posibilidades. Al bajar comienza la cuadrícula de seis ocasiones y continúa la coreografía existente que revela y arma las demás secciones; el video no acompaña ese recorrido.
+- Existe poster inmediato y una alternativa con `prefers-reduced-motion` que mantiene el contenido principal sin reproducir el video. Video y poster son decorativos para lectores de pantalla; el botón de pausa/reproducción y los controles comerciales permanecen en el contenido HTML.
+- Verificación final: `npm.cmd run quality` terminó con exit 0 después de la corrección. En Chromium local móvil, `currentTime` avanzó 1,45 s sin scroll; la pausa mantuvo exactamente 6,172707 s durante la espera y la reanudación llegó a 6,860619 s. Al salir del hero el video quedó pausado, la cuadrícula apareció y los primeros bloques posteriores recibieron la clase `arrived`. Cero desbordamiento horizontal y cero errores de consola.
+- Límites: el video es material generado y representa escenas genéricas; no acredita eventos reales de Gladys. La versión móvil usa recorte central. No se midieron Core Web Vitals de campo, red móvil limitada, FPS en teléfono físico ni otros motores. Sin push ni despliegue.
+
+### 2026-10-07 — Relato editorial después del hero
+
+- La referencia de Sweetgreen se usó sólo para estudiar jerarquía, fotografía, ritmo y superficies; no se copiaron marca, textos, paleta, tipografías ni componentes. Gladys conserva palo de rosa, jade, cobre, Lora y Source Sans.
+- Ocasiones: escritorio pasa a un mosaico asimétrico de doce columnas y dos filas, con seis destinos visibles. En móvil permanece una cuadrícula de dos columnas: cada enlace usa la propia fotografía como acción visual y muestra sólo el título debajo. Se ocultan kicker secundario, párrafo, categoría, índice, descripción y «Preparar esta ocasión».
+- Buffet: se convirtió en un capítulo de fondo rosa claro, título de gran escala, fotografía dominante y opciones editoriales separadas por reglas. Servicios: tres escenas amplias sin borde, sombra o fondo de tarjeta; fotografía y copia alternan con profundidad moderada. Proceso: columna inicial fija en escritorio y pasos más altos para que la línea se construya durante el scroll. El cierre verde ocupa todo el ancho.
+- Movimiento: encabezado y seis ocasiones entran de forma escalonada; las fotografías reutilizan la cortina y lente existentes. Buffet, servicios, proceso y cierre conservan su mejora progresiva y movimiento reducido.
+- Navegador local: a 498 × 661 las seis opciones usaron dos columnas, imágenes de 219 × 192, título debajo y todos los textos secundarios ocultos. En la prueba móvil efectiva de 400 × 822 las imágenes midieron 170 × 149, sin desbordamiento. A 1600 × 1000 el mosaico ocupó dos filas; el capítulo de buffet midió 715 × 606 en fotografía y servicios mostró fondo transparente, borde 0, sombra ausente y radio fotográfico de 24 px. Las escenas recibieron `arrived` al entrar.
+- Verificación final: `npm.cmd run quality` terminó con exit 0 después del rediseño; incluye tipos, lint, 12 pruebas de movimiento, 10 servicios y 6 ocasiones, seguridad estática, presupuesto de activos y build de producción. Sin push ni publicación.
+
+### 2026-10-07 — Alternancia de capítulos y revelado fotográfico visible
+
+- Los capítulos de portada pasan a una secuencia clara: ocasiones en palo de rosa, buffet en marfil cálido, servicios en palo de rosa, proceso en marfil y preguntas en palo de rosa; la invitación final permanece jade.
+- Proceso y preguntas recibieron contenedores de ancho completo para que el cambio de superficie coincida con el capítulo completo sin alterar el ancho interior, los anchors ni el contenido.
+- El controlador ya no asienta automáticamente una escena sólo por estar dentro del viewport al iniciar. Las escenas anteriores o ya recorridas siguen asentándose; las actuales se observan y animan al alcanzar un 18% visible con un margen inferior del 10%.
+- La cortina fotográfica es translúcida al 76%, por lo que la imagen se reconoce antes de activarse. Usa una curva simétrica en 920 ms en escritorio y 760 ms hasta 960 px; la lente dura 1.040 y 880 ms respectivamente.
+- En Chromium móvil, a los 220 ms la cortina conservó una escala vertical de 0,855 y la lente 1,048×; antes del cambio la cortina quedaba prácticamente terminada en ese punto. El revelado completo conserva fotografía, número y texto sin desbordamiento.
+- `npm.cmd run quality` terminó con exit 0: tipos, lint, 12 pruebas de movimiento actualizadas, comercio, seguridad, activos y build. Sin push ni publicación.

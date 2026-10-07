@@ -50,6 +50,26 @@ const fontTotal = (
   )
 ).reduce((a, b) => a + b, 0);
 assert.ok(fontTotal < 65000, 'Local fonts exceed budget');
+
+const storySource = await readFile('components/story-hero.tsx', 'utf8');
+const storyAssets = [
+  ['gladys-story-desktop.mp4', 3200000],
+  ['gladys-story-mobile.mp4', 1100000],
+  ['gladys-story-poster.webp', 100000],
+  ['gladys-story-poster-mobile.webp', 30000],
+];
+let storyTotal = 0;
+for (const [asset, budget] of storyAssets) {
+  const bytes = (await stat(`public/videos/${asset}`)).size;
+  assert.ok(bytes <= budget, `${asset} exceeds its runtime budget`);
+  assert.ok(storySource.includes(`/videos/${asset}`), `${asset} is not wired into StoryHero`);
+  storyTotal += bytes;
+}
+assert.ok(storyTotal < 4200000, `Story hero runtime assets: ${storyTotal}`);
+assert.ok(
+  !storySource.includes('gladys-banquet-master.mp4'),
+  'The preserved master video must not be sent to visitors',
+);
 console.log(
-  `PASS: 24 variantes JPEG con dimensiones reales: ${total} bytes; 2 fuentes locales: ${fontTotal} bytes. Esto no mide Core Web Vitals.`,
+  `PASS: 24 variantes JPEG con dimensiones reales: ${total} bytes; 2 fuentes locales: ${fontTotal} bytes; 4 activos runtime del relato: ${storyTotal} bytes. Esto no mide Core Web Vitals.`,
 );

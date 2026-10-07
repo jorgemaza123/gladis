@@ -23,11 +23,10 @@ export function observeScrollMotion(root: HTMLElement) {
     if (seen.has(element) && !resume) return;
     seen.add(element);
     const bounds = element.getBoundingClientRect();
-    // Restored scroll positions and in-view route updates stay immediately readable.
-    if (
-      element.classList.contains('arrived') ||
-      bounds.top < window.innerHeight * 0.92
-    ) {
+    // Scenes already passed or previously revealed stay immediately readable.
+    // A scene currently entering the viewport remains observable so its motion
+    // is not consumed before enough of the image can be seen.
+    if (element.classList.contains('arrived') || bounds.bottom <= 0) {
       arrive(element, true);
     } else {
       observe(element);
@@ -110,7 +109,7 @@ export function observeScrollMotion(root: HTMLElement) {
           }
         }
       },
-      { threshold: 0, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0.18, rootMargin: '0px 0px -10% 0px' },
     );
     root.dataset.scrollMotion = 'ready';
     // This full scan runs only at startup or after a live preference change.

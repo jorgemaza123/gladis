@@ -57,14 +57,16 @@ const emptyEvent = {
 export function Quote({
   site,
   selection,
+  occasion = '',
 }: {
   site: QuoteSite;
   selection: string;
+  occasion?: string;
 }) {
   const { cart, restored, add, restoreNotice } = useQuoteCart();
   const { attribution, recordCta } = useAttribution();
   const [step, setStep] = useState(1);
-  const [data, setData] = useState(emptyEvent);
+  const [data, setData] = useState(() => ({ ...emptyEvent, occasion }));
   const [loaded, setLoaded] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const initialized = useRef(false);
@@ -97,7 +99,10 @@ export function Quote({
           for (const key of Object.keys(next) as (keyof typeof next)[])
             if (typeof saved.data[key] === 'string')
               next[key] = saved.data[key].slice(0, 150);
+          if (occasion) next.occasion = occasion;
           setData(next);
+        } else if (occasion) {
+          setData({ ...emptyEvent, occasion });
         }
       } catch {}
       setLoaded(true);
@@ -105,7 +110,7 @@ export function Quote({
     return () => {
       active = false;
     };
-  }, []);
+  }, [occasion]);
   useEffect(() => {
     if (loaded) {
       try {

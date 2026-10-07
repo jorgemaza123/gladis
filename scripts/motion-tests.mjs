@@ -267,7 +267,7 @@ check(
 );
 
 check(
-  'el contenido inicial o restaurado está disponible sin volver a animarse',
+  'el contenido ya recorrido se asienta y el visible conserva su entrada',
   {},
   ({ root, start, intersections }) => {
     const initial = new ElementDouble({ top: 100 });
@@ -276,11 +276,16 @@ check(
     restored.classList.add('arrived');
     root.append(initial, passedScene, restored);
     start();
-    for (const scene of [initial, passedScene, restored]) {
+    assert.equal(initial.classList.contains('arrived'), false);
+    assert.ok(intersections[0].observed.has(initial));
+    for (const scene of [passedScene, restored]) {
       assert.equal(scene.classList.contains('arrived'), true);
       assert.equal(scene.dataset.motionSettled, 'true');
       assert.equal(intersections[0].observed.has(scene), false);
     }
+    intersections[0].cross(initial);
+    assert.equal(initial.classList.contains('arrived'), true);
+    assert.equal(initial.dataset.motionSettled, undefined);
   },
 );
 
@@ -298,8 +303,11 @@ check(
     root.append(wrapper);
     const initialRootQueries = root.queryCount;
     mutations[0].flush({ addedNodes: [wrapper] });
-    assert.deepEqual(intersections[0].observed, new Set([existing, future]));
-    assert.equal(visible.dataset.motionSettled, 'true');
+    assert.deepEqual(
+      intersections[0].observed,
+      new Set([existing, future, visible]),
+    );
+    assert.equal(visible.classList.contains('arrived'), false);
     assert.equal(
       root.queryCount,
       initialRootQueries,
@@ -310,7 +318,7 @@ check(
       'solo debe recorrerse la rama que acaba de añadirse',
     );
     mutations[0].flush({ addedNodes: [wrapper] });
-    assert.equal(intersections[0].observed.size, 2);
+    assert.equal(intersections[0].observed.size, 3);
   },
 );
 

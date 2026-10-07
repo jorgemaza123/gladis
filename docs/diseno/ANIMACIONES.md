@@ -24,7 +24,7 @@ No hay carrusel automático, cursor personalizado, scroll bloqueado ni sección 
 
 Esta separación corrige la competencia anterior: `mesa-lens` y `mesa-depth` ya no escriben `transform` sobre el mismo nodo. La profundidad usa `animation-timeline` solo cuando el navegador declara soporte. Los demás navegadores conservan una entrada por IntersectionObserver.
 
-El controlador marca escenas iniciales o restauradas como asentadas, liquida saltos rápidos por encima y observa únicamente ramas añadidas o retiradas. Ya no vuelve a consultar todo el árbol ante cada mutación. El foco asienta la entrada del contenedor sin cancelar la profundidad decorativa compatible.
+El controlador marca escenas ya recorridas o restauradas como asentadas, pero conserva observables las escenas que están entrando en el viewport. Liquida saltos rápidos por encima y observa únicamente ramas añadidas o retiradas. Ya no vuelve a consultar todo el árbol ante cada mutación. El foco asienta la entrada del contenedor sin cancelar la profundidad decorativa compatible.
 
 ## Ritmo
 
@@ -33,8 +33,8 @@ El controlador marca escenas iniciales o restauradas como asentadas, liquida sal
 | Apertura del hero | 340–820 ms | Presentar texto, acción y foto sin retrasar el CTA |
 | Títulos de capítulo | 560 ms / 14 px | Marcar buffet y servicios |
 | Títulos de apoyo | 420 ms / 9 px | Acompañar proceso y ocasión |
-| Cortina fotográfica | 680 ms; 500 ms hasta 960 px | Descubrir la fotografía sin cubrir leyendas |
-| Lente fotográfica | 820 ms; 540 ms hasta 960 px; 480 ms en móvil | Dar presencia sin un zoom largo |
+| Cortina fotográfica | 920 ms; 760 ms hasta 960 px | Descubrir la fotografía con un velo translúcido perceptible |
+| Lente fotográfica | 1.040 ms; 880 ms hasta 960 px; 820 ms en móvil | Dar presencia con una curva uniforme sin salto inicial |
 | Reglas de menú | 620 ms | Conectar exploración y elección |
 | Números del proceso | 440 ms | Explicar el recorrido de cotización |
 | Dibujo final | 980 ms; 720 ms en móvil bajo | Cerrar con la firma gráfica |
@@ -46,7 +46,7 @@ Solo se animan `transform` y `opacity`, salvo el cambio puntual de color del nú
 ## Accesibilidad y configuración
 
 - El HTML permanece legible sin JavaScript y sin IntersectionObserver.
-- Las fotografías futuras preparan la cortina cuando el controlador queda listo, evitando que la imagen aparezca antes de la máscara.
+- Las fotografías futuras preparan una cortina al 76% de color cuando el controlador queda listo; la imagen permanece reconocible antes de activarse.
 - Cada entrada se reproduce una vez durante la vida del nodo.
 - El foco de teclado termina la entrada del contenedor antes de mostrar el control.
 - `prefers-reduced-motion` desactiva animaciones y transiciones, también si cambia durante la sesión.
@@ -72,3 +72,25 @@ La medición corresponde al Chromium integrado, sin limitación artificial de CP
 - `components/photo.tsx`: separación entre marco, escena e imagen.
 - `lib/scroll-motion.ts`: ciclo de vida y observación incremental.
 - `scripts/motion-tests.mjs`: pruebas aisladas del controlador.
+
+## Apertura cinematográfica — 2026-10-07
+
+La portada añade un acto previo a «La mesa se prepara». El video se reproduce automáticamente dentro de un hero de una pantalla. Al bajar, termina ese acto y la salida desemboca directamente en las ocasiones; desde allí las entradas, fotografías con profundidad, trazos y capítulos de servicios construyen el resto de la página.
+
+El video usa reproducción nativa silenciosa, `playsInline` y bucle. Un `IntersectionObserver` lo pausa cuando el hero deja de estar visible y lo reanuda al volver, salvo pausa explícita. No intercepta la rueda ni modifica el tiempo del video según el scroll.
+
+`prefers-reduced-motion` oculta la reproducción y conserva el poster y el contenido. El control permite pausar o reanudar en cualquier momento. Si JavaScript no se ejecuta, el poster y el HTML permanecen como contenido inicial legible.
+
+La comprobación final observó avance autónomo, pausa manual sin cambio de fotograma, reanudación, pausa automática fuera del hero y salida limpia hacia la cuadrícula. Los primeros elementos de buffet adquirieron `arrived` al entrar, confirmando que la coreografía posterior continúa activa. Continúan pendientes las mediciones de FPS en un teléfono físico, consumo con red celular y compatibilidad visual en motores distintos de Chromium.
+
+## Continuidad editorial después del video — 2026-10-07
+
+El encabezado de ocasiones sube 34 px mientras aparece y las seis piezas fotográficas llegan con desplazamiento de 28 px, escala inicial de 0,975 y retardos de 0 a 140 ms. Cada imagen reutiliza la cortina y el acercamiento del sistema existente, por lo que el mosaico se compone por capas sin esconder contenido cuando JavaScript o IntersectionObserver no están disponibles.
+
+Buffet conserva título, fotografía y reglas como movimientos principales. Los servicios mantienen la profundidad ligada al viewport en escritorio, ahora sobre composiciones abiertas sin caja. El proceso amplía la distancia vertical para que el hilo tenga tiempo de dibujarse. En móvil se acortan los efectos y la tarjeta de ocasión se reduce a imagen y título; no hay rotación 3D continua, scroll horizontal ni navegación secuestrada.
+
+## Ritmo visible y capítulos alternados — 2026-10-07
+
+Las superficies posteriores al video alternan palo de rosa y marfil cálido para que el avance entre ocasiones, buffet, servicios, proceso y preguntas se perciba como cambio de acto. La invitación verde conserva el cierre y no se añadió una transición decorativa entre colores: el corte coincide con el límite real de cada capítulo.
+
+El observador exige una intersección del 18% y reserva el 10% inferior del viewport. La cortina dejó la curva de salida acelerada y usa `cubic-bezier(0.65, 0, 0.35, 1)`, de modo que la mayor parte del cambio sucede mientras la fotografía ya es visible. En la comprobación móvil, a 220 ms la cortina seguía en 0,855 y la lente en 1,048×; por ello el movimiento ya no se consume en el primer borde de la imagen.

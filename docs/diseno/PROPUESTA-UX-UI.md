@@ -1,4 +1,4 @@
-# Catering Gladis: una mesa para todos
+# Gladys: una mesa para todos
 
 > Actualización 2026-10-02: el usuario autorizó la implementación. Ver [resultado, pruebas y límites](IMPLEMENTACION.md). Las menciones a archivos futuros y al estado anterior que siguen abajo corresponden a la auditoría original.
 
@@ -96,7 +96,7 @@ Acción primaria sólida jade; secundaria con borde o enlace subrayado. No dos b
 
 ## 5. Nueva arquitectura de la portada
 
-1. **Cabecera:** Catering Gladis; Buffet y menús; Servicios para eventos; Cómo cotizar; Mi evento. La marca vuelve al inicio; Nosotros y cobertura pueden estar en el pie.
+1. **Cabecera:** Gladys; Buffet y menús; Servicios para eventos; Cómo cotizar; Mi evento. La marca vuelve al inicio; Nosotros y cobertura pueden estar en el pie.
 2. **Hero:** mensaje principal, Lima Metropolitana, precio por consulta, «Cotizar un buffet» y enlace «Ver servicios para eventos».
 3. **Buffet y menús:** módulo protagonista con buffet y alternativa criolla; comida, modalidad a coordinar y acceso a ficha. Resolver la actual separación entre `/servicios` y `/menus` mediante una vista conjunta, sin inventar nuevas rutas en esta fase.
 4. **Servicios para eventos:** tres familias visibles. Atención y bebidas: bartender y mozos. Alquileres: menaje y sillas. Detalles y personalizados: flores, recuerdos y polos. Son grupos de navegación, no responsables de WhatsApp.

@@ -105,3 +105,31 @@ Verificación:
 - Recorrido completo de siete segundos en 360 × 740, 390 × 844 y 1280 × 720: 59,8 FPS estimados, p95 de 16,8 ms, ningún cuadro mayor de 34 ms, cero Long Animation Frames, tareas largas o layout shifts durante el recorrido. Datos en `evidencia/scroll-motion-browser-performance.json`.
 
 La medición se hizo en Chromium integrado, a 60 Hz, sin limitación de CPU o red. No equivale a un teléfono modesto físico, Lighthouse, Core Web Vitals de campo o aceptación en otros motores. No se afirma aumento de conversiones. El cambio permanece local, sin push ni publicación.
+
+## Ocasiones como entrada de compra — 2026-10-06
+
+La portada incorpora justo después del hero un carrusel horizontal de tarjetas fotográficas. El gesto de arrastre, el scroll-snap y las flechas permiten explorar seis intenciones concretas sin convertir la sección en una cuadrícula genérica: cumpleaños, bautizos y comuniones, bodas y aniversarios, reuniones familiares, desayunos corporativos y eventos empresariales. Cada tarjeta conserva una lectura editorial con número, categoría, promesa breve y acción visible.
+
+Cada ocasión dispone de una ficha estática y rastreable. El usuario puede elegir buffet, bartender, mozos, menaje, sillas, flores, recuerdos y polos dentro de esa misma ficha; la bolsa compartida muestra el número de servicios y conduce al cotizador integrado. La ocasión queda precargada, las opciones se configuran allí y el enlace final de WhatsApp se resuelve por el servicio principal.
+
+La ficha de cumpleaños se recorrió de extremo a extremo con datos de prueba: buffet servido, menú criollo, 50 invitados, Miraflores y fecha futura. El resumen conservó la ocasión y dirigió la consulta a cocina (`902843481`) con el origen de la visita. No se abrió WhatsApp. En vista móvil el ancho del documento coincidió con el viewport y las ocho tarjetas disponibles no provocaron desbordamiento.
+
+`npm.cmd run quality` terminó con exit 0 después de incorporar las seis rutas y el décimo servicio. Las imágenes son fotografías referenciales existentes del proyecto; una sesión fotográfica o imágenes exclusivas para cada ocasión siguen siendo una mejora editorial, no un requisito técnico del flujo verificado. Sin push ni publicación.
+
+## Portada narrativa con video — 2026-10-07
+
+El hero anterior se sustituye por una escena de una pantalla con reproducción automática, silenciosa, en bucle y en línea. El video pertenece sólo a la apertura; al bajar, la página continúa con las seis ocasiones visibles, buffet, servicios, proceso, FAQ y cierre, donde se conserva la coreografía que arma las secciones. Todos los CTA usan los flujos comerciales existentes.
+
+Se prepararon dos codificaciones H.264 sin audio: 1600 × 900 para escritorio y 540 × 960 para móvil. El navegador selecciona por media query y muestra un poster WebP mientras carga. La transferencia máxima del relato es un MP4 y un poster por dispositivo, no la suma de ambas versiones. El master se conserva para futuras ediciones, pero `StoryHero` no lo referencia.
+
+La capa textual es HTML y mantiene el H1, la promesa y los CTA. Video y sombras son decorativos; los enlaces y botones siguen accesibles. Un control visible permite pausar o reanudar la reproducción. Con movimiento reducido, se conserva el poster y el contenido sin reproducir el video.
+
+La versión anterior ligada al scroll fue rechazada porque parecía un fotograma fijo al entrar. En Chromium local móvil, el tiempo avanzó 1,45 s sin desplazar la página; el control mantuvo exactamente el mismo fotograma durante la pausa, reanudó la reproducción y el observador la detuvo al salir del hero. La cuadrícula y los bloques de buffet aparecieron después, con sus clases de llegada activadas y sin desbordamiento ni errores de consola. Esta prueba no representa hardware móvil modesto, red celular, Safari, Firefox ni métricas de campo.
+
+## Relato editorial posterior al hero — 2026-10-07
+
+La salida del video ya no desemboca en una sucesión de tarjetas uniformes. Las ocasiones forman una portada editorial asimétrica; buffet abre un segundo acto fotográfico; los tres grupos de servicios se presentan como escenas alternadas; el proceso extiende el recorrido con una columna fija y una línea que se dibuja; el cierre verde ocupa el ancho completo. Los fondos palo de rosa, rosa claro y verde suave separan capítulos sin cortar la continuidad.
+
+En móvil, la sección «Elige la historia que quieres celebrar» elimina todo lo que no ayuda a reconocer y elegir: sólo conserva su título de sección y, por ocasión, una imagen pequeña con el nombre debajo. La imagen está dentro del enlace real a la ficha; no existe un botón separado. Dos columnas permiten ver varias alternativas en el mismo pantallazo y las seis permanecen en el DOM.
+
+La comprobación visual cubrió 498 × 661, 400 × 822 y 1600 × 1000 efectivos. No hubo desbordamiento horizontal. Se inspeccionaron presencia y ocultación de cada fragmento móvil, geometría de las seis imágenes, destinos de enlace, distribución de dos filas en escritorio y estado de llegada animada. La referencia externa fue una guía conceptual; la implementación usa los activos, colores, contenido y componentes propios de Gladys.

@@ -137,6 +137,39 @@
   }
 }
 
+@keyframes occasion-heading-enter {
+  from {
+    opacity: 0.25;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes occasion-card-enter {
+  from {
+    opacity: 0.45;
+    transform: translateY(28px) scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes occasion-copy-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes service-image-drift-left {
   0% {
     transform: translate3d(-2.5%, 2.5%, 0) scale(1.085);
@@ -164,8 +197,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .public-site[data-motion='on'][data-scroll-motion='ready'] {
     --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
-    --motion-curtain-duration: 680ms;
-    --motion-lens-duration: 820ms;
+    --motion-reveal-ease: cubic-bezier(0.65, 0, 0.35, 1);
+    --motion-curtain-duration: 920ms;
+    --motion-lens-duration: 1040ms;
     --motion-delay: 0ms;
   }
 
@@ -186,22 +220,61 @@
     animation: mesa-support-enter 420ms var(--motion-ease) backwards;
   }
 
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion-heading'].arrived:not([data-motion-settled])
+    h2 {
+    animation: occasion-heading-enter 720ms var(--motion-ease) backwards;
+  }
+
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion'].arrived:not([data-motion-settled])
+    .occasion-card {
+    animation: occasion-card-enter 680ms var(--motion-ease) backwards;
+  }
+
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion'].arrived:not([data-motion-settled])
+    .occasion-card-copy {
+    animation: occasion-copy-enter 520ms var(--motion-ease) 160ms backwards;
+  }
+
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion']:nth-child(2) { --motion-delay: 60ms; }
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion']:nth-child(3) { --motion-delay: 110ms; }
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion']:nth-child(4) { --motion-delay: 40ms; }
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion']:nth-child(5) { --motion-delay: 90ms; }
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion']:nth-child(6) { --motion-delay: 140ms; }
+
+  .public-site[data-scroll-motion='ready']
+    [data-reveal='occasion'].arrived:not([data-motion-settled])
+    .occasion-card {
+    animation-delay: var(--motion-delay);
+  }
+
   /* Prepare future photographs before they enter, avoiding a late curtain flash. */
   .public-site[data-scroll-motion='ready']
-    :is([data-reveal='photograph'], [data-reveal='service'], .entry-card)
+    :is([data-reveal='photograph'], [data-reveal='service'], [data-reveal='occasion'], .entry-card)
     .photo::after {
     content: '';
     position: absolute;
     inset: 0;
     z-index: 2;
-    background: var(--motion-curtain, var(--rose-page));
+    background: color-mix(
+      in srgb,
+      var(--motion-curtain, var(--rose-page)) 76%,
+      transparent
+    );
     pointer-events: none;
     transform: scaleY(0);
     transform-origin: bottom;
   }
 
   .public-site[data-scroll-motion='ready']
-    :is([data-reveal='photograph'], [data-reveal='service'], .entry-card):not(
+    :is([data-reveal='photograph'], [data-reveal='service'], [data-reveal='occasion'], .entry-card):not(
       .arrived
     )
     .photo::after {
@@ -209,30 +282,38 @@
   }
 
   .public-site[data-scroll-motion='ready']
-    :is([data-reveal='photograph'], [data-reveal='service'], .entry-card).arrived:not(
+    :is([data-reveal='photograph'], [data-reveal='service'], [data-reveal='occasion'], .entry-card).arrived:not(
       [data-motion-settled]
     )
     .photo::after {
-    animation: mesa-curtain var(--motion-curtain-duration) var(--motion-ease)
+    animation: mesa-curtain var(--motion-curtain-duration) var(--motion-reveal-ease)
       var(--motion-delay) backwards;
   }
 
   .public-site[data-scroll-motion='ready']
-    :is([data-reveal='photograph'], [data-reveal='service'], .entry-card).arrived:not(
+    :is([data-reveal='photograph'], [data-reveal='service'], [data-reveal='occasion'], .entry-card).arrived:not(
       [data-motion-settled]
     )
     .photo
     img {
-    animation: mesa-lens var(--motion-lens-duration) var(--motion-ease)
+    animation: mesa-lens var(--motion-lens-duration) var(--motion-reveal-ease)
       var(--motion-delay) backwards;
   }
 
+  .buffet-story {
+    --motion-curtain: var(--paper);
+  }
+
   .service-garden {
-    --motion-curtain: #d9e8e1;
+    --motion-curtain: var(--rose-page);
   }
 
   .occasion-section {
     --motion-curtain: var(--surface);
+  }
+
+  .occasion-grid-section {
+    --motion-curtain: var(--rose-page);
   }
 
   .public-site[data-scroll-motion='ready'] .service-family:nth-child(2) {
@@ -446,8 +527,8 @@
 
   @media (max-width: 960px) {
     .public-site[data-motion='on'][data-scroll-motion='ready'] {
-      --motion-curtain-duration: 500ms;
-      --motion-lens-duration: 540ms;
+      --motion-curtain-duration: 760ms;
+      --motion-lens-duration: 880ms;
     }
 
     .public-site[data-scroll-motion='ready'] .service-family:nth-child(n) {
@@ -463,12 +544,12 @@
 
   @media (max-width: 760px), (max-height: 620px) {
     .public-site[data-scroll-motion='ready']
-      :is([data-reveal='photograph'], [data-reveal='service'], .entry-card).arrived:not(
+      :is([data-reveal='photograph'], [data-reveal='service'], [data-reveal='occasion'], .entry-card).arrived:not(
         [data-motion-settled]
       )
       .photo
       img {
-      animation-duration: 480ms;
+      animation-duration: 820ms;
     }
 
     .public-site[data-scroll-motion='ready']

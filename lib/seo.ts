@@ -124,6 +124,8 @@ export function businessData(site: SiteContent) {
   const s = site.settings;
   if (!s.businessVerified || s.demo || !s.origin || !s.publicAddress)
     return null;
+  const logo = site.media.find((media) => media.id === s.logoId);
+  const logoUrl = logo ? absoluteUrl(site, logo.url) : undefined;
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -131,6 +133,7 @@ export function businessData(site: SiteContent) {
     name: s.name,
     url: absoluteUrl(site, '/'),
     description: s.seo.description || s.footer,
+    ...(logoUrl ? { logo: logoUrl, image: logoUrl } : {}),
     address: { '@type': 'PostalAddress', streetAddress: s.publicAddress },
     ...(s.email ? { email: s.email } : {}),
     sameAs: s.socialLinks.map((l) => l.url),

@@ -17,7 +17,12 @@ import {
   ServiceRecommendations,
   type RecommendationEntry,
 } from './service-recommendations';
-import { resolveBusinessContact } from '@/lib/business-contacts';
+import {
+  resolveBusinessContact,
+  resolveWhatsAppDestination,
+} from '@/lib/business-contacts';
+import { EventLanding } from './event-landing';
+import type { QuoteSite } from './quote';
 export const publicEntries = (site: SiteContent) =>
   site.entries
     .filter(
@@ -90,6 +95,7 @@ export function Shell({
 }) {
   const s = site.settings,
     c = s.copy;
+  const logoAsset = site.media.find((media) => media.id === s.logoId);
   const motionEnabled = s.animations && s.motionLevel !== 'off';
   const navigation = publicNavigation(site);
   const quoteEntryIds = site.entries
@@ -138,9 +144,9 @@ export function Shell({
       {s.demo && <div className="demo-bar">{c.demoNotice}</div>}
       <header className="header">
         <Link className="brand" href="/">
-          {s.logoId ? (
-            <span className="brand-logo">
-              <Photo asset={site.media.find((m) => m.id === s.logoId)} />
+          {logoAsset ? (
+            <span className="brand-logo brand-logo-symbol" aria-hidden="true">
+              <Photo asset={logoAsset} />
             </span>
           ) : (
             <span className="brand-mark" aria-hidden="true">
@@ -179,7 +185,13 @@ export function Shell({
       <footer>
         <div className="footer-grid">
           <div>
-            <div className="brand">{s.name}</div>
+            {logoAsset ? (
+              <div className="footer-brand-logo">
+                <Photo asset={logoAsset} />
+              </div>
+            ) : (
+              <div className="brand">{s.name}</div>
+            )}
             <p>{s.footer}</p>
             {s.businessVerified && s.publicAddress && <p>{s.publicAddress}</p>}
             {s.businessVerified && s.hours && <p>{s.hours}</p>}
@@ -589,6 +601,78 @@ export function EntryDetail({
   entry: ContentEntry;
 }) {
   const c = site.settings.copy;
+  if (e.kind === 'tipos-evento') {
+    const requestedIds = [...e.serviceIds, ...e.menuIds, ...e.addOnIds];
+    const services = publicEntries(site)
+      .filter(
+        (item): item is ContentEntry & { quoteConfig: NonNullable<ContentEntry['quoteConfig']> } =>
+          requestedIds.includes(item.id) &&
+          item.requestable &&
+          item.ownerId !== null &&
+          item.quoteConfig !== null,
+      )
+      .sort((left, right) => requestedIds.indexOf(left.id) - requestedIds.indexOf(right.id))
+      .map((item) => ({
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        quoteConfig: item.quoteConfig,
+        image: site.media.find((media) => media.id === item.imageId),
+      }));
+    const quoteEntries = publicEntries(site).filter(
+      (item) => item.requestable && item.ownerId !== null && item.quoteConfig,
+    );
+    const quoteSite: QuoteSite = {
+      settings: {
+        whatsappMessage: site.settings.whatsappMessage,
+        copy: {
+          coverageTitle: c.coverageTitle,
+          privacyTitle: c.privacyTitle,
+          quoteAsideDescription: c.quoteAsideDescription,
+          quoteAsideTitle: c.quoteAsideTitle,
+          successDescription: c.successDescription,
+          successTitle: c.successTitle,
+        },
+      },
+      entries: quoteEntries.map((item) => ({
+        id: item.id,
+        kind: item.kind,
+        title: item.title,
+        minimumGuests: item.minimumGuests,
+        modalityIds: item.modalityIds,
+        addOnIds: item.addOnIds,
+        coverageIds: item.coverageIds,
+        requestable: item.requestable,
+        quoteConfig: item.quoteConfig,
+        recipient: resolveBusinessContact(item.ownerId),
+        whatsappDestination: resolveWhatsAppDestination(item.ownerId),
+      })),
+    };
+    const otherOccasions = publicEntries(site)
+      .filter((item) => item.kind === 'tipos-evento' && item.id !== e.id)
+      .slice(0, 4)
+      .map((item) => ({
+        title: item.title,
+        href: `/${item.kind}/${item.slug}`,
+      }));
+    return (
+      <EventLanding
+        event={{
+          id: e.id,
+          title: e.title,
+          description: e.description,
+          body: e.body,
+          details: e.details,
+          faqItems: e.faqItems,
+          imageId: e.imageId,
+          image: site.media.find((media) => media.id === e.imageId),
+        }}
+        services={services}
+        quoteSite={quoteSite}
+        otherOccasions={otherOccasions}
+      />
+    );
+  }
   const groups = [
     ['platos', e.dishIds],
     ['menus', e.menuIds],
