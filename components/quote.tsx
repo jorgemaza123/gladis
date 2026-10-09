@@ -219,6 +219,7 @@ export function Quote({
         type={type}
         required={required}
         value={data[key]}
+        placeholder={key === 'guests' ? 'Ej. 50' : undefined}
         maxLength={150}
         onInput={
           type === 'date'

@@ -26,7 +26,7 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
         <div>
           <p className="section-kicker">Todo puede convivir en una sola cotización</p>
           <h2 id="services-title">
-            Arma el evento
+            Arma el evento{' '}
             <br />
             que tienes en mente.
           </h2>
@@ -57,7 +57,7 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
               <div className="service-card wrap">
                 <div className="service-visual" aria-hidden="true">
                   <span className="service-scene-orbit" />
-                  {scene.layers.map((layer) => (
+                  {scene.layers.filter((layer) => scene.visualMode === 'cutout' || layer.name === 'main').map((layer) => (
                     <SceneLayerImage layer={layer} key={layer.name} />
                   ))}
                 </div>

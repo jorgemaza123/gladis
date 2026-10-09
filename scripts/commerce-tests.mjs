@@ -28,21 +28,21 @@ const commerceUrl = await moduleUrl('lib/business-contacts.ts', [
 ]);
 const commerce = await import(commerceUrl);
 const contentUrl = await moduleUrl('models/content.ts');
-const defaults = await import(
-  await moduleUrl('data/defaults.ts', [
-    ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
-  ])
-);
+const defaultsUrl = await moduleUrl('data/defaults.ts', [
+  ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
+]);
+const defaults = await import(defaultsUrl);
+const occasionEntriesUrl = await moduleUrl('data/occasion-entries.ts', [
+  ["from './defaults'", `from ${JSON.stringify(defaultsUrl)}`],
+]);
 const demo = await import(
   await moduleUrl('data/demo.ts', [
     [
       "import designImages from './design-images.json';",
       `const designImages = ${await readFile(new URL('../data/design-images.json', import.meta.url), 'utf8')};`,
     ],
-    [
-      "from './defaults'",
-      `from ${JSON.stringify(await moduleUrl('data/defaults.ts', [["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`]]))}`,
-    ],
+    ["from './defaults'", `from ${JSON.stringify(defaultsUrl)}`],
+    ["from './occasion-entries'", `from ${JSON.stringify(occasionEntriesUrl)}`],
     ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
   ])
 );
@@ -67,7 +67,11 @@ const quoteValidationUrl = await moduleUrl('lib/quote-validation.ts', [
 ]);
 const attributionUrl = await moduleUrl('lib/attribution.ts');
 const whatsapp = await import(await moduleUrl('lib/whatsapp-message.ts'));
-const seo = await import(await moduleUrl('lib/seo.ts'));
+const seo = await import(
+  await moduleUrl('lib/seo.ts', [
+    ["from '@/lib/business-contacts'", `from ${JSON.stringify(commerceUrl)}`],
+  ])
+);
 const quoteV2 = await import(
   await moduleUrl('lib/quote-v2-validation.ts', [
     [
@@ -440,6 +444,10 @@ assert.throws(
   'cantidad infinita',
 );
 assert.throws(
+  () => quoteV2.parseQuoteInput({ ...v2, items: [{ ...v2.items[0], quantity: 0 }] }),
+  'un borrador sin cantidad no puede convertirse en solicitud',
+);
+assert.throws(
   () => quoteV2.parseQuoteInput({ ...v2, recipientPhone: '51900000000' }),
   'autoridad ajena',
 );
@@ -516,6 +524,24 @@ const serializedCart = quoteCart.serializeQuoteCart(cart, 1000);
 assert.equal(
   quoteCart.restoreQuoteCart(serializedCart, 1001).cart.items.length,
   1,
+);
+let emptyQuantityDraft = quoteCart.quoteCartReducer(quoteCart.emptyQuoteCart(), {
+  type: 'add',
+  item: { itemId: cartItemOne, entryId: 'buffet', quantity: 0, optionValues: {} },
+});
+assert.equal(emptyQuantityDraft.items[0].quantity, 0, 'la cantidad sin escribir queda vacía');
+emptyQuantityDraft = quoteCart.quoteCartReducer(emptyQuantityDraft, {
+  type: 'update', itemId: cartItemOne, quantity: 50, optionValues: {},
+});
+emptyQuantityDraft = quoteCart.quoteCartReducer(emptyQuantityDraft, {
+  type: 'update', itemId: cartItemOne, quantity: 0, optionValues: {},
+});
+assert.equal(emptyQuantityDraft.items[0].quantity, 0, 'el campo puede borrarse de nuevo');
+assert.equal(quoteV2.cartV2Schema.safeParse(emptyQuantityDraft).success, true);
+assert.equal(
+  quoteCart.restoreQuoteCart(quoteCart.serializeQuoteCart(emptyQuantityDraft, 1000), 1001).cart.items[0].quantity,
+  0,
+  'el borrador vacío se conserva al navegar',
 );
 assert.equal(
   quoteCart.restoreQuoteCart('{inválido', 1001).discarded,
@@ -683,6 +709,77 @@ const structuredBusiness = seo.businessData(
 assert.ok(
   structuredBusiness && !('telephone' in structuredBusiness),
   'el esquema omite teléfono legado sin contacto principal confirmado',
+);
+assert.equal(structuredBusiness['@type'], 'LocalBusiness');
+assert.deepEqual(structuredBusiness.address, {
+  '@type': 'PostalAddress',
+  streetAddress: 'Dirección confirmada',
+});
+const structuredOrganization = seo.businessData(demo.demoContent);
+assert.equal(structuredOrganization['@type'], 'Organization');
+assert.equal(
+  'address' in structuredOrganization,
+  false,
+  'sin dirección pública no se inventa local',
+);
+assert.equal(
+  'telephone' in structuredOrganization,
+  false,
+  'no se inventa un teléfono principal',
+);
+assert.deepEqual(structuredOrganization.areaServed, [
+  { '@type': 'AdministrativeArea', name: 'Lima Metropolitana' },
+]);
+assert.deepEqual(
+  structuredOrganization.contactPoint
+    .map((contact) => contact.telephone)
+    .sort(),
+  ['+51902843481', '+51923106197'],
+  'los contactos del esquema usan la misma configuración comercial que WhatsApp',
+);
+for (const settings of [
+  { demo: true },
+  { businessVerified: false },
+  { origin: '' },
+  { origin: 'no-es-una-url' },
+  { origin: 'javascript:alert(1)' },
+  { name: ' ' },
+]) {
+  assert.equal(
+    seo.businessData({
+      ...demo.demoContent,
+      settings: { ...demo.demoContent.settings, ...settings },
+    }),
+    null,
+    'una identidad no confirmada o un origen inválido no genera datos comerciales',
+  );
+}
+const limitedPublicSite = {
+  ...demo.demoContent,
+  entries: demo.demoContent.entries.map((entry) => ({
+    ...entry,
+    status:
+      entry.kind === 'cobertura' || entry.ownerId === 'eventos'
+        ? 'draft'
+        : entry.status,
+  })),
+  media: demo.demoContent.media.map((media) => ({ ...media, demo: true })),
+};
+const limitedOrganization = seo.businessData(limitedPublicSite);
+assert.equal(
+  'areaServed' in limitedOrganization,
+  false,
+  'la cobertura en borrador no se publica en schema',
+);
+assert.equal(
+  'logo' in limitedOrganization,
+  false,
+  'un logo demo no se presenta como identidad comercial',
+);
+assert.deepEqual(
+  limitedOrganization.contactPoint.map((contact) => contact.telephone),
+  ['+51902843481'],
+  'no se anuncian contactos de ofertas que dejaron de estar publicadas',
 );
 
 const resolverConfig = {
@@ -861,12 +958,15 @@ assert.equal(actualEntries.length, 10);
 const occasionEntries = demo.demoContent.entries.filter(
   (entry) => entry.kind === 'tipos-evento',
 );
-assert.equal(occasionEntries.length, 6);
-assert.equal(new Set(occasionEntries.map((entry) => entry.slug)).size, 6);
+assert.equal(occasionEntries.length, 8);
+assert.equal(new Set(occasionEntries.map((entry) => entry.slug)).size, 8);
 for (const occasion of occasionEntries) {
   assert.ok(occasion.seo.title.includes('Gladys'));
   assert.ok(
-    occasion.serviceIds.length + occasion.menuIds.length + occasion.addOnIds.length >= 4,
+    occasion.serviceIds.length +
+      occasion.menuIds.length +
+      occasion.addOnIds.length >=
+      4,
     `${occasion.id}: la página debe ofrecer varias opciones sin navegar a otro catálogo`,
   );
 }
@@ -954,5 +1054,5 @@ assert.equal(
   'never silently truncate selected options',
 );
 console.log(
-  'PASS: diez servicios independientes y seis ocasiones, cantidades/opciones completas, validación y contactos reales.',
+  'PASS: diez servicios independientes y ocho ocasiones, cantidades/opciones completas, validación y contactos reales.',
 );

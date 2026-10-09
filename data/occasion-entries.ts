@@ -1,0 +1,95 @@
+import { emptyEntry } from './defaults';
+import type { ContentEntry } from '@/models/content';
+
+function occasion(
+  id: string,
+  slug: string,
+  title: string,
+  description: string,
+  body: string,
+  imageId: string,
+  details: string[],
+  serviceIds: string[],
+  menuIds: string[],
+  addOnIds: string[],
+  seoDescription: string,
+  faqItems: ContentEntry['faqItems'],
+  category: string,
+  sortOrder: number,
+): ContentEntry {
+  return {
+    ...emptyEntry(),
+    id,
+    kind: 'tipos-evento',
+    slug,
+    title,
+    description,
+    body,
+    imageId,
+    details,
+    serviceIds,
+    menuIds,
+    addOnIds,
+    faqItems,
+    category,
+    sortOrder,
+    featured: true,
+    status: 'published',
+    seo: {
+      title: title + ' | Gladys',
+      description: seoDescription,
+      noindex: false,
+    },
+  };
+}
+
+export const newOccasions: ContentEntry[] = [
+  occasion(
+    'graduaciones',
+    'catering-graduaciones-lima',
+    'Catering para graduaciones y fiestas de promoción en Lima',
+    'Comida y servicios para celebrar una promoción escolar o una graduación universitaria a tu manera.',
+    'Puedes organizar un almuerzo de promoción, una recepción o una reunión después de la ceremonia. Elige buffet o menú y suma atención, menaje, sillas, flores, recuerdos o polos si los necesitas. Cuéntanos el formato para preparar una propuesta sin incluir servicios que no pediste.',
+    'imagen-buffet-demo',
+    [
+      'Opciones para promociones escolares y graduaciones universitarias',
+      'Elige comida, atención y detalles en una sola consulta',
+      'Fecha, lugar, cantidades y precio se confirman por WhatsApp',
+    ],
+    ['buffet-para-eventos'],
+    ['menu-criollo-eventos'],
+    ['mozos-evento', 'menaje-evento', 'sillas-evento', 'recuerdos-evento', 'arreglos-florales', 'polos-estampados'],
+    'Cotiza buffet, menú, mozos, menaje, sillas, recuerdos y polos para promociones escolares y graduaciones universitarias en Lima Metropolitana.',
+    [
+      { id: 'graduacion-formato', question: '¿Sirve para una promoción escolar o una graduación universitaria?', answer: 'Sí. Cuéntanos cuál será la ocasión, el lugar y el número aproximado de asistentes. Ajustaremos los servicios que selecciones al formato del evento.' },
+      { id: 'graduacion-comida', question: '¿Podemos pedir sólo la comida?', answer: 'Sí. Puedes cotizar buffet o menú sin añadir otros servicios. Si necesitas atención, menaje o recuerdos, agrégalos en esta página.' },
+      { id: 'graduacion-barra', question: '¿La barra de bebidas está incluida?', answer: 'No se incluye automáticamente. Si la necesitas para una celebración apropiada, puedes añadir bartender y conversaremos sobre el alcance.' },
+    ],
+    'Celebraciones',
+    2,
+  ),
+  occasion(
+    'fin-ano-empresas',
+    'catering-fin-ano-empresas-lima',
+    'Catering para fiestas de fin de año de empresas en Lima',
+    'Una propuesta para cerrar el año con tu equipo, desde un desayuno hasta un almuerzo o celebración.',
+    'Cuéntanos si planeas un desayuno de cierre, un almuerzo compartido o una celebración con invitados. Puedes combinar buffet, menú o coffee break con atención, menaje, sillas, barra o detalles para el equipo. Revisaremos contigo la fecha, el horario, el lugar y la disponibilidad.',
+    'imagen-mozos',
+    [
+      'Alternativas para desayuno, almuerzo o celebración de cierre',
+      'Comida y servicios complementarios elegidos por tu empresa',
+      'Presupuesto y disponibilidad confirmados por WhatsApp',
+    ],
+    ['buffet-para-eventos', 'desayuno-corporativo'],
+    ['menu-criollo-eventos'],
+    ['bar-bartender', 'mozos-evento', 'menaje-evento', 'sillas-evento', 'arreglos-florales', 'recuerdos-evento', 'polos-estampados'],
+    'Cotiza buffet, desayuno, coffee break, mozos, bartender, menaje y detalles para la fiesta de fin de año de tu empresa en Lima Metropolitana.',
+    [
+      { id: 'fin-ano-formato', question: '¿Podemos organizar un desayuno en lugar de una fiesta?', answer: 'Sí. Elige desayuno corporativo o coffee break y cuéntanos el horario, el número de asistentes y el lugar para conversar sobre la propuesta.' },
+      { id: 'fin-ano-servicios', question: '¿Debemos contratar todos los servicios?', answer: 'No. Selecciona sólo los que necesitas; puedes comenzar por comida, atención, menaje o detalles para el equipo.' },
+      { id: 'fin-ano-fecha', question: '¿La fecha queda reservada al enviar la consulta?', answer: 'No. Revisaremos disponibilidad y condiciones contigo por WhatsApp antes de confirmar cualquier servicio.' },
+    ],
+    'Empresas',
+    7,
+  ),
+];

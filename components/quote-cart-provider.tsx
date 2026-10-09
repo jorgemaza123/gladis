@@ -39,9 +39,11 @@ function createItemId() {
 
 export function QuoteCartProvider({
   entryIds,
+  personEntryIds,
   children,
 }: {
   entryIds: string[];
+  personEntryIds: string[];
   children: React.ReactNode;
 }) {
   const [cart, dispatch] = useReducer(
@@ -52,6 +54,7 @@ export function QuoteCartProvider({
   const [restored, setRestored] = useState(false);
   const [restoreNotice, setRestoreNotice] = useState('');
   const validEntryIds = useMemo(() => new Set(entryIds), [entryIds]);
+  const personEntries = useMemo(() => new Set(personEntryIds), [personEntryIds]);
   useEffect(() => {
     let active = true;
     queueMicrotask(() => {
@@ -125,11 +128,16 @@ export function QuoteCartProvider({
           return;
         dispatch({
           type: 'add',
-          item: { itemId: createItemId(), entryId, quantity, optionValues },
+          item: {
+            itemId: createItemId(),
+            entryId,
+            quantity: personEntries.has(entryId) && quantity === 1 ? 0 : quantity,
+            optionValues,
+          },
         });
       },
     }),
-    [cart, restored, restoreNotice, validEntryIds],
+    [cart, restored, restoreNotice, validEntryIds, personEntries],
   );
   return (
     <QuoteCartContext.Provider value={value}>

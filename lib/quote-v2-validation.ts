@@ -42,10 +42,14 @@ export const quoteItemV2Schema = z
   })
   .strict();
 
+const draftItemV2Schema = quoteItemV2Schema.extend({
+  quantity: z.number().nonnegative(),
+});
+
 export const cartV2Schema: z.ZodType<CartV2> = z
   .object({
     schemaVersion: z.literal(2),
-    items: z.array(quoteItemV2Schema).max(20),
+    items: z.array(draftItemV2Schema).max(20),
     primaryItemId: z.uuid().nullable(),
     updatedAt: z.number().nonnegative(),
   })

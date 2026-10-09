@@ -13,16 +13,11 @@ import {
   type QuoteCartDialogEntry,
 } from './quote-cart-dialog';
 import { QuoteCta } from './quote-cta';
-import {
-  ServiceRecommendations,
-  type RecommendationEntry,
-} from './service-recommendations';
-import {
-  resolveBusinessContact,
-  resolveWhatsAppDestination,
-} from '@/lib/business-contacts';
+import type { RecommendationEntry } from './service-recommendations';
+import { resolveBusinessContact, resolveWhatsAppDestination } from '@/lib/business-contacts';
 import { EventLanding } from './event-landing';
-import type { QuoteSite } from './quote';
+import { ServiceExplorer } from './service-explorer';
+import { explorerServices, quoteSiteFor } from '@/lib/public-services';
 export const publicEntries = (site: SiteContent) =>
   site.entries
     .filter(
@@ -114,6 +109,7 @@ export function Shell({
       title: entry.title,
       quoteConfig: entry.quoteConfig!,
       recipient: resolveBusinessContact(entry.ownerId),
+      whatsappDestination: resolveWhatsAppDestination(entry.ownerId),
     }));
   const recommendationEntries: RecommendationEntry[] = publicEntries(site).map(
     (entry) => ({
@@ -165,19 +161,41 @@ export function Shell({
             </Link>
           ))}
         </nav>
+        <QuoteCta className="button small header-quote-cta" placement="navigation">
+          Cotizar mi evento
+        </QuoteCta>
         <QuoteCartDialog
           entries={quoteCartEntries}
           recommendationEntries={recommendationEntries}
           motionEnabled={motionEnabled}
         />
         <details className="mobile-menu">
-          <summary aria-label="Abrir navegación">☰</summary>
+          <summary aria-label="Menú principal">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            >
+              <path d="M4 7h16" />
+              <path d="M4 12h16" />
+              <path d="M4 17h16" />
+            </svg>
+          </summary>
           <nav aria-label="Navegación móvil">
             {navigation.map((n) => (
               <Link key={n.href} href={n.href}>
                 {n.label}
               </Link>
             ))}
+            <QuoteCta className="button mobile-nav-cta" placement="navigation">
+              Cotizar mi evento
+            </QuoteCta>
           </nav>
         </details>
       </header>
@@ -186,30 +204,51 @@ export function Shell({
         <div className="footer-grid">
           <div>
             {logoAsset ? (
-              <div className="footer-brand-logo">
-                <Photo asset={logoAsset} />
-              </div>
+              <div className="footer-brand-logo"><Photo asset={logoAsset} /></div>
             ) : (
               <div className="brand">{s.name}</div>
             )}
             <p>{s.footer}</p>
+            <p>Precios y disponibilidad a consulta por WhatsApp. Atendemos en Lima Metropolitana.</p>
             {s.businessVerified && s.publicAddress && <p>{s.publicAddress}</p>}
             {s.businessVerified && s.hours && <p>{s.hours}</p>}
           </div>
-          <nav aria-label="Pie de página">
-            {navigation.map((n) => (
-              <Link key={n.href} href={n.href}>
-                {n.label}
-              </Link>
-            ))}
+          <nav aria-label="Celebraciones">
+            <h2>Celebraciones</h2>
+            {['cumpleanos', 'graduaciones', 'boda', 'bautizos-comuniones', 'reuniones-familiares']
+              .flatMap((id) => publicEntries(site).filter((entry) => entry.id === id))
+              .map((entry) => (
+                <Link key={entry.id} href={'/' + entry.kind + '/' + entry.slug}>
+                  {entry.title}
+                </Link>
+              ))}
+            <Link href="/tipos-evento">Todas las ocasiones</Link>
           </nav>
-          <div>
+          <nav aria-label="Empresas">
+            <h2>Empresas</h2>
+            {['fin-ano-empresas', 'desayunos-corporativos', 'corporativo']
+              .flatMap((id) => publicEntries(site).filter((entry) => entry.id === id))
+              .map((entry) => (
+                <Link key={entry.id} href={'/' + entry.kind + '/' + entry.slug}>
+                  {entry.title}
+                </Link>
+              ))}
+          </nav>
+          <nav aria-label="Servicios">
+            <h2>Servicios</h2>
+            <Link href="/servicios/buffet-para-eventos">Buffet para eventos</Link>
+            <Link href="/complementos/bar-bartender">Bartender</Link>
+            <Link href="/complementos/menaje-evento">Alquiler de menaje</Link>
+            <Link href="/complementos/mozos-evento">Mozos</Link>
+            <Link href="/complementos">Ver todos los servicios</Link>
+          </nav>
+          <div className="footer-contact">
             <p>{c.footerHeading}</p>
-            {s.email && <Link href={`mailto:${s.email}`}>{s.email}</Link>}
-            <QuoteCta placement="footer">{c.primaryCta} ↗</QuoteCta>
-            {s.socialLinks.map((l) => (
-              <Link key={l.url} href={l.url} rel="noopener noreferrer">
-                {l.label} ↗
+            {s.email && <Link href={'mailto:' + s.email}>{s.email}</Link>}
+            <QuoteCta className="button" placement="footer">Cotizar mi evento</QuoteCta>
+            {s.socialLinks.map((link) => (
+              <Link key={link.url} href={link.url} rel="noopener noreferrer">
+                {link.label} ↗
               </Link>
             ))}
           </div>
@@ -217,8 +256,7 @@ export function Shell({
         <div className="footer-bottom">
           <span>{s.tagline}</span>
           <Link href="/privacidad">Privacidad</Link>
-        </div>
-      </footer>
+        </div>      </footer>
     </div>
   );
 }
@@ -602,52 +640,18 @@ export function EntryDetail({
 }) {
   const c = site.settings.copy;
   if (e.kind === 'tipos-evento') {
-    const requestedIds = [...e.serviceIds, ...e.menuIds, ...e.addOnIds];
-    const services = publicEntries(site)
-      .filter(
-        (item): item is ContentEntry & { quoteConfig: NonNullable<ContentEntry['quoteConfig']> } =>
-          requestedIds.includes(item.id) &&
-          item.requestable &&
-          item.ownerId !== null &&
-          item.quoteConfig !== null,
-      )
-      .sort((left, right) => requestedIds.indexOf(left.id) - requestedIds.indexOf(right.id))
-      .map((item) => ({
-        id: item.id,
-        title: item.title,
-        description: item.description,
-        quoteConfig: item.quoteConfig,
-        image: site.media.find((media) => media.id === item.imageId),
-      }));
-    const quoteEntries = publicEntries(site).filter(
-      (item) => item.requestable && item.ownerId !== null && item.quoteConfig,
-    );
-    const quoteSite: QuoteSite = {
-      settings: {
-        whatsappMessage: site.settings.whatsappMessage,
-        copy: {
-          coverageTitle: c.coverageTitle,
-          privacyTitle: c.privacyTitle,
-          quoteAsideDescription: c.quoteAsideDescription,
-          quoteAsideTitle: c.quoteAsideTitle,
-          successDescription: c.successDescription,
-          successTitle: c.successTitle,
-        },
-      },
-      entries: quoteEntries.map((item) => ({
-        id: item.id,
-        kind: item.kind,
-        title: item.title,
-        minimumGuests: item.minimumGuests,
-        modalityIds: item.modalityIds,
-        addOnIds: item.addOnIds,
-        coverageIds: item.coverageIds,
-        requestable: item.requestable,
-        quoteConfig: item.quoteConfig,
-        recipient: resolveBusinessContact(item.ownerId),
-        whatsappDestination: resolveWhatsAppDestination(item.ownerId),
-      })),
+    const featuredByOccasion: Record<string, string[]> = {
+      cumpleanos: ['buffet-para-eventos', 'menu-criollo-eventos', 'mozos-evento'],
+      graduaciones: ['buffet-para-eventos', 'mozos-evento', 'recuerdos-evento'],
+      'fin-ano-empresas': ['buffet-para-eventos', 'desayuno-corporativo', 'mozos-evento'],
+      'bautizos-comuniones': ['buffet-para-eventos', 'menaje-evento', 'recuerdos-evento'],
+      boda: ['buffet-para-eventos', 'mozos-evento', 'arreglos-florales'],
+      'reuniones-familiares': ['buffet-para-eventos', 'menu-criollo-eventos', 'menaje-evento'],
+      'desayunos-corporativos': ['desayuno-corporativo', 'menaje-evento', 'mozos-evento'],
+      corporativo: ['buffet-para-eventos', 'desayuno-corporativo', 'mozos-evento'],
     };
+    const services = explorerServices(site);
+    const quoteSite = quoteSiteFor(site);
     const otherOccasions = publicEntries(site)
       .filter((item) => item.kind === 'tipos-evento' && item.id !== e.id)
       .slice(0, 4)
@@ -664,10 +668,10 @@ export function EntryDetail({
           body: e.body,
           details: e.details,
           faqItems: e.faqItems,
-          imageId: e.imageId,
           image: site.media.find((media) => media.id === e.imageId),
         }}
         services={services}
+        featuredIds={featuredByOccasion[e.id] || e.serviceIds.concat(e.addOnIds)}
         quoteSite={quoteSite}
         otherOccasions={otherOccasions}
       />
@@ -708,8 +712,9 @@ export function EntryDetail({
                     : null
                 }
                 placement="service_detail"
+                href="#elegir-servicios"
               >
-                {c.inquire} ↗
+                {e.requestable ? c.inquire : 'Elegir servicios'} ↗
               </QuoteCta>
             </div>
             <EntryPrice entry={e} />
@@ -814,6 +819,16 @@ export function EntryDetail({
           </section>
         )}
       </section>
+      <ServiceExplorer
+          entries={explorerServices(site)}
+          featuredIds={e.recommendations.map((recommendation) => recommendation.entryId).concat(e.addOnIds)}
+          featuredReasons={Object.fromEntries(e.recommendations.map((recommendation) => [recommendation.entryId, recommendation.reason]))}
+          currentId={e.requestable ? e.id : undefined}
+          anchorId="elegir-servicios"
+          title={e.requestable ? "Elige este servicio y lo que quieras añadir." : "Elige los servicios para tu evento."}
+          intro={e.requestable ? "Añade este servicio como principal o combina otros. Todo quedará en una sola consulta." : "Puedes contratar un servicio o combinar varios. Revisa las opciones y cotiza aquí mismo."}
+          quoteSite={quoteSiteFor(site)}
+        />
       {groups.map(([kind, ids]) => {
         const entries = publicEntries(site).filter(
           (item) => ids.includes(item.id) && item.id !== e.id,
@@ -827,24 +842,7 @@ export function EntryDetail({
           </section>
         ) : null;
       })}
-      <ServiceRecommendations
-        entries={publicEntries(site).map((entry) => ({
-          id: entry.id,
-          kind: entry.kind,
-          slug: entry.slug,
-          title: entry.title,
-          description: entry.description,
-          status: entry.status,
-          sortOrder: entry.sortOrder,
-          imageId: entry.imageId,
-          requestable: entry.requestable,
-          ownerId: entry.ownerId,
-          quoteConfig: entry.quoteConfig,
-          recommendations: entry.recommendations,
-          image: site.media.find((media) => media.id === entry.imageId),
-        }))}
-        heading={c.relatedTitle}
-      />
+
     </>
   );
 }

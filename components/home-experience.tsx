@@ -4,6 +4,8 @@ import { OccasionGrid } from './occasion-grid';
 import { StoryHero } from './story-hero';
 import { HomeServiceJourney } from './home-service-journey';
 import { HomeServiceNav } from './home-service-nav';
+import { ServiceExplorer } from './service-explorer';
+import { explorerServices, quoteSiteFor } from '@/lib/public-services';
 
 function TableDrawing() {
   return (
@@ -31,6 +33,8 @@ export function HomeExperience({ site }: { site: SiteContent }) {
   const photo = (id: string) => site.media.find((m) => m.id === id);
   const occasionIds = [
     'cumpleanos',
+    'graduaciones',
+    'fin-ano-empresas',
     'bautizos-comuniones',
     'boda',
     'reuniones-familiares',
@@ -54,6 +58,13 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       <StoryHero />
       <HomeServiceNav />
       <OccasionGrid occasions={occasions} />
+      <ServiceExplorer
+        entries={explorerServices(site)}
+        featuredIds={['buffet-para-eventos', 'menaje-evento', 'mozos-evento']}
+        title="Comida, atención y detalles para reunir a los tuyos."
+        intro="Elige un servicio o arma una combinación. Puedes ver todas las opciones y cotizar aquí, sin perder lo que ya seleccionaste."
+        quoteSite={quoteSiteFor(site)}
+      />
       <HomeServiceJourney site={site} />
       <section className="conversation-chapter" id="como-cotizar">
         <div className="conversation-section wrap">

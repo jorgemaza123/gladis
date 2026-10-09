@@ -13,6 +13,7 @@ export type QuoteCartDialogEntry = {
   title: string;
   quoteConfig: QuoteConfig;
   recipient: PublicBusinessContact;
+  whatsappDestination: string | null;
 };
 export function QuoteCartDialog({
   entries,
@@ -25,13 +26,12 @@ export function QuoteCartDialog({
   const { cart, restored, restoreNotice } = useQuoteCart();
   const { recordCta } = useAttribution();
   const primary = cart.items.find((item) => item.itemId === cart.primaryItemId);
-  const recipient = entries.find(
-    (entry) => entry.id === primary?.entryId,
-  )?.recipient;
+  const primaryEntry = entries.find((entry) => entry.id === primary?.entryId);
+  const recipient = primaryEntry?.recipient;
   const errors = selectionErrors(cart, entries);
   return (
     <Dialog.Root modal>
-      <Dialog.Trigger className="button small quote-cart-trigger" type="button">
+      <Dialog.Trigger className="button small quote-cart-trigger" type="button" aria-label={`Mi evento: ${cart.items.length} ${cart.items.length === 1 ? 'servicio' : 'servicios'}`}>
         Mi evento <span className="cart-count">{cart.items.length}</span>
       </Dialog.Trigger>
       <Dialog.Portal>
@@ -52,17 +52,17 @@ export function QuoteCartDialog({
               </Dialog.Close>
             </div>
             <Dialog.Description>
-              Aquí están los servicios que elegiste. El equipo de tu servicio
-              principal recibirá la consulta.
+              {cart.items.length
+                ? 'Aquí están los servicios que elegiste. El equipo del principal recibirá la consulta completa.'
+                : 'Elige los servicios que te interesan y consúltalos en una sola conversación.'}
             </Dialog.Description>
             {!restored && <p>Preparando tu selección…</p>}
             {restoreNotice && <p className="notice">{restoreNotice}</p>}
             {!cart.items.length ? (
               <div className="quote-cart-empty">
                 <p>¿Empezamos? Añade los servicios que te interesan.</p>
-                <Link className="text-link" href="/cotizar">
-                  Elegir mis servicios
-                </Link>
+                <Link className="text-link" href="/tipos-evento">Ver ocasiones</Link>
+                <Link className="text-link" href="/servicios">Ver servicios</Link>
               </div>
             ) : (
               <EventSelection entries={entries} prefix="dialog" />
@@ -76,7 +76,10 @@ export function QuoteCartDialog({
             )}
             {recipient && (
               <p className="quote-cart-recipient">
-                Te atenderá: <strong>{recipient.label}</strong>
+                Toda la consulta irá a: <strong>{recipient.label}</strong>
+                {primaryEntry?.whatsappDestination && (
+                  <> · +51 {primaryEntry.whatsappDestination.slice(2)}</>
+                )}
               </p>
             )}
             <div className="quote-cart-actions">

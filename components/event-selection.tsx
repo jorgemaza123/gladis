@@ -66,12 +66,13 @@ export function EventSelection({
                       min={entry.quoteConfig.minimum}
                       max={entry.quoteConfig.maximum}
                       step={entry.quoteConfig.step}
-                      value={item.quantity}
+                      value={item.quantity === 0 ? '' : item.quantity}
+                      placeholder={entry.quoteConfig.quantityUnit === 'person' ? 'Ej. 50' : 'Indica una cantidad'}
                       onChange={(e) =>
                         dispatch({
                           type: 'update',
                           itemId: item.itemId,
-                          quantity: Number(e.target.value),
+                          quantity: e.target.value === '' ? 0 : Number(e.target.value),
                           optionValues: item.optionValues,
                         })
                       }

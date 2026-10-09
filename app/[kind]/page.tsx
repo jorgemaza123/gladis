@@ -4,6 +4,8 @@ import { readSite } from '@/repositories/site';
 import { Shell, EntryCards, publicEntries, JsonLd } from '@/components/public';
 import { metadataFor, breadcrumbsData, catalogUrlPolicy } from '@/lib/seo';
 import { contentKinds, type ContentKind } from '@/models/content';
+import { ServiceExplorer } from '@/components/service-explorer';
+import { explorerServices, quoteSiteFor } from '@/lib/public-services';
 type Props = {
   params: Promise<{ kind: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -198,6 +200,16 @@ export default async function Listing({ params, searchParams }: Props) {
           </div>
         )}
       </section>
+      <ServiceExplorer
+        entries={explorerServices(site)}
+        featuredIds={kind === 'complementos'
+          ? ['buffet-para-eventos', 'menu-criollo-eventos', 'desayuno-corporativo']
+          : kind === 'tipos-evento'
+            ? ['buffet-para-eventos', 'mozos-evento', 'menaje-evento']
+            : ['mozos-evento', 'menaje-evento', 'arreglos-florales']}
+        title={kind === 'tipos-evento' ? 'Elige también los servicios de tu evento.' : '¿Quieres sumar algo más?'}
+        quoteSite={quoteSiteFor(site)}
+      />
     </Shell>
   );
 }

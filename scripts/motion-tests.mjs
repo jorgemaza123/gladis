@@ -84,6 +84,7 @@ class ElementDouble extends EventTargetDouble {
   }
   matches(selector) {
     if (selector === '[data-reveal]') return 'reveal' in this.dataset;
+    if (selector === '.service-visual') return this.classes.has('service-visual');
     if (selector === ':focus-within')
       return (
         this.focused || this.children.some((child) => child.matches(selector))
@@ -96,6 +97,9 @@ class ElementDouble extends EventTargetDouble {
     return this.matches(selector)
       ? this
       : this.parentElement?.closest(selector) || null;
+  }
+  querySelector(selector) {
+    return this.querySelectorAll(selector)[0] || null;
   }
   querySelectorAll(selector) {
     this.queryCount++;
@@ -120,6 +124,14 @@ class ElementDouble extends EventTargetDouble {
   }
 }
 
+function serviceScene({ top = 1200, visualTop = 1200, visualHeight = 400 } = {}) {
+  const owner = new ElementDouble({ top, height: 1200 });
+  owner.dataset.reveal = 'service';
+  const visual = new ElementDouble({ reveal: false, top: visualTop, height: visualHeight });
+  visual.classList.add('service-visual');
+  owner.append(visual);
+  return { owner, visual };
+}
 function environment({
   reduced = false,
   hasIntersection = true,
@@ -136,8 +148,9 @@ function environment({
   class IntersectionDouble {
     observed = new Set();
     disconnected = false;
-    constructor(callback) {
+    constructor(callback, options) {
       this.callback = callback;
+      this.options = options;
       intersections.push(this);
     }
     observe(element) {
@@ -150,12 +163,13 @@ function environment({
       this.observed.clear();
       this.disconnected = true;
     }
-    cross(element, isIntersecting = true) {
+    cross(element, isIntersecting = true, intersectionRatio = isIntersecting ? 1 : 0) {
       if (this.disconnected || !this.observed.has(element)) return;
       this.callback([
         {
           target: element,
           isIntersecting,
+          intersectionRatio,
           boundingClientRect: element.getBoundingClientRect(),
         },
       ]);
@@ -174,12 +188,12 @@ function environment({
     disconnect() {
       this.disconnected = true;
     }
-    flush({ addedNodes = [], removedNodes = [] } = {}) {
+    flush({ addedNodes = [], removedNodes = [], target = this.root } = {}) {
       if (!this.disconnected)
         this.callback([
           {
             type: 'childList',
-            target: this.root,
+            target,
             addedNodes,
             removedNodes,
           },
@@ -267,25 +281,27 @@ check(
 );
 
 check(
-  'el contenido ya recorrido se asienta y el visible conserva su entrada',
+  'la hidratación asienta todo contenido visible y conserva entradas futuras',
   {},
   ({ root, start, intersections }) => {
-    const initial = new ElementDouble({ top: 100 });
+    const initial = new ElementDouble({ top: 600 });
+    const readable = new ElementDouble({ top: 100 });
+    const edge = new ElementDouble({ top: 799 });
     const passedScene = new ElementDouble({ top: -800 });
+    const future = new ElementDouble({ top: 800 });
     const restored = new ElementDouble();
     restored.classList.add('arrived');
-    root.append(initial, passedScene, restored);
+    root.append(initial, readable, edge, passedScene, future, restored);
     start();
-    assert.equal(initial.classList.contains('arrived'), false);
-    assert.ok(intersections[0].observed.has(initial));
-    for (const scene of [passedScene, restored]) {
+    for (const scene of [initial, readable, edge, passedScene, restored]) {
       assert.equal(scene.classList.contains('arrived'), true);
       assert.equal(scene.dataset.motionSettled, 'true');
       assert.equal(intersections[0].observed.has(scene), false);
     }
-    intersections[0].cross(initial);
-    assert.equal(initial.classList.contains('arrived'), true);
-    assert.equal(initial.dataset.motionSettled, undefined);
+    assert.ok(intersections[0].observed.has(future));
+    intersections[0].cross(future);
+    assert.equal(future.classList.contains('arrived'), true);
+    assert.equal(future.dataset.motionSettled, undefined);
   },
 );
 
@@ -297,7 +313,7 @@ check(
     root.append(existing);
     start();
     const future = new ElementDouble();
-    const visible = new ElementDouble({ top: 80 });
+    const visible = new ElementDouble({ top: 600 });
     const wrapper = new ElementDouble({ reveal: false });
     wrapper.append(future, visible);
     root.append(wrapper);
@@ -305,9 +321,10 @@ check(
     mutations[0].flush({ addedNodes: [wrapper] });
     assert.deepEqual(
       intersections[0].observed,
-      new Set([existing, future, visible]),
+      new Set([existing, future]),
     );
-    assert.equal(visible.classList.contains('arrived'), false);
+    assert.equal(visible.classList.contains('arrived'), true);
+    assert.equal(visible.dataset.motionSettled, 'true');
     assert.equal(
       root.queryCount,
       initialRootQueries,
@@ -318,7 +335,7 @@ check(
       'solo debe recorrerse la rama que acaba de añadirse',
     );
     mutations[0].flush({ addedNodes: [wrapper] });
-    assert.equal(intersections[0].observed.size, 3);
+    assert.equal(intersections[0].observed.size, 2);
   },
 );
 
@@ -388,6 +405,7 @@ check(
     const queuedEntries = [removed, present].map((target) => ({
       target,
       isIntersecting: true,
+      intersectionRatio: 1,
       boundingClientRect: target.getBoundingClientRect(),
     }));
     removed.remove();
@@ -401,7 +419,7 @@ check(
 );
 
 check(
-  'un foco presente y un salto rápido por encima evitan reanimar escenas',
+  'un foco presente y una notificación por encima asientan escenas',
   {},
   ({ root, start, intersections }) => {
     const focused = new ElementDouble();
@@ -424,6 +442,26 @@ check(
       'una escena futura que aún no intersecta debe seguir pendiente',
     );
     assert.equal(intersections[0].observed.has(below), true);
+  },
+);
+
+check(
+  'un salto que aterriza dentro de una escena no vuelve a desvanecerla',
+  {},
+  ({ root, start, intersections }) => {
+    const landing = new ElementDouble({ height: 900 });
+    const entering = new ElementDouble();
+    root.append(landing, entering);
+    start();
+    landing.top = 80;
+    entering.top = 650;
+    intersections[0].cross(landing);
+    intersections[0].cross(entering);
+    assert.equal(landing.dataset.motionSettled, 'true');
+    assert.equal(landing.classList.contains('arrived'), true);
+    assert.equal(intersections[0].observed.has(landing), false);
+    assert.equal(entering.dataset.motionSettled, undefined);
+    assert.equal(entering.classList.contains('arrived'), true);
   },
 );
 
@@ -524,6 +562,216 @@ check(
   },
 );
 
+check(
+  'los títulos esperan su ratio mínimo aunque el observador notifique contacto parcial',
+  {},
+  ({ root, start, intersections }) => {
+    const title = new ElementDouble();
+    root.append(title);
+    start();
+    const observer = intersections[0];
+    assert.deepEqual(observer.options.threshold, [0.18, 0.55]);
+    assert.equal(observer.options.rootMargin, '0px 0px -10% 0px');
+    title.top = 650;
+    observer.cross(title, true, 0);
+    observer.cross(title, true, 0.17);
+    assert.equal(title.classList.contains('arrived'), false);
+    observer.cross(title, true, 0.18);
+    assert.equal(title.classList.contains('arrived'), true);
+    assert.equal(title.dataset.motionSettled, undefined);
+  },
+);
+
+check(
+  'un artículo visible espera a que el 55 por ciento de su imagen entre',
+  {},
+  ({ root, start, intersections }) => {
+    const { owner, visual } = serviceScene({ top: 100, visualTop: 1000 });
+    root.append(owner);
+    start();
+    const observer = intersections[0];
+    assert.equal(owner.classList.contains('arrived'), false);
+    assert.equal(observer.observed.has(owner), false);
+    assert.ok(observer.observed.has(visual));
+    visual.top = 420;
+    observer.cross(visual, true, 0.18);
+    observer.cross(visual, true, 0.54);
+    assert.equal(owner.classList.contains('arrived'), false);
+    observer.cross(visual, true, 0.55);
+    assert.equal(owner.classList.contains('arrived'), true);
+    assert.equal(owner.dataset.motionSettled, undefined);
+    assert.equal(visual.classList.contains('arrived'), false);
+    assert.equal(observer.observed.size, 0);
+    // A previously queued entry cannot settle or restart a completed entrance.
+    observer.callback([{
+      target: visual,
+      isIntersecting: false,
+      intersectionRatio: 0,
+      boundingClientRect: { top: -1000, bottom: -600, height: 400 },
+    }]);
+    assert.equal(owner.dataset.motionSettled, undefined);
+  },
+);
+
+check(
+  'la hidratación y los saltos se calculan sobre la imagen del servicio',
+  {},
+  ({ root, start, intersections }) => {
+    const visible = serviceScene({ top: -500, visualTop: 600 });
+    const entering = serviceScene({ top: -500, visualTop: 1100 });
+    const landing = serviceScene({ top: 1200, visualTop: 1400 });
+    root.append(visible.owner, entering.owner, landing.owner);
+    start();
+    assert.equal(visible.owner.dataset.motionSettled, 'true');
+    assert.equal(intersections[0].observed.has(visible.visual), false);
+    assert.equal(entering.owner.classList.contains('arrived'), false);
+    entering.visual.top = 400;
+    intersections[0].cross(entering.visual, true, 0.55);
+    assert.equal(entering.owner.dataset.motionSettled, undefined);
+    assert.equal(entering.owner.classList.contains('arrived'), true);
+    landing.visual.top = 100;
+    intersections[0].cross(landing.visual, true, 0.3);
+    assert.equal(landing.owner.dataset.motionSettled, 'true');
+  },
+);
+
+check(
+  'Tab en un CTA asienta el artículo y libera la observación de su imagen',
+  {},
+  ({ root, start, intersections }) => {
+    const { owner, visual } = serviceScene();
+    const button = new ElementDouble({ reveal: false });
+    owner.append(button);
+    root.append(owner);
+    start();
+    root.dispatch('focusin', { target: button });
+    assert.equal(owner.dataset.motionSettled, 'true');
+    assert.equal(intersections[0].observed.has(visual), false);
+    assert.equal(intersections[0].observed.size, 0);
+  },
+);
+
+check(
+  'retirar y reinsertar servicios libera y restablece sus targets visuales',
+  {},
+  ({ root, start, intersections, mutations }) => {
+    const { owner, visual } = serviceScene();
+    root.append(owner);
+    start();
+    owner.remove();
+    mutations[0].flush({ removedNodes: [owner] });
+    assert.equal(intersections[0].observed.size, 0);
+    intersections[0].callback([{
+      target: visual,
+      isIntersecting: true,
+      intersectionRatio: 1,
+      boundingClientRect: visual.getBoundingClientRect(),
+    }]);
+    assert.equal(owner.classList.contains('arrived'), false);
+    root.append(owner);
+    mutations[0].flush({ addedNodes: [owner] });
+    assert.ok(intersections[0].observed.has(visual));
+    visual.top = 400;
+    intersections[0].cross(visual, true, 0.55);
+    assert.equal(owner.classList.contains('arrived'), true);
+  },
+);
+
+check(
+  'reemplazar una imagen pendiente desobserva el nodo antiguo sin recorrer todo el root',
+  {},
+  ({ root, start, intersections, mutations }) => {
+    const { owner, visual } = serviceScene();
+    root.append(owner);
+    start();
+    const rootQueries = root.queryCount;
+    const replacement = new ElementDouble({ reveal: false, top: 1500 });
+    replacement.classList.add('service-visual');
+    visual.remove();
+    owner.append(replacement);
+    mutations[0].flush({ target: owner, removedNodes: [visual], addedNodes: [replacement] });
+    assert.equal(root.queryCount, rootQueries);
+    assert.equal(intersections[0].observed.has(visual), false);
+    assert.ok(intersections[0].observed.has(replacement));
+    intersections[0].callback([{
+      target: visual,
+      isIntersecting: true,
+      intersectionRatio: 1,
+      boundingClientRect: visual.getBoundingClientRect(),
+    }]);
+    assert.equal(owner.classList.contains('arrived'), false);
+    replacement.top = 400;
+    intersections[0].cross(replacement, true, 0.55);
+    assert.equal(owner.classList.contains('arrived'), true);
+  },
+);
+
+check(
+  'el movimiento reducido desconecta también los targets visuales y los reanuda una sola vez',
+  {},
+  ({ root, start, intersections, preference }) => {
+    const { owner, visual } = serviceScene();
+    root.append(owner);
+    const cleanup = start();
+    preference.change(true);
+    assert.equal(intersections[0].observed.size, 0);
+    preference.change(false);
+    assert.ok(intersections[1].observed.has(visual));
+    visual.top = 400;
+    intersections[1].cross(visual, true, 0.55);
+    preference.change(true);
+    preference.change(false);
+    assert.equal(owner.dataset.motionSettled, 'true');
+    assert.equal(intersections[2].observed.size, 0);
+    cleanup();
+    assert.ok(intersections.every((observer) => observer.disconnected));
+  },
+);
+check(
+  'añadir contenido anidado a un servicio asentado no reinicia sus capas',
+  {},
+  ({ root, start, intersections, mutations }) => {
+    const { owner, visual } = serviceScene({ visualTop: 500 });
+    root.append(owner);
+    start();
+    assert.equal(owner.dataset.motionSettled, 'true');
+    const caption = new ElementDouble({ reveal: false });
+    visual.append(caption);
+    mutations[0].flush({ target: visual, addedNodes: [caption] });
+    assert.equal(owner.dataset.motionSettled, 'true');
+    assert.equal(owner.classList.contains('arrived'), true);
+    assert.equal(intersections[0].observed.size, 0);
+  },
+);
+check(
+  'una escena alta en landscape usa un umbral alcanzable sin esperar a salir',
+  {},
+  ({ root, start, intersections }) => {
+    window.innerHeight = 375;
+    const { owner, visual } = serviceScene({ visualHeight: 689 });
+    root.append(owner);
+    start();
+    visual.top = 220;
+    const entry = {
+      target: visual,
+      isIntersecting: true,
+      intersectionRatio: 0.17,
+      boundingClientRect: visual.getBoundingClientRect(),
+      rootBounds: { height: 338 },
+    };
+    intersections[0].callback([entry]);
+    assert.equal(owner.classList.contains('arrived'), false);
+    visual.top = 200;
+    intersections[0].callback([{
+      ...entry,
+      intersectionRatio: 0.2,
+      boundingClientRect: visual.getBoundingClientRect(),
+    }]);
+    assert.equal(owner.classList.contains('arrived'), true);
+    assert.equal(owner.dataset.motionSettled, undefined);
+    assert.equal(intersections[0].observed.size, 0);
+  },
+);
 console.log(
   `PASS: ${passed} verificaciones del ciclo de vida de animación; la apariencia y el rendimiento visual requieren navegador.`,
 );

@@ -4,32 +4,51 @@ export function observeScrollMotion(root: HTMLElement) {
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const seen = new WeakSet<HTMLElement>();
   const pending = new Set<HTMLElement>();
+  const targetOwners = new Map<Element, HTMLElement>();
+  const ownerTargets = new Map<HTMLElement, HTMLElement>();
   let intersection: IntersectionObserver | undefined;
   let mutations: MutationObserver | undefined;
+
+  function targetFor(element: HTMLElement) {
+    return element.dataset.reveal === 'service'
+      ? element.querySelector<HTMLElement>('.service-visual') || element
+      : element;
+  }
+
+  function unobserve(element: HTMLElement) {
+    const target = ownerTargets.get(element);
+    if (target) {
+      intersection?.unobserve(target);
+      targetOwners.delete(target);
+      ownerTargets.delete(element);
+    }
+    pending.delete(element);
+  }
 
   function arrive(element: HTMLElement, settle = false) {
     if (settle) element.dataset.motionSettled = 'true';
     element.classList.add('arrived');
-    intersection?.unobserve(element);
-    pending.delete(element);
+    unobserve(element);
   }
 
-  function observe(element: HTMLElement) {
+  function observe(element: HTMLElement, target: HTMLElement) {
     pending.add(element);
-    intersection?.observe(element);
+    targetOwners.set(target, element);
+    ownerTargets.set(element, target);
+    intersection?.observe(target);
   }
 
   function registerElement(element: HTMLElement, resume = false) {
     if (seen.has(element) && !resume) return;
     seen.add(element);
-    const bounds = element.getBoundingClientRect();
-    // Scenes already passed or previously revealed stay immediately readable.
-    // A scene currently entering the viewport remains observable so its motion
-    // is not consumed before enough of the image can be seen.
-    if (element.classList.contains('arrived') || bounds.bottom <= 0) {
+    const target = targetFor(element);
+    const bounds = target.getBoundingClientRect();
+    // Already visible HTML must not move backwards or acquire a curtain during
+    // late hydration. Only content still below the viewport receives an entrance.
+    if (element.classList.contains('arrived') || bounds.top < window.innerHeight) {
       arrive(element, true);
     } else {
-      observe(element);
+      observe(element, target);
     }
   }
 
@@ -46,6 +65,7 @@ export function observeScrollMotion(root: HTMLElement) {
   function updateMutations(records: MutationRecord[]) {
     const removed = new Set<HTMLElement>();
     const added = new Set<HTMLElement>();
+    const affected = new Set<HTMLElement>();
 
     for (const record of records) {
       for (const node of record.removedNodes) {
@@ -54,17 +74,27 @@ export function observeScrollMotion(root: HTMLElement) {
       for (const node of record.addedNodes) {
         for (const element of collectRevealElements(node)) added.add(element);
       }
+      if (record.target instanceof Element) {
+        const owner = record.target.closest<HTMLElement>(revealSelector);
+        if (owner && pending.has(owner)) affected.add(owner);
+      }
     }
 
-    // A move within the root appears as remove + add. Keep those observations alive.
+    // A move within the root appears as remove + add. Keep its observation alive.
     for (const element of removed) {
       if (root.contains(element) || !pending.has(element)) continue;
-      intersection?.unobserve(element);
-      pending.delete(element);
+      unobserve(element);
       seen.delete(element);
     }
     for (const element of added) {
       if (root.contains(element)) registerElement(element);
+    }
+    // A replaced service visual may have no data-reveal attribute of its own.
+    for (const element of affected) {
+      if (!root.contains(element) || !pending.has(element)) continue;
+      if (targetFor(element) === ownerTargets.get(element)) continue;
+      unobserve(element);
+      registerElement(element, true);
     }
   }
 
@@ -76,11 +106,10 @@ export function observeScrollMotion(root: HTMLElement) {
 
   function focus(event: FocusEvent) {
     if (!(event.target instanceof Element)) return;
-    let element = event.target.closest<HTMLElement>('[data-reveal]');
+    let element = event.target.closest<HTMLElement>(revealSelector);
     while (element && root.contains(element)) {
       arrive(element, true);
-      element =
-        element.parentElement?.closest<HTMLElement>('[data-reveal]') || null;
+      element = element.parentElement?.closest<HTMLElement>(revealSelector) || null;
     }
   }
 
@@ -90,6 +119,8 @@ export function observeScrollMotion(root: HTMLElement) {
     intersection = undefined;
     mutations = undefined;
     pending.clear();
+    targetOwners.clear();
+    ownerTargets.clear();
     root.removeAttribute('data-scroll-motion');
   }
 
@@ -99,17 +130,36 @@ export function observeScrollMotion(root: HTMLElement) {
     intersection = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!root.contains(entry.target)) continue;
-          const element = entry.target as HTMLElement;
+          const element = targetOwners.get(entry.target);
+          if (
+            !element || !pending.has(element) || !root.contains(element) ||
+            !root.contains(entry.target) || !element.contains(entry.target)
+          ) continue;
+          // A tall illustration cannot reach 55% in a short landscape viewport.
+          // Reuse the lower observed threshold there so its entrance can finish.
+          const entranceRatio = element.dataset.reveal === 'service' &&
+            entry.boundingClientRect.height * 0.55 <=
+              (entry.rootBounds?.height ?? window.innerHeight) ? 0.55 : 0.18;
           if (entry.isIntersecting) {
-            arrive(element, element.matches(':focus-within'));
+            // Geometry belongs to the visual, not the potentially much taller
+            // service article. A jump into it settles without a late entrance.
+            if (
+              element.matches(':focus-within') ||
+              entry.boundingClientRect.top <= window.innerHeight * 0.2
+            ) {
+              arrive(element, true);
+            } else if (
+              entry.intersectionRatio >= entranceRatio
+            ) {
+              arrive(element);
+            }
           } else if (entry.boundingClientRect.bottom <= 0) {
-            // A fast jump can cross the whole scene without ever intersecting it.
+            // Settle a scene above the viewport when the observer reports it.
             arrive(element, true);
           }
         }
       },
-      { threshold: 0.18, rootMargin: '0px 0px -10% 0px' },
+      { threshold: [0.18, 0.55], rootMargin: '0px 0px -10% 0px' },
     );
     root.dataset.scrollMotion = 'ready';
     // This full scan runs only at startup or after a live preference change.

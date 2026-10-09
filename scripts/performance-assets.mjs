@@ -52,6 +52,8 @@ const fontTotal = (
 assert.ok(fontTotal < 65000, 'Local fonts exceed budget');
 
 const storySource = await readFile('components/story-hero.tsx', 'utf8');
+const heroVideoSource = await readFile('lib/hero-video.ts', 'utf8');
+const storyRuntimeSource = `${storySource}\n${heroVideoSource}`;
 const storyAssets = [
   ['gladys-story-desktop.mp4', 3200000],
   ['gladys-story-mobile.mp4', 1100000],
@@ -62,14 +64,33 @@ let storyTotal = 0;
 for (const [asset, budget] of storyAssets) {
   const bytes = (await stat(`public/videos/${asset}`)).size;
   assert.ok(bytes <= budget, `${asset} exceeds its runtime budget`);
-  assert.ok(storySource.includes(`/videos/${asset}`), `${asset} is not wired into StoryHero`);
+  assert.ok(storyRuntimeSource.includes(`/videos/${asset}`), `${asset} is not wired into StoryHero`);
   storyTotal += bytes;
 }
 assert.ok(storyTotal < 4200000, `Story hero runtime assets: ${storyTotal}`);
 assert.ok(
-  !storySource.includes('gladys-banquet-master.mp4'),
+  !storyRuntimeSource.includes('gladys-banquet-master.mp4'),
   'The preserved master video must not be sent to visitors',
 );
+assert.ok(storySource.includes('preload="metadata"'), 'Hero video must avoid eager full preload');
+assert.ok(heroVideoSource.includes('connection?.saveData'), 'Hero video must honor Save-Data');
+assert.ok(
+  heroVideoSource.includes('prefers-reduced-motion: reduce'),
+  'Hero video must honor reduced motion',
+);
+
+const logoVariants = [
+  ['/images/brand/gladys-logo-160.webp', 160, 11140],
+  ['/images/brand/gladys-logo-320.webp', 320, 27256],
+];
+for (const [url, width, bytes] of logoVariants) {
+  const buffer = await readFile(`public${url}`);
+  assert.equal(buffer.length, bytes, `${url}: metadata must match file`);
+  assert.ok(bytes <= width * 100, `${url} exceeds its logo budget`);
+}
+const demoSource = await readFile('data/demo.ts', 'utf8');
+for (const [url] of logoVariants)
+  assert.ok(demoSource.includes(url), `${url} is not wired into the logo asset`);
 
 const homeSceneManifest = JSON.parse(
   (await readFile('data/home-scene-assets.json', 'utf8')).replace(/^\uFEFF/, ''),
@@ -138,10 +159,10 @@ assert.match(
 );
 const homeNavSource = await readFile('components/home-service-nav.tsx', 'utf8');
 assert.ok(homeNavSource.includes('homeServiceNav.map'));
-for (const label of ['Cocina', 'Bartender', 'Menaje', 'Mozos', 'Alquileres', 'Personalizados', 'Flores'])
+for (const label of ['Cocina', 'Bartender', 'Menaje', 'Mozos y sillas', 'Personalizados', 'Flores'])
   assert.ok(homeSceneDataSource.includes(`label: '${label}'`), `Missing ${label} quick link`);
 assert.ok(storySource.includes('Soluciones para celebraciones y eventos en Lima'));
-assert.ok(storySource.includes('alquileres, personalizados y flores'));
+assert.match(storySource, /alquileres, personalizados y\s+flores/);
 console.log(
   `PASS: 24 variantes JPEG con dimensiones reales: ${total} bytes; 2 fuentes locales: ${fontTotal} bytes; 4 activos runtime del relato: ${storyTotal} bytes; seis escenas comerciales con capas y ${homeSceneTotal} bytes de WebP lazy. Esto no mide Core Web Vitals.`,
 );

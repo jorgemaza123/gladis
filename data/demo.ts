@@ -1,5 +1,6 @@
 import designImages from './design-images.json';
 import { emptyEntry, normalizeSite } from './defaults';
+import { newOccasions } from './occasion-entries';
 import type { ContentEntry, QuoteConfig, SiteContent } from '@/models/content';
 
 const seo = (title: string, description: string) => ({
@@ -173,6 +174,7 @@ export const demoContent: SiteContent = normalizeSite({
       'Buffet, menús, bartender, mozos, menaje, sillas, flores, recuerdos y polos para eventos en Lima Metropolitana. Cotiza por WhatsApp.',
     ),
     navigation: [
+      { label: 'Ocasiones', href: '/tipos-evento' },
       { label: 'Buffet y menús', href: '/servicios' },
       { label: 'Servicios para eventos', href: '/complementos' },
       { label: 'Cómo cotizar', href: '/#como-cotizar' },
@@ -199,10 +201,10 @@ export const demoContent: SiteContent = normalizeSite({
       'tipos-evento': {
         title: 'Ideas para tu evento',
         description:
-          'Encuentra una propuesta para cumpleaños, bautizos, bodas, reuniones familiares y eventos de empresa en Lima Metropolitana.',
+          'Explora opciones para cumpleaños, graduaciones, bodas, bautizos, reuniones familiares y eventos de empresa en Lima Metropolitana.',
         seo: seo(
           'Catering para celebraciones y empresas en Lima | Gladys',
-          'Explora opciones de catering para cumpleaños, bautizos, bodas, reuniones, desayunos corporativos y eventos empresariales en Lima.',
+          'Explora catering para cumpleaños, graduaciones, fiestas de promoción, bodas, fin de año, desayunos corporativos y eventos empresariales en Lima.',
         ),
       },
     },
@@ -231,6 +233,10 @@ export const demoContent: SiteContent = normalizeSite({
       width: 1254,
       height: 1254,
       bytes: 565079,
+      variants: [
+        { url: '/images/brand/gladys-logo-160.webp', width: 160, height: 160, bytes: 11140 },
+        { url: '/images/brand/gladys-logo-320.webp', width: 320, height: 320, bytes: 27256 },
+      ],
       tags: ['logo', 'marca'],
     },
     ...Object.entries(designImages).map(([name, variants]) => ({
@@ -313,7 +319,7 @@ export const demoContent: SiteContent = normalizeSite({
         featured: false,
         sortOrder: 1,
         category: 'Celebraciones',
-        body: 'Tú reúne a tus invitados. Nosotros te ayudamos a combinar el buffet con mozos, bartender, menaje, sillas, flores o recuerdos, según el tamaño y el estilo del cumpleaños.',
+        body: 'Reúne a tus invitados. Nosotros te ayudamos a combinar el buffet con mozos, bartender, menaje, sillas, flores o recuerdos, según el tamaño y el estilo del cumpleaños.',
         details: [
           'Opciones para cumpleaños familiares, infantiles y de adultos',
           'Servicios que puedes añadir o quitar en esta misma página',
@@ -329,6 +335,8 @@ export const demoContent: SiteContent = normalizeSite({
         faqItems: [
           { id: 'cumple-flexible', question: '¿Puedo contratar solamente el buffet?', answer: 'Sí. También puedes añadir atención, alquileres o detalles si te hacen falta. La cotización se adapta a tu celebración.' },
           { id: 'cumple-invitados', question: '¿Necesito saber el número exacto de invitados?', answer: 'Puedes empezar con una cantidad aproximada. Antes de confirmar coordinaremos contigo las cantidades finales.' },
+          { id: 'cumple-formatos', question: '¿Puedo consultar por un cumpleaños infantil, de adultos o un quinceañero?', answer: 'Sí. Dinos qué celebras, cuántas personas esperas y si será en casa o en un local. Selecciona sólo la comida y los servicios que te interesen para conversar sobre una propuesta adecuada.' },
+          { id: 'cumple-barra', question: '¿La barra está incluida en cualquier cumpleaños?', answer: 'No. Bartender es un servicio opcional y no se sugiere por defecto para celebraciones infantiles. Si tu evento es de adultos, puedes añadirlo a la consulta.' },
         ],
       },
     ),
@@ -389,6 +397,7 @@ export const demoContent: SiteContent = normalizeSite({
         faqItems: [
           { id: 'familia-casa', question: '¿Pueden atender una reunión en casa?', answer: 'Sí. Indícanos el distrito, la fecha, el acceso y la cantidad de invitados para revisar la logística contigo.' },
           { id: 'familia-menu', question: '¿El menú tiene que ser igual para todos?', answer: 'Conversaremos sobre las opciones que necesitas, incluidas alternativas vegetarianas que deban coordinarse.' },
+          { id: 'familia-baby-shower', question: '¿Puedo consultar por un baby shower o un almuerzo familiar?', answer: 'Sí. Cuéntanos el tipo de reunión, el lugar y cuántas personas asistirán. Puedes empezar por la comida y añadir atención o alquileres sólo si los necesitas.' },
         ],
       },
     ),
@@ -418,6 +427,7 @@ export const demoContent: SiteContent = normalizeSite({
         faqItems: [
           { id: 'desayuno-modalidad', question: '¿Puede ser un desayuno individual o para compartir?', answer: 'Sí. Indica la cantidad de personas, el horario y el tipo de reunión para conversar sobre la presentación más conveniente.' },
           { id: 'desayuno-horario', question: '¿Con cuánto tiempo debemos coordinar?', answer: 'Consulta la fecha tan pronto como la tengas. Confirmaremos disponibilidad, horario de entrega o servicio y condiciones por WhatsApp.' },
+          { id: 'desayuno-capacitacion', question: '¿Podemos pedir un coffee break para una capacitación?', answer: 'Sí. Indícanos el horario de pausa, el número aproximado de participantes y el distrito. Revisaremos contigo la modalidad y si hace falta menaje o atención.' },
         ],
       },
     ),
@@ -448,9 +458,11 @@ export const demoContent: SiteContent = normalizeSite({
         faqItems: [
           { id: 'empresa-factores', question: '¿Qué información necesitan para cotizar?', answer: 'Fecha, distrito, horario, cantidad aproximada de asistentes y los servicios que deseas incluir.' },
           { id: 'empresa-combinar', question: '¿Podemos combinar comida, atención y polos?', answer: 'Sí. Selecciona las opciones en esta página y recibirás una sola conversación organizada por WhatsApp.' },
+          { id: 'empresa-lanzamiento', question: '¿Puedo consultar por una inauguración o un lanzamiento?', answer: 'Sí. Cuéntanos si será un desayuno, almuerzo o recepción, cuántas personas asistirán y dónde se realizará. Te diremos qué servicios podemos coordinar para ese formato.' },
         ],
       },
     ),
+    ...newOccasions,
     entry(
       'lima-metropolitana',
       'cobertura',

@@ -38,8 +38,7 @@ export const homeServiceNav = [
   { label: 'Cocina', href: '#servicio-cocina' },
   { label: 'Bartender', href: '#servicio-bartender' },
   { label: 'Menaje', href: '#servicio-menaje' },
-  { label: 'Mozos', href: '#servicio-atencion' },
-  { label: 'Alquileres', href: '#servicio-atencion' },
+  { label: 'Mozos y sillas', href: '#servicio-atencion' },
   { label: 'Personalizados', href: '#servicio-personalizados' },
   { label: 'Flores', href: '#servicio-flores' },
 ] as const;
@@ -70,7 +69,7 @@ export const homeServiceScenes: HomeServiceScene[] = [
     kicker: 'El momento del brindis',
     title: 'Una barra pensada para el ritmo de tu evento.',
     description:
-      'Coordinamos bartender, bebidas y cristalería para que la barra acompañe la celebración sin sentirse desconectada del resto del montaje.',
+      'Coordinamos bartender, bebidas y cristalería según tus invitados y el estilo de la celebración.',
     essentials: ['Bartender', 'Barra y cristalería', 'Carta de bebidas por coordinar'],
     primaryId: 'bar-bartender',
     cta: 'Cotizar bartender',
@@ -122,7 +121,7 @@ export const homeServiceScenes: HomeServiceScene[] = [
     key: 'personalizados',
     anchor: 'servicio-personalizados',
     kicker: 'Un recuerdo pensado para ustedes',
-    title: 'Personalizados que siguen hablando del evento después de celebrarlo.',
+    title: 'Personalizados para que tus invitados se lleven un recuerdo de ese día.',
     description:
       'Reunimos recuerdos y productos estampados para invitados, equipos o aniversarios. Cuéntanos la idea, los colores y las cantidades.',
     essentials: ['Recuerdos para invitados', 'Polos estampados', 'Tazas y tomatodos por coordinar'],

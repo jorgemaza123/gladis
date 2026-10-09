@@ -10,20 +10,24 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const site = await readSite();
-  const entryIds = site.entries
-    .filter(
-      (e) =>
-        e.status === 'published' &&
-        e.requestable &&
-        e.ownerId !== null &&
-        e.quoteConfig !== null,
-    )
+  const requestableEntries = site.entries.filter(
+    (e) =>
+      e.status === 'published' &&
+      e.requestable &&
+      e.ownerId !== null &&
+      e.quoteConfig !== null,
+  );
+  const entryIds = requestableEntries.map((e) => e.id);
+  const personEntryIds = requestableEntries
+    .filter((e) => e.quoteConfig?.quantityUnit === 'person')
     .map((e) => e.id);
   return (
     <html lang="es-PE">
       <body>
         <AttributionProvider>
-          <QuoteCartProvider entryIds={entryIds}>{children}</QuoteCartProvider>
+          <QuoteCartProvider entryIds={entryIds} personEntryIds={personEntryIds}>
+            {children}
+          </QuoteCartProvider>
         </AttributionProvider>
       </body>
     </html>

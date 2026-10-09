@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 import type { SiteContent, SEOFields } from '@/models/content';
+import {
+  getBusinessContact,
+  resolveWhatsAppDestination,
+} from '@/lib/business-contacts';
 export function absoluteUrl(site: SiteContent, path: string) {
   try {
     const origin = new URL(site.settings.origin);
@@ -43,13 +47,16 @@ export function catalogUrlPolicy(
   const parsedPage = /^[1-9][0-9]*$/.test(rawPage) ? Number(rawPage) : 1;
   const page = Number.isSafeInteger(parsedPage) ? parsedPage : 1;
   const hasFilters = Boolean(
-    scalar(query.q).trim() || scalar(query.categoria) || scalar(query.modalidad),
+    scalar(query.q).trim() ||
+    scalar(query.categoria) ||
+    scalar(query.modalidad),
   );
   return {
     page,
     pageParamPresent: rawPage.length > 0,
     noindex: hasFilters,
-    canonicalPath: hasFilters || page === 1 ? `/${kind}` : `/${kind}?pagina=${page}`,
+    canonicalPath:
+      hasFilters || page === 1 ? `/${kind}` : `/${kind}?pagina=${page}`,
   };
 }
 export function metadataFor(
@@ -122,19 +129,52 @@ export function breadcrumbsData(
 }
 export function businessData(site: SiteContent) {
   const s = site.settings;
-  if (!s.businessVerified || s.demo || !s.origin || !s.publicAddress)
-    return null;
-  const logo = site.media.find((media) => media.id === s.logoId);
+  const url = absoluteUrl(site, '/');
+  if (!s.businessVerified || s.demo || !url || !s.name.trim()) return null;
+  const logo = site.media.find((media) => media.id === s.logoId && !media.demo);
   const logoUrl = logo ? absoluteUrl(site, logo.url) : undefined;
+  const areaServed = Array.from(
+    new Set(
+      site.entries
+        .filter(
+          (entry) => entry.kind === 'cobertura' && entry.status === 'published',
+        )
+        .map((entry) => entry.title.trim())
+        .filter(Boolean),
+    ),
+  ).map((name) => ({ '@type': 'AdministrativeArea', name }));
+  const publicOwners = new Set(
+    site.entries
+      .filter((entry) => entry.status === 'published' && entry.requestable)
+      .map((entry) => entry.ownerId),
+  );
+  const contactPoint = Array.from(publicOwners).flatMap((ownerId) => {
+    const contact = getBusinessContact(ownerId);
+    const phone = resolveWhatsAppDestination(ownerId);
+    return contact && phone
+      ? [
+          {
+            '@type': 'ContactPoint',
+            contactType: contact.label,
+            telephone: `+${phone}`,
+          },
+        ]
+      : [];
+  });
+  const publicAddress = s.publicAddress.trim();
   return {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': publicAddress ? 'LocalBusiness' : 'Organization',
     '@id': absoluteUrl(site, '/#business'),
     name: s.name,
-    url: absoluteUrl(site, '/'),
+    url,
     description: s.seo.description || s.footer,
     ...(logoUrl ? { logo: logoUrl, image: logoUrl } : {}),
-    address: { '@type': 'PostalAddress', streetAddress: s.publicAddress },
+    ...(publicAddress
+      ? { address: { '@type': 'PostalAddress', streetAddress: publicAddress } }
+      : {}),
+    ...(areaServed.length ? { areaServed } : {}),
+    ...(contactPoint.length ? { contactPoint } : {}),
     ...(s.email ? { email: s.email } : {}),
     sameAs: s.socialLinks.map((l) => l.url),
   };

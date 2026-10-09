@@ -39,7 +39,7 @@ function stamp(cart: CartV2, items: QuoteItemV2[], primaryItemId = cart.primaryI
 export function quoteCartReducer(cart: CartV2, action: QuoteCartAction): CartV2 {
   if (action.type === 'reset') return emptyQuoteCart();
   if (action.type === 'add') {
-    if (!Number.isFinite(action.item.quantity) || action.item.quantity <= 0) return cart;
+    if (!Number.isFinite(action.item.quantity) || action.item.quantity < 0) return cart;
     const matching = cart.items.find((item) => sameVariant(item, action.item));
     if (matching)
       return stamp(
@@ -59,7 +59,7 @@ export function quoteCartReducer(cart: CartV2, action: QuoteCartAction): CartV2 
     );
   }
   if (action.type === 'update') {
-    if (!Number.isFinite(action.quantity) || action.quantity <= 0) return cart;
+    if (!Number.isFinite(action.quantity) || action.quantity < 0) return cart;
     const current = cart.items.find((item) => item.itemId === action.itemId);
     if (!current) return cart;
     const next = { ...current, quantity: action.quantity, optionValues: action.optionValues };
@@ -109,7 +109,7 @@ function validCart(value: unknown): value is CartV2 {
   const ids = new Set<string>();
   for (const item of cart.items) {
     if (!item || typeof item !== 'object' || typeof item.itemId !== 'string' || typeof item.entryId !== 'string' ||
-      !Number.isFinite(item.quantity) || item.quantity <= 0 || !item.optionValues || typeof item.optionValues !== 'object')
+      !Number.isFinite(item.quantity) || item.quantity < 0 || !item.optionValues || typeof item.optionValues !== 'object')
       return false;
     if (ids.has(item.itemId)) return false;
     ids.add(item.itemId);
