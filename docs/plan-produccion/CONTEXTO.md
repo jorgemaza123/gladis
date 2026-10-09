@@ -4,6 +4,8 @@ Fecha de inspección: 2026-09-18. Repositorio base: commit `d2a337d`.
 Raíz de trabajo: `C:/Users/jorge/Desktop/plataforma_web_catering_gladis/web`.
 Esta carpeta contiene instrucciones FUTURAS. Su creación no implementa sus funciones.
 
+**Actualización vigente 2026-10-09:** el usuario corrigió la asignación: cocina, buffet, bartender y menaje usan 923106197; los demás servicios publicados usan 902843481. El dato de cocina pendiente que figura abajo describe exclusivamente la inspección histórica del 2026-09-18.
+
 ## Pedido del negocio
 
 - Lima Metropolitana. Protagonistas: preparación de comida, catering, buffet y bartender/bebidas, atendidos por la tía.

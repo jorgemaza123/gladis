@@ -55,6 +55,7 @@ export function ServiceRecommendations({
                 <QuoteCta
                   className="button small"
                   entryId={entry.id}
+                  entryTitle={entry.title}
                   mode="add"
                   placement="recommendation"
                 >

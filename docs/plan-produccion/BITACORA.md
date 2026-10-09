@@ -533,3 +533,10 @@ No borrar registros anteriores. Añadir una entrada al finalizar o bloquear cada
 - Se mantiene «Mi evento»: permite revisar y configurar los servicios seleccionados antes del cotizador y WhatsApp. No se alteró el componente ni su lógica comercial.
 - `npm.cmd run build` exit 0. Edge headless: 320, 375, 768, 1024, 1355, 1440 y 1920 px sin franja residual, controles recortados ni desbordamiento. `/servicios` a 375 y 1440 conserva la geometría anterior. Capturas móvil/escritorio revisadas; apertura, foco, Escape y devolución de foco del diálogo comprobados a 375 y 1355 px. Cero excepciones JavaScript.
 - Copia previa y evidencia en `outputs/header-edge/` (before/after JSON, capturas y build.log). Servidor local reiniciado en 4179. Sin push ni despliegue.
+
+## 2026-10-09 — Mejora de conversión y corrección de teléfonos
+
+- Se implementó en la cotización estática un resumen primero para selecciones existentes, acceso expandible a los demás servicios, copia opcional de personas a invitados y validación visible junto al campo tras intentar continuar. La bolsa dejó de mostrar errores antes de la acción del visitante. El mensaje de WhatsApp omite relleno de extras/presupuesto no indicados y conserva detalle y origen.
+- El usuario corrigió expresamente los destinos: cocina/comida/buffet/bartender/menaje → 923106197 (`51923106197`); mozos/sillas/flores/recuerdos/polos → 902843481 (`51902843481`). Los registros anteriores con la asignación opuesta son históricos y quedan supersedidos. La fuente de verdad es `config/business-contacts.ts`; la prueba comercial comprueba cada uno de los diez servicios.
+- `npm.cmd run quality` completó tipos, lint, movimiento, comercio, seguridad, activos y build con salida 0. Chrome local mostró 320/375/768/1440 px sin desbordamiento y cero excepciones; buffet como principal mostró 923106197 y sillas como principal mostró 902843481. No se abrió ni envió WhatsApp a los números reales.
+- No se verificaron conversaciones recibidas, ventas, publicación pública de esta versión ni decisiones sobre opciones comerciales obligatorias. No se hizo push en esta mejora.

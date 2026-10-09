@@ -13,12 +13,12 @@ export const BUSINESS_CONTACTS: Readonly<
 > = {
   cocina: {
     label: 'Cocina, bartender y menaje',
-    whatsapp: '51902843481',
+    whatsapp: '51923106197',
     enabled: true,
   },
   eventos: {
     label: 'Complementos y producción',
-    whatsapp: '51923106197',
+    whatsapp: '51902843481',
     enabled: true,
   },
 };

@@ -1,6 +1,6 @@
 # Gladys — siguiente mejora de conversión
 
-Fecha: 2026-10-09. Estado: plan propuesto; esta fase no está implementada.
+Fecha: 2026-10-09. Estado: primera entrega técnica de esta fase implementada y verificada localmente; medición comercial y decisiones operativas pendientes.
 
 ## Objetivo
 
@@ -45,7 +45,7 @@ Usar consultas reales de Search Console y preguntas de WhatsApp para enriquecer 
 - Desde ocasión, ficha o portada se puede añadir, quitar y revisar sin perder el contexto ni el origen.
 - Cantidad por servicio e invitados permanecen independientes salvo copia solicitada.
 - Los errores se entienden, señalan el campo y conservan lo escrito; no aparecen como fallo inicial.
-- Todo el pedido va al número del principal: buffet, comida, bartender y menaje al 902843481; mozos, sillas, flores, recuerdos y polos al 923106197.
+- Todo el pedido va al número del principal: buffet, comida, bartender y menaje al 923106197; mozos, sillas, flores, recuerdos y polos al 902843481.
 - El borrador conserva todos los servicios, cantidades, opciones y origen. Abrir WhatsApp no equivale a enviar el mensaje.
 - Tras implementar, ejecutar npm.cmd run quality y revisar en navegador real a 320, 375, 768 y 1440 px, con teclado, consola y ambos destinos. No declarar mejora de conversión sin una línea base comparable.
 
@@ -59,3 +59,14 @@ No añadir backend, base de datos, CMS, pagos, reservas automáticas, analítica
 - Validación comprensible: https://web.dev/learn/forms/validation/
 - Contenido útil para personas: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
 - Search Console: https://developers.google.com/search/docs/monitor-debug/search-console-start
+
+## Entrega técnica local del 2026-10-09
+
+- El cotizador enseña primero los servicios que ya se eligieron. El resto aparece con «Añadir otro servicio», sin perder acceso a los diez. Con una selección vacía, se muestra el catálogo inicial.
+- Las cantidades por servicio y los invitados siguen separados. Sólo un clic en «Usar…» copia una cantidad de personas al campo de invitados.
+- La bolsa ya no muestra una lista de errores antes de intentar avanzar. En el cotizador, los errores se presentan junto a cada campo, el foco va al primero y se conserva lo escrito. Las opciones comerciales obligatorias no cambiaron.
+- El borrador separa el detalle de servicios y el origen, y omite las líneas de complementos vacíos y presupuesto no indicado. No recorta líneas de servicios.
+- Por corrección explícita del usuario en esta fecha: **923106197** recibe buffet, comida, bartender y menaje; **902843481** recibe mozos, sillas, flores, recuerdos y polos. La selección del principal sigue enviando todo el pedido a un único equipo.
+- Verificación: suite de calidad completa con salida 0, prueba comercial de ambos contactos, y Chrome local a 320, 375, 768 y 1440 px sin desbordamiento. Se comprobó error y foco al intentar continuar, copia explícita de 50 invitados, revisión final del pedido, apertura de nueve servicios adicionales y cambio visible de destinatario. No se enviaron mensajes de prueba.
+
+Quedan sin afirmar resultados de ventas o abandono: no hay línea base ni medición de conversaciones recibidas. También quedan pendientes la revisión de qué opciones podrían ser «por definir», la pauta aceptada por ambos responsables y la expansión de páginas basada en consultas reales. Este cambio no hace push ni despliegue.

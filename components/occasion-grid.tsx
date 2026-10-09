@@ -5,6 +5,7 @@ import { Photo } from './photo';
 export type OccasionCard = {
   id: string;
   title: string;
+  mobileTitle?: string;
   description: string;
   href: string;
   group: string;
@@ -38,7 +39,12 @@ export function OccasionGrid({ occasions }: { occasions: OccasionCard[] }) {
               </span>
               <span className="occasion-card-copy">
                 <small>{occasion.group}</small>
-                <strong>{occasion.title}</strong>
+                <strong className="occasion-card-full-title">{occasion.title}</strong>
+                {occasion.mobileTitle && (
+                  <strong className="occasion-card-mobile-title" aria-hidden="true">
+                    {occasion.mobileTitle}
+                  </strong>
+                )}
                 <span>{occasion.description}</span>
                 <b>Preparar esta ocasión <i aria-hidden="true">↗</i></b>
               </span>

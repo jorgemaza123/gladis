@@ -38,7 +38,7 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
       </div>
 
       <div className="service-families">
-        {homeServiceScenes.map((scene) => {
+        {homeServiceScenes.map((scene, index) => {
           const entries = scene.ids.flatMap((id) => {
             const entry = site.entries.find((item) => item.id === id);
             return entry ? [entry] : [];
@@ -63,7 +63,12 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
                 </div>
 
                 <div className="service-copy">
-                  <p className="service-scene-kicker">{scene.kicker}</p>
+                  <div className="service-chapter-meta">
+                    <p className="service-scene-kicker">{scene.kicker}</p>
+                    <span aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')} / {String(homeServiceScenes.length).padStart(2, '0')}
+                    </span>
+                  </div>
                   <h3>{scene.title}</h3>
                   <p>{scene.description}</p>
                   <ul className="service-essentials" aria-label={`Lo esencial de ${scene.kicker}`}>
@@ -95,6 +100,7 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
                         <QuoteCta
                           className="service-option-add"
                           entryId={entry.id}
+                          entryTitle={entry.title}
                           placement="catalog_card"
                           mode="add"
                         >

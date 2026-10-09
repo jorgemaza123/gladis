@@ -686,3 +686,25 @@
     }
   }
 }
+
+/* One action, two linked cues: the chosen service settles and Mi evento counts it. */
+@keyframes service-added {
+  0% { transform: scale(0.96); background-color: var(--copper); }
+  60% { transform: scale(1.04); }
+  100% { transform: none; background-color: var(--olive); }
+}
+@keyframes cart-count-update {
+  0% { transform: scale(0.82); background-color: var(--copper); color: #fff; }
+  65% { transform: scale(1.12); }
+  100% { transform: none; background-color: var(--soft); color: var(--olive); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .public-site[data-motion='on']
+    :is(.service-option-add, .service-recommendation-card .button)[data-selected='true'] {
+    animation: service-added 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .public-site[data-motion='on']
+    .quote-cart-trigger .cart-count[data-has-items='true'] {
+    animation: cart-count-update 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}

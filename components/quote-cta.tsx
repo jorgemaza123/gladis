@@ -8,6 +8,7 @@ import type { CtaPlacement } from '@/lib/attribution';
 
 type QuoteCtaProps = {
   entryId?: string | null;
+  entryTitle?: string;
   placement: CtaPlacement;
   href?: string;
   className?: string;
@@ -31,6 +32,7 @@ function quoteHref(href: string, entryId: string | null) {
  */
 export function QuoteCta({
   entryId = null,
+  entryTitle,
   placement,
   href = '/cotizar',
   className,
@@ -40,21 +42,53 @@ export function QuoteCta({
   rel,
   children,
 }: QuoteCtaProps) {
-  const { add } = useQuoteCart();
+  const { add, cart } = useQuoteCart();
   const { recordCta } = useAttribution();
   const destination = quoteHref(href, entryId);
+  const selected =
+    !!entryId && cart.items.some((item) => item.entryId === entryId);
 
   if (mode === 'add')
     return (
       <button
         className={className}
+        data-selected={selected ? 'true' : undefined}
+        aria-label={
+          entryTitle
+            ? selected
+              ? entryTitle + ' añadido a Mi evento'
+              : 'Añadir ' + entryTitle + ' a Mi evento'
+            : undefined
+        }
+        aria-disabled={selected}
         onClick={() => {
+          if (selected) return;
           recordCta(entryId, placement);
           if (entryId && addToCart) add(entryId);
         }}
         type="button"
       >
-        {children}
+        {selected ? (
+          <>
+            Añadido
+            <svg
+              viewBox="0 0 16 16"
+              width="15"
+              height="15"
+              fill="none"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                d="m3 8 3.2 3.2L13 4.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </>
+        ) : children}
       </button>
     );
 

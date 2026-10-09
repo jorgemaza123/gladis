@@ -41,16 +41,27 @@ export function HomeExperience({ site }: { site: SiteContent }) {
     'desayunos-corporativos',
     'corporativo',
   ];
+  const occasionMobileTitles: Record<string, string> = {
+    cumpleanos: 'Cumpleaños',
+    graduaciones: 'Graduaciones y promociones',
+    'fin-ano-empresas': 'Fin de año de empresas',
+    'bautizos-comuniones': 'Bautizos y comuniones',
+    boda: 'Bodas y aniversarios',
+    'reuniones-familiares': 'Reuniones familiares',
+    'desayunos-corporativos': 'Desayunos corporativos',
+    corporativo: 'Eventos de empresa',
+  };
   const occasions = occasionIds.flatMap((id) => {
     const entry = site.entries.find((item) => item.id === id);
     if (!entry) return [];
     return [{
       id: entry.id,
       title: entry.title,
+      mobileTitle: occasionMobileTitles[entry.id],
       description: entry.description,
       href: `/${entry.kind}/${entry.slug}`,
       group: entry.category || 'Celebraciones',
-      image: photo(entry.imageId),
+      image: photo(entry.id === 'graduaciones' ? 'imagen-recuerdos' : entry.imageId),
     }];
   });
   return (

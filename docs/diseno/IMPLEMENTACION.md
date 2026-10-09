@@ -112,7 +112,7 @@ La portada incorpora justo después del hero un carrusel horizontal de tarjetas 
 
 Cada ocasión dispone de una ficha estática y rastreable. El usuario puede elegir buffet, bartender, mozos, menaje, sillas, flores, recuerdos y polos dentro de esa misma ficha; la bolsa compartida muestra el número de servicios y conduce al cotizador integrado. La ocasión queda precargada, las opciones se configuran allí y el enlace final de WhatsApp se resuelve por el servicio principal.
 
-La ficha de cumpleaños se recorrió de extremo a extremo con datos de prueba: buffet servido, menú criollo, 50 invitados, Miraflores y fecha futura. El resumen conservó la ocasión y dirigió la consulta a cocina (`902843481`) con el origen de la visita. No se abrió WhatsApp. En vista móvil el ancho del documento coincidió con el viewport y las ocho tarjetas disponibles no provocaron desbordamiento.
+La ficha de cumpleaños se recorrió de extremo a extremo con datos de prueba: buffet servido, menú criollo, 50 invitados, Miraflores y fecha futura. El resumen conservó la ocasión y, en la configuración de aquella prueba, dirigió la consulta a cocina (`902843481`) con el origen de la visita. No se abrió WhatsApp. En vista móvil el ancho del documento coincidió con el viewport y las ocho tarjetas disponibles no provocaron desbordamiento.
 
 `npm.cmd run quality` terminó con exit 0 después de incorporar las seis rutas y el décimo servicio. Las imágenes son fotografías referenciales existentes del proyecto; una sesión fotográfica o imágenes exclusivas para cada ocasión siguen siendo una mejora editorial, no un requisito técnico del flujo verificado. Sin push ni publicación.
 
@@ -133,3 +133,5 @@ La salida del video ya no desemboca en una sucesión de tarjetas uniformes. Las 
 En móvil, la sección «Elige la historia que quieres celebrar» elimina todo lo que no ayuda a reconocer y elegir: sólo conserva su título de sección y, por ocasión, una imagen pequeña con el nombre debajo. La imagen está dentro del enlace real a la ficha; no existe un botón separado. Dos columnas permiten ver varias alternativas en el mismo pantallazo y las seis permanecen en el DOM.
 
 La comprobación visual cubrió 498 × 661, 400 × 822 y 1600 × 1000 efectivos. No hubo desbordamiento horizontal. Se inspeccionaron presencia y ocultación de cada fragmento móvil, geometría de las seis imágenes, destinos de enlace, distribución de dos filas en escritorio y estado de llegada animada. La referencia externa fue una guía conceptual; la implementación usa los activos, colores, contenido y componentes propios de Gladys.
+
+**Corrección posterior, 2026-10-09:** el usuario aclaró que cocina, buffet, bartender y menaje deben usar 923106197; 902843481 corresponde a los demás servicios. La prueba histórica anterior no describe la configuración vigente.

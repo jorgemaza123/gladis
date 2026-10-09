@@ -23,23 +23,25 @@ const clean = (value: string, maximum: number) =>
     .slice(0, maximum);
 
 export function createWhatsAppMessage(input: WhatsAppMessageInput) {
+  const extras = input.extras.map((item) => clean(item, 150)).filter(Boolean);
+  const budget = clean(input.budget, 150);
+  const details = (input.items || []).map((item) => clean(item, 600)).filter(Boolean);
   const lines = [
     clean(input.introduction, 300),
-    `Evento: ${clean(input.eventType, 150) || 'Por definir'}`,
-    `Fecha: ${clean(input.date, 40) || 'Por definir'}`,
-    `Distrito: ${clean(input.district, 150) || 'Por definir'}`,
-    `Personas: ${Number.isFinite(input.guests) && input.guests > 0 ? input.guests : 'Por definir'}`,
-    `Oferta principal: ${clean(input.primary, 200) || 'Necesito orientación'}`,
-    `Complementos: ${
-      input.extras
-        .map((item) => clean(item, 150))
-        .filter(Boolean)
-        .join(', ') || 'Ninguno seleccionado'
-    }`,
-    `Presupuesto orientativo: ${clean(input.budget, 150) || 'Por definir'}`,
-    ...(input.items || []).map((item) => clean(item, 600)),
-    input.origin ? `Origen de la consulta: ${clean(input.origin, 700)}` : '',
+    'Evento: ' + (clean(input.eventType, 150) || 'Por definir'),
+    'Fecha: ' + (clean(input.date, 40) || 'Por definir'),
+    'Distrito: ' + (clean(input.district, 150) || 'Por definir'),
+    'Personas: ' +
+      (Number.isFinite(input.guests) && input.guests > 0
+        ? input.guests
+        : 'Por definir'),
+    'Oferta principal: ' + (clean(input.primary, 200) || 'Necesito orientación'),
+    ...(extras.length ? ['Complementos: ' + extras.join(', ')] : []),
+    ...(budget ? ['Presupuesto orientativo: ' + budget] : []),
   ].filter(Boolean);
+  if (details.length) lines.push('', 'Detalles de los servicios:', ...details);
+  if (input.origin)
+    lines.push('', 'Origen de la consulta: ' + clean(input.origin, 700));
   return lines.join('\n');
 }
 

@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { ContentEntry, PublicCopy } from '@/models/content';
 import {
   createWhatsAppMessage,
@@ -68,10 +68,14 @@ export function Quote({
   const [step, setStep] = useState(1);
   const [data, setData] = useState(() => ({ ...emptyEvent, occasion }));
   const [loaded, setLoaded] = useState(false);
-  const [errors, setErrors] = useState<string[]>([]);
+  const [attemptedStep, setAttemptedStep] = useState(0);
+  const [attemptCount, setAttemptCount] = useState(0);
+  const [showServices, setShowServices] = useState(false);
   const initialized = useRef(false);
   const heading = useRef<HTMLHeadingElement>(null);
   const errorHeading = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const formId = useId();
   const entries = site.entries.filter(
     (e): e is typeof e & EventEntry => e.requestable && !!e.quoteConfig,
   );
@@ -125,8 +129,11 @@ export function Quote({
     if (step > 1) heading.current?.focus();
   }, [step]);
   useEffect(() => {
-    if (errors.length) errorHeading.current?.focus();
-  }, [errors]);
+    if (!attemptCount) return;
+    const firstInvalid =
+      formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]');
+    (firstInvalid || errorHeading.current)?.focus();
+  }, [attemptCount]);
   const selected = cart.items.flatMap((item) => {
     const entry = entries.find((e) => e.id === item.entryId);
     return entry ? [{ item, entry, detail: describeItem(item, entry) }] : [];
@@ -150,10 +157,10 @@ export function Quote({
       ? `Entrada: ${attribution.landingPath}; origen: ${attribution.acquisitionEntryId || 'consulta general'}; canal: ${attribution.channel}; campaña: ${Object.values(attribution.utm).join(' / ') || 'sin campaña'}; última página: ${attribution.lastTouchPath}`
       : '',
   });
-  function eventErrors() {
-    const next: string[] = [];
+  function getEventFieldErrors() {
+    const next: Partial<Record<keyof typeof emptyEvent, string>> = {};
     if (!data.occasion.trim())
-      next.push('Cuéntanos qué tipo de evento estás organizando.');
+      next.occasion = 'Cuéntanos qué tipo de evento estás organizando.';
     if (
       data.date &&
       (!/^\d{4}-\d{2}-\d{2}$/.test(data.date) ||
@@ -161,50 +168,67 @@ export function Quote({
         Number.isNaN(Date.parse(data.date)) ||
         new Date(data.date).toISOString().slice(0, 10) !== data.date)
     )
-      next.push('Elige una fecha de hoy en adelante.');
-    if (
+      next.date = 'Elige una fecha de hoy en adelante.';
+    else if (
       selected.some(({ entry }) => entry.quoteConfig.dateRequired) &&
       !data.date
     )
-      next.push('Indica la fecha del evento.');
+      next.date = 'Indica la fecha del evento.';
     if (
       selected.some(({ entry }) => entry.quoteConfig.districtRequired) &&
       !data.district.trim()
     )
-      next.push('Indica el distrito del evento.');
+      next.district = 'Indica el distrito del evento.';
     if (
       selected.some(({ entry }) => entry.quoteConfig.guestsRequired) &&
       !data.guests
     )
-      next.push('Indica el número estimado de invitados.');
-    if (
+      next.guests = 'Indica el número estimado de invitados.';
+    else if (
       data.guests &&
       (!Number.isInteger(Number(data.guests)) ||
         Number(data.guests) < 1 ||
         Number(data.guests) > 100000)
     )
-      next.push('Revisa el número de invitados.');
+      next.guests = 'Revisa el número de invitados.';
     return next;
   }
-
+  const eventFieldErrors = getEventFieldErrors();
+  const eventErrors = Object.values(eventFieldErrors);
+  const errors =
+    attemptedStep === step
+      ? step === 1
+        ? validation
+        : step === 2
+          ? eventErrors
+          : []
+      : [];
+  const personEstimates = selected.filter(
+    ({ item, entry }) =>
+      entry.quoteConfig.quantityUnit === 'person' &&
+      Number.isInteger(item.quantity) &&
+      item.quantity > 0 &&
+      item.quantity <= 100000 &&
+      String(item.quantity) !== data.guests,
+  );
   const url =
-    validation.length || eventErrors().length
+    validation.length || eventErrors.length
       ? null
       : createWhatsAppUrl(chosen?.whatsappDestination || null, summary);
   function advance() {
+    if (step >= 3) return;
     if (validation.length) {
-      setErrors(validation);
+      setAttemptedStep(1);
       setStep(1);
+      setAttemptCount((count) => count + 1);
       return;
     }
-    if (step === 2) {
-      const next = eventErrors();
-      if (next.length) {
-        setErrors(next);
-        return;
-      }
+    if (step === 2 && eventErrors.length) {
+      setAttemptedStep(2);
+      setAttemptCount((count) => count + 1);
+      return;
     }
-    setErrors([]);
+    setAttemptedStep(0);
     setStep(step + 1);
   }
   const field = (
@@ -212,34 +236,39 @@ export function Quote({
     label: string,
     type = 'text',
     required = false,
-  ) => (
-    <label className="field" key={key}>
-      {label}
-      <input
-        type={type}
-        required={required}
-        value={data[key]}
-        placeholder={key === 'guests' ? 'Ej. 50' : undefined}
-        maxLength={150}
-        onInput={
-          type === 'date'
-            ? (e) => {
-                setData({ ...data, [key]: e.currentTarget.value });
-                setErrors([]);
-              }
-            : undefined
-        }
-        min={
-          type === 'date' ? todayInLima() : type === 'number' ? 1 : undefined
-        }
-        max={type === 'number' ? 100000 : undefined}
-        onChange={(e) => {
-          setData({ ...data, [key]: e.target.value });
-          setErrors([]);
-        }}
-      />
-    </label>
-  );
+  ) => {
+    const error = attemptedStep === 2 ? eventFieldErrors[key] : undefined;
+    const errorId = formId + '-' + key + '-error';
+    return (
+      <label className="field" key={key}>
+        {label}
+        <input
+          type={type}
+          required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          value={data[key]}
+          placeholder={key === 'guests' ? 'Ej. 50' : undefined}
+          maxLength={150}
+          onInput={
+            type === 'date'
+              ? (e) => setData({ ...data, [key]: e.currentTarget.value })
+              : undefined
+          }
+          min={
+            type === 'date' ? todayInLima() : type === 'number' ? 1 : undefined
+          }
+          max={type === 'number' ? 100000 : undefined}
+          onChange={(e) => setData({ ...data, [key]: e.target.value })}
+        />
+        {error && (
+          <span className="field-error" id={errorId}>
+            {error}
+          </span>
+        )}
+      </label>
+    );
+  };
   return (
     <div className="quote-layout">
       <div>
@@ -285,6 +314,8 @@ export function Quote({
           }
         </h2>
         <form
+          ref={formRef}
+          noValidate
           onSubmit={(e) => {
             e.preventDefault();
             advance();
@@ -293,37 +324,54 @@ export function Quote({
           {step === 1 && (
             <>
               <p>
-                Elige lo que necesitas y marca un servicio como principal:
-                su equipo recibirá tu consulta. Puedes añadir otros servicios
-                sin cambiar de contacto.
+                {cart.items.length
+                  ? 'Revisa lo que elegiste. El servicio principal define quién recibe toda tu consulta; puedes sumar otros cuando quieras.'
+                  : 'Elige lo que necesitas. Después podrás añadir otros servicios y consultar todo en una sola conversación.'}
               </p>
+              {!!cart.items.length && (
+                <EventSelection entries={entries} showErrors={attemptedStep === 1} />
+              )}
+              {chosen && (
+                <p className="quote-recipient-inline">
+                  Toda la consulta irá a <strong>{chosen.recipient.label}</strong>
+                  {chosen.whatsappDestination &&
+                    ' · +51 ' + chosen.whatsappDestination.slice(2)}
+                </p>
+              )}
               <div
                 className="service-picker"
+                id={formId + '-services'}
                 aria-label="Servicios disponibles"
+                hidden={!!cart.items.length && !showServices}
               >
-                {entries.map((entry) => {
-                  const added = cart.items.some(
-                    (item) => item.entryId === entry.id,
-                  );
-                  return (
+                {entries
+                  .filter((entry) => !cart.items.some((item) => item.entryId === entry.id))
+                  .map((entry) => (
                     <button
                       type="button"
                       key={entry.id}
-                      disabled={!restored || added}
-                      aria-pressed={added}
+                      disabled={!restored}
                       onClick={() => {
                         add(entry.id);
                         recordCta(entry.id, 'quote_form');
-                        setErrors([]);
+                        setShowServices(true);
                       }}
                     >
-                      {added ? '✓ ' : '+ '}
-                      {entry.title}
+                      + {entry.title}
                     </button>
-                  );
-                })}
+                  ))}
               </div>
-              <EventSelection entries={entries} />
+              {!!cart.items.length && cart.items.length < entries.length && (
+                <button
+                  type="button"
+                  className="ghost quote-services-toggle"
+                  aria-expanded={showServices}
+                  aria-controls={formId + '-services'}
+                  onClick={() => setShowServices((open) => !open)}
+                >
+                  {showServices ? 'Ocultar otros servicios' : 'Añadir otro servicio'}
+                </button>
+              )}
               <p className="field-help">
                 Puedes empezar con cantidades aproximadas. Por WhatsApp
                 confirmaremos el precio, la disponibilidad y los detalles.
@@ -355,6 +403,23 @@ export function Quote({
                   selected.some(
                     ({ entry }) => entry.quoteConfig.guestsRequired,
                   ),
+                )}
+                {!!personEstimates.length && (
+                  <div className="guest-copy">
+                    <p>Si son las mismas personas, puedes reutilizar la cantidad:</p>
+                    {personEstimates.map(({ item, entry }) => (
+                      <button
+                        type="button"
+                        className="text-link"
+                        key={item.itemId}
+                        onClick={() =>
+                          setData({ ...data, guests: String(item.quantity) })
+                        }
+                      >
+                        Usar {item.quantity} de {entry.title}
+                      </button>
+                    ))}
+                  </div>
                 )}
                 {field('budget', 'Presupuesto que tienes en mente (opcional)')}
               </div>
@@ -423,7 +488,7 @@ export function Quote({
                 </Link>
               ) : (
                 <p role="alert" className="notice error">
-                  {[...validation, ...eventErrors()].join(' ') ||
+                  {[...validation, ...eventErrors].join(' ') ||
                     'El contacto no está disponible o el resumen es demasiado extenso. Reduce la selección e inténtalo de nuevo.'}
                 </p>
               )}
@@ -444,7 +509,7 @@ export function Quote({
                 className="ghost"
                 onClick={() => {
                   setStep(step - 1);
-                  setErrors([]);
+                  setAttemptedStep(0);
                 }}
               >
                 Volver a editar

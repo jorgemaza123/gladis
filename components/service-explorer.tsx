@@ -114,8 +114,10 @@ export function ServiceExplorer({
               <h3>{entry.title}</h3>
               {entry.id === currentId && <span className="service-explorer-current">Este servicio</span>}
               <p>{featuredReasons?.[entry.id] || entry.description}</p>
-              <Link href={'/' + entry.kind + '/' + entry.slug}>Ver detalles</Link>
-              {action(entry)}
+              <div className="service-explorer-card-controls">
+                <Link href={'/' + entry.kind + '/' + entry.slug}>Ver detalles</Link>
+                {action(entry)}
+              </div>
             </div>
           </article>
         ))}

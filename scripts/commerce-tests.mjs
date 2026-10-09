@@ -133,8 +133,8 @@ assert.deepEqual(commerce.resolveBusinessContact('desconocido'), {
   label: null,
   available: false,
 });
-assert.equal(commerce.resolveWhatsAppDestination('cocina'), '51902843481');
-assert.equal(commerce.resolveWhatsAppDestination('eventos'), '51923106197');
+assert.equal(commerce.resolveWhatsAppDestination('cocina'), '51923106197');
+assert.equal(commerce.resolveWhatsAppDestination('eventos'), '51902843481');
 assert.equal(commerce.isValidWhatsAppNumber('51999111222'), true);
 assert.equal(commerce.isValidWhatsAppNumber('+51999111222'), false);
 assert.equal(commerce.isValidWhatsAppNumber('51999 111222'), false);
@@ -778,7 +778,7 @@ assert.equal(
 );
 assert.deepEqual(
   limitedOrganization.contactPoint.map((contact) => contact.telephone),
-  ['+51902843481'],
+  ['+51923106197'],
   'no se anuncian contactos de ofertas que dejaron de estar publicadas',
 );
 
@@ -999,8 +999,8 @@ for (const entry of actualEntries) {
       'menaje-evento',
       'desayuno-corporativo',
     ].includes(entry.id)
-      ? '51902843481'
-      : '51923106197',
+      ? '51923106197'
+      : '51902843481',
   );
   assert.ok(
     eventSelection.selectionErrors(
@@ -1048,6 +1048,9 @@ const fullMessage = whatsapp.createWhatsAppMessage({
 assert.ok(fullMessage.includes('30 personas · Tipo de menú: Criollo'));
 assert.ok(fullMessage.includes('35 unidades'));
 assert.ok(fullMessage.includes('Entrada: /servicios/buffet-para-eventos'));
+assert.ok(fullMessage.includes('Detalles de los servicios:'));
+assert.ok(!fullMessage.includes('Presupuesto orientativo: Por definir'));
+assert.ok(!fullMessage.includes('Complementos: Ninguno seleccionado'));
 assert.equal(
   whatsapp.createWhatsAppUrl('51902843481', 'x'.repeat(6001)),
   null,

@@ -85,3 +85,8 @@ HECHO requiere las pruebas particulares y el traspaso. BLOQUEADO requiere causa 
 - Verificación: `npm.cmd run quality` terminó con exit 0 antes del último ajuste de altura e incluyó tipos, lint, 12 pruebas de movimiento, comercio, seguridad, activos y build. La prueba de activos exige seis escenas, tres capas por escena, siete accesos, listas esenciales y selección directa. La compilación posterior al ajuste responsive también terminó con exit 0.
 - Navegador local: seis escenas, 18 capas, siete accesos, cero imágenes rotas y cero desbordamiento horizontal en escritorio y móvil. «Añadir Menú criollo» incrementó «Mi evento» de 0 a 1 sin navegación. El hero y la escena Cocina fueron revisados en vista móvil y escritorio.
 - Limitación vigente: estas verificaciones no equivalen a Core Web Vitals de campo ni a una medición en teléfonos físicos modestos. No se hizo push ni despliegue.
+
+## 2026-10-09 — Corrección vigente de contactos y mejora de cotización
+
+- Configuración actual: cocina, buffet, bartender y menaje → **923106197**; mozos, sillas, flores, recuerdos y polos → **902843481**. La corrección explícita del usuario sustituye cualquier asignación inversa de los registros históricos.
+- El nuevo flujo de conversión y sus contactos están comprobados localmente con `npm.cmd run quality` y Chrome. La validación de ventas reales, respuestas operativas y publicación de este cambio no se ha realizado. Ver BITACORA y `docs/comercial/PLAN-CONVERSION-FASE-2.md`.

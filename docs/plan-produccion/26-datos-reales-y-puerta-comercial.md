@@ -13,7 +13,7 @@ La web no usa D1, CMS, API, migraciones ni panel de administración. `data/demo.
 ## Datos confirmados para esta preparación
 
 - Marca pública: Gladys. URL operativa: `https://gladis-vr6r.vercel.app`.
-- Cocina, buffet, bartender y menaje: `902843481`. Complementos y producción: `923106197`.
+- Cocina, buffet, bartender y menaje: `923106197`. Complementos y producción: `902843481`.
 - Cobertura: todo Lima Metropolitana. Todos los precios: consulta por WhatsApp.
 - Servicios por ID y responsable explícito; mínimos referenciales y condiciones sujetas a confirmación.
 - Tres imágenes locales generadas con IA, con textos alternativos y aviso visible de que son referenciales; no se presentan como trabajos realizados.
