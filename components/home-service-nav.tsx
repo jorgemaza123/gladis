@@ -34,7 +34,11 @@ export function HomeServiceNav() {
       data-reveal="aurora-nav"
     >
       <div className="wrap">
-        <h2>¿Qué necesitas para tu evento?</h2>
+        <h2>
+          <span className="home-service-nav-title-mask">
+            <span>¿Qué necesitas para tu evento?</span>
+          </span>
+        </h2>
         <ul>
           {homeServiceNav.map((item, index) => (
             <li key={item.label}>

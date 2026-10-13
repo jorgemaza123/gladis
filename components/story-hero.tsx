@@ -44,30 +44,39 @@ export function StoryHero() {
       data-video-allowed={state.allowed}
     >
       <div className="story-stage">
-        <picture className="story-poster">
-          <source
-            media="(max-width: 760px)"
-            srcSet="/videos/gladys-story-poster-mobile.webp"
+        <div className="story-media" aria-hidden="true">
+          <picture className="story-poster">
+            <source
+              media="(max-width: 760px)"
+              srcSet="/videos/gladys-story-poster-mobile.webp"
+            />
+            <img src="/videos/gladys-story-poster.webp" alt="" />
+          </picture>
+          <video
+            ref={video}
+            id="home-story-video"
+            className={state.ready ? 'is-ready' : ''}
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            tabIndex={-1}
           />
-          <img src="/videos/gladys-story-poster.webp" alt="" />
-        </picture>
-        <video
-          ref={video}
-          id="home-story-video"
-          className={state.ready ? 'is-ready' : ''}
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          tabIndex={-1}
-        />
-        <div className="story-shade" aria-hidden="true" />
+          <div className="story-shade" />
+        </div>
         <div className="story-content wrap">
           <div className="story-chapter" data-active="true">
             <p>Soluciones para celebraciones y eventos en Lima</p>
             <h1 id="home-title">
-              Tú celebra. Nosotros te ayudamos con lo que necesitas.
+              <span className="story-title-line">
+                <span>Tú celebra.</span>
+              </span>{' '}
+              <span className="story-title-line">
+                <span>Nosotros te ayudamos con</span>
+              </span>{' '}
+              <span className="story-title-line">
+                <span>lo que necesitas.</span>
+              </span>
             </h1>
             <span>
               Cocina, bartender, menaje, mozos, alquileres, personalizados y
@@ -116,7 +125,9 @@ export function StoryHero() {
           {state.active ? 'Pausar video' : 'Reproducir video'}
         </button>
         <p className="story-scroll-cue" aria-hidden="true">
-          <span>↓</span> Descubre lo que podemos preparar
+          <span className="story-scroll-cue-inner">
+            <span>↓</span> Descubre lo que podemos preparar
+          </span>
         </p>
       </div>
     </section>
