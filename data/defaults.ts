@@ -29,6 +29,7 @@ export const emptyEntry = (): ContentEntry => ({
   body: '',
   imageId: '',
   status: 'draft',
+  availability: 'draft',
   sortOrder: 0,
   featured: false,
   details: [],

@@ -1,6 +1,7 @@
 import designImages from './design-images.json';
 import { emptyEntry, normalizeSite } from './defaults';
 import { newOccasions } from './occasion-entries';
+import { commercialExpansionEntries } from './commercial-expansion';
 import type { ContentEntry, QuoteConfig, SiteContent } from '@/models/content';
 
 const seo = (title: string, description: string) => ({
@@ -27,6 +28,7 @@ function entry(
     body: description,
     imageId,
     status: 'published',
+    availability: 'active',
     featured: true,
     seo: seo(`${title} | Gladys`, description),
     ...overrides,
@@ -148,13 +150,36 @@ const addon = (
   _minimum: number,
   ownerId: 'cocina' | 'eventos',
   imageId = 'imagen-detalles-demo',
+  overrides: Partial<ContentEntry> = {},
 ) =>
-  entry(id, 'complementos', title, description, imageId, {
+  entry(id, 'servicios', title, description, imageId, {
     sortOrder,
     requestable: true,
     ownerId,
     quoteConfig: perUnit(1, 100000),
     price: consultationPrice('unit', 1),
+    faqItems: [
+      {
+        id: `${id}-solo`,
+        question: `¿Puedo contratar solamente ${title.toLowerCase()}?`,
+        answer: 'Sí. Puedes cotizar este servicio por separado o añadirlo a otros servicios para enviar una sola consulta.',
+      },
+      {
+        id: `${id}-datos`,
+        question: '¿Qué datos necesitan para cotizar?',
+        answer: 'Indica la fecha, el distrito, la cantidad aproximada y cualquier detalle del espacio o del evento que influya en el servicio.',
+      },
+      {
+        id: `${id}-confirmacion`,
+        question: '¿Cómo se confirma la disponibilidad?',
+        answer: 'Revisamos la fecha, el lugar y el alcance por WhatsApp antes de confirmar el precio y la reserva.',
+      },
+    ],
+    seo: seo(
+      `${title} en Lima | Gladys`,
+      `${description} Consulta disponibilidad y traslado en Lima Metropolitana por WhatsApp.`,
+    ),
+    ...overrides,
   });
 
 export const demoContent: SiteContent = normalizeSite({
@@ -170,32 +195,32 @@ export const demoContent: SiteContent = normalizeSite({
     demo: false,
     businessVerified: true,
     seo: seo(
-      'Gladys | Buffet y servicios para eventos en Lima',
-      'Buffet, menús, bartender, mozos, menaje, sillas, flores, recuerdos y polos para eventos en Lima Metropolitana. Cotiza por WhatsApp.',
+      'Gladys | Servicios para eventos y celebraciones en Lima',
+      'Comida, personal, alquileres, entretenimiento, producción, decoración, fotografía y personalizados para eventos en Lima. Cotiza por WhatsApp.',
     ),
     navigation: [
-      { label: 'Ocasiones', href: '/tipos-evento' },
-      { label: 'Buffet y menús', href: '/servicios' },
-      { label: 'Servicios para eventos', href: '/complementos' },
-      { label: 'Cómo cotizar', href: '/#como-cotizar' },
+      { label: 'Servicios', href: '/servicios' },
+      { label: 'Eventos', href: '/eventos' },
+      { label: 'Empresas', href: '/empresas' },
+      { label: 'Guías', href: '/guias' },
     ],
     catalogs: {
       servicios: {
-        title: 'Buffet y menús',
+        title: 'Servicios para eventos en Lima',
         description:
-          'Un buffet para tu boda, un menú para tu cumpleaños o un almuerzo con tu equipo. Cuéntanos qué celebras en Lima Metropolitana.',
+          'Encuentra cocina, bar, personal, alquileres, entretenimiento, producción, decoración, fotografía, video y personalizados para eventos en Lima.',
         seo: seo(
-          'Buffet y menús para eventos en Lima | Gladys',
-          'Explora el buffet y el menú criollo. Cuéntanos tu fecha, distrito e invitados para cotizar por WhatsApp.',
+          'Servicios para eventos en Lima | Gladys',
+          'Explora servicios de cocina, bar, personal, alquileres, entretenimiento, producción, decoración, fotografía y personalizados en Lima.',
         ),
       },
       complementos: {
         title: 'Servicios para tu evento',
         description:
-          'Bartender, mozos, menaje, sillas, flores, recuerdos y polos. Elige lo que te hace falta para tu evento; también puedes pedir un solo servicio.',
+          'Comida, bar, personal, alquileres, música, entretenimiento, producción, decoración, fotografía y personalizados. Elige uno o combina varios.',
         seo: seo(
           'Servicios para eventos en Lima | Gladys',
-          'Bartender, mozos, alquiler de menaje y sillas, arreglos florales, recuerdos y polos para eventos. Precios a consulta por WhatsApp.',
+          'Servicios para eventos en Lima: bar, personal, alquileres, música, producción, decoración, fotografía y personalizados. Cotiza por WhatsApp.',
         ),
       },
       'tipos-evento': {
@@ -207,18 +232,54 @@ export const demoContent: SiteContent = normalizeSite({
           'Explora catering para cumpleaños, graduaciones, fiestas de promoción, bodas, fin de año, desayunos corporativos y eventos empresariales en Lima.',
         ),
       },
+      menus: {
+        title: 'Menús para compartir',
+        description:
+          'Opciones de menú para cumpleaños, reuniones familiares y encuentros de trabajo en Lima Metropolitana.',
+        seo: {
+          ...seo(
+            'Menús para eventos y reuniones en Lima | Gladys',
+            'Explora menús para cumpleaños, reuniones y eventos de trabajo en Lima Metropolitana. Consulta opciones y disponibilidad por WhatsApp.',
+          ),
+          noindex: true,
+        },
+      },
+      cobertura: {
+        title: 'Cobertura en Lima Metropolitana',
+        description:
+          'Consulta la atención, el acceso y el traslado para tu evento según el distrito y la fecha.',
+        seo: {
+          ...seo(
+            'Cobertura de servicios para eventos en Lima | Gladys',
+            'Gladys atiende eventos en Lima Metropolitana. Indica el distrito y la fecha para revisar acceso, traslado y disponibilidad.',
+          ),
+          noindex: true,
+        },
+      },
+      paginas: {
+        title: 'Conoce Gladys',
+        description:
+          'Conoce cómo Gladys combina comida, atención, alquileres y detalles para eventos en Lima Metropolitana.',
+        seo: {
+          ...seo(
+            'Conoce Gladys | Servicios para eventos en Lima',
+            'Conoce cómo Gladys organiza una sola propuesta con los servicios que cada celebración o empresa necesita.',
+          ),
+          noindex: true,
+        },
+      },
     },
     footer:
-      'Buffet y servicios para eventos en Lima Metropolitana. Cotiza por WhatsApp.',
+      'Soluciones para eventos, celebraciones y empresas en Lima Metropolitana. Elige uno o varios servicios y cotiza por WhatsApp.',
     logoId: 'logo-gladys',
     copy: {
       demoNotice:
         'Imágenes referenciales. Cada propuesta se confirma por WhatsApp antes de reservar.',
-      quoteTitle: 'Hagamos espacio para tu celebración.',
+      quoteTitle: 'Cotiza los servicios para tu evento.',
       quoteDescription:
-        'Cuéntanos qué tienes en mente y elige lo que necesitas. Seguimos la conversación por WhatsApp.',
+        'Elige uno o varios servicios e indica la fecha, el distrito y las cantidades aproximadas. Prepararemos un solo mensaje para continuar por WhatsApp.',
       inquire: 'Añadir a mi evento',
-      primaryCta: 'Preparar mi evento',
+      primaryCta: 'Arma tu evento',
       quoteAsideDescription:
         'Te damos el precio por WhatsApp según lo que necesites. Antes de reservar, revisamos contigo la fecha, el lugar y las condiciones del servicio.',
     },
@@ -280,17 +341,61 @@ export const demoContent: SiteContent = normalizeSite({
     ]),
   entries: [
     entry(
+      'cocina-para-eventos',
+      'servicios',
+      'Cocina para eventos en Lima',
+      'Comida para cumpleaños, reuniones, celebraciones familiares y encuentros de empresa, con una propuesta ajustada a tus invitados.',
+      'imagen-buffet-demo',
+      {
+        slug: 'cocina-para-eventos-lima',
+        sortOrder: 0,
+        category: 'Cocina y alimentación',
+        body: 'Si buscas quién prepare la comida para tu evento, aquí puedes empezar. Elige buffet, menú criollo o desayuno corporativo y añade únicamente la atención, el menaje o los detalles que necesites.',
+        details: [
+          'Buffet para celebraciones y encuentros de empresa',
+          'Menú criollo para compartir',
+          'Desayunos corporativos y coffee break',
+          'Cotización según fecha, distrito y cantidad aproximada de invitados',
+        ],
+        serviceIds: [
+          'buffet-para-eventos',
+          'desayuno-corporativo',
+          'bocaditos-piqueos-eventos',
+          'brunch-box-eventos',
+          'almuerzos-cenas-corporativas',
+        ],
+        menuIds: ['menu-criollo-eventos'],
+        addOnIds: ['bar-bartender', 'bebidas-barra-eventos', 'menaje-evento'],
+        seo: seo(
+          'Cocina para eventos en Lima | Comida y catering | Gladys',
+          'Cotiza comida, buffet, menú criollo, desayunos y coffee break para cumpleaños, reuniones y eventos de empresa en Lima Metropolitana.',
+        ),
+        faqItems: [
+          {
+            id: 'cocina-solo-comida',
+            question: '¿Puedo contratar solamente la comida?',
+            answer: 'Sí. Puedes cotizar buffet, menú o desayuno sin añadir otros servicios. Si necesitas menaje o atención, agrégalos a la misma consulta.',
+          },
+          {
+            id: 'cocina-datos',
+            question: '¿Qué datos necesitan para cotizar?',
+            answer: 'Indica la fecha, el distrito, la cantidad aproximada de personas y el formato de comida que buscas. Confirmaremos opciones y condiciones por WhatsApp.',
+          },
+        ],
+      },
+    ),
+    entry(
       'boda',
       'tipos-evento',
-      'Catering para bodas y aniversarios',
-      'Una propuesta para celebrar con buena comida, atención y detalles elegidos a tu manera.',
+      'Catering para bodas y aniversarios de pareja',
+      'Comida y atención para una recepción de boda o aniversario de pareja, con los complementos que realmente necesites.',
       'imagen-sillas',
       {
         slug: 'catering-bodas-aniversarios-lima',
         featured: false,
         sortOrder: 3,
         category: 'Celebraciones',
-        body: 'Cuéntanos cómo imaginas ese día y cuántas personas quieres reunir. Podemos combinar buffet, barra, atención, menaje, sillas, flores y recuerdos en una sola consulta.',
+        body: 'Esta página está pensada para recepciones de boda y aniversarios de pareja. Si organizarás únicamente una ceremonia civil o una comida íntima, encontrarás una opción específica. Aquí puedes combinar buffet, barra, atención, menaje, sillas, flores y recuerdos para una recepción más amplia.',
         details: [
           'Elige únicamente los servicios que necesita tu celebración',
           'Ajustamos cantidades, estilo y logística contigo',
@@ -299,8 +404,8 @@ export const demoContent: SiteContent = normalizeSite({
         serviceIds: ['buffet-para-eventos'],
         addOnIds: ['bar-bartender', 'mozos-evento', 'menaje-evento', 'sillas-evento', 'arreglos-florales', 'recuerdos-evento'],
         seo: seo(
-          'Catering para bodas y aniversarios en Lima | Gladys',
-          'Cotiza buffet, bartender, mozos, menaje, sillas, flores y recuerdos para bodas y aniversarios en Lima Metropolitana.',
+          'Catering para bodas y aniversarios de pareja en Lima | Gladys',
+          'Cotiza buffet, bartender, mozos, menaje, sillas, flores y recuerdos para recepciones de boda y aniversarios de pareja en Lima.',
         ),
         faqItems: [
           { id: 'boda-paquete', question: '¿Tengo que contratar todos los servicios?', answer: 'No. Puedes elegir un solo servicio o combinar varios. Preparamos la cotización según lo que realmente necesites.' },
@@ -311,17 +416,17 @@ export const demoContent: SiteContent = normalizeSite({
     entry(
       'cumpleanos',
       'tipos-evento',
-      'Catering para cumpleaños en Lima',
-      'Una mesa rica y bien presentada para celebrar sin pasar el día pendiente de la cocina.',
+      'Catering para cumpleaños familiares y de adultos en Lima',
+      'Comida y atención para un cumpleaños familiar o de adultos, en casa o en un local.',
       'imagen-buffet-demo',
       {
         slug: 'catering-cumpleanos-lima',
         featured: false,
         sortOrder: 1,
         category: 'Celebraciones',
-        body: 'Reúne a tus invitados. Nosotros te ayudamos a combinar el buffet con mozos, bartender, menaje, sillas, flores o recuerdos, según el tamaño y el estilo del cumpleaños.',
+        body: 'Esta página reúne opciones para cumpleaños familiares y de adultos. Combina buffet con mozos, bartender, menaje, sillas, flores o recuerdos según el lugar y el horario. Para una celebración infantil o un quinceaños, usa la página dedicada a esa ocasión.',
         details: [
-          'Opciones para cumpleaños familiares, infantiles y de adultos',
+          'Opciones para cumpleaños familiares y de adultos',
           'Servicios que puedes añadir o quitar en esta misma página',
           'Precio y disponibilidad confirmados directamente por WhatsApp',
         ],
@@ -335,7 +440,7 @@ export const demoContent: SiteContent = normalizeSite({
         faqItems: [
           { id: 'cumple-flexible', question: '¿Puedo contratar solamente el buffet?', answer: 'Sí. También puedes añadir atención, alquileres o detalles si te hacen falta. La cotización se adapta a tu celebración.' },
           { id: 'cumple-invitados', question: '¿Necesito saber el número exacto de invitados?', answer: 'Puedes empezar con una cantidad aproximada. Antes de confirmar coordinaremos contigo las cantidades finales.' },
-          { id: 'cumple-formatos', question: '¿Puedo consultar por un cumpleaños infantil, de adultos o un quinceañero?', answer: 'Sí. Dinos qué celebras, cuántas personas esperas y si será en casa o en un local. Selecciona sólo la comida y los servicios que te interesen para conversar sobre una propuesta adecuada.' },
+          { id: 'cumple-formatos', question: '¿Esta opción sirve para un cumpleaños infantil o un quinceaños?', answer: 'Para esas ocasiones hay páginas específicas con animación, producción y otros servicios adecuados. Esta página se concentra en cumpleaños familiares y de adultos.' },
           { id: 'cumple-barra', question: '¿La barra está incluida en cualquier cumpleaños?', answer: 'No. Bartender es un servicio opcional y no se sugiere por defecto para celebraciones infantiles. Si tu evento es de adultos, puedes añadirlo a la consulta.' },
         ],
       },
@@ -420,10 +525,13 @@ export const demoContent: SiteContent = normalizeSite({
         ],
         serviceIds: ['desayuno-corporativo'],
         addOnIds: ['mozos-evento', 'menaje-evento', 'polos-estampados', 'arreglos-florales'],
-        seo: seo(
-          'Desayunos corporativos en Lima para empresas | Gladys',
-          'Cotiza desayunos corporativos, coffee break, menaje y atención para reuniones, aniversarios y equipos en Lima Metropolitana.',
-        ),
+        seo: {
+          ...seo(
+          'Cómo organizar un desayuno corporativo en Lima | Gladys',
+          'Elige alimentación, menaje y atención para una reunión, capacitación o aniversario de empresa en Lima Metropolitana.',
+          ),
+          noindex: true,
+        },
         faqItems: [
           { id: 'desayuno-modalidad', question: '¿Puede ser un desayuno individual o para compartir?', answer: 'Sí. Indica la cantidad de personas, el horario y el tipo de reunión para conversar sobre la presentación más conveniente.' },
           { id: 'desayuno-horario', question: '¿Con cuánto tiempo debemos coordinar?', answer: 'Consulta la fecha tan pronto como la tengas. Confirmaremos disponibilidad, horario de entrega o servicio y condiciones por WhatsApp.' },
@@ -451,10 +559,13 @@ export const demoContent: SiteContent = normalizeSite({
         serviceIds: ['buffet-para-eventos', 'desayuno-corporativo'],
         menuIds: ['menu-criollo-eventos'],
         addOnIds: ['bar-bartender', 'mozos-evento', 'menaje-evento', 'sillas-evento', 'polos-estampados'],
-        seo: seo(
+        seo: {
+          ...seo(
           'Catering para eventos empresariales en Lima | Gladys',
           'Cotiza catering, coffee break, bartender, mozos, menaje, sillas y polos para eventos empresariales en Lima Metropolitana.',
-        ),
+          ),
+          noindex: true,
+        },
         faqItems: [
           { id: 'empresa-factores', question: '¿Qué información necesitan para cotizar?', answer: 'Fecha, distrito, horario, cantidad aproximada de asistentes y los servicios que deseas incluir.' },
           { id: 'empresa-combinar', question: '¿Podemos combinar comida, atención y polos?', answer: 'Sí. Selecciona las opciones en esta página y recibirás una sola conversación organizada por WhatsApp.' },
@@ -469,7 +580,30 @@ export const demoContent: SiteContent = normalizeSite({
       'Lima Metropolitana',
       'Atendemos en toda Lima Metropolitana. Dinos la fecha y el distrito de tu evento para revisar juntos el acceso y el traslado.',
       'imagen-buffet-demo',
-      { featured: false, sortOrder: 1 },
+      {
+        featured: false,
+        sortOrder: 1,
+        body: 'La cobertura se revisa según la fecha, el distrito, el acceso al lugar y los servicios elegidos. Lima Metropolitana comprende 43 distritos. Callao se consulta por separado antes de confirmar el servicio.',
+        details: [
+          'Lima Norte: Ancón, Carabayllo, Comas, Independencia, Los Olivos, Puente Piedra, San Martín de Porres y Santa Rosa',
+          'Lima Centro: Barranco, Breña, Cercado de Lima, Jesús María, La Victoria, Lince, Magdalena del Mar, Miraflores, Pueblo Libre, Rímac, San Borja, San Isidro, San Luis, San Miguel y Surquillo',
+          'Lima Este: Ate, Chaclacayo, Cieneguilla, El Agustino, La Molina, Lurigancho-Chosica, San Juan de Lurigancho y Santa Anita',
+          'Lima Sur: Chorrillos, Lurín, Pachacámac, Pucusana, Punta Hermosa, Punta Negra, San Bartolo, San Juan de Miraflores, Santa María del Mar, Santiago de Surco, Villa El Salvador y Villa María del Triunfo',
+        ],
+        processSteps: [
+          { title: 'Indica distrito y dirección aproximada', description: 'Con esos datos se revisan distancia, acceso, estacionamiento y condiciones de carga o descarga.' },
+          { title: 'Añade fecha y horario', description: 'La disponibilidad y el traslado dependen del día, la hora de ingreso y el momento de retiro.' },
+          { title: 'Confirma antes de reservar', description: 'La propuesta final detalla cobertura, traslado y cualquier condición especial del lugar.' },
+        ],
+        faqItems: [
+          { id: 'cobertura-callao', question: '¿Atienden en Callao?', answer: 'Se consulta por separado. Comparte la dirección, fecha y servicios para revisar si la atención es viable.' },
+          { id: 'cobertura-traslado', question: '¿El traslado está incluido?', answer: 'No se asume automáticamente. La propuesta confirma el traslado según distrito, acceso y servicios elegidos.' },
+        ],
+        seo: seo(
+          'Servicios para eventos en Lima Metropolitana | Gladys',
+          'Consulta la cobertura de servicios para celebraciones y eventos de empresa en los 43 distritos de Lima Metropolitana, según fecha y ubicación.',
+        ),
+      },
     ),
     entry(
       'buffet-para-eventos',
@@ -572,6 +706,10 @@ export const demoContent: SiteContent = normalizeSite({
               'Atendemos en toda Lima Metropolitana. Cuéntanos la fecha y el distrito; por WhatsApp revisamos contigo el acceso al lugar y el traslado.',
           },
         ],
+        seo: seo(
+          'Buffet para eventos en Lima | Catering para celebraciones | Gladys',
+          'Cotiza buffet para cumpleaños, bodas, reuniones familiares y eventos empresariales en Lima Metropolitana.',
+        ),
       },
     ),
     entry(
@@ -595,6 +733,16 @@ export const demoContent: SiteContent = normalizeSite({
           'corporativo',
         ],
         coverageIds: ['lima-metropolitana'],
+        addOnIds: ['mozos-evento', 'menaje-evento', 'sillas-evento'],
+        recommendations: [
+          { entryId: 'mozos-evento', priority: 1, eventTypeIds: [], reason: 'Añade atención si prefieres que alguien acompañe el servicio.' },
+          { entryId: 'menaje-evento', priority: 2, eventTypeIds: [], reason: 'Completa la mesa con vajilla, cubiertos y copas.' },
+          { entryId: 'sillas-evento', priority: 3, eventTypeIds: [], reason: 'Suma sillas si el espacio no tiene mobiliario suficiente.' },
+        ],
+        seo: seo(
+          'Menú criollo para eventos en Lima | Gladys',
+          'Cotiza un menú criollo para cumpleaños, reuniones familiares y eventos de trabajo en Lima Metropolitana.',
+        ),
       },
     ),
     entry(
@@ -638,22 +786,37 @@ export const demoContent: SiteContent = normalizeSite({
     ),
     entry(
       'bar-bartender',
-      'complementos',
+      'servicios',
       'Bartender y barra de bebidas',
       'Un bartender y una barra de bebidas para acompañar tu celebración. Cuéntanos qué te gustaría ofrecer a tus invitados.',
       'imagen-bar-demo',
       {
         sortOrder: 1,
+        body: 'El servicio principal es la atención del bartender. La carta, los insumos, la barra física y la cristalería se definen según el tipo de reunión, la cantidad de invitados y lo que ya tenga el lugar. Nada se considera incluido hasta revisar la propuesta.',
         details: [
-          'Bartender',
-          'Barra y cristalería según coordinación',
-          'Carta de bebidas por definir',
+          'Atención de bartender durante el horario acordado',
+          'Carta de bebidas definida antes de reservar',
+          'Barra, cristalería e insumos solo cuando la propuesta los incluya',
         ],
         price: consultationPrice('event', 1),
         requestable: true,
         ownerId: 'cocina',
         quoteConfig: perEvent,
         coverageIds: ['lima-metropolitana'],
+        recommendations: [
+          { entryId: 'menaje-evento', priority: 1, eventTypeIds: [], reason: 'Coordina la cristalería y el menaje que utilizarán tus invitados.' },
+          { entryId: 'mozos-evento', priority: 2, eventTypeIds: [], reason: 'Añade personal de atención si también habrá servicio en mesas.' },
+          { entryId: 'sillas-evento', priority: 3, eventTypeIds: [], reason: 'Suma sillas si el espacio no tiene mobiliario suficiente.' },
+        ],
+        faqItems: [
+          { id: 'bartender-incluye', question: '¿Contratar bartender incluye bebidas y cristalería?', answer: 'No automáticamente. La propuesta indicará si incluye insumos, hielo, cristalería, implementos o barra física.' },
+          { id: 'bartender-sin-alcohol', question: '¿Puedo pedir una carta sin alcohol?', answer: 'Sí. Cuéntanos qué público asistirá y qué tipo de bebidas quieres ofrecer para revisar una carta adecuada.' },
+          { id: 'bartender-datos', question: '¿Qué necesitan para cotizar?', answer: 'Cantidad aproximada de invitados, fecha, distrito, horario, lugar y alcance esperado de la barra.' },
+        ],
+        seo: seo(
+          'Bartender para eventos en Lima | Barra de bebidas | Gladys',
+          'Cotiza bartender, barra y cristalería para cumpleaños, bodas y eventos empresariales en Lima Metropolitana.',
+        ),
       },
     ),
     addon(
@@ -664,6 +827,20 @@ export const demoContent: SiteContent = normalizeSite({
       1,
       'eventos',
       'imagen-mozos',
+      {
+        body: 'La cantidad de mozos depende del número de invitados, la forma de servir y las tareas asignadas. Indica si atenderán mesas, apoyarán un buffet o recibirán invitados; el horario, el uniforme y las funciones se acuerdan antes de reservar.',
+        details: ['Atención en mesas o apoyo de buffet según el formato', 'Horario y tareas definidos en la propuesta', 'Cantidad de personal calculada según invitados y operación'],
+        faqItems: [
+          { id: 'mozos-cantidad', question: '¿Cuántos mozos necesita mi evento?', answer: 'Depende de los invitados, el menú, la distribución y si habrá atención en mesa o buffet. Lo calculamos con esos datos.' },
+          { id: 'mozos-tareas', question: '¿Qué tareas pueden realizar?', answer: 'La propuesta debe indicar si atenderán mesas, apoyarán el buffet, recibirán invitados o realizarán otra función acordada.' },
+          { id: 'mozos-horario', question: '¿Cómo se define el horario?', answer: 'Indica montaje, llegada de invitados, comida y cierre. Confirmaremos las horas incluidas antes de reservar.' },
+        ],
+        recommendations: [
+          { entryId: 'menaje-evento', priority: 1, eventTypeIds: [], reason: 'Añade el menaje que utilizará el personal durante el servicio.' },
+          { entryId: 'sillas-evento', priority: 2, eventTypeIds: [], reason: 'Completa el mobiliario si necesitas asientos para tus invitados.' },
+          { entryId: 'arreglos-florales', priority: 3, eventTypeIds: [], reason: 'Suma flores si quieres ambientar las mesas o la recepción.' },
+        ],
+      },
     ),
     addon(
       'menaje-evento',
@@ -673,6 +850,20 @@ export const demoContent: SiteContent = normalizeSite({
       20,
       'cocina',
       'imagen-menaje',
+      {
+        body: 'El menaje se calcula a partir del menú y de las bebidas, no solo del número de invitados. Dinos qué se servirá y qué piezas ya tiene el lugar para revisar vajilla, cubiertos, vasos, copas, tazas y elementos de apoyo sin duplicar cantidades.',
+        details: ['Vajilla y cubiertos según los tiempos del menú', 'Vasos, copas o tazas según las bebidas', 'Piezas de servicio definidas antes de reservar'],
+        faqItems: [
+          { id: 'menaje-calculo', question: '¿Cómo calculan la cantidad de menaje?', answer: 'Se revisan invitados, menú, bebidas, forma de servicio y piezas que ya tiene el lugar.' },
+          { id: 'menaje-piezas', question: '¿Puedo alquilar solo algunas piezas?', answer: 'Sí. Indica si necesitas únicamente platos, cubiertos, vasos, copas, tazas u otros elementos.' },
+          { id: 'menaje-devolucion', question: '¿Cómo se coordinan entrega y devolución?', answer: 'Distrito, acceso, horarios y condiciones se detallan en la propuesta antes de confirmar.' },
+        ],
+        recommendations: [
+          { entryId: 'sillas-evento', priority: 1, eventTypeIds: [], reason: 'Completa el mobiliario disponible con sillas para tus invitados.' },
+          { entryId: 'arreglos-florales', priority: 2, eventTypeIds: [], reason: 'Suma flores para ambientar las mesas o la recepción.' },
+          { entryId: 'recuerdos-evento', priority: 3, eventTypeIds: [], reason: 'Añade un detalle para entregar a tus invitados.' },
+        ],
+      },
     ),
     addon(
       'sillas-evento',
@@ -682,6 +873,20 @@ export const demoContent: SiteContent = normalizeSite({
       20,
       'eventos',
       'imagen-sillas',
+      {
+        body: 'Para cotizar sillas necesitamos cantidad, tipo de evento, espacio y condiciones de acceso. El modelo, el traslado, la colocación y el retiro se confirman en la propuesta; no se asume un modelo ni disponibilidad hasta revisar la fecha.',
+        details: ['Cantidad y modelo sujetos a disponibilidad', 'Traslado según distrito y acceso', 'Colocación y retiro definidos en la propuesta'],
+        faqItems: [
+          { id: 'sillas-modelo', question: '¿Qué modelos de silla están disponibles?', answer: 'Se confirman según la fecha, cantidad y uso. Si tienes una referencia, envíala para revisar opciones.' },
+          { id: 'sillas-mesas', question: '¿Las sillas incluyen mesas?', answer: 'No automáticamente. Puedes añadir mesas y mantelería como servicios separados en la misma consulta.' },
+          { id: 'sillas-traslado', question: '¿Cómo se calcula el traslado?', answer: 'Se revisan distrito, acceso, horario, cantidad y condiciones de carga y descarga.' },
+        ],
+        recommendations: [
+          { entryId: 'arreglos-florales', priority: 1, eventTypeIds: [], reason: 'Suma flores si quieres ambientar las mesas o la recepción.' },
+          { entryId: 'recuerdos-evento', priority: 2, eventTypeIds: [], reason: 'Añade un detalle para entregar a tus invitados.' },
+          { entryId: 'polos-estampados', priority: 3, eventTypeIds: [], reason: 'Incluye polos si forman parte de la celebración o actividad.' },
+        ],
+      },
     ),
     addon(
       'arreglos-florales',
@@ -691,6 +896,19 @@ export const demoContent: SiteContent = normalizeSite({
       1,
       'eventos',
       'imagen-flores',
+      {
+        body: 'Los arreglos se definen por ubicación, tamaño, paleta y tipo de flor disponible. Indica si necesitas piezas para mesas, recepción, ceremonia o un regalo; una referencia visual ayuda a entender el estilo, pero la propuesta final se confirma según temporada.',
+        details: ['Arreglos para mesas, recepción o ceremonia', 'Paleta y tamaño acordados antes de producir', 'Flores y follaje sujetos a temporada y disponibilidad'],
+        faqItems: [
+          { id: 'flores-referencia', question: '¿Puedo enviar una foto de referencia?', answer: 'Sí. Sirve para entender paleta, forma y tamaño, sin asumir que se copiará exactamente ni atribuirla como trabajo de Gladys.' },
+          { id: 'flores-temporada', question: '¿Puedo elegir cualquier flor?', answer: 'La selección final depende de temporada, fecha y disponibilidad. Podemos conversar sobre alternativas del mismo estilo.' },
+          { id: 'flores-recipientes', question: '¿Los recipientes quedan incluidos?', answer: 'La propuesta indicará si se entregan, alquilan o deben devolverse.' },
+        ],
+        recommendations: [
+          { entryId: 'recuerdos-evento', priority: 1, eventTypeIds: [], reason: 'Añade un detalle para entregar a tus invitados.' },
+          { entryId: 'polos-estampados', priority: 2, eventTypeIds: [], reason: 'Incluye polos si forman parte de la celebración o actividad.' },
+        ],
+      },
     ),
     addon(
       'recuerdos-evento',
@@ -700,6 +918,18 @@ export const demoContent: SiteContent = normalizeSite({
       20,
       'eventos',
       'imagen-recuerdos',
+      {
+        body: 'Un recuerdo se define por destinatario, cantidad, material, personalización y fecha de entrega. Cuéntanos qué quieres comunicar y si se entregará durante el evento; revisaremos opciones sin asumir un producto, empaque o acabado hasta aprobar la propuesta.',
+        details: ['Producto y material elegidos según la ocasión', 'Personalización con nombre, fecha, mensaje o diseño acordado', 'Empaque y entrega definidos antes de producir'],
+        faqItems: [
+          { id: 'recuerdos-eleccion', question: '¿Qué recuerdo conviene para mi evento?', answer: 'Depende de la ocasión, el público, la cantidad y el presupuesto. Comparte esos datos para revisar opciones.' },
+          { id: 'recuerdos-diseno', question: '¿Puedo enviar mi propio diseño?', answer: 'Sí. Antes de producir se revisan formato, tamaño, colores y viabilidad del archivo.' },
+          { id: 'recuerdos-plazo', question: '¿Con cuánto tiempo debo pedirlos?', answer: 'El plazo depende del producto y la cantidad. La fecha de entrega se confirma antes de reservar.' },
+        ],
+        recommendations: [
+          { entryId: 'polos-estampados', priority: 1, eventTypeIds: [], reason: 'Añade polos si también necesitas un detalle para el equipo o la celebración.' },
+        ],
+      },
     ),
     addon(
       'polos-estampados',
@@ -709,20 +939,44 @@ export const demoContent: SiteContent = normalizeSite({
       10,
       'eventos',
       'imagen-polos',
+      {
+        body: 'Los polos se cotizan según cantidad, tallas, prendas, colores y técnica de estampado. Envía el diseño o la idea y señala para qué se usarán; antes de producir se confirman materiales, ubicación del arte, muestra y fecha de entrega.',
+        details: ['Tallas y colores acordados por cantidad', 'Estampado según diseño y uso de la prenda', 'Muestra o aprobación previa según la propuesta'],
+        faqItems: [
+          { id: 'polos-minimo', question: '¿Existe una cantidad mínima?', answer: 'La cantidad viable depende del tipo de prenda y estampado. Se confirma durante la cotización.' },
+          { id: 'polos-tallas', question: '¿Cómo envío las tallas?', answer: 'Puedes comenzar con una distribución aproximada y confirmar la lista final antes de producir.' },
+          { id: 'polos-archivo', question: '¿Qué archivo necesitan para el diseño?', answer: 'Envía el material disponible. Revisaremos resolución, colores y formato antes de aprobar la producción.' },
+        ],
+      },
     ),
+    ...commercialExpansionEntries,
     entry(
       'nosotros',
       'paginas',
-      'Cocinamos para celebrar',
-      'Cocinamos para que compartas la mesa con los tuyos. Además del buffet, puedes elegir los servicios y detalles que necesites para tu evento.',
+      'Soluciones para eventos, celebraciones y empresas',
+      'Gladys reúne comida, atención, alquileres y detalles para que elijas solo lo que necesita tu evento en Lima Metropolitana.',
       'imagen-buffet-demo',
       {
         sortOrder: 1,
+        body: 'Gladys reúne comida, atención, alquileres y detalles para celebraciones y empresas en Lima Metropolitana. Puedes contratar un solo servicio o combinar varios en una consulta. La fecha, el distrito, las cantidades, el precio y las condiciones se confirman por WhatsApp antes de reservar. Cocina, alimentación, catering, bar y menaje son atendidos por su equipo responsable; los demás servicios se coordinan con el segundo equipo y, cuando aplica, mediante proveedores aliados. En todos los casos recibes una sola conversación para revisar el alcance, sin tener que volver a explicar los datos de tu evento.',
         details: [
           'Buffet y menús',
           'Personal y barra',
           'Alquileres y detalles para el evento',
         ],
+        processSteps: [
+          { title: 'Empieza por una necesidad', description: 'Puedes consultar solo por comida, personal, alquileres, entretenimiento, producción o un producto personalizado.' },
+          { title: 'Combina sin repetir datos', description: 'Añade los extras que necesites y prepara una sola consulta con fecha, distrito y cantidades aproximadas.' },
+          { title: 'Confirma el alcance', description: 'El equipo responsable revisa disponibilidad, precio, traslado y condiciones contigo antes de reservar.' },
+        ],
+        faqItems: [
+          { id: 'nosotros-un-servicio', question: '¿Tengo que contratar un paquete completo?', answer: 'No. Puedes cotizar un solo servicio o combinar varios según tu evento.' },
+          { id: 'nosotros-aliados', question: '¿Todos los servicios son propios?', answer: 'No. Algunos se coordinan mediante aliados y se identifican en su ficha. La propuesta confirma quién participa y qué incluye.' },
+        ],
+        seo: seo(
+          'Conoce Gladys | Servicios para eventos en Lima',
+          'Conoce cómo Gladys combina comida, atención, alquileres y detalles para celebraciones y empresas en Lima Metropolitana.',
+        ),
       },
     ),
   ],
@@ -739,7 +993,7 @@ export const demoContent: SiteContent = normalizeSite({
       primaryLabel: 'Cotizar un buffet',
       primaryHref: '/cotizar',
       secondaryLabel: 'Ver complementos',
-      secondaryHref: '/complementos',
+      secondaryHref: '/servicios',
     },
     {
       id: 'especialidades',
@@ -814,6 +1068,30 @@ export const demoContent: SiteContent = normalizeSite({
       question: '¿El buffet incluye barra, mozos o alquileres?',
       answer:
         'Se cotizan por separado. Puedes añadir bartender, mozos, menaje, sillas u otros servicios a tu evento. Antes de reservar, te confirmamos qué incluye cada uno y su precio.',
+    },
+    {
+      id: 'un-servicio',
+      question: '¿Puedo contratar un solo servicio?',
+      answer:
+        'Sí. Puedes pedir únicamente comida, bartender, personal, alquiler, decoración, entretenimiento, producción, fotografía o personalizados, según disponibilidad.',
+    },
+    {
+      id: 'combinar',
+      question: '¿Cómo combino varios servicios?',
+      answer:
+        'Añade las opciones que necesitas y elige cuál será la principal. El cotizador reúne todo en un solo mensaje para que no tengas que repetir tu pedido.',
+    },
+    {
+      id: 'anticipacion',
+      question: '¿Con cuánta anticipación debo consultar?',
+      answer:
+        'Consulta apenas tengas una fecha aproximada. La anticipación necesaria depende del servicio, la cantidad, el distrito y la disponibilidad de cada proveedor.',
+    },
+    {
+      id: 'aliados',
+      question: '¿Todos los servicios son realizados directamente por Gladys?',
+      answer:
+        'Algunos servicios son propios y otros se coordinan con aliados especializados. Antes de reservar te confirmamos quién presta cada servicio y sus condiciones.',
     },
   ],
 });

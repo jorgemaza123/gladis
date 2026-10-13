@@ -12,12 +12,12 @@ export const BUSINESS_CONTACTS: Readonly<
   Record<BusinessOwnerId, BusinessContact>
 > = {
   cocina: {
-    label: 'Cocina, bartender y menaje',
+    label: 'Cocina, alimentación, bar y menaje',
     whatsapp: '51923106197',
     enabled: true,
   },
   eventos: {
-    label: 'Complementos y producción',
+    label: 'Servicios y producción para eventos',
     whatsapp: '51902843481',
     enabled: true,
   },

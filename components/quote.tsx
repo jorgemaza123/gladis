@@ -16,6 +16,7 @@ import {
   type EventEntry,
 } from '@/lib/event-selection';
 import { todayInLima } from '@/lib/quote-validation';
+import { serviceGroup, serviceGroupOrder } from '@/lib/service-groups';
 
 export type QuoteSite = {
   settings: {
@@ -35,6 +36,7 @@ export type QuoteSite = {
     | 'id'
     | 'kind'
     | 'title'
+    | 'category'
     | 'minimumGuests'
     | 'modalityIds'
     | 'addOnIds'
@@ -78,6 +80,9 @@ export function Quote({
   const formId = useId();
   const entries = site.entries.filter(
     (e): e is typeof e & EventEntry => e.requestable && !!e.quoteConfig,
+  );
+  const availableEntries = entries.filter(
+    (entry) => !cart.items.some((item) => item.entryId === entry.id),
   );
   const primary = cart.items.find((i) => i.itemId === cart.primaryItemId);
   const chosen = entries.find((e) => e.id === primary?.entryId);
@@ -344,22 +349,32 @@ export function Quote({
                 aria-label="Servicios disponibles"
                 hidden={!!cart.items.length && !showServices}
               >
-                {entries
-                  .filter((entry) => !cart.items.some((item) => item.entryId === entry.id))
-                  .map((entry) => (
-                    <button
-                      type="button"
-                      key={entry.id}
-                      disabled={!restored}
-                      onClick={() => {
-                        add(entry.id);
-                        recordCta(entry.id, 'quote_form');
-                        setShowServices(true);
-                      }}
-                    >
-                      + {entry.title}
-                    </button>
-                  ))}
+                {serviceGroupOrder.map((group) => {
+                  const groupEntries = availableEntries.filter(
+                    (entry) => serviceGroup(entry) === group,
+                  );
+                  return groupEntries.length ? (
+                    <section className="service-picker-group" key={group}>
+                      <h3>{group}</h3>
+                      <div>
+                        {groupEntries.map((entry) => (
+                          <button
+                            type="button"
+                            key={entry.id}
+                            disabled={!restored}
+                            onClick={() => {
+                              add(entry.id);
+                              recordCta(entry.id, 'quote_form');
+                              setShowServices(true);
+                            }}
+                          >
+                            + {entry.title}
+                          </button>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null;
+                })}
               </div>
               {!!cart.items.length && cart.items.length < entries.length && (
                 <button

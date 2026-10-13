@@ -1,4 +1,8 @@
-import type { ContentEntry, Recommendation } from '@/models/content';
+import {
+  isPublicAvailability,
+  type ContentEntry,
+  type Recommendation,
+} from '@/models/content';
 
 export type RecommendationCandidate = Pick<
   ContentEntry,
@@ -8,6 +12,7 @@ export type RecommendationCandidate = Pick<
   | 'title'
   | 'description'
   | 'status'
+  | 'availability'
   | 'sortOrder'
   | 'imageId'
   | 'requestable'
@@ -28,7 +33,8 @@ function matchesEvent(recommendation: Recommendation, eventTypeId?: string | nul
 }
 
 function isRequestable(entry: RecommendationCandidate | undefined): entry is RecommendationCandidate {
-  return !!entry && entry.status === 'published' && entry.requestable &&
+  return !!entry && entry.status === 'published' &&
+    isPublicAvailability(entry.availability) && entry.requestable &&
     entry.ownerId !== null && entry.quoteConfig !== null;
 }
 

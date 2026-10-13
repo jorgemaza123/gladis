@@ -4,8 +4,8 @@ Los faltantes no impiden desarrollar y probar con fixtures aislados; sí pueden 
 
 | Dato | Estado | Uso y puerta |
 |---|---|---|
-| Teléfono WhatsApp de cocina/bar/menaje | CORREGIDO Y CONFIRMADO 2026-10-09 por el usuario | Local `923106197`; la configuración usa `51923106197` para el enlace internacional de WhatsApp. Atiende comida, buffet, bartender y menaje; no se usa como fallback para otros servicios. |
-| Teléfono WhatsApp de complementos y producción | CORREGIDO Y CONFIRMADO 2026-10-09 por el usuario | Local `902843481`; la configuración usa `51902843481` para el enlace internacional de WhatsApp. Atiende mozos, sillas, flores, recuerdos y polos; no se usa como fallback para cocina. |
+| Teléfono WhatsApp de cocina/alimentación/bar/menaje | REGLA DEFINITIVA CONFIRMADA 2026-10-13 por el usuario | Local `923106197`; la configuración usa `51923106197` para el enlace internacional de WhatsApp. Atiende los 9 servicios de cocina, alimentación, catering, bar y menaje. |
+| Teléfono WhatsApp de los demás servicios | REGLA DEFINITIVA CONFIRMADA 2026-10-13 por el usuario | Local `902843481`; la configuración usa `51902843481` para el enlace internacional de WhatsApp. Atiende los otros 31 servicios. |
 | Nombre/marca definitiva | Confirmado: Gladys | El usuario confirmó el nombre público y entregó el logo oficial el 2026-10-06. |
 | Dominio y proveedor de alojamiento | URL operativa confirmada | `https://gladis-vr6r.vercel.app` es la URL pública actual. Un dominio propio puede reemplazarla después sin cambiar el catálogo. |
 | URL de web DTF/sublimación | PENDIENTE | Enlace configurable, no inventar dominio. tarea 15 funciona con enlace ausente. |

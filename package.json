@@ -16,6 +16,9 @@
     "test:motion": "node scripts/motion-tests.mjs",
     "test:commerce": "node scripts/commerce-tests.mjs",
     "test:performance": "node scripts/performance-assets.mjs",
+    "test:seo": "node scripts/seo-http-audit.mjs",
+    "test:content": "node scripts/content-audit.mjs",
+    "test:redirects": "node scripts/redirect-tests.mjs",
     "quality": "npm run typecheck && npm run lint && npm run test:motion && npm run test:commerce && npm test && npm run test:performance && npm run build"
   },
   "dependencies": {

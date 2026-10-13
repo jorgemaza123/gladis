@@ -45,7 +45,7 @@ Usar consultas reales de Search Console y preguntas de WhatsApp para enriquecer 
 - Desde ocasión, ficha o portada se puede añadir, quitar y revisar sin perder el contexto ni el origen.
 - Cantidad por servicio e invitados permanecen independientes salvo copia solicitada.
 - Los errores se entienden, señalan el campo y conservan lo escrito; no aparecen como fallo inicial.
-- Todo el pedido va al número del principal: buffet, comida, bartender y menaje al 923106197; mozos, sillas, flores, recuerdos y polos al 902843481.
+- Todo el pedido va al número del principal: cocina, alimentación, catering, buffet, menús, desayunos, coffee break, bocaditos, piqueos, brunch, box, almuerzos, cenas, bebidas, bartender, barra, cócteles y menaje al 923106197; los demás servicios al 902843481.
 - El borrador conserva todos los servicios, cantidades, opciones y origen. Abrir WhatsApp no equivale a enviar el mensaje.
 - Tras implementar, ejecutar npm.cmd run quality y revisar en navegador real a 320, 375, 768 y 1440 px, con teclado, consola y ambos destinos. No declarar mejora de conversión sin una línea base comparable.
 
@@ -66,7 +66,7 @@ No añadir backend, base de datos, CMS, pagos, reservas automáticas, analítica
 - Las cantidades por servicio y los invitados siguen separados. Sólo un clic en «Usar…» copia una cantidad de personas al campo de invitados.
 - La bolsa ya no muestra una lista de errores antes de intentar avanzar. En el cotizador, los errores se presentan junto a cada campo, el foco va al primero y se conserva lo escrito. Las opciones comerciales obligatorias no cambiaron.
 - El borrador separa el detalle de servicios y el origen, y omite las líneas de complementos vacíos y presupuesto no indicado. No recorta líneas de servicios.
-- Por corrección explícita del usuario en esta fecha: **923106197** recibe buffet, comida, bartender y menaje; **902843481** recibe mozos, sillas, flores, recuerdos y polos. La selección del principal sigue enviando todo el pedido a un único equipo.
+- Regla definitiva confirmada el 2026-10-13: **923106197** recibe toda la línea de cocina, alimentación, catering, bar y menaje; **902843481** recibe los demás servicios. La selección del principal sigue enviando el pedido completo, incluidos los extras de ambas familias, a un único equipo.
 - Verificación: suite de calidad completa con salida 0, prueba comercial de ambos contactos, y Chrome local a 320, 375, 768 y 1440 px sin desbordamiento. Se comprobó error y foco al intentar continuar, copia explícita de 50 invitados, revisión final del pedido, apertura de nueve servicios adicionales y cambio visible de destinatario. No se enviaron mensajes de prueba.
 
 Quedan sin afirmar resultados de ventas o abandono: no hay línea base ni medición de conversaciones recibidas. También quedan pendientes la revisión de qué opciones podrían ser «por definir», la pauta aceptada por ambos responsables y la expansión de páginas basada en consultas reales. Este cambio no hace push ni despliegue.

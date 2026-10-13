@@ -88,5 +88,5 @@ HECHO requiere las pruebas particulares y el traspaso. BLOQUEADO requiere causa 
 
 ## 2026-10-09 — Corrección vigente de contactos y mejora de cotización
 
-- Configuración actual: cocina, buffet, bartender y menaje → **923106197**; mozos, sillas, flores, recuerdos y polos → **902843481**. La corrección explícita del usuario sustituye cualquier asignación inversa de los registros históricos.
+- Configuración definitiva confirmada el 2026-10-13: toda la línea de cocina, alimentación, catering, bar y menaje → **923106197**; los otros 31 servicios → **902843481**. El servicio principal decide el destino y la consulta conserva todos los extras seleccionados.
 - El nuevo flujo de conversión y sus contactos están comprobados localmente con `npm.cmd run quality` y Chrome. La validación de ventas reales, respuestas operativas y publicación de este cambio no se ha realizado. Ver BITACORA y `docs/comercial/PLAN-CONVERSION-FASE-2.md`.

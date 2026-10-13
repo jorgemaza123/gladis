@@ -12,6 +12,14 @@ type Props = {
 };
 const scalar = (value: string | string[] | undefined) =>
   typeof value === 'string' ? value : '';
+const entriesForKind = (
+  site: Awaited<ReturnType<typeof readSite>>,
+  kind: string,
+) =>
+  publicEntries(site).filter(
+    (entry) =>
+      entry.kind === kind || (kind === 'servicios' && entry.kind === 'menus'),
+  );
 export async function generateMetadata({ params, searchParams }: Props) {
   const { kind } = await params;
   if (!contentKinds.includes(kind as ContentKind)) notFound();
@@ -19,6 +27,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
     c = site.settings.catalogs[kind as ContentKind],
     q = await searchParams,
     policy = catalogUrlPolicy(kind, q);
+  if (!entriesForKind(site, kind).length) notFound();
   return metadataFor(
     site,
     {
@@ -37,12 +46,11 @@ export default async function Listing({ params, searchParams }: Props) {
     c = site.settings.catalogs[kind as ContentKind],
     q = await searchParams,
     policy = catalogUrlPolicy(kind, q);
-  const all = publicEntries(site).filter(
-      (e) => e.kind === kind || (kind === 'servicios' && e.kind === 'menus'),
-    ),
+  const all = entriesForKind(site, kind),
     query = scalar(q.q).trim().slice(0, 120),
     category = scalar(q.categoria),
     modality = scalar(q.modalidad);
+  if (!all.length) notFound();
   const fold = (s: string) =>
     s
       .normalize('NFD')
@@ -92,22 +100,17 @@ export default async function Listing({ params, searchParams }: Props) {
         <p className="eyebrow">{site.settings.tagline}</p>
         <h1 className="page-title">{c.title}</h1>
         {c.description && <p className="lead catalog-lead">{c.description}</p>}
-        {['servicios', 'menus', 'complementos'].includes(kind) && (
+        {kind === 'servicios' && (
+          <p className="catalog-lead">
+            Aquí puedes revisar las opciones de comida disponibles y entrar a cada ficha para
+            conocer su alcance. Elige un servicio como punto de partida; después podrás añadir
+            atención, menaje, barra u otros complementos dentro de una sola cotización.
+          </p>
+        )}
+        {kind === 'menus' && (
           <nav className="catalog-tabs" aria-label="Tipo de servicio">
-            <Link
-              href="/servicios"
-              aria-current={
-                kind === 'servicios' || kind === 'menus' ? 'page' : undefined
-              }
-            >
-              Buffet y menús
-            </Link>
-            <Link
-              href="/complementos"
-              aria-current={kind === 'complementos' ? 'page' : undefined}
-            >
-              Servicios para eventos
-            </Link>
+            <Link href="/servicios">Todos los servicios</Link>
+            <Link href="/menus" aria-current="page">Menús para compartir</Link>
           </nav>
         )}
         {all.length > 4 && (
@@ -202,9 +205,7 @@ export default async function Listing({ params, searchParams }: Props) {
       </section>
       <ServiceExplorer
         entries={explorerServices(site)}
-        featuredIds={kind === 'complementos'
-          ? ['buffet-para-eventos', 'menu-criollo-eventos', 'desayuno-corporativo']
-          : kind === 'tipos-evento'
+        featuredIds={kind === 'tipos-evento'
             ? ['buffet-para-eventos', 'mozos-evento', 'menaje-evento']
             : ['mozos-evento', 'menaje-evento', 'arreglos-florales']}
         title={kind === 'tipos-evento' ? 'Elige también los servicios de tu evento.' : '¿Quieres sumar algo más?'}

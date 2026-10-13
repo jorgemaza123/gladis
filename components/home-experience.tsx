@@ -1,4 +1,5 @@
 import type { SiteContent } from '@/models/content';
+import Link from 'next/link';
 import { QuoteCta } from './quote-cta';
 import { OccasionGrid } from './occasion-grid';
 import { StoryHero } from './story-hero';
@@ -27,6 +28,47 @@ function TableDrawing() {
         d="M83 116q18-8 34-40m-21 28q-24-6-16-23 15 2 16 23m9-13q-3-24 16-25 5 17-16 25m-8 11q24 6 25-13-17-5-25 13"
       />
     </svg>
+  );
+}
+
+const serviceFamilies = [
+  ['Personal para eventos', '/servicios/mozos-evento'],
+  ['Alquileres', '/alquiler'],
+  ['Entretenimiento', '/entretenimiento'],
+  ['Producción audiovisual', '/produccion'],
+  ['Decoración', '/decoracion'],
+  ['Fotografía y video', '/foto-video'],
+  ['Personalizados', '/personalizados'],
+  ['Soluciones para empresas', '/empresas'],
+] as const;
+
+function ServiceFamilies() {
+  return (
+    <nav className="service-family-nav wrap" aria-label="Familias de servicios">
+      <p className="section-kicker">También podemos ayudarte con</p>
+      <div>
+        {serviceFamilies.map(([label, href]) => (
+          <Link key={href} href={href}>{label}<span aria-hidden="true">→</span></Link>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function CompanyGateway() {
+  return (
+    <section className="company-gateway wrap" aria-labelledby="company-gateway-title">
+      <div>
+        <p className="section-kicker">Para empresas y equipos</p>
+        <h2 id="company-gateway-title">Una consulta clara para una operación bien coordinada.</h2>
+      </div>
+      <div>
+        <p>
+          Desayunos, coffee break, reuniones, capacitaciones, lanzamientos y fechas internas. Elige alimentación, personal, mobiliario, audiovisuales, producción o personalizados según el programa.
+        </p>
+        <Link className="button" href="/empresas">Ver soluciones para empresas <span aria-hidden="true">↗</span></Link>
+      </div>
+    </section>
   );
 }
 export function HomeExperience({ site }: { site: SiteContent }) {
@@ -68,7 +110,8 @@ export function HomeExperience({ site }: { site: SiteContent }) {
     <>
       <StoryHero />
       <HomeServiceNav />
-      <OccasionGrid occasions={occasions} />
+      <HomeServiceJourney site={site} />
+      <ServiceFamilies />
       <ServiceExplorer
         entries={explorerServices(site)}
         featuredIds={['buffet-para-eventos', 'menaje-evento', 'mozos-evento']}
@@ -76,7 +119,8 @@ export function HomeExperience({ site }: { site: SiteContent }) {
         intro="Elige un servicio o arma una combinación. Puedes ver todas las opciones y cotizar aquí, sin perder lo que ya seleccionaste."
         quoteSite={quoteSiteFor(site)}
       />
-      <HomeServiceJourney site={site} />
+      <OccasionGrid occasions={occasions} />
+      <CompanyGateway />
       <section className="conversation-chapter" id="como-cotizar">
         <div className="conversation-section wrap">
           <div data-reveal="support-heading">

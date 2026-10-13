@@ -1,6 +1,8 @@
 import { readSite } from '@/repositories/site';
 import { canonicalFor, absoluteUrl } from '@/lib/seo';
 import { publicEntries } from '@/components/public';
+import { seoHubPages } from '@/data/seo-hubs';
+import { guides } from '@/data/guides';
 const escape = (s: string) =>
   s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 export async function GET() {
@@ -14,6 +16,16 @@ export async function GET() {
         urls.push({ url, updated });
     };
     add('/', s.seo);
+    for (const hub of Object.values(seoHubPages))
+      add(hub.path, hub.seo);
+    add('/guias', {
+      title: 'Guías para organizar eventos en Lima | Gladys',
+      description:
+        'Guías prácticas para cotizar un evento, organizar un coffee break y calcular el menaje necesario.',
+      noindex: false,
+    });
+    for (const guide of guides)
+      add(`/guias/${guide.slug}`, guide.seo);
     const entries = publicEntries(site).filter((e) => !e.seo.noindex);
     for (const kind of new Set(entries.map((e) => e.kind)))
       add(`/${kind}`, s.catalogs[kind].seo);

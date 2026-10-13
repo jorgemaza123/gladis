@@ -146,8 +146,8 @@ Si el cliente aún no sabe qué servicio necesita, ofrecer dos áreas claramente
 
 | Principal | Destino configurado |
 |---|---|
-| Buffet, comida, bartender o menaje | Cocina, bartender y menaje: +51 902 843 481 |
-| Mozos, sillas, flores, recuerdos o polos | Complementos y producción: +51 923 106 197 |
+| Cocina, alimentación, catering, bar o menaje | Cocina, alimentación, bar y menaje: +51 923 106 197 |
+| Cualquier otro servicio | Servicios y producción para eventos: +51 902 843 481 |
 
 Los extras no cambian el destinatario. Cambiar el principal es explícito; retirarlo obliga a elegir otro. Los teléfonos siguen en `config/business-contacts.ts`, no copiados a componentes.
 

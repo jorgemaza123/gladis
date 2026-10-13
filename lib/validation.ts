@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { businessOwnerIds } from '@/config/business-contacts';
-import { contentKinds } from '@/models/content';
+import {
+  contentKinds,
+  entryAvailabilities,
+  isPublicAvailability,
+} from '@/models/content';
 const short = z.string().max(300),
   para = z.string().max(12000),
   identifier = z
@@ -182,6 +186,7 @@ export const entrySchema = z.object({
   body: para,
   imageId: z.string().max(100),
   status: z.enum(['draft', 'published', 'archived']),
+  availability: z.enum(entryAvailabilities),
   sortOrder: z.number().int().min(0).max(100000),
   featured: z.boolean(),
   details: z.array(short).max(100),
@@ -402,7 +407,7 @@ export const siteSchema = z
         menuIds: 'menus',
         serviceIds: 'servicios',
         modalityIds: 'modalidades',
-        addOnIds: 'complementos',
+        addOnIds: 'servicios',
         eventTypeIds: 'tipos-evento',
         coverageIds: 'cobertura',
       })) {
@@ -427,6 +432,12 @@ export const siteSchema = z
         fail(`Una oferta cotizable necesita responsable: ${e.title}.`);
       if (e.requestable && !e.quoteConfig)
         fail(`Una oferta cotizable necesita reglas completas: ${e.title}.`);
+      if (e.requestable && !isPublicAvailability(e.availability))
+        fail(
+          `Una oferta cotizable debe estar activa o confirmada con aliado: ${e.title}.`,
+        );
+      if (e.availability === 'partner' && e.provider !== 'partner')
+        fail(`Una oferta de aliado debe identificar al proveedor: ${e.title}.`);
       for (const recommendation of e.recommendations) {
         if (!records.has(recommendation.entryId))
           fail(

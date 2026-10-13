@@ -1,5 +1,10 @@
 import type { Metadata } from 'next';
-import type { SiteContent, SEOFields } from '@/models/content';
+import {
+  isPublicAvailability,
+  type ContentEntry,
+  type SiteContent,
+  type SEOFields,
+} from '@/models/content';
 import {
   getBusinessContact,
   resolveWhatsAppDestination,
@@ -137,7 +142,10 @@ export function businessData(site: SiteContent) {
     new Set(
       site.entries
         .filter(
-          (entry) => entry.kind === 'cobertura' && entry.status === 'published',
+          (entry) =>
+            entry.kind === 'cobertura' &&
+            entry.status === 'published' &&
+            isPublicAvailability(entry.availability),
         )
         .map((entry) => entry.title.trim())
         .filter(Boolean),
@@ -145,7 +153,12 @@ export function businessData(site: SiteContent) {
   ).map((name) => ({ '@type': 'AdministrativeArea', name }));
   const publicOwners = new Set(
     site.entries
-      .filter((entry) => entry.status === 'published' && entry.requestable)
+      .filter(
+        (entry) =>
+          entry.status === 'published' &&
+          isPublicAvailability(entry.availability) &&
+          entry.requestable,
+      )
       .map((entry) => entry.ownerId),
   );
   const contactPoint = Array.from(publicOwners).flatMap((ownerId) => {
@@ -177,5 +190,53 @@ export function businessData(site: SiteContent) {
     ...(contactPoint.length ? { contactPoint } : {}),
     ...(s.email ? { email: s.email } : {}),
     sameAs: s.socialLinks.map((l) => l.url),
+  };
+}
+
+export function serviceData(site: SiteContent, entry: ContentEntry) {
+  if (
+    entry.status !== 'published' ||
+    !isPublicAvailability(entry.availability) ||
+    !entry.requestable
+  )
+    return null;
+  const url = absoluteUrl(site, `/${entry.kind}/${entry.slug}`);
+  const businessId = absoluteUrl(site, '/#business');
+  if (!url || !businessId) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: entry.title,
+    description: entry.description,
+    url,
+    serviceType: entry.category || site.settings.catalogs[entry.kind].title,
+    provider: { '@id': businessId },
+    areaServed: {
+      '@type': 'AdministrativeArea',
+      name: 'Lima Metropolitana',
+    },
+  };
+}
+
+export function faqData(site: SiteContent, entry: ContentEntry) {
+  if (
+    site.settings.demo ||
+    entry.status !== 'published' ||
+    !isPublicAvailability(entry.availability) ||
+    !entry.faqItems.length
+  )
+    return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: entry.faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
   };
 }

@@ -19,6 +19,16 @@ export const contentKinds = [
   'paginas',
 ] as const;
 export type ContentKind = (typeof contentKinds)[number];
+export const entryAvailabilities = [
+  'active',
+  'partner',
+  'planned',
+  'draft',
+  'hidden',
+] as const;
+export type EntryAvailability = (typeof entryAvailabilities)[number];
+export const isPublicAvailability = (availability: EntryAvailability) =>
+  availability === 'active' || availability === 'partner';
 export type MediaVariant = {
   url: string;
   width: number;
@@ -84,6 +94,7 @@ export type ContentEntry = {
   body: string;
   imageId: string;
   status: 'draft' | 'published' | 'archived';
+  availability: EntryAvailability;
   sortOrder: number;
   featured: boolean;
   details: string[];

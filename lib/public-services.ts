@@ -1,4 +1,10 @@
-import type { SiteContent, QuoteConfig, MediaAsset, ContentKind } from '@/models/content';
+import {
+  isPublicAvailability,
+  type SiteContent,
+  type QuoteConfig,
+  type MediaAsset,
+  type ContentKind,
+} from '@/models/content';
 import type { QuoteSite } from '@/components/quote';
 import { resolveBusinessContact, resolveWhatsAppDestination } from '@/lib/business-contacts';
 
@@ -8,6 +14,7 @@ export type ExplorerService = {
   slug: string;
   title: string;
   description: string;
+  category: string;
   quoteConfig: QuoteConfig;
   image?: MediaAsset;
   recipientLabel: string | null;
@@ -18,6 +25,7 @@ const requestableEntries = (site: SiteContent) =>
   site.entries.filter(
     (entry) =>
       entry.status === 'published' &&
+      isPublicAvailability(entry.availability) &&
       entry.requestable &&
       entry.ownerId !== null &&
       entry.quoteConfig !== null,
@@ -32,6 +40,7 @@ export function explorerServices(site: SiteContent): ExplorerService[] {
       slug: entry.slug,
       title: entry.title,
       description: entry.description,
+      category: entry.category,
       quoteConfig: entry.quoteConfig!,
       image: site.media.find((media) => media.id === entry.imageId),
       recipientLabel: resolveBusinessContact(entry.ownerId).label,
@@ -57,6 +66,7 @@ export function quoteSiteFor(site: SiteContent): QuoteSite {
       id: entry.id,
       kind: entry.kind,
       title: entry.title,
+      category: entry.category,
       minimumGuests: entry.minimumGuests,
       modalityIds: entry.modalityIds,
       addOnIds: entry.addOnIds,

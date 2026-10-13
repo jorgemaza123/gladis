@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const ownerIds = new Set(['cocina', 'eventos']);
+const publicAvailabilities = new Set(['active', 'partner']);
 const validId = (value) => typeof value === 'string' && value.length > 0;
 
 export function diagnoseCatalog(site) {
@@ -18,6 +19,8 @@ export function diagnoseCatalog(site) {
     }
     const config = entry.quoteConfig;
     if (entry.requestable) {
+      if (!publicAvailabilities.has(entry.availability))
+        issues.push({ type: 'unavailable_requestable', entryId: entry.id, message: 'Oferta cotizable sin estado comercial público.' });
       if (!ownerIds.has(entry.ownerId))
         issues.push({ type: 'missing_owner', entryId: entry.id, message: 'Oferta cotizable sin responsable confirmado.' });
       if (
@@ -29,6 +32,8 @@ export function diagnoseCatalog(site) {
       )
         issues.push({ type: 'incomplete_rules', entryId: entry.id, message: 'Oferta cotizable con reglas incompletas.' });
     }
+    if (entry.availability === 'partner' && entry.provider !== 'partner')
+      issues.push({ type: 'unconfirmed_partner', entryId: entry.id, message: 'Oferta de aliado sin proveedor identificado.' });
     const targets = [];
     for (const recommendation of Array.isArray(entry.recommendations) ? entry.recommendations : []) {
       if (!byId.has(recommendation?.entryId))

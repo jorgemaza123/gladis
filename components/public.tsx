@@ -5,7 +5,7 @@ import type {
   PageSection,
   ContentKind,
 } from '@/models/content';
-import { contentKinds } from '@/models/content';
+import { contentKinds, isPublicAvailability } from '@/models/content';
 import { Photo } from './photo';
 import { Motion } from './motion';
 import {
@@ -23,18 +23,24 @@ export const publicEntries = (site: SiteContent) =>
     .filter(
       (e) =>
         e.status === 'published' &&
+        isPublicAvailability(e.availability) &&
         (!(e.kind === 'testimonios' || e.kind === 'eventos') || e.verified),
     )
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
 function publicNavigation(site: SiteContent) {
   const entries = publicEntries(site);
+  const publicHubs = new Set([
+    '/empresas', '/personalizados', '/alquiler', '/guias', '/eventos',
+    '/entretenimiento', '/produccion', '/decoracion', '/foto-video',
+  ]);
   return site.settings.navigation.filter(({ href }) => {
     if (
       href === '/' ||
       href === '/#como-cotizar' ||
       href === '/cotizar' ||
-      href === '/privacidad'
+      href === '/privacidad' ||
+      publicHubs.has(href)
     )
       return true;
     const parts = href.split('/').filter(Boolean);
@@ -97,6 +103,7 @@ export function Shell({
     .filter(
       (entry) =>
         entry.status === 'published' &&
+        isPublicAvailability(entry.availability) &&
         entry.requestable &&
         entry.ownerId !== null &&
         entry.quoteConfig !== null,
@@ -119,6 +126,7 @@ export function Shell({
       title: entry.title,
       description: entry.description,
       status: entry.status,
+      availability: entry.availability,
       sortOrder: entry.sortOrder,
       imageId: entry.imageId,
       requestable: entry.requestable,
@@ -222,7 +230,7 @@ export function Shell({
                   {entry.title}
                 </Link>
               ))}
-            <Link href="/tipos-evento">Todas las ocasiones</Link>
+            <Link href="/eventos">Todos los eventos</Link>
           </nav>
           <nav aria-label="Empresas">
             <h2>Empresas</h2>
@@ -233,14 +241,22 @@ export function Shell({
                   {entry.title}
                 </Link>
               ))}
+            <Link href="/empresas">Todas las soluciones para empresas</Link>
           </nav>
           <nav aria-label="Servicios">
             <h2>Servicios</h2>
             <Link href="/servicios/buffet-para-eventos">Buffet para eventos</Link>
-            <Link href="/complementos/bar-bartender">Bartender</Link>
-            <Link href="/complementos/menaje-evento">Alquiler de menaje</Link>
-            <Link href="/complementos/mozos-evento">Mozos</Link>
-            <Link href="/complementos">Ver todos los servicios</Link>
+            <Link href="/servicios/bar-bartender">Bartender</Link>
+            <Link href="/servicios/menaje-evento">Alquiler de menaje</Link>
+            <Link href="/servicios/mozos-evento">Mozos</Link>
+            <Link href="/alquiler">Alquileres para eventos</Link>
+            <Link href="/personalizados">Personalizados</Link>
+            <Link href="/entretenimiento">Entretenimiento</Link>
+            <Link href="/produccion">Producción audiovisual</Link>
+            <Link href="/decoracion">Decoración</Link>
+            <Link href="/foto-video">Fotografía y video</Link>
+            <Link href="/guias">Guías para organizar tu evento</Link>
+            <Link href="/servicios">Ver todos los servicios</Link>
           </nav>
           <div className="footer-contact">
             <p>{c.footerHeading}</p>
@@ -255,6 +271,7 @@ export function Shell({
         </div>
         <div className="footer-bottom">
           <span>{s.tagline}</span>
+          <Link href="/paginas/nosotros">Nosotros</Link>
           <Link href="/privacidad">Privacidad</Link>
         </div>      </footer>
     </div>
@@ -292,6 +309,39 @@ export function EntryPrice({ entry: e }: { entry: ContentEntry }) {
       )}
       {e.price.conditions && <p>{e.price.conditions}</p>}
     </div>
+  );
+}
+
+function QuoteFactors({ entry: e }: { entry: ContentEntry }) {
+  if (!e.requestable || !e.quoteConfig) return null;
+  const factors = [
+    e.quoteConfig.quantityUnit === 'person'
+      ? 'La cantidad aproximada de invitados'
+      : e.quoteConfig.quantityUnit === 'unit'
+        ? 'La cantidad de unidades que necesitas'
+        : 'El alcance y la duración del evento',
+    e.quoteConfig.dateRequired ? 'La fecha del evento' : '',
+    e.quoteConfig.districtRequired ? 'El distrito y el acceso al lugar' : '',
+    e.quoteConfig.options.length ? 'Las opciones que elijas para el servicio' : '',
+  ].filter(Boolean);
+  return (
+    <section className="detail-process" aria-labelledby={`cotizacion-${e.id}`}>
+      <h2 id={`cotizacion-${e.id}`}>Qué influye en la cotización</h2>
+      <ul className="included">
+        {factors.map((factor) => (
+          <li key={factor}>{factor}</li>
+        ))}
+      </ul>
+      <p>
+        El precio y la disponibilidad se confirman por WhatsApp antes de
+        reservar.
+      </p>
+      {e.coverageIds.includes('lima-metropolitana') && (
+        <Link className="text-link" href="/cobertura/lima-metropolitana">
+          Revisar cobertura en Lima Metropolitana →
+        </Link>
+      )}
+    </section>
   );
 }
 export function EntryCards({
@@ -652,8 +702,12 @@ export function EntryDetail({
     };
     const services = explorerServices(site);
     const quoteSite = quoteSiteFor(site);
-    const otherOccasions = publicEntries(site)
-      .filter((item) => item.kind === 'tipos-evento' && item.id !== e.id)
+    const occasionCandidates = publicEntries(site)
+      .filter((item) => item.kind === 'tipos-evento' && item.id !== e.id && !item.seo.noindex);
+    const otherOccasions = [
+      ...occasionCandidates.filter((item) => item.category === e.category),
+      ...occasionCandidates.filter((item) => item.category !== e.category),
+    ]
       .slice(0, 4)
       .map((item) => ({
         title: item.title,
@@ -684,6 +738,14 @@ export function EntryDetail({
     ['modalidades', e.modalityIds],
     ['complementos', e.addOnIds.slice(0, 3)],
   ] as [ContentKind, string[]][];
+  const relatedOccasions = publicEntries(site)
+    .filter((item) =>
+      item.kind === 'tipos-evento' &&
+      !item.seo.noindex &&
+      item.id !== e.id &&
+      [...item.serviceIds, ...item.menuIds, ...item.addOnIds].includes(e.id),
+    )
+    .slice(0, 4);
   return (
     <>
       <section className="section wrap">
@@ -718,6 +780,7 @@ export function EntryDetail({
               </QuoteCta>
             </div>
             <EntryPrice entry={e} />
+            <QuoteFactors entry={e} />
             {e.body !== e.description && <p className="prose">{e.body}</p>}
             {e.district && <p>{e.district}</p>}
             {e.provider && (
@@ -842,6 +905,18 @@ export function EntryDetail({
           </section>
         ) : null;
       })}
+      {relatedOccasions.length > 0 && (
+        <section className="section wrap">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Ideas para usar este servicio</p>
+              <h2>Eventos donde puede encajar</h2>
+            </div>
+            <Link className="text-link" href="/eventos">Ver todos los eventos →</Link>
+          </div>
+          <EntryCards site={site} entries={relatedOccasions} />
+        </section>
+      )}
 
     </>
   );

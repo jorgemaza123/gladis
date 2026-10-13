@@ -7,12 +7,7 @@ import { Photo } from './photo';
 import { Quote, type QuoteSite } from './quote';
 import { useQuoteCart } from './quote-cart-provider';
 import type { ExplorerService } from '@/lib/public-services';
-
-const groups = [
-  { title: 'Comida y bebidas', ids: ['buffet-para-eventos', 'menu-criollo-eventos', 'desayuno-corporativo', 'bar-bartender'] },
-  { title: 'Atención y alquiler', ids: ['mozos-evento', 'menaje-evento', 'sillas-evento'] },
-  { title: 'Detalles para el evento', ids: ['arreglos-florales', 'recuerdos-evento', 'polos-estampados'] },
-];
+import { serviceGroup, serviceGroupOrder } from '@/lib/service-groups';
 
 export function ServiceExplorer({
   entries,
@@ -126,11 +121,11 @@ export function ServiceExplorer({
         <details className="service-explorer-more">
           <summary>Ver los demás servicios ({remaining.length})</summary>
           <div className="service-explorer-groups">
-            {groups.map((group) => {
-              const items = remaining.filter((entry) => group.ids.includes(entry.id));
+            {serviceGroupOrder.map((group) => {
+              const items = remaining.filter((entry) => serviceGroup(entry) === group);
               return items.length ? (
-                <div key={group.title}>
-                  <h3>{group.title}</h3>
+                <div key={group}>
+                  <h3>{group}</h3>
                   <ul>
                     {items.map((entry) => (
                       <li key={entry.id} data-selected={!!selectedItem(entry.id)}>

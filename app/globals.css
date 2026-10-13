@@ -1767,3 +1767,31 @@ td {
   .service-recommendation-card { grid-template-columns: 1fr; }
   .service-recommendation-card .photo { max-height: 180px; }
 }
+.service-family-nav {
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+.service-family-nav > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.service-family-nav a {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0.9rem;
+  color: var(--ink);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  text-decoration: none;
+}
+.service-family-nav a:hover,
+.service-family-nav a:focus-visible {
+  color: var(--terra);
+  background: color-mix(in srgb, #ead0cb 55%, transparent);
+}
+@media (max-width: 900px) {
+  .service-family-nav > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .service-family-nav > div { grid-template-columns: 1fr; }
+}

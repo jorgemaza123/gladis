@@ -6,8 +6,8 @@ Versión del plan: 1. Las formas descritas aquí son OBJETIVO, salvo los archivo
 
 Crear en tarea 02 `config/business-contacts.ts`, módulo de configuración consumido por servidor:
 - IDs estables de responsables: `cocina` y `eventos`; no confundirlos con el rol admin `owner`.
-- cocina: contacto de cocina, buffet, bartender y menaje, whatsapp `51923106197` confirmado el 2026-10-09.
-- eventos: contacto de mozos, sillas, flores, recuerdos y polos, whatsapp `51902843481` confirmado el 2026-10-09.
+- cocina: contacto de toda la línea de cocina, alimentación, catering, bar y menaje, whatsapp `51923106197`; regla definitiva confirmada el 2026-10-13.
+- eventos: contacto de todos los demás servicios, whatsapp `51902843481`; regla definitiva confirmada el 2026-10-13.
 - Campos: `label: string; whatsapp: string | null; enabled: boolean`.
 - El teléfono literal de Jorge aparece UNA vez en configuración de aplicación. Se admiten ejemplos documentales y fixtures aislados sin envíos. No duplicarlo en componentes, entradas o variables de entorno.
 - Validar formato internacional de 8–15 dígitos sin +, espacios ni guiones. Para los números peruanos suministrados: código 51 + móvil de nueve dígitos. No afirmar que ese formato prueba que existe una cuenta WhatsApp.

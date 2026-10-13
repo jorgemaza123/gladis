@@ -4,6 +4,7 @@ import './motion.css';
 import { readSite } from '@/repositories/site';
 import { QuoteCartProvider } from '@/components/quote-cart-provider';
 import { AttributionProvider } from '@/components/attribution-provider';
+import { isPublicAvailability } from '@/models/content';
 export default async function RootLayout({
   children,
 }: {
@@ -13,6 +14,7 @@ export default async function RootLayout({
   const requestableEntries = site.entries.filter(
     (e) =>
       e.status === 'published' &&
+      isPublicAvailability(e.availability) &&
       e.requestable &&
       e.ownerId !== null &&
       e.quoteConfig !== null,

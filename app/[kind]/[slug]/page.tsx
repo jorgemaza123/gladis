@@ -1,6 +1,6 @@
 import { notFound, permanentRedirect } from 'next/navigation';
 import { readSite, resolveRedirect } from '@/repositories/site';
-import { metadataFor, breadcrumbsData } from '@/lib/seo';
+import { metadataFor, breadcrumbsData, serviceData, faqData } from '@/lib/seo';
 import { Shell, EntryDetail, publicEntries, JsonLd } from '@/components/public';
 type Props = { params: Promise<{ kind: string; slug: string }> };
 async function resolve(params: Props['params']) {
@@ -38,11 +38,15 @@ export default async function Detail({ params }: Props) {
   return (
     <Shell site={site}>
       <JsonLd
-        data={breadcrumbsData(site, [
-          { name: 'Inicio', path: '/' },
-          { name: site.settings.catalogs[e.kind].title, path: `/${e.kind}` },
-          { name: e.title, path: `/${e.kind}/${e.slug}` },
-        ])}
+        data={[
+          breadcrumbsData(site, [
+            { name: 'Inicio', path: '/' },
+            { name: site.settings.catalogs[e.kind].title, path: `/${e.kind}` },
+            { name: e.title, path: `/${e.kind}/${e.slug}` },
+          ]),
+          serviceData(site, e),
+          faqData(site, e),
+        ].filter(Boolean)}
       />
       <EntryDetail site={site} entry={e} />
     </Shell>

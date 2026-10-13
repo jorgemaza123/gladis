@@ -134,4 +134,4 @@ En móvil, la sección «Elige la historia que quieres celebrar» elimina todo l
 
 La comprobación visual cubrió 498 × 661, 400 × 822 y 1600 × 1000 efectivos. No hubo desbordamiento horizontal. Se inspeccionaron presencia y ocultación de cada fragmento móvil, geometría de las seis imágenes, destinos de enlace, distribución de dos filas en escritorio y estado de llegada animada. La referencia externa fue una guía conceptual; la implementación usa los activos, colores, contenido y componentes propios de Gladys.
 
-**Corrección posterior, 2026-10-09:** el usuario aclaró que cocina, buffet, bartender y menaje deben usar 923106197; 902843481 corresponde a los demás servicios. La prueba histórica anterior no describe la configuración vigente.
+**Regla definitiva, 2026-10-13:** toda la línea de cocina, alimentación, catering, buffet, menús, desayunos, coffee break, bocaditos, piqueos, brunch, box, almuerzos, cenas, bebidas, bartender, barra, cócteles y menaje usa 923106197; 902843481 corresponde a los demás servicios. La prueba histórica anterior no describe la configuración vigente.

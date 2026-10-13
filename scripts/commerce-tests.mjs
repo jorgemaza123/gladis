@@ -35,6 +35,9 @@ const defaults = await import(defaultsUrl);
 const occasionEntriesUrl = await moduleUrl('data/occasion-entries.ts', [
   ["from './defaults'", `from ${JSON.stringify(defaultsUrl)}`],
 ]);
+const commercialExpansionUrl = await moduleUrl('data/commercial-expansion.ts', [
+  ["from './defaults'", `from ${JSON.stringify(defaultsUrl)}`],
+]);
 const demo = await import(
   await moduleUrl('data/demo.ts', [
     [
@@ -43,6 +46,7 @@ const demo = await import(
     ],
     ["from './defaults'", `from ${JSON.stringify(defaultsUrl)}`],
     ["from './occasion-entries'", `from ${JSON.stringify(occasionEntriesUrl)}`],
+    ["from './commercial-expansion'", `from ${JSON.stringify(commercialExpansionUrl)}`],
     ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
   ])
 );
@@ -70,6 +74,7 @@ const whatsapp = await import(await moduleUrl('lib/whatsapp-message.ts'));
 const seo = await import(
   await moduleUrl('lib/seo.ts', [
     ["from '@/lib/business-contacts'", `from ${JSON.stringify(commerceUrl)}`],
+    ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
   ])
 );
 const quoteV2 = await import(
@@ -88,11 +93,16 @@ const quoteV2 = await import(
 const quoteResolver = await import(
   await moduleUrl('lib/resolve-quote.ts', [
     ["from '@/lib/business-contacts'", `from ${JSON.stringify(commerceUrl)}`],
+    ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
   ])
 );
 const quoteCart = await import(await moduleUrl('lib/quote-cart.ts'));
 const attribution = await import(attributionUrl);
-const recommendations = await import(await moduleUrl('lib/recommendations.ts'));
+const recommendations = await import(
+  await moduleUrl('lib/recommendations.ts', [
+    ["from '@/models/content'", `from ${JSON.stringify(contentUrl)}`],
+  ])
+);
 const { diagnoseCatalog } = await import('./catalog-readiness.mjs');
 
 const parsedCommercialCatalog = validation.siteSchema.safeParse(
@@ -115,12 +125,12 @@ assert.deepEqual(
 
 assert.deepEqual(commerce.resolveBusinessContact('eventos'), {
   ownerId: 'eventos',
-  label: 'Complementos y producción',
+  label: 'Servicios y producción para eventos',
   available: true,
 });
 assert.deepEqual(commerce.resolveBusinessContact('cocina'), {
   ownerId: 'cocina',
-  label: 'Cocina, bartender y menaje',
+  label: 'Cocina, alimentación, bar y menaje',
   available: true,
 });
 assert.deepEqual(commerce.resolveBusinessContact(null), {
@@ -222,6 +232,7 @@ const quoteEntry = {
   title: 'Oferta confirmada',
   description: 'Oferta de prueba',
   body: 'Oferta de prueba',
+  availability: 'active',
   requestable: true,
   ownerId: 'cocina',
   prominence: 'primary',
@@ -319,6 +330,7 @@ const coverageEntry = {
   description: 'Zona confirmada por los datos de prueba.',
   body: 'Zona confirmada por los datos de prueba.',
   status: 'published',
+  availability: 'active',
 };
 const siteWithEntries = (entries) =>
   defaults.normalizeSite({
@@ -588,13 +600,13 @@ assert.ok(
 
 const firstTouch = attribution.createAttribution(
   {
-    pathname: '/complementos/sillas',
+    pathname: '/servicios/sillas',
     search: '?utm_source=instagram&utm_medium=social&utm_campaign=primavera',
     referrer: 'https://www.instagram.com/catering',
   },
   new Date('2030-01-01T00:00:00.000Z'),
 );
-assert.equal(firstTouch.landingPath, '/complementos/sillas');
+assert.equal(firstTouch.landingPath, '/servicios/sillas');
 assert.equal(
   firstTouch.acquisitionEntryId,
   null,
@@ -605,7 +617,7 @@ const chairCta = attribution.createCtaContext(
   firstTouch,
   'sillas',
   'service_detail',
-  '/complementos/sillas',
+  '/servicios/sillas',
   new Date('2030-01-01T00:01:00.000Z'),
 );
 const buffetCta = attribution.createCtaContext(
@@ -801,6 +813,7 @@ const offering = (id, title, ownerId) => ({
   description: title,
   body: title,
   status: 'published',
+  availability: 'active',
   requestable: true,
   ownerId,
   quoteConfig: resolverConfig,
@@ -954,12 +967,45 @@ console.log(
 // Actual public catalog: all services must be independently quotable, with complete item descriptions.
 const eventSelection = await import(await moduleUrl('lib/event-selection.ts'));
 const actualEntries = demo.demoContent.entries.filter((e) => e.requestable);
-assert.equal(actualEntries.length, 10);
+assert.equal(actualEntries.length, 40);
+const partnerEntries = actualEntries.filter((entry) => entry.availability === 'partner');
+assert.equal(partnerEntries.length, 30);
+const cocinaServiceIds = new Set([
+  'buffet-para-eventos',
+  'menu-criollo-eventos',
+  'desayuno-corporativo',
+  'bocaditos-piqueos-eventos',
+  'brunch-box-eventos',
+  'almuerzos-cenas-corporativas',
+  'bar-bartender',
+  'bebidas-barra-eventos',
+  'menaje-evento',
+]);
+assert.equal(cocinaServiceIds.size, 9);
+for (const entry of partnerEntries) {
+  const claims = [
+    entry.description,
+    entry.body,
+    ...entry.details,
+    ...entry.faqItems.flatMap((item) => [item.question, item.answer]),
+    ...entry.processSteps.flatMap((step) => [step.title, step.description]),
+  ].join(' ');
+  assert.doesNotMatch(
+    claims,
+    /\b(?:nuestros? equipos|nuestros? músicos|nuestros? animadores|stock permanente|disponibilidad garantizada|siempre disponible|precio fijo|precios fijos|garantizamos disponibilidad)\b/i,
+    `${entry.id}: un servicio de aliado no debe prometer propiedad, stock, precio o disponibilidad`,
+  );
+  assert.match(
+    claims,
+    /(?:aliado|proveedor|según disponibilidad|sujeto a disponibilidad|se confirma|se confirman|cotización)/i,
+    `${entry.id}: debe explicar que el alcance se coordina y confirma`,
+  );
+}
 const occasionEntries = demo.demoContent.entries.filter(
   (entry) => entry.kind === 'tipos-evento',
 );
-assert.equal(occasionEntries.length, 8);
-assert.equal(new Set(occasionEntries.map((entry) => entry.slug)).size, 8);
+assert.equal(occasionEntries.length, 18);
+assert.equal(new Set(occasionEntries.map((entry) => entry.slug)).size, 18);
 for (const occasion of occasionEntries) {
   assert.ok(occasion.seo.title.includes('Gladys'));
   assert.ok(
@@ -992,13 +1038,7 @@ for (const entry of actualEntries) {
     assert.ok(text.includes(option.values[0].label));
   assert.equal(
     commerce.resolveWhatsAppDestination(entry.ownerId),
-    [
-      'buffet-para-eventos',
-      'menu-criollo-eventos',
-      'bar-bartender',
-      'menaje-evento',
-      'desayuno-corporativo',
-    ].includes(entry.id)
+    cocinaServiceIds.has(entry.id)
       ? '51923106197'
       : '51902843481',
   );
@@ -1057,5 +1097,5 @@ assert.equal(
   'never silently truncate selected options',
 );
 console.log(
-  'PASS: diez servicios independientes y ocho ocasiones, cantidades/opciones completas, validación y contactos reales.',
+  'PASS: cuarenta servicios independientes y dieciocho ocasiones, cantidades/opciones completas, validación y contactos reales.',
 );

@@ -3,7 +3,11 @@ import {
   type BusinessContactMap,
   type PublicBusinessContact,
 } from '@/lib/business-contacts';
-import type { ContentEntry, QuoteConfig } from '@/models/content';
+import {
+  isPublicAvailability,
+  type ContentEntry,
+  type QuoteConfig,
+} from '@/models/content';
 import type { QuoteInputV2, QuoteItemV2 } from '@/models/quote-v2';
 
 export type QuoteResolutionError = {
@@ -60,7 +64,12 @@ function resolveItem(
   item: QuoteItemV2,
   entry: ContentEntry | undefined,
 ): { item?: ResolvedQuoteItem; errors: QuoteResolutionError[] } {
-  if (!entry || entry.status !== 'published' || !entry.requestable)
+  if (
+    !entry ||
+    entry.status !== 'published' ||
+    !isPublicAvailability(entry.availability) ||
+    !entry.requestable
+  )
     return {
       errors: [{ itemId: item.itemId, code: 'unavailable_entry', message: 'La oferta ya no está disponible.' }],
     };
