@@ -6,6 +6,7 @@ import { StoryHero } from './story-hero';
 import { HomeServiceJourney } from './home-service-journey';
 import { HomeServiceNav } from './home-service-nav';
 import { ServiceExplorer } from './service-explorer';
+import { HomeSmoothScroll } from './home-smooth-scroll';
 import { explorerServices, quoteSiteFor } from '@/lib/public-services';
 
 function TableDrawing() {
@@ -108,6 +109,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
   });
   return (
     <>
+      <HomeSmoothScroll />
       <StoryHero />
       <HomeServiceNav />
       <HomeServiceJourney site={site} />
