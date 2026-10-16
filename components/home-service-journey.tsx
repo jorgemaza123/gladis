@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { homeServiceScenes, type HomeSceneLayer } from '@/data/home-service-scenes';
 import type { SiteContent } from '@/models/content';
 import { QuoteCta } from './quote-cta';
+import { SharedServiceStory } from './shared-service-story';
 
 function SceneLayerImage({ layer }: { layer: HomeSceneLayer }) {
   return (
@@ -20,6 +21,67 @@ function SceneLayerImage({ layer }: { layer: HomeSceneLayer }) {
 }
 
 export function HomeServiceJourney({ site }: { site: SiteContent }) {
+  const sharedScenes = homeServiceScenes.slice(0, 6);
+  const remainingScenes = homeServiceScenes.slice(6);
+
+  const sceneContent = (scene: (typeof homeServiceScenes)[number], index: number) => {
+    const entries = scene.ids.flatMap((id) => {
+      const entry = site.entries.find((item) => item.id === id);
+      return entry ? [entry] : [];
+    });
+    const primary = entries.find((entry) => entry.id === scene.primaryId);
+
+    return (
+      <div className="service-copy">
+        <div className="service-chapter-meta">
+          <p className="service-scene-kicker">{scene.kicker}</p>
+          <span aria-hidden="true">
+            {String(index + 1).padStart(2, '0')} / {String(homeServiceScenes.length).padStart(2, '0')}
+          </span>
+        </div>
+        <h3>{scene.title}</h3>
+        <p>{scene.description}</p>
+        <ul className="service-essentials" aria-label={`Lo esencial de ${scene.kicker}`}>
+          {scene.essentials.map((item) => <li key={item}>{item}</li>)}
+        </ul>
+        <p className="service-scene-meta">
+          Lima Metropolitana <span aria-hidden="true">·</span> Precio a consulta
+        </p>
+        <div className="service-scene-actions">
+          <QuoteCta
+            className="button service-scene-cta"
+            entryId={scene.primaryId}
+            placement="catalog_card"
+          >
+            {scene.cta} <span aria-hidden="true">↗</span>
+          </QuoteCta>
+          {primary ? (
+            <Link className="service-detail-link" href={`/${primary.kind}/${primary.slug}`}>
+              Ver detalles
+            </Link>
+          ) : null}
+        </div>
+        <ul className="service-options" aria-label={`Servicios disponibles en ${scene.kicker}`}>
+          {entries.map((entry) => (
+            <li key={entry.id}>
+              <Link href={`/${entry.kind}/${entry.slug}`}>{entry.title}</Link>
+              <QuoteCta
+                className="service-option-add"
+                entryId={entry.id}
+                entryTitle={entry.title}
+                placement="catalog_card"
+                mode="add"
+              >
+                Añadir <span className="sr-only">{entry.title}</span>
+                <span aria-hidden="true">+</span>
+              </QuoteCta>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <section className="service-garden" id="servicios" aria-labelledby="services-title">
       <div className="garden-heading wrap" data-reveal="chapter">
@@ -38,12 +100,32 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
       </div>
 
       <div className="service-families">
-        {homeServiceScenes.map((scene, index) => {
-          const entries = scene.ids.flatMap((id) => {
-            const entry = site.entries.find((item) => item.id === id);
-            return entry ? [entry] : [];
-          });
-          const primary = entries.find((entry) => entry.id === scene.primaryId);
+        <SharedServiceStory>
+          {sharedScenes.map((scene, index) => (
+            <article
+              className="service-family shared-service-panel"
+              data-scene={scene.key}
+              data-shared-panel={scene.key}
+              id={scene.anchor}
+              key={scene.key}
+            >
+              <div className="service-visual shared-service-mobile-visual" aria-hidden="true">
+                <span className="service-scene-orbit" />
+                {scene.layers
+                  .filter((layer) => scene.visualMode === 'cutout' || layer.name === 'main')
+                  .map((layer) => <SceneLayerImage layer={layer} key={layer.name} />)}
+              </div>
+              {sceneContent(scene, index)}
+            </article>
+          ))}
+        </SharedServiceStory>
+        <span className="shared-service-sequence-placeholder" aria-hidden="true" />
+        <span className="shared-service-sequence-placeholder" aria-hidden="true" />
+        <span className="shared-service-sequence-placeholder" aria-hidden="true" />
+        <span className="shared-service-sequence-placeholder" aria-hidden="true" />
+
+        {remainingScenes.map((scene, remainingIndex) => {
+          const index = remainingIndex + sharedScenes.length;
 
           return (
             <article
@@ -61,56 +143,7 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
                     <SceneLayerImage layer={layer} key={layer.name} />
                   ))}
                 </div>
-
-                <div className="service-copy">
-                  <div className="service-chapter-meta">
-                    <p className="service-scene-kicker">{scene.kicker}</p>
-                    <span aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')} / {String(homeServiceScenes.length).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h3>{scene.title}</h3>
-                  <p>{scene.description}</p>
-                  <ul className="service-essentials" aria-label={`Lo esencial de ${scene.kicker}`}>
-                    {scene.essentials.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <p className="service-scene-meta">
-                    Lima Metropolitana <span aria-hidden="true">·</span> Precio a consulta
-                  </p>
-                  <div className="service-scene-actions">
-                    <QuoteCta
-                      className="button service-scene-cta"
-                      entryId={scene.primaryId}
-                      placement="catalog_card"
-                    >
-                      {scene.cta} <span aria-hidden="true">↗</span>
-                    </QuoteCta>
-                    {primary ? (
-                      <Link className="service-detail-link" href={`/${primary.kind}/${primary.slug}`}>
-                        Ver detalles
-                      </Link>
-                    ) : null}
-                  </div>
-                  <ul className="service-options" aria-label={`Servicios disponibles en ${scene.kicker}`}>
-                    {entries.map((entry) => (
-                      <li key={entry.id}>
-                        <Link href={`/${entry.kind}/${entry.slug}`}>{entry.title}</Link>
-                        <QuoteCta
-                          className="service-option-add"
-                          entryId={entry.id}
-                          entryTitle={entry.title}
-                          placement="catalog_card"
-                          mode="add"
-                        >
-                          Añadir <span className="sr-only">{entry.title}</span>
-                          <span aria-hidden="true">+</span>
-                        </QuoteCta>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {sceneContent(scene, index)}
               </div>
             </article>
           );

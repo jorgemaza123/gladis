@@ -2397,6 +2397,7 @@ body {
     opacity: 0.64;
   }
 }
+
 .home-service-nav h2 {
   max-width: 900px;
   margin: 0 0 clamp(30px, 3.2vw, 44px);
@@ -4773,5 +4774,2002 @@ body {
   .service-chapter-meta {
     margin-bottom: 14px;
     padding-bottom: 10px;
+  }
+}
+
+/* Chapter 3: one visual stage shared by all six service scenes. */
+.shared-service-story {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--paper);
+}
+.shared-service-story::before,
+.shared-service-story::after {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+}
+.shared-service-story::before {
+  background:
+    radial-gradient(circle at 26% 38%, rgba(236, 190, 143, 0.25), transparent 35%),
+    var(--paper);
+}
+.shared-service-story::after {
+  background-color: var(--rose-page);
+  background-image: radial-gradient(
+    circle at 24% 46%,
+    rgba(255, 239, 229, 0.66),
+    transparent 39%
+  );
+  opacity: 0;
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 760ms cubic-bezier(0.22, 1, 0.36, 1) 80ms;
+}
+.shared-service-story[data-active-scene='bartender']::after,
+.shared-service-story[data-active-scene='menaje']::after,
+.shared-service-story[data-active-scene='atencion']::after,
+.shared-service-story[data-active-scene='personalizados']::after,
+.shared-service-story[data-active-scene='flores']::after {
+  opacity: 1;
+}
+.shared-service-story[data-active-scene='menaje']::after {
+  background-color: #edf2ea;
+}
+.shared-service-story[data-active-scene='atencion']::after {
+  background-color: #f8eee4;
+}
+.shared-service-story[data-active-scene='personalizados']::after {
+  background-color: #ead4d1;
+}
+.shared-service-story[data-active-scene='flores']::after {
+  background-color: #e7ede3;
+  background-image:
+    radial-gradient(circle at 24% 46%, rgba(255, 251, 238, 0.68), transparent 39%),
+    linear-gradient(180deg, transparent 0%, transparent 94%, var(--paper) 100%);
+}
+.shared-service-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(390px, 0.92fr);
+  gap: clamp(42px, 5vw, 76px);
+  width: min(1240px, calc(100% - 80px));
+  margin-inline: auto;
+}
+.shared-service-stage-column {
+  position: relative;
+  min-width: 0;
+}
+.shared-service-stage {
+  position: sticky;
+  top: clamp(72px, 9vh, 94px);
+  height: clamp(520px, 74svh, 680px);
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+.shared-service-scene {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 62%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.shared-service-scene--cocina {
+  inset: 2% 6% 2% 4%;
+  overflow: hidden;
+  border-radius: 48% 48% 24px 24px;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition:
+    opacity 440ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-scene--cocina::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(60, 45, 33, 0.12));
+  pointer-events: none;
+}
+.shared-service-scene--cocina .shared-service-layer,
+.shared-service-scene--cocina img {
+  width: 100%;
+  height: 100%;
+}
+.shared-service-scene--cocina .shared-service-layer {
+  inset: 0;
+  opacity: 1;
+  transform: none;
+}
+.shared-service-scene--cocina img {
+  display: block;
+  object-fit: cover;
+}
+.shared-service-story[data-active-scene='bartender'] .shared-service-scene--cocina,
+.shared-service-story[data-active-scene='menaje'] .shared-service-scene--cocina,
+.shared-service-story[data-active-scene='atencion'] .shared-service-scene--cocina,
+.shared-service-story[data-active-scene='personalizados'] .shared-service-scene--cocina,
+.shared-service-story[data-active-scene='flores'] .shared-service-scene--cocina {
+  opacity: 0;
+  transform: translate3d(-1.5%, -1%, 0) scale(0.965);
+  transition-delay: 190ms, 0ms;
+}
+.shared-service-scene--bartender {
+  opacity: 0;
+  transform: translate3d(1%, 1%, 0) scale(0.985);
+  transition:
+    opacity 220ms ease,
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-story[data-active-scene='bartender'] .shared-service-scene--bartender {
+  opacity: 1;
+  transform: none;
+}
+.shared-service-scene--menaje {
+  opacity: 0;
+  transform: translate3d(1.5%, 1.5%, 0) scale(0.985);
+  transition:
+    opacity 260ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-scene--atencion {
+  opacity: 0;
+  transform: translate3d(1.5%, 1%, 0) scale(0.985);
+  transition:
+    opacity 80ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-scene--personalizados {
+  opacity: 0;
+  transform: translate3d(2.5%, 1%, 0) rotate(1.2deg) scale(0.975);
+  transition:
+    opacity 120ms ease,
+    transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shared-service-scene--flores {
+  inset: 3% 2% 5%;
+  overflow: hidden;
+  border-radius: 48% 48% 24px 24px;
+  opacity: 0;
+  transform: translate3d(2%, 1%, 0) scale(0.975);
+  transition:
+    opacity 180ms ease,
+    transform 880ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shared-service-layer {
+  position: absolute;
+  display: block;
+  opacity: 0;
+  transform-origin: 50% 70%;
+  transform-style: preserve-3d;
+  transition:
+    opacity 420ms ease,
+    transform 660ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-layer img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 12px 12px rgba(66, 50, 40, 0.09));
+}
+.shared-service-scene--cocina .shared-service-layer img {
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+}
+.shared-service-scene--bartender .shared-service-layer--back {
+  z-index: 1;
+  top: 7%;
+  left: -3%;
+  width: 112%;
+  clip-path: inset(0 50% 0 0);
+  transform: translate3d(-2.5%, 1.5%, -18px) scale(0.985);
+}
+.shared-service-scene--bartender .shared-service-layer--main {
+  z-index: 2;
+  top: 21%;
+  left: 20%;
+  width: 80%;
+  transform: translate3d(2.5%, 3%, 16px) scale(0.975);
+}
+.shared-service-scene--bartender .shared-service-layer--front {
+  z-index: 3;
+  bottom: 1%;
+  left: -1%;
+  width: 103%;
+  transform: translate3d(-1.5%, 5%, 34px) scale(0.98);
+}
+.shared-service-scene--bartender .shared-service-layer--bridge {
+  z-index: 4;
+  top: 21%;
+  left: 20%;
+  width: 80%;
+  clip-path: inset(0 64% 0 0);
+  opacity: 0;
+  transform: translate3d(0, 0, 24px) scale(1);
+  transition:
+    opacity 150ms ease,
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-scene--menaje .shared-service-layer--back {
+  z-index: 1;
+  top: 8%;
+  left: -3%;
+  width: 108%;
+  transform: translate3d(2.5%, 2%, -18px) scale(0.98);
+}
+.shared-service-scene--menaje .shared-service-layer--main {
+  z-index: 2;
+  top: 19%;
+  left: 0;
+  width: 100%;
+  transform: translate3d(1.5%, 3%, 16px) scale(0.975);
+}
+.shared-service-scene--menaje .shared-service-layer--front {
+  z-index: 3;
+  bottom: 1%;
+  left: -2%;
+  width: 104%;
+  clip-path: inset(0 0 0 0);
+  transform: translate3d(-1.5%, 5%, 34px) scale(0.98);
+}
+.shared-service-scene--menaje .shared-service-layer--menaje-bridge {
+  z-index: 5;
+  top: 19%;
+  left: 0;
+  width: 100%;
+  clip-path: inset(0 43% 29% 39%);
+  opacity: 0;
+  transform: translate3d(0, 0, 28px) scale(1);
+  transition:
+    opacity 150ms ease,
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-scene--menaje .shared-service-layer--menaje-bridge img {
+  filter: none;
+}
+.shared-service-scene--atencion .shared-service-layer--back {
+  z-index: 1;
+  top: -2%;
+  right: 1%;
+  width: 37%;
+  transform: translate3d(5%, 1.5%, -20px) scale(0.985);
+}
+.shared-service-scene--atencion .shared-service-layer--main {
+  z-index: 2;
+  top: 24%;
+  left: -1%;
+  width: 101%;
+  transform: translate3d(-5%, 3%, 16px) scale(0.98);
+}
+.shared-service-scene--atencion .shared-service-layer--front {
+  z-index: 3;
+  bottom: 1%;
+  left: -2%;
+  width: 104%;
+  transform: translate3d(3%, 5%, 34px) scale(0.985);
+}
+.shared-service-scene--personalizados .shared-service-layer--main {
+  z-index: 2;
+  top: 5%;
+  left: -4%;
+  width: 108%;
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 92%,
+    rgba(0, 0, 0, 0.82) 96%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 92%,
+    rgba(0, 0, 0, 0.82) 96%,
+    transparent 100%
+  );
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+  -webkit-mask-size: 0% 100%;
+  mask-size: 0% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  clip-path: inset(0 round 0);
+  transform: translate3d(22px, 9px, 18px) rotate(1deg) scale(0.985);
+  transition:
+    opacity 140ms ease,
+    mask-size 920ms cubic-bezier(0.42, 0, 0.58, 1),
+    clip-path 880ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 920ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+.shared-service-scene--personalizados .shared-service-layer--main img {
+  filter: drop-shadow(0 13px 13px rgba(66, 50, 40, 0.08));
+}
+.shared-service-scene--flores .shared-service-layer--main {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  /* The reveal starts attached to the upper vegetation instead of opening as a portal. */
+  clip-path: polygon(
+    58% 0,
+    100% 0,
+    100% 14%,
+    91% 18%,
+    83% 13%,
+    75% 18%,
+    68% 10%,
+    62% 0
+  );
+  transform: translate3d(18px, -10px, 12px) scale(1.055);
+  transition:
+    opacity 180ms ease 180ms,
+    clip-path 960ms cubic-bezier(0.42, 0, 0.58, 1),
+    transform 960ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shared-service-scene--flores .shared-service-layer--main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 54% 50%;
+  filter: none;
+}
+.shared-service-story[data-active-scene='bartender']
+  .shared-service-scene--bartender
+  :is(
+    .shared-service-layer--back,
+    .shared-service-layer--main,
+    .shared-service-layer--front
+  ) {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.shared-service-story[data-active-scene='bartender'] .shared-service-layer--front {
+  transition-delay: 20ms;
+}
+.shared-service-story[data-active-scene='bartender'] .shared-service-layer--back {
+  transition-delay: 105ms;
+}
+.shared-service-story[data-active-scene='bartender'] .shared-service-layer--main {
+  transition-delay: 190ms;
+}
+.shared-service-story[data-active-scene='menaje'] .shared-service-scene--bartender {
+  opacity: 0;
+  transform: translate3d(-1.2%, -0.5%, 0) scale(0.97);
+  transition-delay: 400ms, 0ms;
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--bartender
+  .shared-service-layer--front {
+  opacity: 0;
+  transform: translate3d(-2%, 7%, 34px) scale(0.975);
+  transition-delay: 0ms;
+  transition-duration: 150ms, 520ms;
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--bartender
+  .shared-service-layer--back {
+  opacity: 0;
+  transform: translate3d(-3%, 2%, -18px) scale(0.98);
+  transition-delay: 0ms;
+  transition-duration: 160ms, 520ms;
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--bartender
+  .shared-service-layer--main {
+  opacity: 0;
+  transform: translate3d(-1%, 1%, 16px) scale(0.985);
+  transition-delay: 0ms;
+  transition-duration: 180ms, 540ms;
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--bartender
+  .shared-service-layer--bridge {
+  opacity: 1;
+  transform: translate3d(5%, -1.5%, 24px) scale(0.985);
+  transition-delay: 35ms, 0ms;
+}
+.shared-service-story[data-active-scene='menaje'] .shared-service-scene--menaje {
+  opacity: 1;
+  transform: none;
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--menaje
+  :is(
+    .shared-service-layer--back,
+    .shared-service-layer--main,
+    .shared-service-layer--front
+  ) {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--menaje
+  .shared-service-layer--back {
+  transition-delay: 110ms;
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--menaje
+  .shared-service-layer--main {
+  transition-delay: 300ms;
+}
+.shared-service-story[data-active-scene='menaje']
+  .shared-service-scene--menaje
+  .shared-service-layer--front {
+  transition-delay: 470ms;
+}
+.shared-service-story[data-active-scene='bartender'][data-transition-from='menaje']
+  .shared-service-scene--menaje {
+  transition-duration: 400ms, 700ms;
+}
+.shared-service-story[data-active-scene='atencion'] .shared-service-scene--menaje {
+  opacity: 0;
+  transform: translate3d(-1.2%, -0.5%, 0) scale(0.975);
+  transition-delay: 410ms, 0ms;
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--menaje
+  .shared-service-layer--back {
+  opacity: 0;
+  transform: translate3d(-2%, -1%, -18px) scale(0.985);
+  transition-delay: 0ms;
+  transition-duration: 100ms, 500ms;
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--menaje
+  .shared-service-layer--front {
+  opacity: 0;
+  transform: translate3d(-2%, 6%, 34px) scale(0.98);
+  transition-delay: 0ms;
+  transition-duration: 110ms, 520ms;
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--menaje
+  .shared-service-layer--main {
+  opacity: 0;
+  transform: translate3d(-1%, 1%, 16px) scale(0.985);
+  transition-delay: 130ms, 0ms;
+  transition-duration: 160ms, 540ms;
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--menaje
+  .shared-service-layer--menaje-bridge {
+  opacity: 1;
+  transform: translate3d(0, 0, 28px) scale(1);
+  transition-delay: 45ms, 0ms;
+}
+.shared-service-story[data-active-scene='atencion'] .shared-service-scene--atencion {
+  opacity: 1;
+  transform: none;
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--atencion
+  :is(
+    .shared-service-layer--back,
+    .shared-service-layer--main,
+    .shared-service-layer--front
+  ) {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--atencion
+  .shared-service-layer--back {
+  transition-delay: 0ms;
+  transition-duration: 60ms, 620ms;
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--atencion
+  .shared-service-layer--main {
+  transition-delay: 190ms, 0ms;
+  transition-duration: 100ms, 660ms;
+}
+.shared-service-story[data-active-scene='atencion']
+  .shared-service-scene--atencion
+  .shared-service-layer--front {
+  transition-delay: 400ms, 0ms;
+  transition-duration: 160ms, 660ms;
+}
+.shared-service-story[data-active-scene='personalizados'] .shared-service-scene--atencion {
+  opacity: 0;
+  transform: translate3d(-1.5%, -0.5%, 0) scale(0.97);
+  transition-delay: 750ms, 0ms;
+  transition-duration: 150ms, 760ms;
+}
+.shared-service-story[data-active-scene='personalizados']
+  .shared-service-scene--atencion
+  .shared-service-layer--back {
+  opacity: 0;
+  transform: translate3d(7%, 2%, -20px) scale(0.975);
+  transition-delay: 0ms;
+  transition-duration: 150ms, 520ms;
+}
+.shared-service-story[data-active-scene='personalizados']
+  .shared-service-scene--atencion
+  .shared-service-layer--main {
+  opacity: 0;
+  transform: translate3d(-5%, 1%, 16px) scale(0.975);
+  transition-delay: 70ms, 0ms;
+  transition-duration: 190ms, 560ms;
+}
+.shared-service-story[data-active-scene='personalizados']
+  .shared-service-scene--atencion
+  .shared-service-layer--front {
+  opacity: 0;
+  transform: translate3d(-1%, 2%, 34px) scale(0.985);
+  transition-delay: 70ms, 0ms;
+  transition-duration: 110ms, 580ms;
+}
+.shared-service-story[data-active-scene='personalizados']
+  .shared-service-scene--personalizados {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0) scale(1);
+}
+.shared-service-story[data-active-scene='personalizados']
+  .shared-service-scene--personalizados
+  .shared-service-layer--main {
+  opacity: 1;
+  -webkit-mask-size: 110% 100%;
+  mask-size: 110% 100%;
+  transform: translate3d(0, 0, 18px) rotate(0) scale(1);
+  transition-delay: 60ms, 0ms, 0ms, 0ms;
+}
+.shared-service-story[data-active-scene='flores']
+  .shared-service-scene--personalizados {
+  opacity: 0;
+  transform: translate3d(-1%, -1%, 0) rotate(-0.4deg) scale(1.015);
+  transition-delay: 0ms;
+  transition-duration: 300ms, 760ms;
+}
+.shared-service-story[data-active-scene='flores']
+  .shared-service-scene--personalizados
+  .shared-service-layer--main {
+  opacity: 1;
+  -webkit-mask-size: 110% 100%;
+  mask-size: 110% 100%;
+  clip-path: inset(0);
+  transform: translate3d(-6px, -10px, 18px) rotate(-0.35deg) scale(1.025);
+  transition-delay: 0ms, 0ms, 0ms, 0ms;
+}
+.shared-service-story[data-active-scene='flores'] .shared-service-scene--flores {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.shared-service-story[data-active-scene='flores']
+  .shared-service-scene--flores
+  .shared-service-layer--main {
+  opacity: 1;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    0 76%,
+    0 52%,
+    0 25%,
+    0 0
+  );
+  transform: translate3d(0, 0, 12px) scale(1);
+}
+.shared-service-story[data-active-scene='flores'][data-transition-from='personalizados']
+  .shared-service-scene--personalizados {
+  animation: shared-service-personalizados-to-flores 1040ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='flores'][data-transition-from='personalizados']
+  .shared-service-scene--flores {
+  animation: shared-service-flores-arrive 1040ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='flores'][data-transition-from='personalizados']
+  .shared-service-scene--flores
+  .shared-service-layer--main {
+  animation: shared-service-flores-organic-reveal 1040ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='personalizados'][data-transition-from='flores']
+  .shared-service-scene--flores {
+  animation: shared-service-flores-depart 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='personalizados'][data-transition-from='flores']
+  .shared-service-scene--flores
+  .shared-service-layer--main {
+  animation: shared-service-flores-organic-return 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='personalizados'][data-transition-from='flores']
+  .shared-service-scene--personalizados {
+  animation: shared-service-personalizados-return-from-flores 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes shared-service-personalizados-to-flores {
+  0%,
+  18% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  }
+  36% {
+    opacity: 0.68;
+    transform: translate3d(-0.25%, -0.3%, 0) rotate(-0.15deg) scale(1.006);
+  }
+  50% {
+    opacity: 0.15;
+    transform: translate3d(-0.8%, -0.7%, 0) rotate(-0.3deg) scale(1.012);
+  }
+  62%,
+  100% {
+    opacity: 0;
+    transform: translate3d(-1%, -1%, 0) rotate(-0.4deg) scale(1.015);
+  }
+}
+
+@keyframes shared-service-flores-arrive {
+  0%,
+  30% {
+    border-radius: 10% 22% 24px 24px;
+    opacity: 0;
+    transform: translate3d(2%, 1%, 0) scale(0.975);
+  }
+  38% {
+    border-radius: 16% 30% 24px 24px;
+    opacity: 0.82;
+  }
+  72% {
+    border-radius: 42% 46% 24px 24px;
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    border-radius: 48% 48% 24px 24px;
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes shared-service-flores-organic-reveal {
+  0%,
+  30% {
+    opacity: 0;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 10%,
+      82% 15%,
+      66% 8%,
+      44% 17%,
+      20% 11%,
+      0 15%
+    );
+    transform: translate3d(18px, -10px, 12px) scale(1.055);
+  }
+  42% {
+    opacity: 0.88;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 48%,
+      84% 41%,
+      68% 56%,
+      46% 47%,
+      23% 61%,
+      0 50%
+    );
+  }
+  72% {
+    opacity: 1;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      32% 100%,
+      20% 90%,
+      24% 72%,
+      8% 60%,
+      0 54%
+    );
+    transform: translate3d(3px, -2px, 12px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 76%,
+      0 52%,
+      0 25%,
+      0 0
+    );
+    transform: translate3d(0, 0, 12px) scale(1);
+  }
+}
+
+@keyframes shared-service-flores-depart {
+  0%,
+  28% {
+    border-radius: 48% 48% 24px 24px;
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  42% {
+    border-radius: 36% 42% 24px 24px;
+    opacity: 0.72;
+  }
+  58% {
+    border-radius: 22% 32% 24px 24px;
+    opacity: 0.16;
+  }
+  72%,
+  100% {
+    border-radius: 10% 22% 24px 24px;
+    opacity: 0;
+    transform: translate3d(1.6%, -0.8%, 0) scale(0.985);
+  }
+}
+
+@keyframes shared-service-flores-organic-return {
+  0% {
+    opacity: 1;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 76%,
+      0 52%,
+      0 25%,
+      0 0
+    );
+    transform: translate3d(0, 0, 12px) scale(1);
+  }
+  48% {
+    opacity: 1;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      32% 100%,
+      20% 90%,
+      24% 72%,
+      8% 60%,
+      0 54%
+    );
+  }
+  72% {
+    opacity: 0.88;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 48%,
+      84% 41%,
+      68% 56%,
+      46% 47%,
+      23% 61%,
+      0 50%
+    );
+  }
+  100% {
+    opacity: 0;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 10%,
+      82% 15%,
+      66% 8%,
+      44% 17%,
+      20% 11%,
+      0 15%
+    );
+    transform: translate3d(18px, -10px, 12px) scale(1.045);
+  }
+}
+
+@keyframes shared-service-personalizados-return-from-flores {
+  0%,
+  36% {
+    opacity: 0;
+    transform: translate3d(-1%, -0.8%, 0) rotate(-0.35deg) scale(1.012);
+  }
+  50% {
+    opacity: 0.68;
+  }
+  72%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  }
+}
+.shared-service-story[data-active-scene='atencion'][data-transition-from='personalizados']
+  .shared-service-scene--personalizados {
+  animation: shared-service-personalizados-return 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='atencion'][data-transition-from='personalizados']
+  .shared-service-scene--personalizados
+  .shared-service-layer--main {
+  animation: shared-service-personalizados-layer-return 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes shared-service-personalizados-return {
+  0%,
+  64% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(1.5%, 0.5%, 0) rotate(0.6deg) scale(0.985);
+  }
+}
+@keyframes shared-service-personalizados-layer-return {
+  0% {
+    opacity: 1;
+    -webkit-mask-size: 110% 100%;
+    mask-size: 110% 100%;
+    transform: translate3d(0, 0, 18px) rotate(0) scale(1);
+  }
+  64% {
+    opacity: 1;
+    -webkit-mask-size: 0% 100%;
+    mask-size: 0% 100%;
+    transform: translate3d(-18px, 5px, 18px) rotate(-0.8deg) scale(0.99);
+  }
+  100% {
+    opacity: 0;
+    -webkit-mask-size: 0% 100%;
+    mask-size: 0% 100%;
+    transform: translate3d(-22px, 7px, 18px) rotate(-1deg) scale(0.985);
+  }
+}
+.shared-service-story[data-active-scene='menaje'][data-transition-from='atencion']
+  .shared-service-scene--atencion {
+  transition-delay: 390ms, 0ms;
+  transition-duration: 230ms, 680ms;
+}
+.shared-service-story[data-active-scene='menaje'][data-transition-from='atencion']
+  .shared-service-scene--atencion
+  .shared-service-layer--front {
+  transition-duration: 150ms, 500ms;
+}
+.shared-service-story[data-active-scene='menaje'][data-transition-from='atencion']
+  .shared-service-scene--atencion
+  .shared-service-layer--main {
+  transition-duration: 180ms, 540ms;
+}
+.shared-service-story[data-active-scene='menaje'][data-transition-from='atencion']
+  .shared-service-scene--atencion
+  .shared-service-layer--back {
+  transition-delay: 100ms, 0ms;
+  transition-duration: 200ms, 560ms;
+}
+.shared-service-story[data-active-scene='menaje'][data-transition-from='atencion']
+  .shared-service-layer--menaje-bridge {
+  animation: shared-service-menaje-bridge-return 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes shared-service-menaje-bridge-return {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 28px) scale(1);
+  }
+  18%,
+  62% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 28px) scale(1);
+  }
+}
+.shared-service-story[data-active-scene='bartender'][data-transition-from='menaje']
+  .shared-service-layer--bridge {
+  animation: shared-service-bridge-return 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes shared-service-bridge-return {
+  0% {
+    opacity: 0;
+    transform: translate3d(5%, -1.5%, 24px) scale(0.985);
+  }
+  18%,
+  62% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 24px) scale(1);
+  }
+}
+.shared-service-thread {
+  position: absolute;
+  z-index: 0;
+  right: 2%;
+  bottom: 7%;
+  width: min(34%, 210px);
+  color: var(--copper);
+  opacity: 0.13;
+  transform: translate3d(0, 6px, -30px);
+  transition:
+    opacity 420ms ease,
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shared-service-thread path {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 280;
+  stroke-dashoffset: 0;
+}
+.shared-service-story[data-active-scene='bartender'] .shared-service-thread,
+.shared-service-story[data-active-scene='menaje'] .shared-service-thread,
+.shared-service-story[data-active-scene='atencion'] .shared-service-thread {
+  opacity: 0.24;
+  transform: translate3d(-9px, 0, -30px);
+}
+.shared-service-story[data-active-scene='menaje'] .shared-service-thread {
+  color: var(--olive);
+  opacity: 0.16;
+  transform: translate3d(-14px, 2px, -30px) rotate(-5deg);
+}
+.shared-service-story[data-active-scene='atencion'] .shared-service-thread {
+  color: var(--copper);
+  opacity: 0;
+  transform: translate3d(-18px, -1px, -30px) rotate(-8deg);
+  transition-delay: 500ms, 0ms;
+}
+.shared-service-story[data-active-scene='personalizados'] .shared-service-thread {
+  animation: shared-service-personalizados-thread 920ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  color: var(--copper);
+}
+.shared-service-story[data-active-scene='personalizados'] .shared-service-thread path {
+  animation: shared-service-personalizados-thread-draw 920ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='atencion'][data-transition-from='personalizados']
+  .shared-service-thread {
+  animation: shared-service-personalizados-thread-return 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='atencion'][data-transition-from='personalizados']
+  .shared-service-thread path {
+  animation: shared-service-personalizados-thread-draw-return 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes shared-service-personalizados-thread {
+  0% {
+    opacity: 0;
+    transform: translate3d(22px, 8px, 42px) rotate(-12deg) scale(0.86);
+  }
+  24%,
+  66% {
+    opacity: 0.48;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-116px, -76px, 42px) rotate(8deg) scale(1.42);
+  }
+}
+@keyframes shared-service-personalizados-thread-draw {
+  0% { stroke-dashoffset: 280; }
+  68%,
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes shared-service-personalizados-thread-return {
+  0% {
+    opacity: 0;
+    transform: translate3d(-116px, -76px, 42px) rotate(8deg) scale(1.42);
+  }
+  28%,
+  68% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(22px, 8px, 42px) rotate(-12deg) scale(0.86);
+  }
+}
+@keyframes shared-service-personalizados-thread-draw-return {
+  0% { stroke-dashoffset: 0; }
+  72%,
+  100% { stroke-dashoffset: 280; }
+}
+.shared-service-story[data-active-scene='flores'] .shared-service-thread {
+  color: var(--olive);
+  animation: shared-service-flores-thread 960ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='flores'] .shared-service-thread path {
+  animation: shared-service-flores-thread-draw 960ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='personalizados'][data-transition-from='flores']
+  .shared-service-thread {
+  color: var(--olive);
+  animation: shared-service-flores-thread-return 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.shared-service-story[data-active-scene='personalizados'][data-transition-from='flores']
+  .shared-service-thread path {
+  animation: shared-service-flores-thread-draw-return 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes shared-service-flores-thread {
+  0% {
+    opacity: 0;
+    transform: translate3d(-58px, -188px, 42px) rotate(-38deg) scale(0.9);
+  }
+  26%,
+  58% {
+    opacity: 0.28;
+  }
+  76%,
+  100% {
+    opacity: 0;
+    transform: translate3d(18px, -238px, 42px) rotate(-56deg) scale(0.76);
+  }
+}
+@keyframes shared-service-flores-thread-draw {
+  0% { stroke-dashoffset: 280; }
+  58% { stroke-dashoffset: 34; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes shared-service-flores-thread-return {
+  0% {
+    opacity: 0;
+    transform: translate3d(18px, -238px, 42px) rotate(-56deg) scale(0.76);
+  }
+  30%,
+  66% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-58px, -188px, 42px) rotate(-38deg) scale(0.9);
+  }
+}
+@keyframes shared-service-flores-thread-draw-return {
+  0% { stroke-dashoffset: 0; }
+  42% { stroke-dashoffset: 34; }
+  100% { stroke-dashoffset: 280; }
+}
+.shared-service-copy-rail {
+  min-width: 0;
+}
+.shared-service-panel.service-family {
+  display: flex;
+  min-height: clamp(540px, 72svh, 650px);
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  isolation: auto;
+}
+.shared-service-panel[data-scene='flores'] {
+  min-height: clamp(570px, 76svh, 680px);
+}
+.shared-service-panel.service-family::after {
+  display: none;
+}
+.shared-service-panel + .shared-service-panel {
+  padding-top: 0;
+  border-top: 1px solid rgba(23, 100, 89, 0.18);
+}
+.shared-service-panel .service-copy {
+  width: 100%;
+  margin-block: auto;
+  padding-block: clamp(36px, 5vh, 52px);
+}
+.shared-service-panel .service-scene-actions {
+  align-items: center;
+}
+.shared-service-mobile-visual {
+  display: none;
+}
+.shared-service-sequence-placeholder {
+  display: none;
+}
+
+@media (min-width: 961px) and (max-width: 1180px) {
+  .shared-service-layout {
+    grid-template-columns: minmax(0, 1.05fr) minmax(410px, 0.95fr);
+    gap: clamp(28px, 3.5vw, 44px);
+    width: min(100% - 56px, 1120px);
+  }
+  .shared-service-stage {
+    height: clamp(500px, 70svh, 620px);
+  }
+  .shared-service-panel.service-family {
+    min-height: clamp(530px, 74svh, 620px);
+  }
+  .shared-service-panel h3 {
+    font-size: clamp(35px, 3.8vw, 46px);
+  }
+}
+
+@media (max-width: 960px) {
+  .shared-service-story,
+  .shared-service-story[data-active-scene='bartender'],
+  .shared-service-story[data-active-scene='menaje'],
+  .shared-service-story[data-active-scene='atencion'],
+  .shared-service-story[data-active-scene='personalizados'],
+  .shared-service-story[data-active-scene='flores'] {
+    background: var(--paper);
+  }
+  .shared-service-story::before,
+  .shared-service-story::after {
+    display: none;
+  }
+  .shared-service-layout {
+    display: block;
+    width: 100%;
+  }
+  .shared-service-stage-column {
+    display: none;
+  }
+  .shared-service-panel.service-family {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding-block: clamp(38px, 6vw, 54px);
+  }
+  .shared-service-panel[data-scene='cocina'] {
+    background: var(--paper);
+  }
+  .shared-service-panel[data-scene='bartender'] {
+    background: var(--rose-page);
+  }
+  .shared-service-panel[data-scene='menaje'] {
+    background: #edf2ea;
+  }
+  .shared-service-panel[data-scene='atencion'] {
+    background: #f8eee4;
+  }
+  .shared-service-panel[data-scene='personalizados'] {
+    background: #ead4d1;
+  }
+  .shared-service-panel[data-scene='flores'] {
+    background: #e7ede3;
+  }
+  .shared-service-panel + .shared-service-panel {
+    border-top-color: rgba(23, 100, 89, 0.12);
+  }
+  .shared-service-mobile-visual {
+    display: block;
+    width: min(100% - 64px, 720px);
+    margin-inline: auto;
+  }
+  .shared-service-panel .service-copy {
+    width: min(100% - 64px, 720px);
+    margin-inline: auto;
+    padding: 0;
+  }
+  .shared-service-panel .service-options li > a {
+    min-height: 44px;
+    padding-block: 10px;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  .shared-service-panel .service-option-add {
+    min-height: 44px;
+    padding: 9px 11px;
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 960px) {
+  .service-garden .garden-heading {
+    width: min(calc(100% - 72px), 880px);
+    padding-block: clamp(36px, 4.8vw, 44px);
+  }
+  .service-garden .garden-heading h2 {
+    margin-bottom: 14px;
+    font-size: clamp(44px, 5.7vw, 54px);
+    line-height: 0.98;
+  }
+  .public-site .garden-heading > p {
+    max-width: 48ch;
+    font-size: 16px;
+    line-height: 1.48;
+  }
+  .shared-service-panel.service-family {
+    gap: clamp(20px, 3vw, 28px);
+    padding: clamp(34px, 4.6vw, 44px) clamp(32px, 5vw, 48px);
+  }
+  .shared-service-panel.service-family .shared-service-mobile-visual,
+  .shared-service-panel.service-family .service-copy {
+    width: 100%;
+    margin: 0;
+  }
+  .shared-service-panel .service-chapter-meta {
+    max-width: none;
+    margin-bottom: 13px;
+    padding-bottom: 10px;
+  }
+  .shared-service-panel h3,
+  .shared-service-panel[data-scene='personalizados'] h3 {
+    max-width: 18em;
+    margin-bottom: 14px;
+    font-size: clamp(33px, 4.4vw, 40px);
+    line-height: 1.04;
+  }
+  .shared-service-panel .service-copy > p:not(.service-scene-kicker):not(.service-scene-meta) {
+    max-width: 52ch;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  .shared-service-panel .service-essentials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 16px;
+    max-width: none;
+    margin-top: 14px;
+  }
+  .shared-service-panel .service-essentials li {
+    padding-left: 15px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .shared-service-panel .service-essentials li::before {
+    top: 0.46em;
+    width: 6px;
+    height: 6px;
+  }
+  .shared-service-panel .service-copy .service-scene-meta {
+    flex-wrap: nowrap;
+    gap: 7px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+  .shared-service-panel .service-scene-actions {
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .shared-service-panel .service-scene-actions .service-scene-cta,
+  .shared-service-panel .service-scene-actions .service-detail-link {
+    min-height: 44px;
+    margin-top: 0;
+    font-size: 13px;
+  }
+  .shared-service-panel .service-scene-actions .service-scene-cta {
+    padding-inline: 14px;
+  }
+  .shared-service-panel .service-options {
+    max-width: none;
+    margin-top: 15px;
+  }
+  .shared-service-panel .service-options li,
+  .shared-service-panel .service-options li > a,
+  .shared-service-panel .service-option-add {
+    min-height: 44px;
+  }
+  .shared-service-panel .service-options li > a {
+    padding-block: 8px;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+  .shared-service-panel .service-option-add {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  .shared-service-panel[data-scene='cocina'] .shared-service-mobile-visual {
+    aspect-ratio: 1.78;
+    overflow: hidden;
+  }
+  .shared-service-panel[data-scene='cocina'] .service-scene-layer--main {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .shared-service-panel[data-scene='cocina'] .service-scene-layer--main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 52%;
+  }
+  .shared-service-panel[data-scene='bartender'] .shared-service-mobile-visual {
+    aspect-ratio: 1.34;
+  }
+  .shared-service-panel[data-scene='bartender'] .service-scene-layer--back {
+    top: 3%;
+    width: 108%;
+  }
+  .shared-service-panel[data-scene='bartender'] .service-scene-layer--main {
+    top: 10%;
+    left: 12%;
+    width: 88%;
+  }
+  .shared-service-panel[data-scene='menaje'] .shared-service-mobile-visual {
+    aspect-ratio: 1.36;
+  }
+  .shared-service-panel[data-scene='menaje'] .service-scene-layer--main {
+    top: 15%;
+  }
+  .shared-service-panel[data-scene='atencion'] .shared-service-mobile-visual {
+    aspect-ratio: 1.3;
+  }
+  .shared-service-panel[data-scene='atencion'] .service-scene-layer--main {
+    top: 14%;
+    width: 94%;
+  }
+  .shared-service-panel[data-scene='personalizados'] .shared-service-mobile-visual {
+    aspect-ratio: 1.34;
+  }
+  .shared-service-panel[data-scene='personalizados'] .service-scene-layer--main {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .shared-service-panel[data-scene='personalizados'] .service-scene-layer--main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .shared-service-panel[data-scene='flores'] .shared-service-mobile-visual {
+    aspect-ratio: 1.34;
+    overflow: hidden;
+  }
+  .shared-service-panel[data-scene='flores'] .service-scene-layer--main {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .shared-service-panel[data-scene='flores'] .service-scene-layer--main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 54% 50%;
+  }
+}
+
+@media (min-width: 820px) and (max-width: 960px) {
+  .service-garden .garden-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.88fr);
+    align-items: end;
+    gap: clamp(28px, 4vw, 44px);
+  }
+  .service-garden .garden-heading h2 {
+    margin-bottom: 0;
+  }
+  .shared-service-panel.service-family {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    column-gap: clamp(30px, 4vw, 42px);
+    min-height: 0;
+  }
+  .shared-service-panel.service-family .shared-service-mobile-visual {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+  .shared-service-panel.service-family .service-copy {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+  .shared-service-panel[data-scene='cocina'] {
+    min-height: 740px;
+  }
+  .shared-service-panel[data-scene='bartender'] {
+    min-height: 690px;
+  }
+  .shared-service-panel[data-scene='menaje'] {
+    min-height: 650px;
+  }
+  .shared-service-panel[data-scene='atencion'] {
+    min-height: 710px;
+  }
+  .shared-service-panel[data-scene='personalizados'] {
+    min-height: 730px;
+  }
+  .shared-service-panel[data-scene='flores'] {
+    min-height: 700px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 819px) {
+  .service-garden .garden-heading {
+    width: min(calc(100% - 64px), 704px);
+  }
+  .shared-service-panel.service-family {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 34px 32px 38px;
+  }
+  .shared-service-panel.service-family .shared-service-mobile-visual {
+    width: min(100%, 620px);
+    max-height: 340px;
+    margin-inline: auto;
+    overflow: hidden;
+  }
+  .shared-service-panel[data-scene='cocina'] .shared-service-mobile-visual {
+    aspect-ratio: 2.06;
+  }
+  .shared-service-panel[data-scene='bartender'] .shared-service-mobile-visual,
+  .shared-service-panel[data-scene='menaje'] .shared-service-mobile-visual,
+  .shared-service-panel[data-scene='atencion'] .shared-service-mobile-visual,
+  .shared-service-panel[data-scene='personalizados'] .shared-service-mobile-visual,
+  .shared-service-panel[data-scene='flores'] .shared-service-mobile-visual {
+    aspect-ratio: 1.86;
+  }
+  .shared-service-panel[data-scene='bartender'] .service-scene-layer--back {
+    top: 3%;
+    left: 4%;
+    width: 90%;
+  }
+  .shared-service-panel[data-scene='bartender'] .service-scene-layer--main {
+    top: 5%;
+    left: 20%;
+    width: 70%;
+  }
+  .shared-service-panel[data-scene='menaje'] .service-scene-layer--main {
+    top: 15%;
+    left: 10%;
+    width: 78%;
+  }
+  .shared-service-panel[data-scene='atencion'] .service-scene-layer--main {
+    top: 6%;
+    left: 10%;
+    width: 76%;
+  }
+  .shared-service-panel .service-copy {
+    max-width: 704px;
+    margin-inline: auto;
+  }
+  .shared-service-panel .service-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .shared-service-panel.service-family {
+    padding-block: 22px 30px;
+  }
+  .shared-service-mobile-visual,
+  .shared-service-panel .service-copy {
+    width: calc(100% - 40px);
+  }
+  .shared-service-mobile-visual {
+    height: clamp(280px, 74vw, 304px);
+    margin-bottom: 9px;
+    aspect-ratio: auto !important;
+  }
+  .shared-service-panel[data-scene='cocina'] {
+    background: linear-gradient(
+      180deg,
+      var(--paper) 0%,
+      var(--paper) 91%,
+      #f1dfda 100%
+    );
+  }
+  .shared-service-panel[data-scene='bartender'] {
+    background: linear-gradient(
+      180deg,
+      var(--rose-page) 0%,
+      var(--rose-page) 92%,
+      #edf2ea 100%
+    );
+  }
+  .shared-service-panel[data-scene='menaje'] {
+    background: linear-gradient(180deg, #edf2ea 0%, #edf2ea 92%, #f8eee4 100%);
+  }
+  .shared-service-panel[data-scene='atencion'] {
+    background: linear-gradient(180deg, #f8eee4 0%, #f8eee4 92%, #ead4d1 100%);
+  }
+  .shared-service-panel[data-scene='personalizados'] {
+    background: linear-gradient(180deg, #ead4d1 0%, #ead4d1 92%, #e7ede3 100%);
+  }
+  .shared-service-panel[data-scene='flores'] {
+    background: linear-gradient(180deg, #e7ede3 0%, #e7ede3 94%, var(--paper) 100%);
+  }
+  .shared-service-panel[data-scene='cocina'] .shared-service-mobile-visual {
+    overflow: hidden;
+    border-radius: 44% 44% 18px 18px;
+  }
+  .shared-service-panel[data-scene='cocina'] .service-scene-layer--main {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .shared-service-panel[data-scene='cocina'] .service-scene-layer--main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 52%;
+    filter: none;
+  }
+  .shared-service-panel[data-scene='bartender'] .service-scene-layer--back {
+    top: 2%;
+    left: -5%;
+    width: 108%;
+  }
+  .shared-service-panel[data-scene='bartender'] .service-scene-layer--main {
+    top: 13%;
+    left: 17%;
+    width: 84%;
+  }
+  .shared-service-panel[data-scene='bartender'] .service-scene-layer--front {
+    bottom: 1%;
+    left: -3%;
+    width: 106%;
+  }
+  .shared-service-panel[data-scene='menaje'] .service-scene-layer--back {
+    top: 2%;
+    left: -4%;
+    width: 108%;
+  }
+  .shared-service-panel[data-scene='menaje'] .service-scene-layer--main {
+    top: 12%;
+    left: 0;
+    width: 100%;
+  }
+  .shared-service-panel[data-scene='menaje'] .service-scene-layer--front {
+    bottom: 1%;
+    left: -3%;
+    width: 106%;
+    clip-path: inset(0);
+  }
+  .shared-service-panel[data-scene='atencion'] .service-scene-layer--back {
+    top: -1%;
+    right: 2%;
+    left: auto;
+    width: 34%;
+  }
+  .shared-service-panel[data-scene='atencion'] .service-scene-layer--main {
+    top: 8%;
+    left: -2%;
+    width: 103%;
+  }
+  .shared-service-panel[data-scene='atencion'] .service-scene-layer--front {
+    bottom: 0;
+    left: -3%;
+    width: 106%;
+  }
+  .shared-service-panel[data-scene='personalizados'] .service-scene-layer--main {
+    top: 3%;
+    left: -2%;
+    width: 104%;
+    height: 97%;
+  }
+  .shared-service-panel[data-scene='personalizados'] .service-scene-layer--main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .shared-service-panel[data-scene='flores'] .shared-service-mobile-visual {
+    overflow: hidden;
+    border-radius: 46% 46% 18px 18px;
+  }
+  .shared-service-panel[data-scene='flores'] .service-scene-layer--main {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .shared-service-panel[data-scene='flores'] .service-scene-layer--main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 54% 50%;
+    filter: none;
+  }
+  .shared-service-panel .service-chapter-meta {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+  .shared-service-panel .service-chapter-meta .service-scene-kicker {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+  .shared-service-panel h3 {
+    margin-bottom: 12px;
+    font-size: clamp(29px, 8vw, 33px);
+    line-height: 1.03;
+  }
+  .shared-service-panel .service-copy > p:not(.service-scene-kicker):not(.service-scene-meta) {
+    font-size: 15px;
+    line-height: 1.42;
+  }
+  .shared-service-panel .service-essentials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 15px;
+    max-width: none !important;
+    margin-top: 12px !important;
+  }
+  .shared-service-panel .service-essentials li {
+    padding-left: 15px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .shared-service-panel .service-essentials li::before {
+    top: 0.46em;
+    width: 6px;
+    height: 6px;
+  }
+  .shared-service-panel .service-copy .service-scene-meta {
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+  .shared-service-panel .service-scene-actions {
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .shared-service-panel .service-scene-actions .service-scene-cta {
+    min-height: 44px;
+    margin-top: 0;
+    padding-inline: 12px;
+    font-size: 13px;
+  }
+  .shared-service-panel .service-scene-actions .service-detail-link {
+    flex: none;
+    min-height: 44px;
+    font-size: 13px;
+  }
+  .shared-service-panel .service-options {
+    margin-top: 12px;
+  }
+  .shared-service-panel .service-options li,
+  .shared-service-panel .service-options li > a {
+    min-height: 44px;
+  }
+  .shared-service-panel .service-options li > a {
+    padding-block: 8px;
+    font-size: 13.5px;
+    line-height: 1.18;
+  }
+  .shared-service-panel .service-option-add {
+    min-height: 44px;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shared-service-layout {
+    display: block;
+    width: 100%;
+  }
+  .shared-service-stage-column {
+    display: none;
+  }
+  .shared-service-panel.service-family {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding-block: 52px;
+  }
+  .shared-service-mobile-visual {
+    display: block;
+    width: min(100% - 80px, 760px);
+    margin-inline: auto;
+  }
+  .shared-service-panel .service-copy {
+    width: min(100% - 80px, 760px);
+    margin-inline: auto;
+    padding: 0;
+  }
+  .shared-service-story::after,
+  .shared-service-scene,
+  .shared-service-layer,
+  .shared-service-thread {
+    transition: none !important;
+    animation: none !important;
+  }
+  .shared-service-thread path {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 761px) and (max-width: 960px) {
+  .shared-service-panel.service-family {
+    gap: clamp(20px, 3vw, 28px);
+    padding: clamp(34px, 4.6vw, 44px) clamp(32px, 5vw, 48px);
+  }
+  .shared-service-panel.service-family .shared-service-mobile-visual,
+  .shared-service-panel.service-family .service-copy {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 820px) and (max-width: 960px) {
+  .shared-service-panel.service-family {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    column-gap: clamp(30px, 4vw, 42px);
+  }
+  .shared-service-panel.service-family .shared-service-mobile-visual {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+  .shared-service-panel.service-family .service-copy {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+  .shared-service-panel[data-scene='cocina'] { min-height: 740px; }
+  .shared-service-panel[data-scene='bartender'] { min-height: 690px; }
+  .shared-service-panel[data-scene='menaje'] { min-height: 650px; }
+  .shared-service-panel[data-scene='atencion'] { min-height: 710px; }
+  .shared-service-panel[data-scene='personalizados'] { min-height: 730px; }
+  .shared-service-panel[data-scene='flores'] { min-height: 700px; }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 761px) and (max-width: 819px) {
+  .shared-service-panel.service-family {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 34px 32px 38px;
+  }
+  .shared-service-panel.service-family .shared-service-mobile-visual {
+    width: min(100%, 620px);
+    margin-inline: auto;
+  }
+  .shared-service-panel .service-copy {
+    max-width: 704px;
+    margin-inline: auto;
+  }
+}
+
+/* Chapter 3 mobile refinement: compact only the three content-heavy scenes. */
+@media (max-width: 760px) {
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ).service-family {
+    padding-block: 18px 24px;
+  }
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) .shared-service-mobile-visual {
+    margin-bottom: 5px;
+  }
+  .shared-service-panel[data-scene='cocina'] .shared-service-mobile-visual {
+    height: clamp(262px, 67vw, 276px);
+  }
+  .shared-service-panel[data-scene='atencion'] .shared-service-mobile-visual {
+    height: clamp(266px, 71vw, 288px);
+    overflow: hidden;
+  }
+  .shared-service-panel[data-scene='personalizados'] .shared-service-mobile-visual {
+    height: clamp(268px, 72vw, 292px);
+    overflow: hidden;
+  }
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) .service-chapter-meta {
+    margin-bottom: 8px;
+    padding-bottom: 7px;
+  }
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) h3 {
+    margin-bottom: 10px;
+  }
+  .shared-service-panel[data-scene='personalizados'] h3 {
+    max-width: 17em;
+    font-size: clamp(28px, 7.6vw, 31.5px);
+    line-height: 1.01;
+  }
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) .service-essentials {
+    gap: 4px 12px;
+    margin-top: 10px !important;
+  }
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) .service-copy .service-scene-meta {
+    margin-top: 8px;
+  }
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) .service-scene-actions,
+  .shared-service-panel:is(
+      [data-scene='cocina'],
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) .service-options {
+    margin-top: 8px;
+  }
+  .shared-service-panel:is(
+      [data-scene='atencion'],
+      [data-scene='personalizados']
+    ) .service-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 10px;
+  }
+
+  .shared-service-panel[data-scene='cocina'].service-family {
+    padding-block: 15px 21px;
+  }
+  .shared-service-panel[data-scene='cocina'] .shared-service-mobile-visual {
+    margin-bottom: 3px;
+  }
+  .shared-service-panel[data-scene='cocina'] h3 {
+    margin-bottom: 9px;
+    line-height: 1;
+  }
+  .shared-service-panel[data-scene='cocina'] .service-copy > p {
+    line-height: 1.4;
+  }
+  .shared-service-panel[data-scene='cocina'] .service-essentials {
+    margin-top: 8px !important;
+  }
+  .shared-service-panel[data-scene='cocina'] .service-copy .service-scene-meta,
+  .shared-service-panel[data-scene='cocina'] .service-scene-actions,
+  .shared-service-panel[data-scene='cocina'] .service-options {
+    margin-top: 6px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 760px) {
+  .shared-service-panel[data-scene='cocina'] .service-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 10px;
+  }
+}
+
+/* Chapter 3 introduction: preserve the editorial pause with less empty runway. */
+@media (min-width: 961px) {
+  .service-garden .garden-heading {
+    padding-block: clamp(100px, 7.25vw, 104.5px);
+  }
+}
+
+@media (max-width: 760px) {
+  .service-garden .garden-heading {
+    padding-block: 34px;
+  }
+}
+
+/* Chapter 3 wide desktop pacing: remove only surplus scene runway. */
+@media (min-width: 1400px) and (min-height: 850px) {
+  .shared-service-panel[data-scene='cocina'] .service-copy {
+    padding-block: 18px;
+  }
+  .shared-service-panel[data-scene='menaje'] .service-copy {
+    padding-block: 40px;
+  }
+  .shared-service-panel[data-scene='atencion'] .service-copy {
+    padding-block: 23px;
+  }
+  .shared-service-panel[data-scene='personalizados'] .service-copy {
+    padding-block: 30px;
+  }
+}
+
+/* Chapter 3 conversion hierarchy: one editorial action system for all scenes. */
+.shared-service-panel .service-scene-actions {
+  gap: 10px 18px;
+}
+.shared-service-panel .service-scene-cta {
+  min-height: 46px;
+  gap: 12px;
+  padding: 11px 18px;
+}
+.shared-service-panel .service-detail-link {
+  gap: 7px;
+  padding-inline: 2px;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 2px calc(100% - 7px);
+  background-repeat: no-repeat;
+  background-size: calc(100% - 22px) 1px;
+}
+.shared-service-panel .service-detail-link::after {
+  content: '→';
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  transition: transform 180ms ease;
+}
+.shared-service-panel .service-options li {
+  border-color: rgba(23, 100, 89, 0.2);
+}
+.shared-service-panel .service-options li > a {
+  color: var(--ink);
+  font-weight: 650;
+}
+.shared-service-panel .service-option-add {
+  min-width: 78px;
+  justify-content: flex-end;
+  padding-inline: 6px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--olive);
+  opacity: 0.82;
+  text-decoration: none;
+  background-image: linear-gradient(rgba(23, 100, 89, 0.32), rgba(23, 100, 89, 0.32));
+  background-position: 6px calc(100% - 8px);
+  background-repeat: no-repeat;
+  background-size: calc(100% - 26px) 1px;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    transform 180ms ease,
+    opacity 160ms ease;
+}
+.shared-service-panel .service-option-add:not([data-selected='true']):focus-visible {
+  background-color: rgba(23, 100, 89, 0.07);
+  color: var(--olive);
+  opacity: 1;
+}
+.public-site .shared-service-panel .service-option-add[data-selected='true'] {
+  border: 0;
+  border-radius: 4px;
+  background-color: rgba(23, 100, 89, 0.1);
+  background-image: none;
+  color: var(--olive);
+  opacity: 1;
+  text-decoration: none;
+}
+.public-site .shared-service-panel .service-option-add[data-selected='true']:hover {
+  background: rgba(23, 100, 89, 0.1);
+  color: var(--olive);
+}
+@media (hover: hover) {
+  .shared-service-panel .service-detail-link:hover::after,
+  .shared-service-panel .service-detail-link:focus-visible::after {
+    transform: translateX(3px);
+  }
+  .shared-service-panel .service-option-add:not([data-selected='true']):hover {
+    background: rgba(23, 100, 89, 0.07);
+    color: var(--olive);
+    opacity: 1;
+    transform: translateX(2px);
+  }
+}
+@keyframes shared-service-option-added {
+  0% {
+    transform: scale(0.97);
+    background-color: rgba(185, 88, 57, 0.14);
+  }
+  60% {
+    transform: scale(1.025);
+    background-color: rgba(23, 100, 89, 0.14);
+  }
+  100% {
+    transform: none;
+    background-color: rgba(23, 100, 89, 0.1);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .public-site[data-motion='on']
+    .shared-service-panel
+    .service-option-add[data-selected='true'] {
+    animation: shared-service-option-added 260ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shared-service-panel .service-detail-link::after,
+  .shared-service-panel .service-option-add {
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .shared-service-panel .service-option-add {
+    min-width: 66px;
+    padding-inline: 4px;
+    background-position: 4px calc(100% - 8px);
+    background-size: calc(100% - 22px) 1px;
   }
 }
