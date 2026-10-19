@@ -857,3 +857,5 @@ for (const reason of ['preference', 'hidden', 'fallback', 'dispose']) {
   } finally { env.restore(); }
 }
 console.log('PASS ARRIVAL: entrada única, fin sincronizado, anchors/restauración, teclado, interrupción, reduced motion y limpieza completa.');
+
+await import('./immersive-motion-tests.mjs');

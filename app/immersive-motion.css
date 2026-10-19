@@ -1,0 +1,12 @@
+/* Only dedicated, non-interactive visual layers may opt into this attribute. */
+[data-motion-decoration] {
+  pointer-events: none;
+}
+
+[data-motion-section][data-motion-safe] [data-motion-content] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  clip-path: none;
+  mask: none;
+}

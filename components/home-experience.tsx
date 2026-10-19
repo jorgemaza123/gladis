@@ -7,6 +7,7 @@ import { HomeServiceJourney } from './home-service-journey';
 import { HomeServiceNav } from './home-service-nav';
 import { ServiceExplorer } from './service-explorer';
 import { HomeSmoothScroll } from './home-smooth-scroll';
+import { HomeMotion } from './home-motion';
 import { explorerServices, quoteSiteFor } from '@/lib/public-services';
 import { publicReviewsUrl } from '@/config/commercial-evidence';
 import { ServiceSearchTrigger } from './service-search';
@@ -203,6 +204,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           Preparar mi evento <span aria-hidden="true">↗</span>
         </QuoteCta>
       </section>
+      <HomeMotion />
     </>
   );
 }
