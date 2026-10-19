@@ -9,18 +9,23 @@ export function HomeMotion() {
     if (!root) return;
     const debug = process.env.NODE_ENV !== 'production' &&
       new URLSearchParams(window.location.search).get('motionDebug') === '1';
-    const sections = debug
-      ? [...root.querySelectorAll<HTMLElement>('#completa-tu-evento, #ocasiones, .company-gateway, #como-cotizar, .mesa-invitation')]
-      : [...root.querySelectorAll<HTMLElement>('[data-motion-section]')];
-    if (!sections.length) return;
+    const section = root.querySelector<HTMLElement>('#completa-tu-evento');
+    if (!section) return;
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
-    void import('@/lib/immersive-motion').then(({ createImmersiveMotion }) => {
+    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }]) => {
       if (disposed) return;
       const controller = createImmersiveMotion(root, { debug });
       cleanup = () => controller.destroy();
-      for (const element of sections) controller.register({ element });
+      controller.register({
+        element: section,
+        // Structural read only during the controller's batched geometry pass.
+        range: (device) => c4MotionRange(section.offsetHeight, device),
+      });
+    }).catch(() => {
+      cleanup?.();
+      // The server-rendered directory and its static rule remain usable.
     });
     return () => {
       disposed = true;

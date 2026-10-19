@@ -9,6 +9,10 @@ const compiled = ts.transpileModule(source, {
 const { createImmersiveMotion, motionProgress } = await import(
   'data:text/javascript;base64,' + Buffer.from(compiled).toString('base64')
 );
+const c4Source = await readFile(new URL('../lib/c4-motion.ts', import.meta.url), 'utf8');
+const { c4MotionRange } = await import('data:text/javascript;base64,' + Buffer.from(ts.transpileModule(c4Source, {
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+}).outputText).toString('base64'));
 
 class Events {
   listeners = new Map();
@@ -346,9 +350,65 @@ check('new state never overwrites the existing reveal system settled attribute',
 
 const integration = await readFile(new URL('../components/home-motion.tsx', import.meta.url), 'utf8');
 assert.match(integration, /process\.env\.NODE_ENV !== 'production'/);
-assert.match(integration, /if \(!sections.length\) return;/);
-assert.match(integration, /void import\('@\/lib\/immersive-motion'\)/);
+assert.match(integration, /querySelector<HTMLElement>\('#completa-tu-evento'\)/);
+assert.match(integration, /if \(!section\) return;/);
+assert.match(integration, /import\('@\/lib\/immersive-motion'\)/);
 assert.match(integration, /if \(disposed\) return;/);
 assert.match(integration, /return null;/);
 assert.doesNotMatch(source, /MutationObserver|setInterval|setTimeout|preventDefault|Lenis/);
 console.log(`PASS ENGINE: ${checks} integration checks; no production demo, new clock, dependencies or layout styling.`);
+
+for (const [width, height, fraction] of [[1440, 900, .55], [768, 1024, .4], [390, 844, .5]]) {
+  check(`C4 ${width}: exact quarters, reversal and details resize cannot replay the entrance`, (env, controller) => {
+    env.first.id = 'completa-tu-evento';
+    controller.register({ element: env.first, range: (device) => c4MotionRange(env.first.height, device) });
+    assert.equal(controller.snapshot().sections.length, 1);
+    assert.equal(controller.snapshot().sections[0].id, 'completa-tu-evento');
+    const device = controller.snapshot().device;
+    const range = c4MotionRange(env.first.height, device);
+    const start = env.first.top - height * range.start;
+    const distance = height * fraction;
+    env.intersections.at(-1).cross(env.first, true);
+    for (const p of [0, .25, .5, .75, 1, .75, .5, .25, 0, 1]) {
+      env.scroll(start + distance * p); env.flush();
+      assert.ok(Math.abs(controller.snapshot().sections[0].progress - p) < .0001);
+    }
+    env.first.height += 1800;
+    env.resizes.at(-1).emit(); env.root.dispatch('toggle'); env.flush();
+    assert.equal(controller.snapshot().sections[0].progress, 1, 'expanded families keep settled entrance');
+    env.first.height -= 1800;
+    env.resizes.at(-1).emit(); env.flush();
+    assert.equal(controller.snapshot().sections[0].progress, 1);
+    env.scroll(start + distance / 2); env.flush();
+    assert.equal(controller.snapshot().sections[0].progress, .5, 'reverse still works after native reflow');
+  }, { width, height });
+}
+check('C4 direct family hash and keyboard focus settle decoration without masking content', (env, controller) => {
+  env.first.id = 'completa-tu-evento'; env.second.parent = env.first;
+  env.second.id = 'familia-personalizados';
+  env.browser.location.hash = '#familia-personalizados';
+  controller.register({ element: env.first, range: (device) => c4MotionRange(env.first.height, device) });
+  assert.equal(env.first.dataset.motionSafe, 'anchor');
+  env.root.dispatch('focusin', { target: env.button });
+  assert.equal(env.first.dataset.motionSafe, 'focus');
+  env.scroll(500); env.flush();
+  assert.equal(env.first.dataset.motionSafe, 'focus');
+  env.root.dispatch('focusout', { relatedTarget: null });
+  assert.equal(env.first.dataset.motionSafe, undefined);
+});
+check('C4 reduced is settled at 1 with no motion sensors; route unmount cleans completely', (env, controller) => {
+  const unregister = controller.register({ element: env.first, range: (device) => c4MotionRange(env.first.height, device) });
+  assert.equal(controller.snapshot().sections[0].progress, 1);
+  assert.equal(env.first.dataset.motionSafe, 'reduced');
+  assert.equal(env.frames.size + env.browser.count('scroll') + env.intersections.length + env.resizes.length, 0);
+  unregister(); env.assertClean();
+}, { reduced: true });
+const c4Css = await readFile(new URL('../app/immersive-motion.css', import.meta.url), 'utf8');
+const c4Svg = await readFile(new URL('../components/c4-directory-entrance.tsx', import.meta.url), 'utf8');
+assert.match(c4Svg, /aria-hidden="true"/);
+assert.match(c4Css, /prefers-reduced-motion: reduce/);
+assert.match(c4Css, /#completa-tu-evento \.c4-ribbon-rule \{ opacity: \.35; \}/);
+assert.doesNotMatch(c4Css, /will-change|animation:|transition:|filter:|position: sticky/);
+assert.doesNotMatch(c4Source, /addEventListener|requestAnimationFrame|Observer/);
+assert.doesNotMatch(integration, /#ocasiones|company-gateway|#como-cotizar|mesa-invitation/);
+console.log('PASS C4: desktop/tablet/mobile quarters, reverse, details reflow, hash, focus, reduced, route cleanup and static fallback.');

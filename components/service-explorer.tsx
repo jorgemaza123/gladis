@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useState, type ReactNode } from 'react';
 import { useAttribution } from './attribution-provider';
 import { Photo } from './photo';
 import { Quote, type QuoteSite } from './quote';
@@ -22,6 +22,7 @@ export function ServiceExplorer({
   quoteHref,
   occasion = '',
   homeProgressive = false,
+  headingDecoration,
 }: {
   entries: ExplorerService[];
   featuredIds: string[];
@@ -34,6 +35,7 @@ export function ServiceExplorer({
   quoteHref?: string;
   occasion?: string;
   homeProgressive?: boolean;
+  headingDecoration?: ReactNode;
 }) {
   const headingId = useId();
   const quoteId = useId();
@@ -119,6 +121,7 @@ export function ServiceExplorer({
       aria-labelledby={headingId}
     >
       <div className="service-explorer-heading">
+        {headingDecoration}
         <div>
           <p className="section-kicker">{homeProgressive ? 'También podemos ayudarte con' : 'Una sola consulta, lo que tú necesitas'}</p>
           <h2 id={headingId}>{title}</h2>

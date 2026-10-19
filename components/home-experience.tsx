@@ -8,6 +8,7 @@ import { HomeServiceNav } from './home-service-nav';
 import { ServiceExplorer } from './service-explorer';
 import { HomeSmoothScroll } from './home-smooth-scroll';
 import { HomeMotion } from './home-motion';
+import { C4DirectoryEntrance } from './c4-directory-entrance';
 import { explorerServices, quoteSiteFor } from '@/lib/public-services';
 import { publicReviewsUrl } from '@/config/commercial-evidence';
 import { ServiceSearchTrigger } from './service-search';
@@ -110,6 +111,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
         title="Completa tu evento con lo que falta."
         intro="Empieza por los esenciales y abre solo las familias que necesites. Todo queda en una sola cotización."
         anchorId="completa-tu-evento"
+        headingDecoration={<C4DirectoryEntrance />}
         homeProgressive
         quoteSite={quoteSiteFor(site)}
       />

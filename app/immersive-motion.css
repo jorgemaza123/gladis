@@ -10,3 +10,54 @@
   clip-path: none;
   mask: none;
 }
+
+/* C4 owns the ribbon. Its absolute bounds use existing heading whitespace. */
+#completa-tu-evento .service-explorer-heading {
+  position: relative;
+}
+.c4-directory-entrance {
+  position: absolute;
+  top: -68px;
+  left: -34px;
+  width: calc(100% + 34px);
+  height: calc(100% + 90px);
+  overflow: visible;
+  color: var(--terracotta, #a24f35);
+}
+.c4-ribbon,
+.c4-ribbon-rule {
+  stroke: currentColor;
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+.c4-ribbon { display: none; }
+.c4-ribbon-rule { opacity: .35; }
+#completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon--desktop {
+  display: block;
+}
+#completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, var(--motion-progress) * 2, 1) - clamp(0, (var(--motion-progress) - .55) / .45, 1));
+  transform-origin: 0 0;
+  transform: translateX(calc((1 - var(--motion-progress)) * -4px)) scaleX(var(--c4-ribbon-x, 1));
+}
+#completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon-rule {
+  opacity: calc(clamp(0, (var(--motion-progress) - .68) / .32, 1) * .35);
+}
+@media (min-width: 761px) and (max-width: 960px) {
+  .c4-directory-entrance { top: -58px; left: -24px; width: calc(100% + 24px); height: calc(100% + 76px); }
+  #completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon--desktop { display: none; }
+  #completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon--tablet { display: block; }
+}
+@media (max-width: 760px) {
+  .c4-directory-entrance { top: -34px; left: -12px; width: calc(100% + 12px); height: calc(100% + 48px); }
+  /* Map the phone's own 360-unit path onto the SVG; do not shrink the desktop path. */
+  .c4-ribbon--mobile { --c4-ribbon-x: 3.444444; }
+  #completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon--desktop { display: none; }
+  #completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon--mobile { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #completa-tu-evento[data-motion-section]:not([data-motion-safe]) .c4-ribbon { display: none; }
+  #completa-tu-evento .c4-ribbon-rule { opacity: .35; }
+}
