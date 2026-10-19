@@ -5,7 +5,7 @@ Fecha: 2026-10-12
 ## Arquitectura de servicios implementada
 
 - `/servicios` es el hub general para quien sabe qué servicio necesita o quiere explorar toda la oferta.
-- El hub organiza la oferta en nueve familias: cocina, bar, personal, alquileres, entretenimiento, producción, decoración, fotografía y video, y personalizados.
+- El hub organiza la oferta en nueve familias: cocina, bar, personal, alquileres, entretenimiento, producción, decoración, cabina y 360, y personalizados. La cobertura de fotografía y video se retiró el 19/10/2026.
 - Los hubs `/alquiler`, `/entretenimiento`, `/produccion`, `/decoracion`, `/foto-video` y `/personalizados` conservan una intención especializada y ayudan a comparar opciones de una sola familia.
 - `/eventos` organiza la oferta por ocasión; `/empresas`, por necesidad de una organización. No sustituyen al catálogo general.
 - Las fichas de alimentación existentes conservan sus rutas y `/menus/menu-criollo-eventos` sigue separada.
@@ -23,7 +23,7 @@ La antigua arquitectura de complementos quedó retirada de la navegación, los e
 | `/entretenimiento` | Comparar música, animación y experiencias |
 | `/produccion` | Comparar recursos técnicos y audiovisuales |
 | `/decoracion` | Comparar ambientación, flores y mesas de postres |
-| `/foto-video` | Comparar cobertura y experiencias fotográficas |
+| `/foto-video` | Comparar formatos de cabina y experiencia 360 para invitados |
 | `/personalizados` | Comparar recuerdos, productos y kits personalizados |
 
 ## Cambio futuro al dominio definitivo

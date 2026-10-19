@@ -154,7 +154,7 @@ assert.ok(
 const homeExperienceSource = await readFile('components/home-experience.tsx', 'utf8');
 assert.match(
   homeExperienceSource,
-  /<StoryHero\s*\/>\s*<HomeServiceNav\s*\/>/,
+  /<StoryHero\b[\s\S]*?\/>\s*<HomeServiceNav\s*\/>/,
   'The compact service index must immediately follow the hero',
 );
 const homeNavSource = await readFile('components/home-service-nav.tsx', 'utf8');

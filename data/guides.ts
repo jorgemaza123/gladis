@@ -45,7 +45,7 @@ const additionalGuides: Guide[] = [
     [
       { title: 'Define el formato', paragraphs: ['Aclara si será un almuerzo, una cena, una fiesta o una reunión en casa. El formato determina horarios y servicios.'] },
       { title: 'Calcula espacio e invitados', paragraphs: ['Usa una cantidad aproximada para evaluar comida, mesas, sillas y atención.'], bullets: ['Distrito y acceso', 'Adultos y niños', 'Interior o exterior', 'Horario previsto'] },
-      { title: 'Elige por módulos', paragraphs: ['Empieza por el servicio principal y añade únicamente bar, personal, alquileres, música, decoración o fotografía que hagan falta.'] },
+      { title: 'Elige por módulos', paragraphs: ['Empieza por el servicio principal y añade únicamente bar, personal, alquileres, música o decoración que hagan falta.'] },
     ],
     [{ label: 'Ver opciones para cumpleaños', href: '/tipos-evento/catering-cumpleanos-lima' }, { label: 'Armar mi evento', href: '/cotizar' }],
   ),
@@ -56,7 +56,7 @@ const additionalGuides: Guide[] = [
     [
       { title: 'Empieza por las edades', paragraphs: ['Las edades ayudan a definir duración, actividades, comida y nivel de supervisión.'] },
       { title: 'Revisa el lugar', paragraphs: ['Mide el área útil y considera sombra, baños, tomacorrientes y acceso para montaje.'], bullets: ['Cantidad de niños y adultos', 'Espacio para juegos', 'Plan para lluvia o sol', 'Horario de ingreso'] },
-      { title: 'Coordina cada servicio', paragraphs: ['Confirma por separado animación, comida, mobiliario, decoración, recuerdos y fotografía.'] },
+      { title: 'Coordina cada servicio', paragraphs: ['Confirma por separado animación, comida, mobiliario, decoración y recuerdos.'] },
     ],
     [{ label: 'Servicios para cumpleaños infantiles', href: '/tipos-evento/servicios-cumpleanos-infantiles-lima' }, { label: 'Entretenimiento', href: '/entretenimiento' }],
   ),
@@ -78,7 +78,7 @@ const additionalGuides: Guide[] = [
     [
       { title: 'Escoge un formato cómodo', paragraphs: ['Un desayuno, brunch o reunión por la tarde permite ajustar la duración y el tipo de comida.'] },
       { title: 'Diseña a partir del espacio', paragraphs: ['Antes de elegir decoración, confirma mesas, sillas, circulación y zona para fotografías.'] },
-      { title: 'Prepara una sola lista', paragraphs: ['Reúne comida, mobiliario, flores, recuerdos y fotografía para evitar pedidos duplicados.'] },
+      { title: 'Prepara una sola lista', paragraphs: ['Reúne comida, mobiliario, flores y recuerdos para evitar pedidos duplicados.'] },
     ],
     [{ label: 'Servicios para baby shower', href: '/tipos-evento/baby-shower-revelacion-genero-lima' }, { label: 'Decoración para eventos', href: '/decoracion' }],
   ),
@@ -209,7 +209,7 @@ const additionalGuides: Guide[] = [
     'Ordena objetivo, agenda, invitados, producción, catering y materiales de marca para un lanzamiento o inauguración.',
     [
       { title: 'Define qué debe ocurrir', paragraphs: ['Aclara el mensaje, el público y la acción esperada para construir una agenda concreta.'] },
-      { title: 'Prepara la operación', paragraphs: ['Confirma accesos, pruebas, registro, catering, sonido, pantallas y fotografía.'], bullets: ['Horario de montaje', 'Guion y responsables', 'Identidad visual', 'Plan técnico', 'Atención de invitados'] },
+      { title: 'Prepara la operación', paragraphs: ['Confirma accesos, pruebas, registro, catering, sonido y pantallas.'], bullets: ['Horario de montaje', 'Guion y responsables', 'Identidad visual', 'Plan técnico', 'Atención de invitados'] },
       { title: 'Centraliza proveedores y cambios', paragraphs: ['Comparte una versión única del programa y confirma por escrito el alcance de cada servicio.'] },
     ],
     [{ label: 'Servicios para lanzamientos', href: '/tipos-evento/servicios-lanzamientos-inauguraciones-lima' }, { label: 'Producción audiovisual', href: '/produccion' }],
@@ -236,7 +236,7 @@ const guideDeepening: Record<string, GuideSection> = {
   'como-organizar-quinceanos': {
     title: 'Conecta el programa con los proveedores',
     paragraphs: [
-      'Entrega una misma versión del programa al maestro de ceremonias, DJ, fotografía, catering y responsables de la familia. Marca la hora de ingreso, palabras, brindis, baile y cierre para que nadie trabaje con tiempos distintos.',
+      'Entrega una misma versión del programa al maestro de ceremonias, DJ, catering y responsables de la familia. Marca la hora de ingreso, palabras, brindis, baile y cierre para que nadie trabaje con tiempos distintos.',
       'Confirma qué equipos aporta el local y cuáles deben llegar con los proveedores. Sonido, luces, energía, tarima y espacio para músicos requieren revisión previa; no conviene resolverlos al llegar.',
     ],
     bullets: ['Ensayo de ingresos y momentos especiales', 'Lista de nombres y canciones', 'Prueba técnica', 'Responsable de cambios durante la fiesta'],
@@ -254,7 +254,7 @@ const guideDeepening: Record<string, GuideSection> = {
     title: 'Ordena una ceremonia íntima',
     paragraphs: [
       'Define dónde esperarán los invitados, por dónde ingresará la pareja y qué ocurrirá inmediatamente después de la ceremonia. Ese recorrido determina sillas, sonido, flores y el cambio hacia el almuerzo o recepción.',
-      'Prepara una lista breve de momentos que deben registrarse y de personas que participarán. Coordinarla con fotografía y maestro de ceremonias evita interrumpir la reunión para decidir sobre la marcha.',
+      'Prepara una lista breve de momentos que deben registrarse y de personas que participarán. Coordinarla con el maestro de ceremonias evita interrumpir la reunión para decidir sobre la marcha.',
       'Comparte la versión final con todos.',
     ],
     bullets: ['Hora de la ceremonia y recepción', 'Distribución de asientos', 'Palabras o brindis', 'Tiempo disponible para fotografías'],
@@ -361,7 +361,7 @@ const guideFinalChecks: Record<string, GuideSection> = {
   'como-organizar-cumpleanos-en-lima': {
     title: 'Qué confirmar la última semana',
     paragraphs: [
-      'Actualiza la cantidad de invitados, el horario de servicio y el contacto que recibirá a cada proveedor. Revisa dónde se colocarán la comida, las bebidas y los residuos. Si habrá torta, velas o brindis, incluye esos momentos en el horario para que atención, música y fotografía trabajen con la misma pauta.',
+      'Actualiza la cantidad de invitados, el horario de servicio y el contacto que recibirá a cada proveedor. Revisa dónde se colocarán la comida, las bebidas y los residuos. Si habrá torta, velas o brindis, incluye esos momentos en el horario para que atención y música trabajen con la misma pauta.',
     ],
   },
   'como-organizar-cumpleanos-infantil': {

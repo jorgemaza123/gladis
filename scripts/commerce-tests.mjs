@@ -967,9 +967,13 @@ console.log(
 // Actual public catalog: all services must be independently quotable, with complete item descriptions.
 const eventSelection = await import(await moduleUrl('lib/event-selection.ts'));
 const actualEntries = demo.demoContent.entries.filter((e) => e.requestable);
-assert.equal(actualEntries.length, 40);
+assert.equal(actualEntries.length, 39);
+assert.ok(!demo.demoContent.entries.some((entry) => entry.id === 'fotografia-video-eventos'), 'la cobertura de fotografía retirada no debe ofrecerse');
+for (const entry of demo.demoContent.entries)
+  for (const key of ['serviceIds', 'menuIds', 'addOnIds', 'recommendations'])
+    assert.ok(!entry[key].some((item) => (typeof item === 'string' ? item : item.entryId) === 'fotografia-video-eventos'), `${entry.id}: referencia a fotografía retirada`);
 const partnerEntries = actualEntries.filter((entry) => entry.availability === 'partner');
-assert.equal(partnerEntries.length, 30);
+assert.equal(partnerEntries.length, 29);
 const cocinaServiceIds = new Set([
   'buffet-para-eventos',
   'menu-criollo-eventos',
@@ -1096,6 +1100,119 @@ assert.equal(
   null,
   'never silently truncate selected options',
 );
+const { initialEnquiry } = await import(await moduleUrl('lib/initial-enquiry.ts', [
+  ["from './business-contacts'", `from ${JSON.stringify(commerceUrl)}`],
+  ["from './event-selection'", `from ${JSON.stringify(await moduleUrl('lib/event-selection.ts'))}`],
+  ["from './whatsapp-message'", `from ${JSON.stringify(await moduleUrl('lib/whatsapp-message.ts'))}`],
+]));
+const enquiryEntries = actualEntries.map((entry) => ({
+  ...entry,
+  recipient: commerce.resolveBusinessContact(entry.ownerId),
+  whatsappDestination: commerce.resolveWhatsAppDestination(entry.ownerId),
+}));
+const emptyEnquiryCart = quoteCart.emptyQuoteCart();
+const { publicReviewsUrl } = await import(await moduleUrl('config/commercial-evidence.ts'));
+assert.equal(publicReviewsUrl(''), null);
+assert.equal(publicReviewsUrl('javascript:alert(1)'), null);
+assert.equal(publicReviewsUrl('http://example.com/reviews'), null);
+assert.equal(publicReviewsUrl('https://user:password@example.com/reviews'), null);
+assert.equal(publicReviewsUrl('https://example.com/reviews'), 'https://example.com/reviews');
+assert.equal(initialEnquiry({ entries: enquiryEntries, cart: emptyEnquiryCart, topic: '' }), null);
+for (const entry of enquiryEntries) {
+  const enquiry = initialEnquiry({ entries: enquiryEntries, cart: emptyEnquiryCart, topic: entry.id });
+  assert.equal(enquiry.destination, entry.whatsappDestination);
+  assert.ok(enquiry.message.includes(entry.title));
+  assert.ok(enquiry.href.startsWith(`https://wa.me/${entry.whatsappDestination}?text=`));
+}
+assert.equal(initialEnquiry({ entries: enquiryEntries, cart: emptyEnquiryCart, topic: 'orientacion-cocina' }).destination, '51923106197');
+assert.equal(initialEnquiry({ entries: enquiryEntries, cart: emptyEnquiryCart, topic: 'orientacion-eventos' }).destination, '51902843481');
+const knownEventEnquiry = initialEnquiry({ entries: enquiryEntries, cart: emptyEnquiryCart, topic: 'orientacion-eventos', event: { occasion: 'Graduación', date: '2030-12-20', district: 'Lima', guests: '50', budget: 'Por coordinar' } });
+for (const detail of ['Graduación', '2030-12-20', 'Lima', '50', 'Por coordinar']) assert.ok(knownEventEnquiry.message.includes(detail), 'una consulta inicial conserva los datos del evento ya conocidos');
+const mixedEnquiry = {
+  ...emptyEnquiryCart,
+  items: [
+    { itemId: 'food', entryId: 'buffet-para-eventos', quantity: 0, optionValues: {} },
+    { itemId: 'music', entryId: 'dj-eventos', quantity: 1, optionValues: {} },
+  ],
+  primaryItemId: 'food',
+};
+const djEntry = enquiryEntries.find((entry) => entry.title === 'DJ para eventos');
+assert.ok(djEntry);
+mixedEnquiry.items[1].entryId = djEntry.id;
+for (const [primaryItemId, destination] of [['food', '51923106197'], ['music', '51902843481']]) {
+  const enquiry = initialEnquiry({ entries: enquiryEntries, cart: { ...mixedEnquiry, primaryItemId }, topic: 'orientacion-eventos', note: 'Cumpleaños en casa' });
+  assert.equal(enquiry.destination, destination, 'el principal determina el equipo incluso en una consulta inicial');
+  assert.ok(enquiry.message.includes('Buffet para todo tipo de eventos'));
+  assert.ok(enquiry.message.includes('DJ para eventos'));
+  assert.ok(enquiry.message.includes('Cantidad por definir'));
+  assert.ok(enquiry.message.includes('Mi idea: Cumpleaños en casa'));
+  assert.ok(!enquiry.message.includes('0 personas'));
+}
+assert.equal(initialEnquiry({ entries: enquiryEntries, cart: { ...mixedEnquiry, primaryItemId: null }, topic: 'orientacion-eventos' }), null);
+assert.equal(initialEnquiry({ entries: enquiryEntries, cart: { ...mixedEnquiry, items: [...mixedEnquiry.items, { itemId: 'missing', entryId: 'missing', quantity: 1, optionValues: {} }] }, topic: '' }), null);
 console.log(
-  'PASS: cuarenta servicios independientes y dieciocho ocasiones, cantidades/opciones completas, validación y contactos reales.',
+  'PASS: treinta y nueve servicios, dieciocho ocasiones y consultas iniciales sin datos obligatorios; selección completa y responsables correctos en ambas vías.',
 );
+
+const serviceSearch = await import(await moduleUrl('lib/service-search.ts'));
+const serviceGroupsUrl = await moduleUrl('lib/service-groups.ts');
+const serviceGroups = await import(serviceGroupsUrl);
+const searchEntries = actualEntries.map((entry) => ({
+  id: entry.id,
+  title: entry.title,
+  href: `/${entry.kind}/${entry.slug}`,
+  family: serviceGroups.serviceGroup(entry),
+}));
+assert.equal(serviceSearch.searchServices(searchEntries, '').length, 39);
+assert.equal(new Set(searchEntries.map((entry) => entry.family)).size, 9);
+for (const id of Object.keys(serviceSearch.serviceSearchAliases))
+  assert.ok(searchEntries.some((entry) => entry.id === id), `alias sin servicio real: ${id}`);
+for (const entry of searchEntries) {
+  const results = serviceSearch.searchServices(searchEntries, entry.title);
+  assert.equal(results[0]?.id, entry.id, `el nombre exacto debe encontrar primero ${entry.id}`);
+  assert.equal(results[0]?.href, entry.href);
+}
+for (const [query, expected] of [
+  ['vajilla', 'menaje-evento'],
+  ['busco un dj', 'dj-eventos'],
+  ['toldos', 'alquiler-toldos-carpas'],
+  ['taza', 'tazas-personalizadas'],
+  ['coffee break', 'desayuno-corporativo'],
+  ['meseros', 'mozos-evento'],
+]) assert.equal(serviceSearch.searchServices(searchEntries, query)[0]?.id, expected, query);
+assert.equal(serviceSearch.searchServices(searchEntries, '', 'Personalizados').length, 8);
+assert.equal(serviceSearch.searchServices(searchEntries, '', 'Música y entretenimiento').length, 6);
+assert.equal(serviceSearch.searchServices(searchEntries, '', 'Cabina y 360').length, 1);
+assert.deepEqual(serviceSearch.searchServices(searchEntries, 'fotógrafo'), []);
+assert.deepEqual(serviceSearch.searchServices(searchEntries, 'FOTOGRAFO'), []);
+assert.ok(serviceSearch.searchServices(searchEntries, 'alquiler').every((entry) => searchEntries.some((actual) => actual.id === entry.id)));
+assert.deepEqual(serviceSearch.searchServices(searchEntries, 'un-servicio-inexistente-xyz'), []);
+assert.deepEqual(serviceSearch.searchServices(searchEntries, '<script>alert(1)</script>'), []);
+console.log('PASS SEARCH: treinta y nueve servicios y nueve familias, términos relacionados, acentos, orden de relevancia y rutas reales; fotografía retirada.');
+
+const navigation = await import(await moduleUrl('lib/service-navigation.ts', [
+  ["from './service-groups'", `from ${JSON.stringify(serviceGroupsUrl)}`],
+]));
+const navigationFamilies = navigation.serviceFamilyLinks(actualEntries);
+assert.equal(navigationFamilies.length, 9);
+assert.equal(new Set(navigationFamilies.map((family) => family.id)).size, 9);
+assert.equal(navigationFamilies.reduce((total, family) => total + family.count, 0), actualEntries.length);
+for (const group of serviceGroups.serviceGroupOrder) {
+  const family = navigationFamilies.find((item) => item.id === navigation.serviceFamilyAnchor(group));
+  const count = actualEntries.filter((entry) => serviceGroups.serviceGroup(entry) === group).length;
+  if (!count) {
+    assert.equal(family, undefined, `una familia vacía no debe aparecer: ${group}`);
+    continue;
+  }
+  assert.ok(family, `la navegación debe enlazar la familia real ${group}`);
+  assert.equal(family.count, count);
+}
+assert.equal(navigationFamilies.find((family) => family.label === 'Personal')?.count, 2);
+assert.equal(navigationFamilies.find((family) => family.label === 'Empresas')?.count, 1);
+for (const [path, expected] of [
+  ['/servicios', 'servicios'], ['/servicios/dj-eventos', 'servicios'],
+  ['/menus/menu-criollo-eventos', 'servicios'], ['/foto-video', 'servicios'],
+  ['/eventos', 'ocasiones'], ['/tipos-evento/catering-cumpleanos-lima', 'ocasiones'],
+  ['/empresas', 'empresas'], ['/cotizar', ''], ['/guias', ''],
+]) assert.equal(navigation.navigationSectionForPath(path), expected, path);
+console.log('PASS NAVIGATION: nueve familias y treinta y nueve servicios con anclas únicas; Personal completo, Empresas y sección de ruta correctos.');

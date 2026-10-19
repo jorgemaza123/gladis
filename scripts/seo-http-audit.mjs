@@ -72,6 +72,12 @@ for (const publishedUrl of urls) {
 const missing = await get(new URL('/esta-ruta-no-existe-auditoria', base));
 assert.equal(missing.response.status, 404, 'una ruta inexistente debe responder 404');
 
+const retiredPhotography = '/servicios/fotografia-video-eventos';
+const retired = await get(new URL(retiredPhotography, base));
+assert.equal(retired.response.status, 404, 'la cobertura de fotografía retirada no debe seguir publicada');
+assert.ok(!urls.some((url) => new URL(url).pathname === retiredPhotography), 'la ficha retirada no debe estar en el sitemap');
+assert.ok(!links.has(retiredPhotography), 'no deben quedar enlaces internos al servicio retirado');
+
 for (const noindexPath of [
   '/cotizar',
   '/privacidad',

@@ -1,14 +1,14 @@
 # Catálogo público de servicios de Gladys
 
-Actualizado: 2026-10-12. Solo aparecen ofertas publicadas, cotizables y con responsable asignado.
+Actualizado: 2026-10-19. Solo aparecen ofertas publicadas, cotizables y con responsable asignado. Inventario: 39 servicios, 10 propios y 29 coordinados con aliados. Retirada la cobertura de fotografía y video por indicación comercial del propietario.
 
 ## Servicios propios (`active`)
 
 | Servicio | Responsable | Ruta |
 |---|---|---|
 | Buffet para eventos | Cocina | `/servicios/buffet-para-eventos` |
-| Menú criollo | Eventos | `/menus/menu-criollo-eventos` |
-| Desayuno corporativo y coffee break | Eventos | `/servicios/desayunos-corporativos-coffee-break` |
+| Menú criollo | Cocina | `/menus/menu-criollo-eventos` |
+| Desayuno corporativo y coffee break | Cocina | `/servicios/desayunos-corporativos-coffee-break` |
 | Bartender | Cocina | `/servicios/bar-bartender` |
 | Alquiler de menaje | Cocina | `/servicios/menaje-evento` |
 | Mozos | Eventos | `/servicios/mozos-evento` |
@@ -27,7 +27,7 @@ Actualizado: 2026-10-12. Solo aparecen ofertas publicadas, cotizables y con resp
 | Producción | Sonido; iluminación; pantallas y proyección; escenarios y tarimas; streaming |
 | Música y entretenimiento | DJ; orquesta y música en vivo; animación; hora loca y shows; karaoke; fiestas infantiles |
 | Decoración | Decoración integral; candy bar y mesas de postres |
-| Fotografía y video | Fotografía y video; cabina fotográfica y experiencia 360 |
+| Cabina y 360 | Cabina fotográfica y experiencia 360 |
 | Personalizados | Tazas; tomatodos; cuadros y fotorecuerdos; llaveros; papelería; kits y regalos corporativos |
 
 ## Reglas aplicadas

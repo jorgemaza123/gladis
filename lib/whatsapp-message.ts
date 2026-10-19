@@ -9,6 +9,7 @@ export type WhatsAppMessageInput = {
   budget: string;
   items?: string[];
   origin?: string;
+  notes?: string;
 };
 
 const MAX_MESSAGE_LENGTH = 6000;
@@ -40,6 +41,8 @@ export function createWhatsAppMessage(input: WhatsAppMessageInput) {
     ...(budget ? ['Presupuesto orientativo: ' + budget] : []),
   ].filter(Boolean);
   if (details.length) lines.push('', 'Detalles de los servicios:', ...details);
+  const notes = clean(input.notes || '', 1200);
+  if (notes) lines.push('', 'Mi idea: ' + notes);
   if (input.origin)
     lines.push('', 'Origen de la consulta: ' + clean(input.origin, 700));
   return lines.join('\n');

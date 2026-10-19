@@ -30,7 +30,8 @@ export function QuoteCartDialog({
   return (
     <Dialog.Root modal>
       <Dialog.Trigger className="button small quote-cart-trigger" type="button" aria-label={`Mi evento: ${cart.items.length} ${cart.items.length === 1 ? 'servicio' : 'servicios'}`}>
-        Mi evento <span className="cart-count" key={cart.items.length} data-has-items={cart.items.length > 0}>{cart.items.length}</span>
+        <svg className="quote-cart-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v4m8-4v4M4 10h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Zm3 10 2 2 5-5" /></svg>
+        <span className="quote-cart-label">Mi evento</span> <span className="cart-count" key={cart.items.length} data-has-items={cart.items.length > 0}>{cart.items.length}</span>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Backdrop className="quote-cart-backdrop" />

@@ -1,11 +1,10 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { observeHeroVideo, type HeroVideoState } from '@/lib/hero-video';
 import { QuoteCta } from './quote-cta';
 
-export function StoryHero() {
+export function StoryHero({ serviceSearch }: { serviceSearch: ReactNode }) {
   const section = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const playback = useRef<ReturnType<typeof observeHeroVideo> | null>(null);
@@ -65,33 +64,34 @@ export function StoryHero() {
           <div className="story-shade" />
         </div>
         <div className="story-content wrap">
-          <div className="story-chapter" data-active="true">
-            <p>Soluciones para celebraciones y eventos en Lima</p>
-            <h1 id="home-title">
-              <span className="story-title-line">
-                <span>Tú celebra.</span>
-              </span>{' '}
-              <span className="story-title-line">
-                <span>Nosotros te ayudamos con</span>
-              </span>{' '}
-              <span className="story-title-line">
-                <span>lo que necesitas.</span>
+          <div className="story-arrival">
+            <div className="story-chapter" data-active="true">
+              <p>Soluciones para celebraciones y eventos en Lima</p>
+              <h1 id="home-title">
+                <span className="story-title-line">
+                  <span>Tú celebra.</span>
+                </span>{' '}
+                <span className="story-title-line">
+                  <span>Nosotros te ayudamos con</span>
+                </span>{' '}
+                <span className="story-title-line">
+                  <span>lo que necesitas.</span>
+                </span>
+              </h1>
+              <span>
+                Cocina, bartender, menaje, mozos, alquileres, personalizados y
+                flores. Contrata un servicio o combina varios en Lima
+                Metropolitana.
               </span>
-            </h1>
-            <span>
-              Cocina, bartender, menaje, mozos, alquileres, personalizados y
-              flores. Contrata un servicio o combina varios en Lima
-              Metropolitana.
-            </span>
-            <div className="story-actions">
-              <QuoteCta
-                className="button"
-                entryId="buffet-para-eventos"
-                placement="hero"
-              >
-                Armar mi evento <i aria-hidden="true">↗</i>
-              </QuoteCta>
-              <Link href="#servicios">Explorar soluciones</Link>
+              <div className="story-actions">
+                <QuoteCta
+                  className="button"
+                  placement="hero"
+                >
+                  Armar mi evento <i aria-hidden="true">↗</i>
+                </QuoteCta>
+                {serviceSearch}
+              </div>
             </div>
           </div>
         </div>
@@ -124,11 +124,13 @@ export function StoryHero() {
           </svg>
           {state.active ? 'Pausar video' : 'Reproducir video'}
         </button>
-        <p className="story-scroll-cue" aria-hidden="true">
-          <span className="story-scroll-cue-inner">
-            <span>↓</span> Descubre lo que podemos preparar
-          </span>
-        </p>
+        <div className="story-guide-arrival" aria-hidden="true">
+          <p className="story-scroll-cue">
+            <span className="story-scroll-cue-inner">
+              <span>↓</span> Descubre lo que podemos preparar
+            </span>
+          </p>
+        </div>
       </div>
     </section>
   );

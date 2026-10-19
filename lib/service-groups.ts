@@ -5,7 +5,7 @@ export const serviceGroupOrder = [
   'Música y entretenimiento',
   'Producción audiovisual',
   'Decoración',
-  'Fotografía y video',
+  'Cabina y 360',
   'Personalizados',
   'Soluciones para empresas',
   'Otros servicios',
@@ -34,7 +34,7 @@ const groupsByCategory: Record<string, (typeof serviceGroupOrder)[number]> = {
   Producción: 'Producción audiovisual',
   'Sonido e iluminación': 'Producción audiovisual',
   Decoración: 'Decoración',
-  'Fotografía y video': 'Fotografía y video',
+  Cabinas: 'Cabina y 360',
   Personalizados: 'Personalizados',
   Empresas: 'Soluciones para empresas',
 };

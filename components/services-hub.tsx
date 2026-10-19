@@ -75,10 +75,10 @@ export const serviceFamilies: readonly ServiceFamily[] = [
   },
   {
     id: 'foto-video',
-    title: 'Fotografía y video',
-    description: 'Cobertura fotográfica, video, cabina y experiencia 360 para conservar y compartir el evento.',
-    hub: { href: '/foto-video', label: 'Explorar fotografía y video' },
-    matches: (entry) => entry.category === 'Fotografía y video',
+    title: 'Cabina y 360',
+    description: 'Cabina y experiencia 360 para que tus invitados participen y compartan momentos del evento.',
+    hub: { href: '/foto-video', label: 'Explorar cabina y experiencia 360' },
+    matches: (entry) => entry.category === 'Cabinas',
   },
   {
     id: 'personalizados',

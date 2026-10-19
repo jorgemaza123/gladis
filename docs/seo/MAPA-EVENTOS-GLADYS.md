@@ -18,7 +18,7 @@ Actualizado: 2026-10-12. El hub público es `/eventos`; cada página permite añ
 | Eventos empresariales | Servicios modulares para eventos de empresa | `/tipos-evento/eventos-empresariales-lima` |
 | Fin de año de empresas | Desayuno, almuerzo o celebración de cierre | `/tipos-evento/catering-fin-ano-empresas-lima` |
 | Capacitaciones y conferencias | Alimentación, mobiliario y producción técnica | `/tipos-evento/servicios-capacitaciones-conferencias-lima` |
-| Lanzamientos e inauguraciones | Catering, producción, branding y fotografía | `/tipos-evento/servicios-lanzamientos-inauguraciones-lima` |
+| Lanzamientos e inauguraciones | Catering, producción y branding | `/tipos-evento/servicios-lanzamientos-inauguraciones-lima` |
 | Activaciones, ferias y networking | Producción, mobiliario y merchandising | `/tipos-evento/servicios-activaciones-ferias-lima` |
 | Aniversarios y reconocimientos | Alimentación, conducción, música y regalos | `/tipos-evento/servicios-aniversarios-empresa-lima` |
 | Team building y eventos internos | Alimentación, actividades y personalizados | `/tipos-evento/servicios-team-building-eventos-internos-lima` |

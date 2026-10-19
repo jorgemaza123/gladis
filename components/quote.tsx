@@ -17,6 +17,7 @@ import {
 } from '@/lib/event-selection';
 import { todayInLima } from '@/lib/quote-validation';
 import { serviceGroup, serviceGroupOrder } from '@/lib/service-groups';
+import { InitialEnquiry } from './initial-enquiry';
 
 export type QuoteSite = {
   settings: {
@@ -283,7 +284,10 @@ export function Quote({
             responsable.
           </p>
         </noscript>
-        <ol className="stepper" aria-label="Pasos de la cotización">
+        <div hidden={step !== 1}>
+          <InitialEnquiry entries={entries} detailedId={formId + '-detailed'} event={data} />
+        </div>
+        <ol className="stepper" id={formId + '-detailed'} aria-label="Pasos de la cotización">
           {['Tu selección', 'Tu evento', 'Revisa y conversa'].map(
             (label, index) => (
               <li
@@ -553,6 +557,13 @@ export function Quote({
         </p>
         <hr />
         <p>Todos los precios se consultan por WhatsApp.</p>
+        <h3>Antes de reservar</h3>
+        <ul>
+          <li>Confirmamos disponibilidad, precio, traslado y qué incluye cada servicio.</li>
+          <li>Puedes contratar un servicio o combinar varios en la misma consulta.</li>
+          <li>Los servicios coordinados con aliados se identifican en su ficha.</li>
+        </ul>
+        <Link className="text-link" href="/paginas/nosotros">Conoce cómo coordinamos tu evento</Link>
         {chosen && (
           <p>
             <strong>Te atenderá:</strong>

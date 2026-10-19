@@ -15,6 +15,10 @@ import {
 import { QuoteCta } from './quote-cta';
 import type { RecommendationEntry } from './service-recommendations';
 import { resolveBusinessContact, resolveWhatsAppDestination } from '@/lib/business-contacts';
+import { publicReviewsUrl } from '@/config/commercial-evidence';
+import { ServiceSearchTrigger } from './service-search';
+import { SiteHeader } from './site-header';
+import { serviceFamilyLinks } from '@/lib/service-navigation';
 import { EventLanding } from './event-landing';
 import { ServiceExplorer } from './service-explorer';
 import { explorerServices, quoteSiteFor } from '@/lib/public-services';
@@ -27,30 +31,6 @@ export const publicEntries = (site: SiteContent) =>
         (!(e.kind === 'testimonios' || e.kind === 'eventos') || e.verified),
     )
     .sort((a, b) => a.sortOrder - b.sortOrder);
-
-function publicNavigation(site: SiteContent) {
-  const entries = publicEntries(site);
-  const publicHubs = new Set([
-    '/empresas', '/personalizados', '/alquiler', '/guias', '/eventos',
-    '/entretenimiento', '/produccion', '/decoracion', '/foto-video',
-  ]);
-  return site.settings.navigation.filter(({ href }) => {
-    if (
-      href === '/' ||
-      href === '/#como-cotizar' ||
-      href === '/cotizar' ||
-      href === '/privacidad' ||
-      publicHubs.has(href)
-    )
-      return true;
-    const parts = href.split('/').filter(Boolean);
-    const kind = parts[0] as ContentKind | undefined;
-    if (!kind || !contentKinds.includes(kind)) return false;
-    return parts[1]
-      ? entries.some((entry) => entry.kind === kind && entry.slug === parts[1])
-      : entries.some((entry) => entry.kind === kind);
-  });
-}
 
 function CatalogNavigation({ site }: { site: SiteContent }) {
   const entries = publicEntries(site);
@@ -98,7 +78,7 @@ export function Shell({
     c = s.copy;
   const logoAsset = site.media.find((media) => media.id === s.logoId);
   const motionEnabled = s.animations && s.motionLevel !== 'off';
-  const navigation = publicNavigation(site);
+  const families = serviceFamilyLinks(explorerServices(site));
   const quoteEntryIds = site.entries
     .filter(
       (entry) =>
@@ -146,8 +126,9 @@ export function Shell({
         Saltar al contenido
       </Link>
       {s.demo && <div className="demo-bar">{c.demoNotice}</div>}
-      <header className="header">
-        <Link className="brand" href="/">
+      <SiteHeader
+        families={families}
+        brand={<Link className="brand" href="/">
           {logoAsset ? (
             <span className="brand-logo brand-logo-symbol" aria-hidden="true">
               <Photo asset={logoAsset} />
@@ -161,52 +142,15 @@ export function Shell({
             {s.name}
             <small>{s.tagline}</small>
           </span>
-        </Link>
-        <nav className="desktop-nav" aria-label="Navegación principal">
-          {navigation.map((n) => (
-            <Link key={n.href} href={n.href}>
-              {n.label}
-            </Link>
-          ))}
-        </nav>
-        <QuoteCta className="button small header-quote-cta" placement="navigation">
-          Cotizar mi evento
-        </QuoteCta>
-        <QuoteCartDialog
+        </Link>}
+        search={<ServiceSearchTrigger className="header-search-trigger">Buscar servicios</ServiceSearchTrigger>}
+        quote={<QuoteCta className="button small header-quote-cta" placement="navigation">Cotizar mi evento</QuoteCta>}
+        cart={<QuoteCartDialog
           entries={quoteCartEntries}
           recommendationEntries={recommendationEntries}
           motionEnabled={motionEnabled}
-        />
-        <details className="mobile-menu">
-          <summary aria-label="Menú principal">
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            >
-              <path d="M4 7h16" />
-              <path d="M4 12h16" />
-              <path d="M4 17h16" />
-            </svg>
-          </summary>
-          <nav aria-label="Navegación móvil">
-            {navigation.map((n) => (
-              <Link key={n.href} href={n.href}>
-                {n.label}
-              </Link>
-            ))}
-            <QuoteCta className="button mobile-nav-cta" placement="navigation">
-              Cotizar mi evento
-            </QuoteCta>
-          </nav>
-        </details>
-      </header>
+        />}
+      />
       <main id="contenido">{children}</main>
       <footer>
         <div className="footer-grid">
@@ -254,12 +198,15 @@ export function Shell({
             <Link href="/entretenimiento">Entretenimiento</Link>
             <Link href="/produccion">Producción audiovisual</Link>
             <Link href="/decoracion">Decoración</Link>
-            <Link href="/foto-video">Fotografía y video</Link>
+            <Link href="/foto-video">Cabina y 360</Link>
             <Link href="/guias">Guías para organizar tu evento</Link>
             <Link href="/servicios">Ver todos los servicios</Link>
           </nav>
           <div className="footer-contact">
             <p>{c.footerHeading}</p>
+            <Link className="footer-enquiry-link" href="/cotizar#consulta-inicial">Consulta inicial por WhatsApp ↗</Link>
+            <p>Puedes empezar con fecha y cantidades por definir. El precio, el alcance y las condiciones se confirman antes de reservar.</p>
+            {publicReviewsUrl() && <a href={publicReviewsUrl()!} target="_blank" rel="noopener noreferrer">Leer reseñas de clientes ↗</a>}
             {s.email && <Link href={'mailto:' + s.email}>{s.email}</Link>}
             <QuoteCta className="button" placement="footer">Cotizar mi evento</QuoteCta>
             {s.socialLinks.map((link) => (

@@ -8,6 +8,8 @@ import { HomeServiceNav } from './home-service-nav';
 import { ServiceExplorer } from './service-explorer';
 import { HomeSmoothScroll } from './home-smooth-scroll';
 import { explorerServices, quoteSiteFor } from '@/lib/public-services';
+import { publicReviewsUrl } from '@/config/commercial-evidence';
+import { ServiceSearchTrigger } from './service-search';
 
 function TableDrawing() {
   return (
@@ -32,30 +34,6 @@ function TableDrawing() {
   );
 }
 
-const serviceFamilies = [
-  ['Personal para eventos', '/servicios/mozos-evento'],
-  ['Alquileres', '/alquiler'],
-  ['Entretenimiento', '/entretenimiento'],
-  ['Producción audiovisual', '/produccion'],
-  ['Decoración', '/decoracion'],
-  ['Fotografía y video', '/foto-video'],
-  ['Personalizados', '/personalizados'],
-  ['Soluciones para empresas', '/empresas'],
-] as const;
-
-function ServiceFamilies() {
-  return (
-    <nav className="service-family-nav wrap" aria-label="Familias de servicios">
-      <p className="section-kicker">También podemos ayudarte con</p>
-      <div>
-        {serviceFamilies.map(([label, href]) => (
-          <Link key={href} href={href}>{label}<span aria-hidden="true">→</span></Link>
-        ))}
-      </div>
-    </nav>
-  );
-}
-
 function CompanyGateway() {
   return (
     <section className="company-gateway wrap" aria-labelledby="company-gateway-title">
@@ -73,6 +51,7 @@ function CompanyGateway() {
   );
 }
 export function HomeExperience({ site }: { site: SiteContent }) {
+  const reviewsUrl = publicReviewsUrl();
   const photo = (id: string) => site.media.find((m) => m.id === id);
   const occasionIds = [
     'cumpleanos',
@@ -110,15 +89,27 @@ export function HomeExperience({ site }: { site: SiteContent }) {
   return (
     <>
       <HomeSmoothScroll />
-      <StoryHero />
+      <StoryHero serviceSearch={<ServiceSearchTrigger className="service-search-hero-trigger">Buscar o ver servicios</ServiceSearchTrigger>} />
       <HomeServiceNav />
+      <aside className="home-assurance wrap" aria-label="Una consulta con condiciones claras">
+        <div>
+          <strong>Un servicio o varios. Una sola conversación.</strong>
+          <p>Antes de reservar, confirmamos contigo disponibilidad, precio, alcance y traslado.</p>
+        </div>
+        <div className="home-assurance-links">
+          <Link href="/cotizar#consulta-inicial">¿Todavía estás definiendo el evento? Consulta por WhatsApp <span aria-hidden="true">↗</span></Link>
+          <Link href="/paginas/nosotros">Cómo coordinamos tu evento</Link>
+          {reviewsUrl && <a href={reviewsUrl} target="_blank" rel="noopener noreferrer">Leer reseñas de clientes <span aria-hidden="true">↗</span></a>}
+        </div>
+      </aside>
       <HomeServiceJourney site={site} />
-      <ServiceFamilies />
       <ServiceExplorer
         entries={explorerServices(site)}
         featuredIds={['buffet-para-eventos', 'menaje-evento', 'mozos-evento']}
-        title="Comida, atención y detalles para reunir a los tuyos."
-        intro="Elige un servicio o arma una combinación. Puedes ver todas las opciones y cotizar aquí, sin perder lo que ya seleccionaste."
+        title="Completa tu evento con lo que falta."
+        intro="Empieza por los esenciales y abre solo las familias que necesites. Todo queda en una sola cotización."
+        anchorId="completa-tu-evento"
+        homeProgressive
         quoteSite={quoteSiteFor(site)}
       />
       <OccasionGrid occasions={occasions} />

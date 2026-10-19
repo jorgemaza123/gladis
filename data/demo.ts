@@ -196,7 +196,7 @@ export const demoContent: SiteContent = normalizeSite({
     businessVerified: true,
     seo: seo(
       'Gladys | Servicios para eventos y celebraciones en Lima',
-      'Comida, personal, alquileres, entretenimiento, producción, decoración, fotografía y personalizados para eventos en Lima. Cotiza por WhatsApp.',
+      'Comida, personal, alquileres, entretenimiento, producción, decoración y personalizados para eventos en Lima. Cotiza por WhatsApp.',
     ),
     navigation: [
       { label: 'Servicios', href: '/servicios' },
@@ -208,19 +208,19 @@ export const demoContent: SiteContent = normalizeSite({
       servicios: {
         title: 'Servicios para eventos en Lima',
         description:
-          'Encuentra cocina, bar, personal, alquileres, entretenimiento, producción, decoración, fotografía, video y personalizados para eventos en Lima.',
+          'Encuentra cocina, bar, personal, alquileres, entretenimiento, producción, decoración y personalizados para eventos en Lima.',
         seo: seo(
           'Servicios para eventos en Lima | Gladys',
-          'Explora servicios de cocina, bar, personal, alquileres, entretenimiento, producción, decoración, fotografía y personalizados en Lima.',
+          'Explora servicios de cocina, bar, personal, alquileres, entretenimiento, producción, decoración y personalizados en Lima.',
         ),
       },
       complementos: {
         title: 'Servicios para tu evento',
         description:
-          'Comida, bar, personal, alquileres, música, entretenimiento, producción, decoración, fotografía y personalizados. Elige uno o combina varios.',
+          'Comida, bar, personal, alquileres, música, entretenimiento, producción, decoración y personalizados. Elige uno o combina varios.',
         seo: seo(
           'Servicios para eventos en Lima | Gladys',
-          'Servicios para eventos en Lima: bar, personal, alquileres, música, producción, decoración, fotografía y personalizados. Cotiza por WhatsApp.',
+          'Servicios para eventos en Lima: bar, personal, alquileres, música, producción, decoración y personalizados. Cotiza por WhatsApp.',
         ),
       },
       'tipos-evento': {
@@ -1073,7 +1073,7 @@ export const demoContent: SiteContent = normalizeSite({
       id: 'un-servicio',
       question: '¿Puedo contratar un solo servicio?',
       answer:
-        'Sí. Puedes pedir únicamente comida, bartender, personal, alquiler, decoración, entretenimiento, producción, fotografía o personalizados, según disponibilidad.',
+        'Sí. Puedes pedir únicamente comida, bartender, personal, alquiler, decoración, entretenimiento, producción o personalizados, según disponibilidad.',
     },
     {
       id: 'combinar',

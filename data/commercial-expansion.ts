@@ -52,7 +52,7 @@ const processFor = (spec: ExpansionSpec): ContentEntry['processSteps'] => {
     Música: { title: 'Define público y repertorio', description: 'Comparte edades, estilos, momentos del programa, duración y espacio disponible.' },
     Entretenimiento: { title: 'Describe la dinámica', description: 'Indica edades, cantidad de participantes, duración y área disponible para la actividad.' },
     Decoración: { title: 'Comparte espacio y referencias', description: 'Envía fotos, medidas, paleta y las zonas que quieres ambientar.' },
-    'Fotografía y video': { title: 'Marca los momentos importantes', description: 'Indica horario, lugar, duración y qué partes del evento necesitas registrar.' },
+    Cabinas: { title: 'Define la experiencia para invitados', description: 'Indica espacio, horario, duración y formato de cabina que necesitas.' },
     Personalizados: { title: 'Prepara cantidad y diseño', description: 'Comparte unidades, fecha de entrega, uso y el archivo o idea que quieres personalizar.' },
   };
   const secondByCategory: Record<string, ContentEntry['processSteps'][number]> = {
@@ -64,7 +64,7 @@ const processFor = (spec: ExpansionSpec): ContentEntry['processSteps'] => {
     Música: { title: 'Revisamos formación y técnica', description: 'Se coordinan repertorio, integrantes, bloques, sonido y necesidades de montaje.' },
     Entretenimiento: { title: 'Ajustamos actividad y duración', description: 'La propuesta considera público, ritmo del evento, personal y recursos necesarios.' },
     Decoración: { title: 'Delimitamos el montaje', description: 'Se acuerdan materiales, tamaños, puntos principales y elementos sujetos a disponibilidad.' },
-    'Fotografía y video': { title: 'Definimos cobertura y entrega', description: 'Se revisan equipo, edición, formatos y alcance antes de reservar.' },
+    Cabinas: { title: 'Revisamos montaje y uso', description: 'Se coordinan área, energía, fondo y forma de compartir el contenido antes de reservar.' },
     Personalizados: { title: 'Revisamos material y muestra', description: 'Se acuerdan técnica, colores, medidas y aprobación previa a la producción.' },
   };
   const first = firstByCategory[spec.category];
@@ -204,7 +204,7 @@ const specs: ExpansionSpec[] = [
     category: 'Personal',
     details: ['Conducción de bodas y quinceaños', 'Presentación de graduaciones y ceremonias', 'Maestro de ceremonias corporativo', 'Coordinación previa del programa'],
     imageId: 'imagen-mozos',
-    addOnIds: ['sonido-eventos', 'iluminacion-eventos', 'fotografia-video-eventos'],
+    addOnIds: ['sonido-eventos', 'iluminacion-eventos'],
     faq: [
       ['¿También puede conducir un evento empresarial?', 'Sí. Indica el formato, la agenda y el público para coordinar un perfil apropiado.'],
       ['¿Ayuda a preparar el programa?', 'El alcance de la coordinación previa se define durante la cotización.'],
@@ -357,7 +357,7 @@ const specs: ExpansionSpec[] = [
     category: 'Sonido e iluminación',
     details: ['Emisión en vivo para conferencias y capacitaciones', 'Participación presencial y remota', 'Captura e integración de cámaras y audio', 'Prueba de conectividad y plataforma antes del evento'],
     imageId: 'imagen-polos',
-    addOnIds: ['pantallas-proyeccion-eventos', 'sonido-eventos', 'fotografia-video-eventos'],
+    addOnIds: ['pantallas-proyeccion-eventos', 'sonido-eventos'],
     faq: [
       ['¿Dónde verán la transmisión los asistentes remotos?', 'La plataforma se define según el acceso requerido, la audiencia y la configuración disponible.'],
       ['¿Incluye cámaras y audio?', partnerAvailability],
@@ -428,11 +428,11 @@ const specs: ExpansionSpec[] = [
     id: 'fiestas-infantiles-servicios',
     title: 'Servicios para fiestas infantiles',
     description: 'Animación, juegos, personajes, pintacaritas, globoflexia, shows y talleres coordinados según la edad.',
-    body: 'Organiza una fiesta infantil eligiendo solo las actividades que encajan con los niños, el espacio y el tiempo disponible. También puedes sumar comida, mobiliario, decoración, recuerdos y fotografía.',
+    body: 'Organiza una fiesta infantil eligiendo solo las actividades que encajan con los niños, el espacio y el tiempo disponible. También puedes sumar comida, mobiliario, decoración y recuerdos.',
     category: 'Entretenimiento',
     details: ['Animación, juegos y concursos', 'Personajes, pintacaritas y globoflexia', 'Magia, títeres, burbujas o talleres según disponibilidad', 'Mini disco, karaoke u hora loca infantil'],
     imageId: 'imagen-recuerdos',
-    addOnIds: ['decoracion-eventos', 'candy-bar-mesas-postres', 'fotografia-video-eventos'],
+    addOnIds: ['decoracion-eventos', 'candy-bar-mesas-postres'],
     faq: [
       ['¿Cómo elijo las actividades?', 'Indica la edad de los niños, la cantidad, el espacio y la duración aproximada para preparar opciones.'],
       ['¿Puedo añadir decoración y comida?', 'Sí. Puedes combinar actividades, decoración, bocaditos, mesas, sillas y recuerdos.'],
@@ -471,29 +471,14 @@ const specs: ExpansionSpec[] = [
     ],
   },
   {
-    id: 'fotografia-video-eventos',
-    title: 'Fotografía y video para eventos',
-    description: 'Cobertura de cumpleaños, quinceaños, matrimonios, graduaciones y eventos corporativos.',
-    body: 'Conserva los momentos principales con fotografía, video o un reel resumen. La cobertura, cantidad de profesionales, entregables y uso de drone se confirman según el programa y el lugar.',
-    category: 'Fotografía y video',
-    details: ['Fotografía social y corporativa', 'Video de eventos', 'Reel o resumen según propuesta', 'Drone sujeto a condiciones legales, operativas y del lugar'],
-    imageId: 'imagen-recuerdos',
-    addOnIds: ['cabina-fotografica-360', 'decoracion-eventos', 'maestro-ceremonias'],
-    faq: [
-      ['¿Qué entregables recibiré?', partnerAvailability],
-      ['¿Pueden cubrir una graduación o evento corporativo?', 'Sí. Comparte el programa, horario, lugar y momentos que deben registrarse.'],
-      ['¿Siempre se puede usar drone?', 'No. Depende del lugar, permisos, clima y condiciones operativas. Se confirma antes de contratar.'],
-    ],
-  },
-  {
     id: 'cabina-fotografica-360',
     title: 'Cabina fotográfica y experiencia 360',
     description: 'Photobooth, cabina 360, espejo mágico y fotos instantáneas según disponibilidad.',
     body: 'Añade una experiencia participativa para invitados o colaboradores. El formato, espacio, duración, fondo y entrega de contenido se definen durante la cotización.',
-    category: 'Fotografía y video',
+    category: 'Cabinas',
     details: ['Cabina fotográfica o photobooth', 'Cabina 360 según disponibilidad', 'Espejo mágico o fotos instantáneas', 'Fondo fotográfico y video mensajes según propuesta'],
     imageId: 'imagen-recuerdos',
-    addOnIds: ['fotografia-video-eventos', 'decoracion-eventos', 'papeleria-eventos'],
+    addOnIds: ['decoracion-eventos', 'papeleria-eventos'],
     faq: [
       ['¿Cuánto espacio necesita?', partnerAvailability],
       ['¿Puedo personalizar el fondo?', 'Sí, el diseño y la disponibilidad del fondo se revisan con la propuesta.'],

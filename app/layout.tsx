@@ -1,10 +1,15 @@
 import './globals.css';
 import './design.css';
 import './motion.css';
+import './service-search.css';
+import './site-header.css';
+import './home-arrival.css';
 import { readSite } from '@/repositories/site';
 import { QuoteCartProvider } from '@/components/quote-cart-provider';
 import { AttributionProvider } from '@/components/attribution-provider';
 import { isPublicAvailability } from '@/models/content';
+import { ServiceSearchProvider } from '@/components/service-search';
+import { serviceGroup } from '@/lib/service-groups';
 export default async function RootLayout({
   children,
 }: {
@@ -28,7 +33,14 @@ export default async function RootLayout({
       <body>
         <AttributionProvider>
           <QuoteCartProvider entryIds={entryIds} personEntryIds={personEntryIds}>
-            {children}
+            <ServiceSearchProvider entries={requestableEntries.map((entry) => ({
+              id: entry.id,
+              title: entry.title,
+              href: `/${entry.kind}/${entry.slug}`,
+              family: serviceGroup(entry),
+            }))}>
+              {children}
+            </ServiceSearchProvider>
           </QuoteCartProvider>
         </AttributionProvider>
       </body>

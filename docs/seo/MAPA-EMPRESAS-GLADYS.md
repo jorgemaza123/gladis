@@ -10,7 +10,7 @@ El hub `/empresas` reúne las intenciones B2B y conduce al cotizador único.
 | Fin de año | `/tipos-evento/catering-fin-ano-empresas-lima` | Alimentación, bar, música y detalles |
 | Capacitaciones y conferencias | `/tipos-evento/servicios-capacitaciones-conferencias-lima` | Coffee break, sonido, pantallas y streaming |
 | Lanzamientos e inauguraciones | `/tipos-evento/servicios-lanzamientos-inauguraciones-lima` | Catering, producción, maestro de ceremonias y branding |
-| Activaciones, ferias y networking | `/tipos-evento/servicios-activaciones-ferias-lima` | Mobiliario, animación, fotografía y merchandising |
+| Activaciones, ferias y networking | `/tipos-evento/servicios-activaciones-ferias-lima` | Mobiliario, animación y merchandising |
 | Aniversarios y reconocimientos | `/tipos-evento/servicios-aniversarios-empresa-lima` | Alimentación, música, conducción y regalos |
 | Team building | `/tipos-evento/servicios-team-building-eventos-internos-lima` | Alimentación, actividades, sonido y kits |
 

@@ -1,6 +1,6 @@
 # Arquitectura SEO actual de Gladys
 
-Actualizado: 2026-10-12.
+Actualizado: 2026-10-19 (retirada comercial de fotografía y video).
 
 ## Capas públicas
 
@@ -14,7 +14,7 @@ Actualizado: 2026-10-12.
 | Entretenimiento | `/entretenimiento` | Encontrar música, animación y experiencias |
 | Producción | `/produccion` | Encontrar sonido, luces, pantallas, escenarios y streaming |
 | Decoración | `/decoracion` | Encontrar decoración, flores y mesas de postres |
-| Fotografía y video | `/foto-video` | Encontrar cobertura audiovisual y cabinas |
+| Cabina y 360 | `/foto-video` | Encontrar una experiencia participativa para invitados; no cobertura profesional de fotografía o video |
 | Personalizados | `/personalizados` | Encontrar recuerdos, productos y kits |
 | Guías | `/guias` | Resolver preguntas previas a la contratación |
 | Cobertura | `/cobertura/lima-metropolitana` | Confirmar atención en Lima Metropolitana |
@@ -22,7 +22,7 @@ Actualizado: 2026-10-12.
 
 ## Inventario indexable
 
-- 40 servicios cotizables: 10 propios y 30 coordinados con aliados.
+- 39 servicios cotizables: 10 propios y 29 coordinados con aliados.
 - 18 páginas de eventos sociales y empresariales.
 - 19 guías informativas.
 - 8 hubs temáticos adicionales al inicio y los catálogos.

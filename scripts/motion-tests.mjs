@@ -775,3 +775,85 @@ check(
 console.log(
   `PASS: ${passed} verificaciones del ciclo de vida de animación; la apariencia y el rendimiento visual requieren navegador.`,
 );
+
+const arrivalSource = await readFile(new URL('../lib/home-arrival.ts', import.meta.url), 'utf8');
+const { observeHomeArrival } = await import('data:text/javascript;base64,' + Buffer.from(
+  ts.transpileModule(arrivalSource, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText,
+).toString('base64'));
+
+function arrivalEnvironment(options = {}) {
+  const preference = new EventTargetDouble();
+  preference.matches = options.reduced || false;
+  const browser = Object.assign(new EventTargetDouble(), {
+    matchMedia: () => preference, scrollY: options.scrollY || 0, location: { hash: options.hash || '' },
+  });
+  const page = Object.assign(new EventTargetDouble(), { hidden: options.hidden || false, documentElement: { dataset: {} } });
+  page.body = {};
+  page.activeElement = options.focused ? {} : page.body;
+  const header = new EventTargetDouble();
+  const timers = new Map();
+  const values = { window: browser, document: page, setTimeout: (callback) => { timers.set(1, callback); return 1; }, clearTimeout: (id) => timers.delete(id) };
+  const originals = new Map(Object.keys(values).map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
+  for (const [key, value] of Object.entries(values)) Object.defineProperty(globalThis, key, { configurable: true, writable: true, value });
+  let cleanup;
+  return {
+    browser, page, header, preference, timers,
+    start: (enabled = true) => (cleanup = observeHomeArrival(header, enabled)),
+    assertClean() {
+      assert.equal(browser.listenerCount + page.listenerCount + header.listenerCount + preference.listenerCount, 0);
+      assert.equal(timers.size, 0);
+    },
+    restore() {
+      cleanup?.();
+      for (const [key, descriptor] of originals) {
+        if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+        else delete globalThis[key];
+      }
+    },
+  };
+}
+
+{
+  const env = arrivalEnvironment();
+  try {
+    env.start();
+    assert.equal(env.page.documentElement.dataset.homeArrival, 'playing');
+    env.header.dispatch('animationend', { target: env.header, animationName: 'unrelated-animation' });
+    assert.equal(env.page.documentElement.dataset.homeArrival, 'playing');
+    env.header.dispatch('animationend', { target: env.header, animationName: 'home-navbar-arrive' });
+    assert.equal(env.page.documentElement.dataset.homeArrival, 'complete');
+    env.assertClean();
+    env.start();
+    env.assertClean();
+  } finally { env.restore(); }
+}
+for (const options of [{ reduced: true }, { hash: '#servicio-cocina' }, { scrollY: 300 }, { hidden: true }, { focused: true }, { enabled: false }]) {
+  const env = arrivalEnvironment(options);
+  try {
+    env.start(options.enabled !== false);
+    assert.equal(env.page.documentElement.dataset.homeArrival, 'complete');
+    env.assertClean();
+  } finally { env.restore(); }
+}
+for (const [target, event] of [['browser', 'scroll'], ['browser', 'wheel'], ['browser', 'touchmove'], ['browser', 'keydown'], ['page', 'focusin']]) {
+  const env = arrivalEnvironment();
+  try {
+    env.start();
+    env[target].dispatch(event);
+    assert.equal(env.page.documentElement.dataset.homeArrival, 'complete');
+    env.assertClean();
+  } finally { env.restore(); }
+}
+for (const reason of ['preference', 'hidden', 'fallback', 'dispose']) {
+  const env = arrivalEnvironment();
+  try {
+    const cleanup = env.start();
+    if (reason === 'preference') { env.preference.matches = true; env.preference.dispatch('change'); }
+    if (reason === 'hidden') { env.page.hidden = true; env.page.dispatch('visibilitychange'); }
+    if (reason === 'fallback') [...env.timers.values()][0]();
+    if (reason === 'dispose') cleanup();
+    assert.equal(env.page.documentElement.dataset.homeArrival, 'complete');
+    env.assertClean();
+  } finally { env.restore(); }
+}
+console.log('PASS ARRIVAL: entrada única, fin sincronizado, anchors/restauración, teclado, interrupción, reduced motion y limpieza completa.');

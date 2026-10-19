@@ -1,0 +1,51 @@
+.story-arrival,
+.story-guide-arrival {
+  position: absolute;
+  inset: 0;
+}
+.story-guide-arrival { pointer-events: none; }
+
+/* The existing chapter owns scroll exit; this parent owns only page arrival. */
+.public-site[data-motion='on'] .story-chapter > p,
+.public-site[data-motion='on'] .story-title-line > span,
+.public-site[data-motion='on'] .story-chapter > span,
+.public-site[data-motion='on'] .story-actions {
+  animation: none;
+}
+
+@keyframes home-navbar-arrive {
+  from { opacity: 0; transform: translate3d(0, -100%, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes home-copy-arrive {
+  from { opacity: 0; transform: translate3d(var(--home-arrival-distance, 56px), 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes home-guide-arrive {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-home-arrival='complete']) .public-site[data-motion='on']:has(.story-hero) .header.site-header {
+    animation: home-navbar-arrive 1050ms cubic-bezier(0.25, 0.1, 0.25, 1) 1600ms backwards;
+  }
+  html:not([data-home-arrival='complete']) .public-site[data-motion='on'] .story-arrival {
+    animation: home-copy-arrive 1050ms cubic-bezier(0.25, 0.1, 0.25, 1) 1600ms backwards;
+  }
+  .public-site[data-motion='on'] .story-scroll-cue-inner { animation: none; }
+  html:not([data-home-arrival='complete']) .public-site[data-motion='on'] .story-guide-arrival {
+    animation: home-guide-arrive 1050ms ease 1600ms backwards;
+  }
+  /* Keyboard access also settles the sequence when JavaScript is unavailable. */
+  .public-site[data-motion='on']:has(:focus-visible) .header.site-header,
+  .public-site[data-motion='on']:has(:focus-visible) .story-arrival,
+  .public-site[data-motion='on']:has(:focus-visible) .story-guide-arrival { animation: none !important; }
+}
+@media (max-width: 760px) {
+  .story-arrival { --home-arrival-distance: 24px; }
+  .public-site .story-chapter > p { font-size: 12px; line-height: 1.4; letter-spacing: 0.1em; }
+}
+@media (max-width: 760px) and (min-height: 620px) {
+  .public-site .story-chapter { bottom: 98px; }
+}
