@@ -1,0 +1,85 @@
+/* Only the existing table approaches; the decision remains in normal flow. */
+.mesa-invitation .final-table-plane {
+  position: absolute;
+  width: clamp(210px, 22vw, 320px);
+  aspect-ratio: 1;
+  left: clamp(30px, 5vw, 80px);
+  top: 70px;
+  perspective: 1100px;
+  perspective-origin: 55% 45%;
+  pointer-events: none;
+}
+.mesa-invitation .final-table-plane .table-drawing {
+  position: static;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: .7;
+  transform: none;
+  transform-origin: 50% 50%;
+  --final-x: -10px;
+  --final-y: 12px;
+  --final-z: -24px;
+  --final-rx: 12deg;
+  --final-ry: -4deg;
+  --final-rz: -6deg;
+  --final-scale: .1;
+}
+.mesa-invitation .final-table-plane .table-drawing > * {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.1px;
+  animation: none;
+}
+.mesa-invitation[data-motion-section='cierre'][data-motion-state]:not([data-motion-safe]) .table-drawing {
+  --final-away: calc(1 - clamp(0, var(--motion-progress, 1) / .84, 1));
+  transform:
+    translate3d(calc(var(--final-away) * var(--final-x)), calc(var(--final-away) * var(--final-y)), calc(var(--final-away) * var(--final-z)))
+    rotateX(calc(var(--final-away) * var(--final-rx)))
+    rotateY(calc(var(--final-away) * var(--final-ry)))
+    rotateZ(calc(var(--final-away) * var(--final-rz)))
+    scale(calc(1 - var(--final-away) * var(--final-scale)));
+}
+@media (min-width: 761px) and (max-width: 960px) {
+  .mesa-invitation .final-table-plane {
+    width: clamp(124px, 18vw, 164px);
+    left: 20px;
+    top: 28px;
+    perspective: 850px;
+    perspective-origin: 50% 30%;
+  }
+  .mesa-invitation .final-table-plane .table-drawing {
+    --final-x: -5px;
+    --final-y: 8px;
+    --final-z: -12px;
+    --final-rx: 8deg;
+    --final-ry: -2deg;
+    --final-rz: -3deg;
+    --final-scale: .07;
+  }
+}
+@media (max-width: 760px) {
+  .mesa-invitation .final-table-plane {
+    width: clamp(80px, 21.5vw, 92px);
+    left: 8px;
+    top: 4px;
+    perspective: 650px;
+    perspective-origin: 50% 0%;
+  }
+  .mesa-invitation .final-table-plane .table-drawing {
+    transform-origin: 50% 25%;
+    --final-x: 0px;
+    --final-y: -4px;
+    --final-z: -8px;
+    --final-rx: 6deg;
+    --final-ry: 0deg;
+    --final-rz: -3deg;
+    --final-scale: .06;
+  }
+}
+.mesa-invitation[data-motion-safe] .final-table-plane .table-drawing {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mesa-invitation .final-table-plane { perspective: none; }
+  .mesa-invitation .final-table-plane .table-drawing { transform: none !important; }
+}

@@ -192,8 +192,10 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           </div>
         </div>
       </section>
-      <section className="mesa-invitation wrap" data-reveal="invitation">
-        <TableDrawing />
+      <section className="mesa-invitation wrap" data-motion-section="cierre">
+        <div className="final-table-plane" data-motion-decoration>
+          <TableDrawing />
+        </div>
         <p>Tu próxima celebración</p>
         <h2>
           ¿Qué tienes ganas

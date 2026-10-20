@@ -410,7 +410,7 @@ assert.match(c4Css, /prefers-reduced-motion: reduce/);
 assert.match(c4Css, /#completa-tu-evento \.c4-ribbon-rule \{ opacity: \.35; \}/);
 assert.doesNotMatch(c4Css, /will-change|animation:|transition:|filter:|position: sticky/);
 assert.doesNotMatch(c4Source, /addEventListener|requestAnimationFrame|Observer/);
-assert.doesNotMatch(integration, /mesa-invitation/);
+assert.doesNotMatch(c4Source, /mesa-invitation/, 'C4 remains independent of the closing scene');
 console.log('PASS C4: desktop/tablet/mobile quarters, reverse, details reflow, hash, focus, reduced, route cleanup and static fallback.');
 
 const occasionSource = await readFile(new URL('../lib/occasion-motion.ts', import.meta.url), 'utf8');
@@ -712,3 +712,91 @@ for (const match of processCss.matchAll(/\banimation:\s*([^;]+)/g)) assert.equal
 assert.match(processCss, /prefers-reduced-motion: reduce/);
 assert.match(processCss, /\[data-motion-safe\] \.process-thread::after/);
 console.log('PASS PROCESO: three semantic steps, six states, reverse/jumps/stops, responsive markers, shared sensors, hash/focus, reduced, static fallback, preserved CTA and cleanup.');
+
+const finalSource = await readFile(new URL('../lib/final-motion.ts', import.meta.url), 'utf8');
+const { finalMotionRange } = await import('data:text/javascript;base64,' + Buffer.from(ts.transpileModule(finalSource, {
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+}).outputText).toString('base64'));
+for (const [width, height] of [[1600, 900], [1440, 900], [1280, 800], [1024, 768], [960, 900], [820, 1180], [768, 1024], [430, 932], [390, 844], [375, 812], [360, 800], [1024, 600]]) {
+  check(`Cierre ${width}x${height}: short range, six states, reverse, jumps, stops and focus`, (env, controller) => {
+    env.first.dataset.motionSection = 'cierre';
+    const remove = controller.register({ element: env.first, range: (d) => finalMotionRange(env.first.height, d) });
+    const range = finalMotionRange(env.first.height, controller.snapshot().device);
+    const start = env.first.top - height * range.start;
+    const distance = env.first.height - height * range.end + height * range.start;
+    assert.ok(distance / height >= .4 && distance / height <= .7);
+    env.intersections.at(-1).cross(env.first, true);
+    for (const p of [0, .2, .4, .6, .8, 1, .8, .6, .4, .2, 0, 1, 0, .2, .8, .2, .1, .9, .1]) {
+      env.scroll(start + distance * p); env.flush();
+      assert.ok(Math.abs(controller.snapshot().sections[0].progress - p) < .0001);
+      const frames = controller.snapshot().stats.frames;
+      env.flush(); assert.equal(controller.snapshot().stats.frames, frames, 'stopping scroll leaves no animation clock');
+    }
+    env.root.dispatch('focusin', { target: env.button });
+    assert.equal(env.first.dataset.motionSafe, 'focus');
+    env.root.dispatch('focusout', { relatedTarget: null });
+    assert.equal(env.first.dataset.motionSafe, undefined);
+    env.first.top += 170;
+    env.resizes.at(-1).emit(); env.flush();
+    env.scroll(start + 170 + distance * .6); env.flush();
+    assert.ok(Math.abs(controller.snapshot().sections[0].progress - .6) < .0001, 'FAQ natural expansion refreshes the same range');
+    for (const name of ['wheel', 'touchmove', 'keydown']) assert.equal(env.browser.count(name), 0);
+    remove();
+    assert.equal(env.first.dataset.motionSection, 'cierre', 'original semantic registration marker is restored');
+    assert.equal(env.first.dataset.motionState, undefined);
+    assert.equal(env.first.style.getPropertyValue('--motion-progress'), '');
+  }, { width, height });
+}
+check('five unique Home registrations share sensors; Proceso exits, FAQ stays unregistered, Cierre finishes', (env, controller) => {
+  const company = new Element(3400, 533); env.root.append(company);
+  const processSection = new Element(3933, 987); env.root.append(processSection);
+  const faq = new Element(4920, 716); env.root.append(faq);
+  const finalSection = new Element(5636, 639); env.root.append(finalSection); finalSection.dataset.motionSection = 'cierre';
+  controller.register({ element: env.first, range: (d) => c4MotionRange(env.first.height, d) });
+  controller.register({ element: env.second, range: (d) => occasionMotionRange({ height: env.second.height, layoutTop: 200, layoutHeight: 1000, stageHeight: 500 }, d) });
+  controller.register({ element: company, range: (d) => companyMotionRange(company.height, d) });
+  controller.register({ element: processSection, range: (d) => processMotionRange({ height: processSection.height, firstTop: 160, lastTop: 628 }, d) });
+  controller.register({ element: finalSection, range: (d) => finalMotionRange(finalSection.height, d) });
+  assert.equal(controller.snapshot().sections.length, 5);
+  assert.equal(new Set(controller.snapshot().sections.map((s) => s.id)).size, 5);
+  assert.equal(env.intersections.filter((o) => o.targets.size).length, 1);
+  assert.equal(env.resizes.filter((o) => o.targets.size).length, 1);
+  assert.equal(faq.getAttribute('data-motion-section'), null);
+  env.scroll(6000);
+  for (const section of [env.first, env.second, company, processSection]) env.intersections.at(-1).cross(section, false);
+  env.intersections.at(-1).cross(finalSection, true); env.flush();
+  assert.equal(controller.snapshot().sections[3].active, false);
+  assert.equal(controller.snapshot().sections[4].active, true);
+  env.scroll(8000); env.intersections.at(-1).cross(finalSection, false); env.flush();
+  assert.equal(controller.snapshot().sections[4].progress, 1);
+  assert.equal(env.browser.count('scroll'), 0);
+  controller.destroy(); env.assertClean();
+});
+for (const width of [1440, 768, 390]) check(`Cierre reduced ${width}: settled without sensors or RAF`, (env, controller) => {
+  controller.register({ element: env.first, range: (d) => finalMotionRange(env.first.height, d) });
+  assert.equal(controller.snapshot().sections[0].progress, 1);
+  assert.equal(env.first.dataset.motionSafe, 'reduced');
+  assert.equal(env.frames.size + env.browser.count('scroll') + env.intersections.length + env.resizes.length, 0);
+}, { width, reduced: true });
+const finalCss = await readFile(new URL('../app/final-motion.css', import.meta.url), 'utf8');
+const finalMarkup = home.slice(home.indexOf('<section className="mesa-invitation'), home.indexOf('<HomeMotion />'));
+assert.match(finalMarkup, /data-motion-section="cierre"/);
+assert.match(finalMarkup, /className="final-table-plane" data-motion-decoration/);
+assert.match(finalMarkup, /<TableDrawing \/>/);
+assert.match(finalMarkup, /<QuoteCta className="button light" placement="footer">/);
+assert.doesNotMatch(finalMarkup, /data-reveal|data-motion-content|\bid=|<img|<canvas/);
+assert.equal((finalMarkup.match(/<QuoteCta/g) || []).length, 1);
+assert.match(home, /className="table-drawing"[\s\S]*?aria-hidden="true"/);
+assert.match(integration, /querySelector<HTMLElement>\('\.mesa-invitation'\)/);
+assert.equal((integration.match(/controller\.register\(/g) || []).length, 5);
+assert.doesNotMatch(integration, /faq/i);
+assert.match(integration, /import '@\/app\/final-motion\.css'/);
+assert.doesNotMatch(home, /import '@\/app\/final-motion\.css'/);
+assert.match(finalCss, /\[data-motion-state\]:not\(\[data-motion-safe\]\)/, 'no-JS default is the static final composition');
+assert.match(finalCss, /transform: none;/);
+assert.match(finalCss, /prefers-reduced-motion: reduce/);
+assert.match(finalCss, /transform: none !important/);
+assert.match(finalCss, /var\(--motion-progress, 1\) \/ \.84/, 'the final segment is already at rest');
+assert.doesNotMatch(finalCss, /min-height|padding|margin|sticky|will-change|filter|transition:|clip-path|mask|\.button/);
+assert.doesNotMatch(finalSource, /addEventListener|requestAnimationFrame|Observer|setTimeout/);
+console.log('PASS CIERRE: five shared registrations, six states, reverse/jumps/stops, responsive short range, focus, reduced, static fallback and cleanup; geometry and final transforms require browser verification.');

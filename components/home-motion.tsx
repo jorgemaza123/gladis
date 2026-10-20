@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import '@/app/immersive-motion.css';
 import '@/app/company-motion.css';
 import '@/app/process-motion.css';
+import '@/app/final-motion.css';
 
 export function HomeMotion() {
   useEffect(() => {
@@ -16,10 +17,11 @@ export function HomeMotion() {
     const occasions = root.querySelector<HTMLElement>('#ocasiones');
     const company = root.querySelector<HTMLElement>('.company-gateway');
     const processSection = root.querySelector<HTMLElement>('#como-cotizar');
+    const finalSection = root.querySelector<HTMLElement>('.mesa-invitation');
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
-    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion'), import('@/lib/company-motion'), import('@/lib/process-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange, occasionVisualPhase }, { companyMotionRange }, { processMotionRange, processVisualPhase }]) => {
+    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion'), import('@/lib/company-motion'), import('@/lib/process-motion'), import('@/lib/final-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange, occasionVisualPhase }, { companyMotionRange }, { processMotionRange, processVisualPhase }, { finalMotionRange }]) => {
       if (disposed) return;
       const controller = createImmersiveMotion(root, { debug });
       const previousPhase = occasions?.getAttribute('data-occasion-phase');
@@ -75,6 +77,10 @@ export function HomeMotion() {
           const phase = processVisualPhase(progress);
           if (processSection.dataset.processPhase !== phase) processSection.dataset.processPhase = phase;
         },
+      });
+      if (finalSection) controller.register({
+        element: finalSection,
+        range: (device) => finalMotionRange(finalSection.offsetHeight, device),
       });
     }).catch(() => {
       cleanup?.();
