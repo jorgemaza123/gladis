@@ -39,12 +39,13 @@ function TableDrawing() {
 function CompanyGateway() {
   return (
     <section className="company-gateway wrap" aria-labelledby="company-gateway-title">
-      <div>
+      <span className="company-coordination-rule" data-motion-decoration aria-hidden="true" />
+      <div className="company-gateway-heading" data-motion-content>
         <p className="section-kicker">Para empresas y equipos</p>
         <h2 id="company-gateway-title">Una consulta clara para una operación bien coordinada.</h2>
       </div>
       <div>
-        <p>
+        <p className="company-gateway-copy" data-motion-content>
           Desayunos, coffee break, reuniones, capacitaciones, lanzamientos y fechas internas. Elige alimentación, personal, mobiliario, audiovisuales, producción o personalizados según el programa.
         </p>
         <Link className="button" href="/empresas">Ver soluciones para empresas <span aria-hidden="true">↗</span></Link>

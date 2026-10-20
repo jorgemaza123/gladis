@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import '@/app/immersive-motion.css';
+import '@/app/company-motion.css';
 
 export function HomeMotion() {
   useEffect(() => {
@@ -12,10 +13,11 @@ export function HomeMotion() {
     const section = root.querySelector<HTMLElement>('#completa-tu-evento');
     if (!section) return;
     const occasions = root.querySelector<HTMLElement>('#ocasiones');
+    const company = root.querySelector<HTMLElement>('.company-gateway');
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
-    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange, occasionVisualPhase }]) => {
+    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion'), import('@/lib/company-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange, occasionVisualPhase }, { companyMotionRange }]) => {
       if (disposed) return;
       const controller = createImmersiveMotion(root, { debug });
       const previousPhase = occasions?.getAttribute('data-occasion-phase');
@@ -45,6 +47,10 @@ export function HomeMotion() {
           const phase = occasionVisualPhase(progress);
           if (occasions.dataset.occasionPhase !== phase) occasions.dataset.occasionPhase = phase;
         },
+      });
+      if (company) controller.register({
+        element: company,
+        range: (device) => companyMotionRange(company.offsetHeight, device),
       });
     }).catch(() => {
       cleanup?.();

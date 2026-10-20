@@ -410,7 +410,7 @@ assert.match(c4Css, /prefers-reduced-motion: reduce/);
 assert.match(c4Css, /#completa-tu-evento \.c4-ribbon-rule \{ opacity: \.35; \}/);
 assert.doesNotMatch(c4Css, /will-change|animation:|transition:|filter:|position: sticky/);
 assert.doesNotMatch(c4Source, /addEventListener|requestAnimationFrame|Observer/);
-assert.doesNotMatch(integration, /company-gateway|#como-cotizar|mesa-invitation/);
+assert.doesNotMatch(integration, /#como-cotizar|mesa-invitation/);
 console.log('PASS C4: desktop/tablet/mobile quarters, reverse, details reflow, hash, focus, reduced, route cleanup and static fallback.');
 
 const occasionSource = await readFile(new URL('../lib/occasion-motion.ts', import.meta.url), 'utf8');
@@ -547,3 +547,82 @@ assert.match(occasionCss, /--occasion-second-start: \.64;/);
 assert.match(occasionCss, /\.occasion-stage-context--c \{ grid-area: 1 \/ 1; \}/);
 assert.match(occasionCss, /\.occasion-stage-image--b \{ visibility: visible !important; \}/);
 console.log('PASS THREE ENVIRONMENTS: A/AC/C/CB/B, 1001 paint-budget samples, full reversal/jumps, constant opacity, CSS clipping, safe/reduced and narrow flow contracts.');
+
+const companySource = await readFile(new URL('../lib/company-motion.ts', import.meta.url), 'utf8');
+const { companyMotionRange } = await import('data:text/javascript;base64,' + Buffer.from(ts.transpileModule(companySource, {
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+}).outputText).toString('base64'));
+for (const [width, height, fraction] of [[1440, 900, .55], [768, 1024, .5], [390, 844, .65], [360, 800, .65], [1024, 600, .55]]) {
+  check(`Empresas ${width}x${height}: quarters, reverse, jumps, stops and upstream reflow`, (env, controller) => {
+    controller.register({ element: env.first, range: (d) => companyMotionRange(env.first.height, d) });
+    const range = companyMotionRange(env.first.height, controller.snapshot().device);
+    const start = env.first.top - height * range.start;
+    const end = env.first.top + env.first.height - height * range.end;
+    assert.ok(Math.abs(end - start - height * fraction) < .0001);
+    env.intersections.at(-1).cross(env.first, true);
+    for (const p of [0, .25, .5, .75, 1, .75, .5, .25, 0, 1, 0, .25, .75, .25]) {
+      env.scroll(start + (end - start) * p); env.flush();
+      assert.ok(Math.abs(controller.snapshot().sections[0].progress - p) < .0001);
+      const frames = controller.snapshot().stats.frames;
+      env.flush(); assert.equal(controller.snapshot().stats.frames, frames);
+    }
+    env.first.height += 100; env.first.top += 240;
+    env.resizes.at(-1).emit(); env.flush();
+    env.scroll(start + 240 + height * fraction * .5); env.flush();
+    assert.ok(Math.abs(controller.snapshot().sections[0].progress - .5) < .0001, 'height change never stretches the entrance');
+    for (const type of ['wheel', 'touchmove', 'keydown']) assert.equal(env.browser.count(type), 0);
+  }, { width, height });
+}
+check('Empresas focus settles CTA immediately and heading anchor is preserved', (env, controller) => {
+  env.first.className = 'company-gateway wrap';
+  controller.register({ element: env.first, range: (d) => companyMotionRange(env.first.height, d) });
+  env.root.dispatch('focusin', { target: env.button });
+  assert.equal(env.first.dataset.motionSafe, 'focus');
+  env.scroll(900); env.flush(); assert.equal(env.first.dataset.motionSafe, 'focus');
+  env.root.dispatch('focusout', { relatedTarget: null });
+  env.second.parent = env.first; env.browser.location.hash = '#two'; env.browser.dispatch('hashchange');
+  assert.equal(env.first.dataset.motionSafe, 'anchor');
+  controller.destroy(); env.assertClean();
+});
+check('C4, Ocasiones and Empresas coexist in one controller and unregister cleanly', (env, controller) => {
+  const third = new Element(3400, 533); third.className = 'company-gateway wrap'; env.root.append(third);
+  controller.register({ element: env.first, range: (d) => c4MotionRange(env.first.height, d) });
+  controller.register({ element: env.second, range: (d) => occasionMotionRange({ height: env.second.height, layoutTop: 200, layoutHeight: 1000, stageHeight: 500 }, d) });
+  const remove = controller.register({ element: third, range: (d) => companyMotionRange(third.height, d) });
+  assert.equal(controller.snapshot().sections.length, 3);
+  assert.equal(env.intersections.filter((o) => o.targets.size).length, 1);
+  assert.equal(env.resizes.filter((o) => o.targets.size).length, 1);
+  assert.equal(env.browser.count('scroll'), 1);
+  env.scroll(3400); env.intersections.at(-1).cross(env.first, false); env.intersections.at(-1).cross(third, true); env.flush();
+  assert.equal(controller.snapshot().sections[0].active, false);
+  assert.equal(controller.snapshot().sections[2].progress, 1);
+  remove(); assert.equal(third.getAttribute('data-motion-section'), null);
+  assert.equal(third.style.getPropertyValue('--motion-progress'), '');
+  controller.destroy(); env.assertClean();
+});
+check('Empresas reduced has final composition without tracking', (env, controller) => {
+  controller.register({ element: env.first, range: (d) => companyMotionRange(env.first.height, d) });
+  assert.equal(env.first.dataset.motionSafe, 'reduced');
+  assert.equal(controller.snapshot().sections[0].progress, 1);
+  assert.equal(env.frames.size + env.browser.count('scroll') + env.intersections.length + env.resizes.length, 0);
+}, { width: 390, height: 844, reduced: true });
+const companyCss = await readFile(new URL('../app/company-motion.css', import.meta.url), 'utf8');
+const home = await readFile(new URL('../components/home-experience.tsx', import.meta.url), 'utf8');
+const gateway = home.slice(home.indexOf('function CompanyGateway()'), home.indexOf('export function HomeExperience'));
+// Keep the server Home's resource tree stable: a second direct CSS import shifts
+// development useId paths in the untouched ServiceExplorer during hydration.
+assert.match(integration, /import '@\/app\/company-motion\.css'/);
+assert.doesNotMatch(home, /import '@\/app\/company-motion\.css'/);
+assert.match(integration, /querySelector<HTMLElement>\('\.company-gateway'\)/);
+assert.match(integration, /if \(company\) controller.register/);
+assert.equal((integration.match(/createImmersiveMotion\(root/g) || []).length, 1);
+assert.match(gateway, /aria-labelledby="company-gateway-title"/);
+assert.match(gateway, /className="company-coordination-rule" data-motion-decoration aria-hidden="true"/);
+assert.match(gateway, /<Link className="button" href="\/empresas">Ver soluciones para empresas/);
+assert.doesNotMatch(gateway, /data-reveal|<img|<svg|style=|minHeight|data-motion-content[^>]*>Ver soluciones/);
+assert.match(companyCss, /@media \(max-width: 960px\)/);
+assert.match(companyCss, /@media \(prefers-reduced-motion: reduce\)/);
+assert.match(companyCss, /\[data-motion-safe\] \.company-coordination-rule/);
+assert.doesNotMatch(companySource, /addEventListener|requestAnimationFrame|Observer/);
+assert.doesNotMatch(companyCss, /min-height|padding:|padding-block:|margin:|font-size|line-height|sticky|will-change|animation:|transition:|filter:|clip-path|\.button/);
+console.log('PASS EMPRESAS: quarters, reverse/jumps/stops, native mobile, reflow, shared C4/occasion controller, focus/hash, reduced, static HTML/CTA and cleanup.');
