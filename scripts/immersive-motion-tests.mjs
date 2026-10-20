@@ -410,5 +410,94 @@ assert.match(c4Css, /prefers-reduced-motion: reduce/);
 assert.match(c4Css, /#completa-tu-evento \.c4-ribbon-rule \{ opacity: \.35; \}/);
 assert.doesNotMatch(c4Css, /will-change|animation:|transition:|filter:|position: sticky/);
 assert.doesNotMatch(c4Source, /addEventListener|requestAnimationFrame|Observer/);
-assert.doesNotMatch(integration, /#ocasiones|company-gateway|#como-cotizar|mesa-invitation/);
+assert.doesNotMatch(integration, /company-gateway|#como-cotizar|mesa-invitation/);
 console.log('PASS C4: desktop/tablet/mobile quarters, reverse, details reflow, hash, focus, reduced, route cleanup and static fallback.');
+
+const occasionSource = await readFile(new URL('../lib/occasion-motion.ts', import.meta.url), 'utf8');
+const { occasionMotionRange } = await import('data:text/javascript;base64,' + Buffer.from(ts.transpileModule(occasionSource, {
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+}).outputText).toString('base64'));
+
+for (const [width, height] of [[1440, 900], [768, 1024], [390, 844], [360, 800], [960, 600]]) {
+  check(`Ocasiones ${width}x${height}: six states, reverse and no work after stopping`, (env, controller) => {
+    env.first.id = 'ocasiones';
+    const geometry = { height: env.first.height, layoutTop: 200, layoutHeight: 1000, stageHeight: 500 };
+    controller.register({ element: env.first, range: (device) => occasionMotionRange(geometry, device) });
+    const range = occasionMotionRange(geometry, controller.snapshot().device);
+    const start = env.first.top - height * range.start;
+    const end = env.first.top + geometry.height - height * range.end;
+    env.intersections.at(-1).cross(env.first, true);
+    for (const p of [0, .2, .4, .6, .8, 1, .8, .6, .4, .2, 0, 1]) {
+      env.scroll(start + (end - start) * p); env.flush();
+      assert.ok(Math.abs(controller.snapshot().sections[0].progress - p) < .0001);
+    }
+    const frames = controller.snapshot().stats.frames;
+    env.flush(); assert.equal(controller.snapshot().stats.frames, frames);
+    for (const name of ['wheel', 'touchmove', 'keydown']) assert.equal(env.browser.count(name), 0);
+  }, { width, height });
+}
+check('C4 and Ocasiones share one controller, deactivate outside bounds and refresh together', (env, controller) => {
+  env.first.id = 'completa-tu-evento'; env.second.id = 'ocasiones';
+  controller.register({ element: env.first, range: (d) => c4MotionRange(env.first.height, d) });
+  controller.register({ element: env.second, range: (d) => occasionMotionRange({ height: env.second.height, layoutTop: 200, layoutHeight: 1000, stageHeight: 500 }, d) });
+  assert.equal(env.intersections.filter((o) => o.targets.size).length, 1);
+  assert.equal(env.resizes.filter((o) => o.targets.size).length, 1);
+  env.scroll(2500);
+  env.intersections.at(-1).cross(env.first, false);
+  env.intersections.at(-1).cross(env.second, true);
+  env.flush();
+  const states = controller.snapshot().sections;
+  assert.equal(states[0].active, false); assert.equal(states[0].progress, 1);
+  assert.equal(states[1].active, true);
+  env.second.top += 350;
+  env.resizes.at(-1).emit(); env.flush();
+  assert.ok(controller.snapshot().sections[1].progress < states[1].progress, 'opening upstream C4 family recalculates the section position');
+});
+check('Ocasiones direct hash and focus settle immediately; leaving route removes registrations', (env, controller) => {
+  env.first.id = 'ocasiones'; env.browser.location.hash = '#ocasiones';
+  controller.register({ element: env.first });
+  assert.equal(env.first.dataset.motionSafe, 'anchor');
+  env.root.dispatch('focusin', { target: env.button });
+  assert.equal(env.first.dataset.motionSafe, 'focus');
+  controller.destroy(); env.assertClean();
+});
+check('Ocasiones reduced is complete with no RAF or tracking', (env, controller) => {
+  env.first.id = 'ocasiones';
+  const remove = controller.register({ element: env.first });
+  assert.equal(env.first.dataset.motionSafe, 'reduced');
+  assert.equal(controller.snapshot().sections[0].progress, 1);
+  assert.equal(env.frames.size + env.browser.count('scroll'), 0);
+  remove(); env.assertClean();
+}, { reduced: true });
+const occasionCss = await readFile(new URL('../app/occasion-motion.css', import.meta.url), 'utf8');
+const occasionGrid = await readFile(new URL('../components/occasion-grid.tsx', import.meta.url), 'utf8');
+assert.match(integration, /querySelector<HTMLElement>\('#ocasiones'\)/);
+assert.match(occasionCss, /@media \(max-width: 375px\)/);
+assert.match(occasionCss, /@media \(max-height: 699px\)/);
+assert.match(occasionCss, /@media \(prefers-reduced-motion: reduce\)/);
+assert.match(occasionCss, /#ocasiones:is\(:target, \[data-motion-safe\]\) \.occasion-stage-image--b \{ opacity: 1; clip-path: none; \}/);
+assert.match(occasionGrid, /occasions\.map/);
+assert.doesNotMatch(occasionSource, /addEventListener|requestAnimationFrame|Observer/);
+assert.doesNotMatch(occasionCss, /will-change|animation:|transition:|filter:|backdrop-filter/);
+// Read the authored intervals: each viewport must hand over to opaque B at the
+// central inspection gate, while preserving A as continuous photographic cover.
+const revealIntervals = [...occasionCss.matchAll(/--occasion-reveal-start: ([\d.]+);\s*--occasion-reveal-distance: ([\d.]+);/g)]
+  .map((match) => [Number(match[1]), Number(match[2])]);
+assert.equal(revealIntervals.length, 4, 'desktop, tablet, mobile and narrow flow intervals');
+for (const [start, distance] of revealIntervals) {
+  const fraction = (progress) => Math.max(0, Math.min(1, (progress - start) / distance));
+  assert.ok(fraction(.45) < .4, 'A is dominant at 45%');
+  assert.ok(fraction(.5) >= .9999, 'B covers the complete photographic surface at 50%');
+  assert.equal(fraction(.55), 1, 'B fully covers A by 55%');
+  for (const progress of [.3, .7, .3, .1, .9, .1, .35, .4, .45, .5, .55, .6, .65]) {
+    assert.ok(fraction(progress) >= 0 && fraction(progress) <= 1);
+  }
+}
+assert.match(occasionCss, /\.occasion-stage-image--b \{ opacity: 1; clip-path: inset\(0 100% 0 0\); \}/);
+assert.doesNotMatch(occasionCss, /occasion-crossfade|opacity: var\(--occasion-reveal\)/);
+assert.match(occasionCss, /clip-path: inset\(0 calc\(\(1 - var\(--occasion-reveal\)\) \* 100%\) 0 0\)/);
+assert.match(occasionCss, /clip-path: inset\(0 0 calc\(\(1 - var\(--occasion-reveal\)\) \* 100%\) 0\)/);
+assert.match(occasionCss, /\.occasion-stage-image--b \{ clip-path: none !important; \}/);
+assert.match(occasionCss, /--occasion-context-b: clamp\(0, \(var\(--motion-progress\) - \.485\) \/ \.002, 1\)/);
+console.log('PASS OCASIONES: 2-context prototype, six states/reverse, native fallback, coexistence, hash/focus, reduced and cleanup.');
+console.log('PASS PHOTO RELAY: opaque coverage, dominant 45/50/55 gates, lateral/vertical reveal and settled safe/reduced fallback.');

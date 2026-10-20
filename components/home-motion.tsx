@@ -11,10 +11,11 @@ export function HomeMotion() {
       new URLSearchParams(window.location.search).get('motionDebug') === '1';
     const section = root.querySelector<HTMLElement>('#completa-tu-evento');
     if (!section) return;
+    const occasions = root.querySelector<HTMLElement>('#ocasiones');
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
-    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }]) => {
+    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange }]) => {
       if (disposed) return;
       const controller = createImmersiveMotion(root, { debug });
       cleanup = () => controller.destroy();
@@ -22,6 +23,17 @@ export function HomeMotion() {
         element: section,
         // Structural read only during the controller's batched geometry pass.
         range: (device) => c4MotionRange(section.offsetHeight, device),
+      });
+      const layout = occasions?.querySelector<HTMLElement>('.occasion-prototype-layout');
+      const stage = occasions?.querySelector<HTMLElement>('.occasion-stage');
+      if (occasions && layout && stage) controller.register({
+        element: occasions,
+        range: (device) => occasionMotionRange({
+          height: occasions.offsetHeight,
+          layoutTop: layout.offsetTop,
+          layoutHeight: layout.offsetHeight,
+          stageHeight: stage.offsetHeight,
+        }, device),
       });
     }).catch(() => {
       cleanup?.();
