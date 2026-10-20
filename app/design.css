@@ -715,6 +715,60 @@ body {
 .faq details[open] summary > span {
   transform: rotate(45deg);
 }
+/* Home FAQ is a reading pause: native disclosure, no scroll choreography. */
+.public-site .faq-chapter .home-faq details[open] {
+  border-bottom-color: var(--copper);
+}
+.public-site .faq-chapter .home-faq details[open] > summary {
+  color: var(--olive);
+}
+.public-site .faq-chapter .home-faq details > p {
+  color: var(--ink);
+}
+.public-site .faq-chapter .home-faq summary:focus-visible {
+  outline: 3px solid var(--olive);
+  outline-offset: 3px;
+}
+.public-site .faq-chapter .home-faq summary > span {
+  position: relative;
+  align-self: center;
+  color: transparent;
+  transform: none;
+  transition: none;
+}
+.public-site .faq-chapter .home-faq summary > span::before,
+.public-site .faq-chapter .home-faq summary > span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 1.5px;
+  background: var(--olive);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.public-site .faq-chapter .home-faq summary > span::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+.public-site .faq-chapter .home-faq details[open] > summary > span::after {
+  transform: translate(-50%, -50%) rotate(90deg) scaleX(0);
+}
+@media (hover: hover) and (pointer: fine) {
+  .public-site .faq-chapter .home-faq summary:hover {
+    color: var(--olive);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .public-site .faq-chapter .home-faq summary > span::after {
+    transition: transform 140ms ease-out;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .public-site .faq-chapter .home-faq summary > span::after {
+    transition: none;
+  }
+}
 .public-site .mesa-invitation {
   position: relative;
   background: var(--olive);

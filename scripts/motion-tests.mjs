@@ -859,3 +859,32 @@ for (const reason of ['preference', 'hidden', 'fallback', 'dispose']) {
 console.log('PASS ARRIVAL: entrada única, fin sincronizado, anchors/restauración, teclado, interrupción, reduced motion y limpieza completa.');
 
 await import('./immersive-motion-tests.mjs');
+
+// FAQ is native disclosure, deliberately outside the continuous motion engine.
+const faqHomeSource = await readFile(new URL('../components/home-experience.tsx', import.meta.url), 'utf8');
+const faqMarkup = faqHomeSource.slice(faqHomeSource.indexOf('<section className="faq-chapter">'), faqHomeSource.indexOf('<section className="mesa-invitation'));
+const faqDemoSource = await readFile(new URL('../data/demo.ts', import.meta.url), 'utf8');
+const { default: faqData } = await import('data:text/javascript;base64,' + Buffer.from('export default ' + faqDemoSource.match(/\n  faqs: (\[[\s\S]*?\n  \]),/)[1]).toString('base64'));
+const { createHash: faqHash } = await import('node:crypto');
+assert.equal(faqData.length, 7);
+assert.equal(faqHash('sha256').update(JSON.stringify(faqData)).digest('hex'), '9939251acd10043880b1fd521812f3e7781ef92e7d60b9ae15990185f39e89de', 'approved questions and answers remain intact');
+const faqReact = await import('react');
+const { renderToStaticMarkup: renderFaqHtml } = await import('react-dom/server');
+const faqJsx = ts.transpileModule(`import React from '${import.meta.resolve('react')}'; export default function Faq({site}) { return (${faqMarkup}); }`, { fileName: 'faq.tsx', compilerOptions: { jsx: ts.JsxEmit.React, target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText;
+const { default: FaqFixture } = await import('data:text/javascript;base64,' + Buffer.from(faqJsx).toString('base64'));
+const faqHtml = renderFaqHtml(faqReact.createElement(FaqFixture, { site: { faqs: faqData } }));
+assert.equal((faqHtml.match(/<details>/g) || []).length, 7, 'independent, closed native disclosures; no exclusive name');
+assert.equal((faqHtml.match(/<summary>/g) || []).length, 7);
+for (const faq of faqData) {
+  assert.ok(faqHtml.includes(renderFaqHtml(faqReact.createElement('p', null, faq.answer))), 'every answer exists before hydration');
+}
+assert.doesNotMatch(faqMarkup, /data-reveal|data-motion|aria-expanded|onClick|onKeyDown|role=/);
+const faqIntegration = await readFile(new URL('../components/home-motion.tsx', import.meta.url), 'utf8');
+assert.doesNotMatch(faqIntegration, /faq/i, 'FAQ adds no continuous registration or runtime');
+const faqDesign = await readFile(new URL('../app/design.css', import.meta.url), 'utf8');
+const faqRules = faqDesign.slice(faqDesign.indexOf('/* Home FAQ is a reading pause:'), faqDesign.indexOf('.public-site .mesa-invitation'));
+assert.match(faqRules, /summary:focus-visible\s*\{\s*outline: 3px/);
+assert.match(faqRules, /@media \(hover: hover\) and \(pointer: fine\)/);
+assert.match(faqRules, /@media \(prefers-reduced-motion: reduce\)[\s\S]*transition: none/);
+assert.doesNotMatch(faqRules, /min-height|padding|margin|sticky|animation:|clip-path|mask|filter|opacity:/, 'no reserved scroll, response hiding or decorative clock');
+console.log('PASS FAQ: seven native non-exclusive details, unchanged copy, all answers in SSR, focus/reduced contracts and zero HomeMotion integration. Keyboard, geometry and overflow require the browser smoke.');
