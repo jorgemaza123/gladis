@@ -2,6 +2,15 @@ import type { MotionDevice, MotionRange } from './immersive-motion';
 
 type OccasionGeometry = { height: number; layoutTop: number; layoutHeight: number; stageHeight: number };
 
+/** Discrete paint budget only; the existing controller still owns all progress. */
+export function occasionVisualPhase(progress: number) {
+  if (progress <= .3) return 'a';
+  if (progress < .4) return 'ac';
+  if (progress <= .6) return 'c';
+  if (progress < .7) return 'cb';
+  return 'b';
+}
+
 export function occasionMotionRange(geometry: OccasionGeometry, device: MotionDevice): MotionRange {
   const { height, layoutTop, layoutHeight, stageHeight } = geometry;
   const viewport = device.height;

@@ -14,7 +14,7 @@ export type OccasionCard = {
 };
 
 export function OccasionGrid({ occasions }: { occasions: OccasionCard[] }) {
-  const contexts = ['reuniones-familiares', 'fin-ano-empresas']
+  const contexts = ['reuniones-familiares', 'boda', 'fin-ano-empresas']
     .flatMap((id) => occasions.find((occasion) => occasion.id === id) || []);
   return (
     <section className="occasion-grid-section occasion-prototype" id="ocasiones" aria-labelledby="occasion-title">

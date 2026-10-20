@@ -1,10 +1,11 @@
-/* O-A prototype: one photographic surface, two contexts, eight immediate links. */
+/* One photographic surface, three ambient examples, eight immediate links. */
 #ocasiones.occasion-prototype {
   position: relative;
   overflow: clip;
   background: var(--cream);
-  --occasion-reveal-start: .42;
-  --occasion-reveal-distance: .08;
+  --occasion-reveal-start: .3;
+  --occasion-reveal-distance: .1;
+  --occasion-second-start: .6;
 }
 .occasion-prototype-layout {
   position: relative;
@@ -29,10 +30,10 @@
   border-radius: 18px 18px 0 0;
   background: #d9ddd2;
 }
-.occasion-stage-image { position: absolute; inset: -16px; }
+.occasion-stage-image { position: absolute; inset: -16px; opacity: 1; visibility: hidden; }
+.occasion-stage-image--a { visibility: visible; }
 #ocasiones .occasion-stage :is(.photo, .photo-scene) { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; }
 #ocasiones .occasion-stage img { width: 100%; height: 100%; object-fit: cover; }
-.occasion-stage-image--b { opacity: 1; clip-path: inset(0 100% 0 0); }
 .occasion-stage-band {
   position: relative;
   display: grid;
@@ -44,7 +45,12 @@
   color: var(--ink);
 }
 .occasion-stage-context { position: relative; padding-top: 10px; }
+.occasion-stage-context--a,
+.occasion-stage-context--c { grid-area: 1 / 1; }
+.occasion-stage-context--b { grid-area: 1 / 2; }
+.occasion-stage-context--c,
 .occasion-stage-context--b { opacity: 0; }
+.occasion-stage-context--c p { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .occasion-stage-context::before { content: ''; position: absolute; inset: 0 0 auto; height: 2px; background: var(--olive); }
 .occasion-stage-context--b::before { opacity: 0; }
 .occasion-stage-context strong { display: block; font: 500 22px/1.15 Lora, Georgia, serif; }
@@ -89,29 +95,39 @@
 /* Only photographs/context duplicates respond to progress; the commercial index never moves. */
 #ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) {
   --occasion-reveal: clamp(0, (var(--motion-progress) - var(--occasion-reveal-start)) / var(--occasion-reveal-distance), 1);
-  /* A brief caption handoff; never two equally weighted contexts at rest. */
-  --occasion-context-b: clamp(0, (var(--motion-progress) - .485) / .002, 1);
+  --occasion-reveal-b: clamp(0, (var(--motion-progress) - var(--occasion-second-start)) / var(--occasion-reveal-distance), 1);
+  --occasion-context-c: clamp(0, (var(--motion-progress) - .385) / .002, 1);
+  --occasion-context-b: clamp(0, (var(--motion-progress) - .685) / .002, 1);
 }
-#ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-image--a {
-  transform: translateX(calc(clamp(0, (var(--motion-progress) - .15) / .25, 1) * -7px)) scale(calc(1 + clamp(0, var(--motion-progress) / .4, 1) * .015));
+#ocasiones[data-occasion-phase]:not([data-motion-safe]):not(:target) .occasion-stage-image--a { visibility: hidden; }
+#ocasiones:is([data-occasion-phase="a"], [data-occasion-phase="ac"]):not([data-motion-safe]):not(:target) .occasion-stage-image--a {
+  visibility: visible;
+  transform: translateX(calc(clamp(0, (var(--motion-progress) - .1) / .2, 1) * -7px)) scale(calc(1 + clamp(0, var(--motion-progress) / .3, 1) * .015));
 }
-#ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-image--b {
+#ocasiones:is([data-occasion-phase="ac"], [data-occasion-phase="c"], [data-occasion-phase="cb"]):not([data-motion-safe]):not(:target) .occasion-stage-image--c,
+#ocasiones:is([data-occasion-phase="cb"], [data-occasion-phase="b"]):not([data-motion-safe]):not(:target) .occasion-stage-image--b { visibility: visible; }
+#ocasiones[data-occasion-phase="ac"]:not([data-motion-safe]):not(:target) .occasion-stage-image--c {
   clip-path: inset(0 calc((1 - var(--occasion-reveal)) * 100%) 0 0);
   transform: scale(calc(1.012 - var(--occasion-reveal) * .012));
 }
-#ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-context--a { opacity: calc(1 - var(--occasion-context-b)); }
+#ocasiones[data-occasion-phase="cb"]:not([data-motion-safe]):not(:target) .occasion-stage-image--b {
+  clip-path: inset(0 calc((1 - var(--occasion-reveal-b)) * 100%) 0 0);
+  transform: scale(calc(1.012 - var(--occasion-reveal-b) * .012));
+}
+#ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-context--a { opacity: calc(1 - var(--occasion-context-c)); }
+#ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-context--c { opacity: calc(var(--occasion-context-c) * (1 - var(--occasion-context-b))); }
 #ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-context--b { opacity: var(--occasion-context-b); }
 #ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-context--b::before { opacity: 1; }
 
 @media (min-width: 761px) and (max-width: 960px) {
-  #ocasiones.occasion-prototype { --occasion-reveal-start: .425; --occasion-reveal-distance: .075; }
+  #ocasiones.occasion-prototype { --occasion-reveal-start: .32; --occasion-reveal-distance: .08; --occasion-second-start: .62; }
   .occasion-prototype-layout { display: block; }
   #ocasiones .occasion-stage { position: relative; top: auto; }
   .occasion-stage-visual { height: 340px; }
   #ocasiones .occasion-index { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin-top: 24px; }
 }
 @media (max-width: 760px) {
-  #ocasiones.occasion-prototype { padding-block: 48px 38px; --occasion-reveal-start: .43; --occasion-reveal-distance: .07; }
+  #ocasiones.occasion-prototype { padding-block: 48px 38px; --occasion-reveal-start: .33; --occasion-reveal-distance: .07; --occasion-second-start: .63; }
   .occasion-prototype-layout { display: block; }
   #ocasiones .occasion-stage { position: relative; top: auto; }
   .occasion-stage-visual { height: 280px; border-radius: 14px 14px 0 0; }
@@ -124,19 +140,21 @@
   #ocasiones .occasion-index .occasion-card-mobile-title { display: block; font-size: 17px; line-height: 1.2; }
   #ocasiones .occasion-index .occasion-card-copy > span,
   #ocasiones .occasion-index .occasion-card-copy b { display: none; }
-  #ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-image--a {
-    transform: translateY(calc(clamp(0, var(--motion-progress) / .4, 1) * -7px)) scale(calc(1.04 + clamp(0, var(--motion-progress) / .4, 1) * .012));
+  #ocasiones:is([data-occasion-phase="a"], [data-occasion-phase="ac"]):not([data-motion-safe]):not(:target) .occasion-stage-image--a {
+    transform: translateY(calc(clamp(0, var(--motion-progress) / .3, 1) * -7px)) scale(calc(1.04 + clamp(0, var(--motion-progress) / .3, 1) * .012));
   }
-  #ocasiones[data-motion-section]:not([data-motion-safe]):not(:target) .occasion-stage-image--b {
+  #ocasiones[data-occasion-phase="ac"]:not([data-motion-safe]):not(:target) .occasion-stage-image--c {
     clip-path: inset(0 0 calc((1 - var(--occasion-reveal)) * 100%) 0);
-    transform: scale(calc(1.012 - var(--occasion-reveal) * .012));
+  }
+  #ocasiones[data-occasion-phase="cb"]:not([data-motion-safe]):not(:target) .occasion-stage-image--b {
+    clip-path: inset(0 0 calc((1 - var(--occasion-reveal-b)) * 100%) 0);
   }
 }
 @media (min-width: 376px) and (max-width: 760px) and (min-height: 830px) {
   #ocasiones .occasion-stage { position: sticky; top: 76px; }
 }
 @media (max-width: 375px) {
-  #ocasiones.occasion-prototype { --occasion-reveal-start: .44; --occasion-reveal-distance: .06; }
+  #ocasiones.occasion-prototype { --occasion-reveal-start: .34; --occasion-reveal-distance: .06; --occasion-second-start: .64; }
   .occasion-stage-visual { height: 260px; }
   .occasion-stage-band { gap: 12px; }
   .occasion-stage-context p { display: none; }
@@ -146,17 +164,19 @@
   .occasion-stage-visual { height: 240px; }
 }
 /* A direct chapter link skips the prototype, even after the controller clears its transient anchor flag. */
-#ocasiones:is(:target, [data-motion-safe]) .occasion-stage-image { transform: none; }
-#ocasiones:is(:target, [data-motion-safe]) .occasion-stage-image--b { opacity: 1; clip-path: none; }
+#ocasiones:is(:target, [data-motion-safe]) .occasion-stage-image { visibility: hidden; transform: none; clip-path: none; }
+#ocasiones:is(:target, [data-motion-safe]) .occasion-stage-image--b { visibility: visible; }
 #ocasiones:is(:target, [data-motion-safe]) .occasion-stage-context--a { opacity: 0; }
+#ocasiones:is(:target, [data-motion-safe]) .occasion-stage-context--c { opacity: 0; }
 #ocasiones:is(:target, [data-motion-safe]) .occasion-stage-context--b { opacity: 1; }
 #ocasiones:is(:target, [data-motion-safe]) .occasion-stage-context--a::before { opacity: 0; }
 #ocasiones:is(:target, [data-motion-safe]) .occasion-stage-context--b::before { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   #ocasiones .occasion-stage { position: relative; top: auto; }
-  #ocasiones .occasion-stage-image { transform: none !important; }
-  #ocasiones .occasion-stage-image--b { clip-path: none !important; }
+  #ocasiones .occasion-stage-image { visibility: hidden !important; transform: none !important; clip-path: none !important; }
+  #ocasiones .occasion-stage-image--b { visibility: visible !important; }
   #ocasiones .occasion-stage-context--a { opacity: 0 !important; }
+  #ocasiones .occasion-stage-context--c { opacity: 0 !important; }
   #ocasiones .occasion-stage-context--b { opacity: 1 !important; }
   #ocasiones .occasion-stage-image--b,
   #ocasiones .occasion-stage-context--b::before { opacity: 1 !important; }

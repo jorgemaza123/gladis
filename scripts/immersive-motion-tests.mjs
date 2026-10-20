@@ -414,7 +414,7 @@ assert.doesNotMatch(integration, /company-gateway|#como-cotizar|mesa-invitation/
 console.log('PASS C4: desktop/tablet/mobile quarters, reverse, details reflow, hash, focus, reduced, route cleanup and static fallback.');
 
 const occasionSource = await readFile(new URL('../lib/occasion-motion.ts', import.meta.url), 'utf8');
-const { occasionMotionRange } = await import('data:text/javascript;base64,' + Buffer.from(ts.transpileModule(occasionSource, {
+const { occasionMotionRange, occasionVisualPhase } = await import('data:text/javascript;base64,' + Buffer.from(ts.transpileModule(occasionSource, {
   compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
 }).outputText).toString('base64'));
 
@@ -475,29 +475,75 @@ assert.match(integration, /querySelector<HTMLElement>\('#ocasiones'\)/);
 assert.match(occasionCss, /@media \(max-width: 375px\)/);
 assert.match(occasionCss, /@media \(max-height: 699px\)/);
 assert.match(occasionCss, /@media \(prefers-reduced-motion: reduce\)/);
-assert.match(occasionCss, /#ocasiones:is\(:target, \[data-motion-safe\]\) \.occasion-stage-image--b \{ opacity: 1; clip-path: none; \}/);
+assert.match(occasionCss, /#ocasiones:is\(:target, \[data-motion-safe\]\) \.occasion-stage-image--b \{ visibility: visible; \}/);
 assert.match(occasionGrid, /occasions\.map/);
 assert.doesNotMatch(occasionSource, /addEventListener|requestAnimationFrame|Observer/);
 assert.doesNotMatch(occasionCss, /will-change|animation:|transition:|filter:|backdrop-filter/);
 // Read the authored intervals: each viewport must hand over to opaque B at the
-// central inspection gate, while preserving A as continuous photographic cover.
+// first stable gate, while preserving opaque photographic cover.
 const revealIntervals = [...occasionCss.matchAll(/--occasion-reveal-start: ([\d.]+);\s*--occasion-reveal-distance: ([\d.]+);/g)]
   .map((match) => [Number(match[1]), Number(match[2])]);
 assert.equal(revealIntervals.length, 4, 'desktop, tablet, mobile and narrow flow intervals');
 for (const [start, distance] of revealIntervals) {
   const fraction = (progress) => Math.max(0, Math.min(1, (progress - start) / distance));
-  assert.ok(fraction(.45) < .4, 'A is dominant at 45%');
-  assert.ok(fraction(.5) >= .9999, 'B covers the complete photographic surface at 50%');
-  assert.equal(fraction(.55), 1, 'B fully covers A by 55%');
+  assert.ok(fraction(start) === 0, 'the incoming photograph starts fully clipped');
+  assert.ok(fraction(.4) >= .9999, 'C covers A by 40%');
+  assert.equal(fraction(.5), 1, 'C remains complete at 50%');
   for (const progress of [.3, .7, .3, .1, .9, .1, .35, .4, .45, .5, .55, .6, .65]) {
     assert.ok(fraction(progress) >= 0 && fraction(progress) <= 1);
   }
 }
-assert.match(occasionCss, /\.occasion-stage-image--b \{ opacity: 1; clip-path: inset\(0 100% 0 0\); \}/);
+assert.match(occasionCss, /\.occasion-stage-image \{[^}]*opacity: 1; visibility: hidden;/);
 assert.doesNotMatch(occasionCss, /occasion-crossfade|opacity: var\(--occasion-reveal\)/);
 assert.match(occasionCss, /clip-path: inset\(0 calc\(\(1 - var\(--occasion-reveal\)\) \* 100%\) 0 0\)/);
 assert.match(occasionCss, /clip-path: inset\(0 0 calc\(\(1 - var\(--occasion-reveal\)\) \* 100%\) 0\)/);
-assert.match(occasionCss, /\.occasion-stage-image--b \{ clip-path: none !important; \}/);
-assert.match(occasionCss, /--occasion-context-b: clamp\(0, \(var\(--motion-progress\) - \.485\) \/ \.002, 1\)/);
-console.log('PASS OCASIONES: 2-context prototype, six states/reverse, native fallback, coexistence, hash/focus, reduced and cleanup.');
-console.log('PASS PHOTO RELAY: opaque coverage, dominant 45/50/55 gates, lateral/vertical reveal and settled safe/reduced fallback.');
+assert.match(occasionCss, /\.occasion-stage-image \{[^}]*clip-path: none !important;/);
+assert.match(occasionCss, /--occasion-context-b: clamp\(0, \(var\(--motion-progress\) - \.685\) \/ \.002, 1\)/);
+console.log('PASS OCASIONES: original progress/reverse, native fallback, coexistence, hash/focus, reduced and cleanup retained.');
+
+const phasePhotos = { a: ['a'], ac: ['a', 'c'], c: ['c'], cb: ['c', 'b'], b: ['b'] };
+for (const [progress, phase] of [[0, 'a'], [.25, 'a'], [.35, 'ac'], [.4, 'c'], [.5, 'c'], [.6, 'c'], [.65, 'cb'], [.7, 'b'], [1, 'b']]) {
+  assert.equal(occasionVisualPhase(progress), phase);
+}
+for (let i = 0; i <= 1000; i++) {
+  const phase = occasionVisualPhase(i / 1000);
+  assert.ok(phasePhotos[phase].length <= 2);
+  assert.ok(!phasePhotos[phase].includes('a') || !phasePhotos[phase].includes('b'));
+}
+for (const [width, height] of [[1440, 900], [768, 1024], [390, 844], [375, 812], [360, 800]]) {
+  check(`three environments ${width}: full reverse, jumps and stopped intervals use one section`, (env, controller) => {
+    const geometry = { height: env.first.height, layoutTop: 200, layoutHeight: 1000, stageHeight: 500 };
+    let phase;
+    controller.register({ element: env.first, range: (d) => occasionMotionRange(geometry, d), onProgress: (p) => { phase = occasionVisualPhase(p); } });
+    const range = occasionMotionRange(geometry, controller.snapshot().device);
+    const start = env.first.top - height * range.start;
+    const end = env.first.top + geometry.height - height * range.end;
+    env.intersections.at(-1).cross(env.first, true);
+    for (const p of [0, .25, .35, .5, .65, .75, 1, .75, .65, .5, .35, .25, 0, .1, .5, .9, .5, .1, .9, .1]) {
+      env.scroll(start + (end - start) * p); env.flush();
+      assert.equal(phase, occasionVisualPhase(p));
+      assert.ok(phasePhotos[phase].length <= 2);
+      const frames = controller.snapshot().stats.frames;
+      env.flush(); assert.equal(controller.snapshot().stats.frames, frames);
+    }
+    assert.equal(controller.snapshot().sections.length, 1);
+  }, { width, height });
+}
+const occasionStage = await readFile(new URL('../components/occasion-stage.tsx', import.meta.url), 'utf8');
+check('three environments reduced starts at final B without any motion tracking', (env, controller) => {
+  let phase;
+  controller.register({ element: env.first, onProgress: (p) => { phase = occasionVisualPhase(p); } });
+  assert.equal(phase, 'b');
+  assert.equal(env.first.dataset.motionSafe, 'reduced');
+  assert.equal(env.frames.size + env.browser.count('scroll') + env.intersections.length + env.resizes.length, 0);
+}, { reduced: true });
+assert.match(occasionStage, /const planes = \['a', 'c', 'b'\]/);
+assert.match(occasionStage, /aria-hidden="true"/);
+assert.match(occasionGrid, /\['reuniones-familiares', 'boda', 'fin-ano-empresas'\]/);
+assert.match(integration, /onProgress: \(progress\) =>/);
+assert.match(integration, /removeAttribute\('data-occasion-phase'\)/);
+assert.match(occasionCss, /--occasion-second-start: \.6;/);
+assert.match(occasionCss, /--occasion-second-start: \.64;/);
+assert.match(occasionCss, /\.occasion-stage-context--c \{ grid-area: 1 \/ 1; \}/);
+assert.match(occasionCss, /\.occasion-stage-image--b \{ visibility: visible !important; \}/);
+console.log('PASS THREE ENVIRONMENTS: A/AC/C/CB/B, 1001 paint-budget samples, full reversal/jumps, constant opacity, CSS clipping, safe/reduced and narrow flow contracts.');

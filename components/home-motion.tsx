@@ -15,10 +15,17 @@ export function HomeMotion() {
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
-    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange }]) => {
+    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange, occasionVisualPhase }]) => {
       if (disposed) return;
       const controller = createImmersiveMotion(root, { debug });
-      cleanup = () => controller.destroy();
+      const previousPhase = occasions?.getAttribute('data-occasion-phase');
+      cleanup = () => {
+        controller.destroy();
+        if (occasions) {
+          if (previousPhase == null) occasions.removeAttribute('data-occasion-phase');
+          else occasions.setAttribute('data-occasion-phase', previousPhase);
+        }
+      };
       controller.register({
         element: section,
         // Structural read only during the controller's batched geometry pass.
@@ -34,6 +41,10 @@ export function HomeMotion() {
           layoutHeight: layout.offsetHeight,
           stageHeight: stage.offsetHeight,
         }, device),
+        onProgress: (progress) => {
+          const phase = occasionVisualPhase(progress);
+          if (occasions.dataset.occasionPhase !== phase) occasions.dataset.occasionPhase = phase;
+        },
       });
     }).catch(() => {
       cleanup?.();
