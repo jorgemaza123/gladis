@@ -1,0 +1,101 @@
+/* A stitched margin follows the existing list; it contributes no layout space. */
+#como-cotizar .conversation-steps {
+  position: relative;
+  view-timeline-name: none;
+}
+/* Retire only this section's older, independent native timeline. */
+#como-cotizar .conversation-steps::before {
+  content: none;
+  animation: none;
+}
+#como-cotizar .conversation-steps li {
+  position: relative;
+  --process-padding: 48px;
+}
+#como-cotizar .process-thread {
+  position: absolute;
+  top: calc(var(--process-padding) + 19px);
+  left: -10px;
+  width: 10px;
+  height: 100%;
+  pointer-events: none;
+}
+#como-cotizar li:first-child .process-thread {
+  top: 19px;
+  height: calc(100% + var(--process-padding));
+}
+#como-cotizar .process-thread::before,
+#como-cotizar .process-thread::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-bottom-left-radius: 8px;
+  transform-origin: left top;
+}
+#como-cotizar .process-thread::after {
+  border-color: var(--copper);
+  opacity: .85;
+}
+#como-cotizar .conversation-steps li > span {
+  position: relative;
+  border-radius: 0;
+  background: transparent;
+}
+#como-cotizar .conversation-steps li > span::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 7px;
+  right: 7px;
+  height: 1px;
+  background: var(--copper);
+  opacity: .6;
+  transform-origin: left center;
+}
+#como-cotizar[data-motion-section]:not([data-motion-safe]) {
+  --process-one: clamp(0, var(--motion-progress) / .2, 1);
+  --process-two: clamp(0, (var(--motion-progress) - .32) / .25, 1);
+  --process-three: clamp(0, (var(--motion-progress) - .65) / .25, 1);
+  --process-link-one: clamp(0, (var(--motion-progress) - .25) / .2, 1);
+  --process-link-two: clamp(0, (var(--motion-progress) - .58) / .22, 1);
+}
+#como-cotizar[data-motion-section]:not([data-motion-safe]) li:first-child .process-thread::after {
+  transform: scaleY(var(--process-link-one));
+}
+#como-cotizar[data-motion-section]:not([data-motion-safe]) li:nth-child(2) .process-thread::after {
+  transform: scaleY(var(--process-link-two));
+}
+#como-cotizar[data-motion-section]:not([data-motion-safe]) li:first-child > span::after {
+  transform: scaleX(var(--process-one));
+}
+#como-cotizar[data-motion-section]:not([data-motion-safe]) li > span::after { opacity: .2; }
+#como-cotizar[data-process-phase='one']:not([data-motion-safe]) li:first-child > span::after,
+#como-cotizar[data-process-phase='two']:not([data-motion-safe]) li:nth-child(2) > span::after,
+#como-cotizar[data-process-phase='three']:not([data-motion-safe]) li:nth-child(3) > span::after { opacity: 1; }
+#como-cotizar[data-process-phase='one']:not([data-motion-safe]) li:first-child h3,
+#como-cotizar[data-process-phase='two']:not([data-motion-safe]) li:nth-child(2) h3,
+#como-cotizar[data-process-phase='three']:not([data-motion-safe]) li:nth-child(3) h3 { color: var(--olive); }
+#como-cotizar[data-process-phase='complete'] li > span::after { opacity: .6; }
+@media (max-width: 760px) {
+  #como-cotizar .conversation-steps li { --process-padding: 30px; }
+  #como-cotizar .process-thread { width: 12px; }
+  #como-cotizar[data-motion-section]:not([data-motion-safe]) li:first-child > div {
+    transform: translateX(calc((1 - var(--process-one)) * 6px));
+  }
+  #como-cotizar[data-motion-section]:not([data-motion-safe]) li:nth-child(2) > div {
+    transform: translateX(calc((1 - var(--process-two)) * 6px));
+  }
+  #como-cotizar[data-motion-section]:not([data-motion-safe]) li:nth-child(3) > div {
+    transform: translateX(calc((1 - var(--process-three)) * 6px));
+  }
+}
+#como-cotizar[data-motion-safe] .process-thread::after,
+#como-cotizar[data-motion-safe] li > span::after { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  #como-cotizar .process-thread::after,
+  #como-cotizar .conversation-steps li > span::after,
+  #como-cotizar .conversation-steps li > div { transform: none !important; }
+  #como-cotizar .conversation-steps li > span::after { opacity: .6 !important; }
+}

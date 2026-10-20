@@ -120,7 +120,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       <CompanyGateway />
       <section className="conversation-chapter" id="como-cotizar">
         <div className="conversation-section wrap">
-          <div data-reveal="support-heading">
+          <div data-motion-content>
             <p className="section-kicker">De la idea a tu celebración</p>
             <h2>
               Lo conversamos.
@@ -134,9 +134,10 @@ export function HomeExperience({ site }: { site: SiteContent }) {
             </QuoteCta>
           </div>
           <ol className="conversation-steps">
-            <li data-reveal="step">
+            <li>
+              <i className="process-thread" data-motion-decoration aria-hidden="true" />
               <span>1</span>
-              <div>
+              <div data-motion-content>
                 <h3>Elige lo que necesitas</h3>
                 <p>
                   Añade los servicios a Mi evento y dinos las cantidades
@@ -144,9 +145,10 @@ export function HomeExperience({ site }: { site: SiteContent }) {
                 </p>
               </div>
             </li>
-            <li data-reveal="step">
+            <li>
+              <i className="process-thread" data-motion-decoration aria-hidden="true" />
               <span>2</span>
-              <div>
+              <div data-motion-content>
                 <h3>Cuéntanos tu idea</h3>
                 <p>
                   Dinos la fecha, el distrito y cuántos invitados esperas. Si ya
@@ -154,9 +156,9 @@ export function HomeExperience({ site }: { site: SiteContent }) {
                 </p>
               </div>
             </li>
-            <li data-reveal="step">
+            <li>
               <span>3</span>
-              <div>
+              <div data-motion-content>
                 <h3>Conversemos por WhatsApp</h3>
                 <p>
                   Revisa tu mensaje y envíanoslo por WhatsApp. Allí conversamos

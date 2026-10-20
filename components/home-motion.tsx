@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import '@/app/immersive-motion.css';
 import '@/app/company-motion.css';
+import '@/app/process-motion.css';
 
 export function HomeMotion() {
   useEffect(() => {
@@ -14,18 +15,24 @@ export function HomeMotion() {
     if (!section) return;
     const occasions = root.querySelector<HTMLElement>('#ocasiones');
     const company = root.querySelector<HTMLElement>('.company-gateway');
+    const processSection = root.querySelector<HTMLElement>('#como-cotizar');
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
-    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion'), import('@/lib/company-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange, occasionVisualPhase }, { companyMotionRange }]) => {
+    void Promise.all([import('@/lib/immersive-motion'), import('@/lib/c4-motion'), import('@/lib/occasion-motion'), import('@/lib/company-motion'), import('@/lib/process-motion')]).then(([{ createImmersiveMotion }, { c4MotionRange }, { occasionMotionRange, occasionVisualPhase }, { companyMotionRange }, { processMotionRange, processVisualPhase }]) => {
       if (disposed) return;
       const controller = createImmersiveMotion(root, { debug });
       const previousPhase = occasions?.getAttribute('data-occasion-phase');
+      const previousProcessPhase = processSection?.getAttribute('data-process-phase');
       cleanup = () => {
         controller.destroy();
         if (occasions) {
           if (previousPhase == null) occasions.removeAttribute('data-occasion-phase');
           else occasions.setAttribute('data-occasion-phase', previousPhase);
+        }
+        if (processSection) {
+          if (previousProcessPhase == null) processSection.removeAttribute('data-process-phase');
+          else processSection.setAttribute('data-process-phase', previousProcessPhase);
         }
       };
       controller.register({
@@ -51,6 +58,23 @@ export function HomeMotion() {
       if (company) controller.register({
         element: company,
         range: (device) => companyMotionRange(company.offsetHeight, device),
+      });
+      const markers = processSection?.querySelectorAll<HTMLElement>('.conversation-steps li > span');
+      if (processSection && markers?.length === 3) controller.register({
+        element: processSection,
+        range: (device) => {
+          // Stable marker geometry, batched with the shared controller's resize pass.
+          const top = processSection.getBoundingClientRect().top;
+          return processMotionRange({
+            height: processSection.offsetHeight,
+            firstTop: markers[0].getBoundingClientRect().top - top,
+            lastTop: markers[2].getBoundingClientRect().top - top,
+          }, device);
+        },
+        onProgress: (progress) => {
+          const phase = processVisualPhase(progress);
+          if (processSection.dataset.processPhase !== phase) processSection.dataset.processPhase = phase;
+        },
       });
     }).catch(() => {
       cleanup?.();

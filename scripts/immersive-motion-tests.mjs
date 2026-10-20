@@ -410,7 +410,7 @@ assert.match(c4Css, /prefers-reduced-motion: reduce/);
 assert.match(c4Css, /#completa-tu-evento \.c4-ribbon-rule \{ opacity: \.35; \}/);
 assert.doesNotMatch(c4Css, /will-change|animation:|transition:|filter:|position: sticky/);
 assert.doesNotMatch(c4Source, /addEventListener|requestAnimationFrame|Observer/);
-assert.doesNotMatch(integration, /#como-cotizar|mesa-invitation/);
+assert.doesNotMatch(integration, /mesa-invitation/);
 console.log('PASS C4: desktop/tablet/mobile quarters, reverse, details reflow, hash, focus, reduced, route cleanup and static fallback.');
 
 const occasionSource = await readFile(new URL('../lib/occasion-motion.ts', import.meta.url), 'utf8');
@@ -626,3 +626,89 @@ assert.match(companyCss, /\[data-motion-safe\] \.company-coordination-rule/);
 assert.doesNotMatch(companySource, /addEventListener|requestAnimationFrame|Observer/);
 assert.doesNotMatch(companyCss, /min-height|padding:|padding-block:|margin:|font-size|line-height|sticky|will-change|animation:|transition:|filter:|clip-path|\.button/);
 console.log('PASS EMPRESAS: quarters, reverse/jumps/stops, native mobile, reflow, shared C4/occasion controller, focus/hash, reduced, static HTML/CTA and cleanup.');
+
+const processSource = await readFile(new URL('../lib/process-motion.ts', import.meta.url), 'utf8');
+const { processMotionRange, processVisualPhase } = await import('data:text/javascript;base64,' + Buffer.from(ts.transpileModule(processSource, {
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+}).outputText).toString('base64'));
+for (const [p, phase] of [[0, 'origin'], [.2, 'one'], [.25, 'one'], [.4, 'two'], [.5, 'two'], [.6, 'two'], [.75, 'three'], [.8, 'three'], [1, 'complete']]) {
+  assert.equal(processVisualPhase(p), phase);
+}
+for (const [width, height] of [[1440, 900], [960, 900], [820, 1180], [768, 1024], [430, 932], [390, 844], [375, 812], [360, 800], [1024, 600]]) {
+  check(`Proceso ${width}x${height}: real markers, six states, reversal, jumps and stopped frames`, (env, controller) => {
+    const geometry = { height: env.first.height, firstTop: 200, lastTop: 668 };
+    let phase;
+    env.first.id = 'como-cotizar';
+    controller.register({ element: env.first, range: (d) => processMotionRange(geometry, d), onProgress: (p) => { phase = processVisualPhase(p); } });
+    const range = processMotionRange(geometry, controller.snapshot().device);
+    const start = env.first.top - height * range.start;
+    const distance = geometry.height - height * range.end + height * range.start;
+    env.intersections.at(-1).cross(env.first, true);
+    for (const p of [0, .2, .4, .6, .8, 1, .8, .6, .4, .2, 0, 1, 0, .1, .6, .2, .9, .4]) {
+      env.scroll(start + distance * p); env.flush();
+      assert.ok(Math.abs(controller.snapshot().sections[0].progress - p) < .0001);
+      assert.equal(phase, processVisualPhase(p), 'same scroll has same phase in either direction');
+      const frames = controller.snapshot().stats.frames;
+      env.flush(); assert.equal(controller.snapshot().stats.frames, frames);
+    }
+    geometry.height += 150; env.first.height += 150; env.first.top += 230;
+    env.resizes.at(-1).emit(); env.flush();
+    env.scroll(start + 230 + distance * .6); env.flush();
+    assert.ok(Math.abs(controller.snapshot().sections[0].progress - .6) < .0001, 'bottom space never stretches the marker-based range');
+    for (const name of ['wheel', 'touchmove', 'keydown']) assert.equal(env.browser.count(name), 0);
+  }, { width, height });
+}
+check('four Home sections share sensors, deactivate upstream and unregister Proceso completely', (env, controller) => {
+  const company = new Element(3400, 533); env.root.append(company);
+  const processSection = new Element(3933, 987); env.root.append(processSection);
+  controller.register({ element: env.first, range: (d) => c4MotionRange(env.first.height, d) });
+  controller.register({ element: env.second, range: (d) => occasionMotionRange({ height: env.second.height, layoutTop: 200, layoutHeight: 1000, stageHeight: 500 }, d) });
+  controller.register({ element: company, range: (d) => companyMotionRange(company.height, d) });
+  const remove = controller.register({ element: processSection, range: (d) => processMotionRange({ height: processSection.height, firstTop: 160, lastTop: 628 }, d) });
+  assert.equal(controller.snapshot().sections.length, 4);
+  assert.equal(env.intersections.filter((o) => o.targets.size).length, 1);
+  assert.equal(env.resizes.filter((o) => o.targets.size).length, 1);
+  assert.equal(env.browser.count('scroll'), 1);
+  env.scroll(4400); env.intersections.at(-1).cross(company, false); env.intersections.at(-1).cross(processSection, true); env.flush();
+  assert.equal(controller.snapshot().sections[2].active, false);
+  assert.equal(controller.snapshot().sections[3].active, true);
+  remove(); assert.equal(processSection.getAttribute('data-motion-section'), null);
+  assert.equal(processSection.style.getPropertyValue('--motion-progress'), '');
+  controller.destroy(); env.assertClean();
+});
+check('Proceso existing hash and keyboard focus use the shared safe state', (env, controller) => {
+  env.first.id = 'como-cotizar'; env.browser.location.hash = '#como-cotizar';
+  controller.register({ element: env.first });
+  assert.equal(env.first.dataset.motionSafe, 'anchor');
+  env.root.dispatch('focusin', { target: env.button });
+  env.scroll(1000); env.flush(); assert.equal(env.first.dataset.motionSafe, 'focus');
+  controller.destroy(); env.assertClean();
+});
+check('Proceso reduced completes all steps without decorative tracking', (env, controller) => {
+  let phase;
+  controller.register({ element: env.first, onProgress: (p) => { phase = processVisualPhase(p); } });
+  assert.equal(phase, 'complete'); assert.equal(env.first.dataset.motionSafe, 'reduced');
+  assert.equal(env.frames.size + env.browser.count('scroll') + env.intersections.length + env.resizes.length, 0);
+}, { width: 390, height: 844, reduced: true });
+const processCss = await readFile(new URL('../app/process-motion.css', import.meta.url), 'utf8');
+const processMarkup = home.slice(home.indexOf('<section className="conversation-chapter"'), home.indexOf('<section className="faq-chapter"'));
+assert.equal((processMarkup.match(/<li>/g) || []).length, 3);
+assert.equal((processMarkup.match(/<h3>/g) || []).length, 3);
+assert.equal((processMarkup.match(/className="process-thread" data-motion-decoration aria-hidden="true"/g) || []).length, 2);
+assert.match(processMarkup, /<ol className="conversation-steps">/);
+assert.match(processMarkup, /id="como-cotizar"/);
+assert.match(processMarkup, /<QuoteCta className="button" placement="navigation">/);
+for (const heading of ['Elige lo que necesitas', 'Cuéntanos tu idea', 'Conversemos por WhatsApp']) assert.ok(processMarkup.includes(heading));
+assert.doesNotMatch(processMarkup, /data-reveal|<svg|<img|aria-current/);
+assert.match(integration, /querySelector<HTMLElement>\('#como-cotizar'\)/);
+assert.match(integration, /markers\?\.length === 3/);
+assert.match(integration, /removeAttribute\('data-process-phase'\)/);
+assert.match(integration, /import '@\/app\/process-motion\.css'/);
+assert.doesNotMatch(home, /import '@\/app\/process-motion\.css'/);
+assert.doesNotMatch(processSource, /addEventListener|requestAnimationFrame|Observer/);
+assert.doesNotMatch(processCss, /will-change|filter:|transition:|position: sticky|opacity: 0;|display: none/);
+assert.doesNotMatch(processCss, /^\s*(min-height|padding(?:-\w+)?|margin(?:-\w+)?|font-size|line-height):/m);
+for (const match of processCss.matchAll(/\banimation:\s*([^;]+)/g)) assert.equal(match[1], 'none');
+assert.match(processCss, /prefers-reduced-motion: reduce/);
+assert.match(processCss, /\[data-motion-safe\] \.process-thread::after/);
+console.log('PASS PROCESO: three semantic steps, six states, reverse/jumps/stops, responsive markers, shared sensors, hash/focus, reduced, static fallback, preserved CTA and cleanup.');
