@@ -95,6 +95,9 @@ export function SharedServiceStory({ children }: { children: ReactNode }) {
         !floresPanel
       ) return;
 
+      const bartenderAnchorMargin = Number.parseFloat(window.getComputedStyle(bartenderPanel).scrollMarginTop);
+      const menajeAnchorMargin = Number.parseFloat(window.getComputedStyle(menajePanel).scrollMarginTop);
+
       updateActiveScene = () => {
         const bartenderTop = bartenderPanel.getBoundingClientRect().top;
         const menajeTop = menajePanel.getBoundingClientRect().top;
@@ -116,6 +119,16 @@ export function SharedServiceStory({ children }: { children: ReactNode }) {
             if (next !== current) root.dataset.transitionFrom = current;
             return next;
           };
+
+          // A matching hash settles its landing point; normal hysteresis applies outside it.
+          if (
+            window.location.hash === '#servicio-bartender' &&
+            Math.abs(bartenderTop - bartenderAnchorMargin) <= 2
+          ) return changeScene('bartender');
+          if (
+            window.location.hash === '#servicio-menaje' &&
+            Math.abs(menajeTop - menajeAnchorMargin) <= 2
+          ) return changeScene('menaje');
 
           if (current === 'cocina') {
             if (floresTop <= floresEnterAt) return changeScene('flores');
