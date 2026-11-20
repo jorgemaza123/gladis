@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 
 const base = new URL(process.env.SEO_BASE_URL || 'http://127.0.0.1:4191');
-const productionOrigin = 'https://gladis-vr6r.vercel.app';
+const productionOrigin = 'https://www.gladyseventos.com';
 
 const get = async (url) => {
   const response = await fetch(url, { redirect: 'manual' });

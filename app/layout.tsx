@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import './globals.css';
 import './design.css';
 import './motion.css';
@@ -10,6 +11,18 @@ import { AttributionProvider } from '@/components/attribution-provider';
 import { isPublicAvailability } from '@/models/content';
 import { ServiceSearchProvider } from '@/components/service-search';
 import { serviceGroup } from '@/lib/service-groups';
+
+export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/apple-touch-icon.png', type: 'image/png', sizes: '180x180' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+};
 export default async function RootLayout({
   children,
 }: {

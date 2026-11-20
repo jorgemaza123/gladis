@@ -190,7 +190,7 @@ export const demoContent: SiteContent = normalizeSite({
     whatsapp: '',
     whatsappMessage: 'Hola, quisiera una propuesta para mi evento.',
     email: '',
-    origin: 'https://gladis-vr6r.vercel.app',
+    origin: 'https://www.gladyseventos.com',
     indexable: true,
     demo: false,
     businessVerified: true,
@@ -282,6 +282,8 @@ export const demoContent: SiteContent = normalizeSite({
       primaryCta: 'Arma tu evento',
       quoteAsideDescription:
         'Te damos el precio por WhatsApp según lo que necesites. Antes de reservar, revisamos contigo la fecha, el lugar y las condiciones del servicio.',
+      privacyBody:
+        'Esta aplicación no almacena cotizaciones ni datos personales (nombre, teléfono, correo o comentarios) en una base de datos propia, y actualmente no utiliza Google Analytics (GA4) ni píxeles publicitarios. Como en cualquier sitio web, el proveedor de alojamiento puede generar registros técnicos estándar de acceso y seguridad al servir las páginas. Para conservar tu avance en el cotizador, la aplicación guarda temporalmente en el almacenamiento de esta pestaña (sessionStorage): tu selección de servicios y el borrador de datos del evento hasta por 24 horas, además de un contexto básico de navegación de la sesión (página de entrada, última página visitada, dominio de referencia, canal y parámetros de campaña UTM saneados); estos datos permanecen en tu navegador y se borran al cerrar la pestaña. Si decides abrir WhatsApp, el mensaje preparado —que puedes revisar completo antes de enviarlo— incluye los datos del evento que escribiste y ese resumen básico de origen de navegación; a partir de ese momento, el envío y el tratamiento posterior dependen de tu decisión y de WhatsApp.',
     },
   },
   media: [

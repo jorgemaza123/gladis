@@ -189,7 +189,9 @@ export function businessData(site: SiteContent) {
     ...(areaServed.length ? { areaServed } : {}),
     ...(contactPoint.length ? { contactPoint } : {}),
     ...(s.email ? { email: s.email } : {}),
-    sameAs: s.socialLinks.map((l) => l.url),
+    ...(s.socialLinks.length
+      ? { sameAs: s.socialLinks.map((l) => l.url) }
+      : {}),
   };
 }
 
