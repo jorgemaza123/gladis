@@ -8,6 +8,8 @@ import type {
   QuoteInputV2,
 } from '@/models/quote-v2';
 
+z.config({ jitless: true });
+
 const identifier = z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/);
 const path = z.string().max(300).regex(/^\/(?!\/)[a-zA-Z0-9/_-]*$/);
 const phone = z.string().trim().min(7).max(25).regex(/^[+()0-9\s-]+$/);

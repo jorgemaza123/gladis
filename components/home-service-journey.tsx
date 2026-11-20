@@ -5,13 +5,23 @@ import { QuoteCta } from './quote-cta';
 import { SharedServiceStory } from './shared-service-story';
 
 function SceneLayerImage({ layer }: { layer: HomeSceneLayer }) {
+  const aspectRatio = `${layer.width} / ${layer.height}`;
   return (
-    <picture className={`service-scene-layer service-scene-layer--${layer.name}`}>
-      <source media="(max-width: 760px)" srcSet={layer.mobile} />
+    <picture
+      className={`service-scene-layer service-scene-layer--${layer.name}`}
+      style={{ aspectRatio }}
+    >
+      <source
+        media="(max-width: 760px)"
+        srcSet={layer.mobile}
+        width={layer.mobileWidth}
+        height={layer.mobileHeight}
+      />
       <img
         src={layer.desktop}
         width={layer.width}
         height={layer.height}
+        style={{ aspectRatio }}
         alt=""
         loading="lazy"
         decoding="async"

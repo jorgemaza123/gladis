@@ -1,4 +1,7 @@
 import { z } from 'zod';
+
+z.config({ jitless: true });
+
 export function todayInLima() {
   return new Date().toLocaleDateString('sv-SE', { timeZone: 'America/Lima' });
 }

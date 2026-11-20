@@ -13,13 +13,23 @@ type SharedSceneKey =
   | 'flores';
 
 function StageLayer({ layer, variant }: { layer: HomeSceneLayer; variant?: string }) {
+  const aspectRatio = `${layer.width} / ${layer.height}`;
   return (
-    <picture className={`shared-service-layer ${variant ?? `shared-service-layer--${layer.name}`}`}>
-      <source media="(max-width: 760px)" srcSet={layer.mobile} />
+    <picture
+      className={`shared-service-layer ${variant ?? `shared-service-layer--${layer.name}`}`}
+      style={{ aspectRatio }}
+    >
+      <source
+        media="(max-width: 760px)"
+        srcSet={layer.mobile}
+        width={layer.mobileWidth}
+        height={layer.mobileHeight}
+      />
       <img
         src={layer.desktop}
         width={layer.width}
         height={layer.height}
+        style={{ aspectRatio }}
         alt=""
         loading="lazy"
         decoding="async"

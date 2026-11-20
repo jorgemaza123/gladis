@@ -48,8 +48,17 @@ export function StoryHero({ serviceSearch }: { serviceSearch: ReactNode }) {
             <source
               media="(max-width: 760px)"
               srcSet="/videos/gladys-story-poster-mobile.webp"
+              width={540}
+              height={960}
             />
-            <img src="/videos/gladys-story-poster.webp" alt="" />
+            <img
+              src="/videos/gladys-story-poster.webp"
+              width={1600}
+              height={900}
+              alt=""
+              fetchPriority="high"
+              decoding="async"
+            />
           </picture>
           <video
             ref={video}

@@ -5,6 +5,8 @@ import {
   entryAvailabilities,
   isPublicAvailability,
 } from '@/models/content';
+
+z.config({ jitless: true });
 const short = z.string().max(300),
   para = z.string().max(12000),
   identifier = z

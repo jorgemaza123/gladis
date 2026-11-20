@@ -131,7 +131,7 @@ export function Shell({
         brand={<Link className="brand" href="/">
           {logoAsset ? (
             <span className="brand-logo brand-logo-symbol" aria-hidden="true">
-              <Photo asset={logoAsset} />
+              <Photo asset={logoAsset} priority sizes="44px" />
             </span>
           ) : (
             <span className="brand-mark" aria-hidden="true">

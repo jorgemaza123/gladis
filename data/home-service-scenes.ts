@@ -1,6 +1,8 @@
 export type HomeSceneLayer = {
   name: 'back' | 'main' | 'front';
   mobile: string;
+  mobileWidth: number;
+  mobileHeight: number;
   desktop: string;
   width: number;
   height: number;
@@ -22,6 +24,8 @@ export type HomeServiceScene = {
 
 const slicedLayers = (
   mobile: string,
+  mobileWidth: number,
+  mobileHeight: number,
   desktop: string,
   width: number,
   height: number,
@@ -29,6 +33,8 @@ const slicedLayers = (
   (['back', 'main', 'front'] as const).map((name) => ({
     name,
     mobile,
+    mobileWidth,
+    mobileHeight,
     desktop,
     width,
     height,
@@ -58,9 +64,11 @@ export const homeServiceScenes: HomeServiceScene[] = [
     visualMode: 'slice',
     layers: slicedLayers(
       '/images/mesa/buffet-480.jpg',
+      480,
+      320,
       '/images/mesa/buffet-1280.jpg',
       1280,
-      960,
+      853,
     ),
   },
   {
@@ -76,9 +84,9 @@ export const homeServiceScenes: HomeServiceScene[] = [
     ids: ['bar-bartender'],
     visualMode: 'cutout',
     layers: [
-      { name: 'back', mobile: '/images/home-scenes/bartender/bartender-back-bottle-citrus-640.webp', desktop: '/images/home-scenes/bartender/bartender-back-bottle-citrus-1100.webp', width: 1100, height: 629 },
-      { name: 'main', mobile: '/images/home-scenes/bartender/bartender-main-cocktail-tools-640.webp', desktop: '/images/home-scenes/bartender/bartender-main-cocktail-tools-1100.webp', width: 1100, height: 800 },
-      { name: 'front', mobile: '/images/home-scenes/bartender/bartender-front-ice-citrus-640.webp', desktop: '/images/home-scenes/bartender/bartender-front-ice-citrus-1100.webp', width: 1100, height: 266 },
+      { name: 'back', mobile: '/images/home-scenes/bartender/bartender-back-bottle-citrus-640.webp', mobileWidth: 640, mobileHeight: 366, desktop: '/images/home-scenes/bartender/bartender-back-bottle-citrus-1100.webp', width: 1100, height: 629 },
+      { name: 'main', mobile: '/images/home-scenes/bartender/bartender-main-cocktail-tools-640.webp', mobileWidth: 640, mobileHeight: 465, desktop: '/images/home-scenes/bartender/bartender-main-cocktail-tools-1100.webp', width: 1100, height: 800 },
+      { name: 'front', mobile: '/images/home-scenes/bartender/bartender-front-ice-citrus-640.webp', mobileWidth: 640, mobileHeight: 155, desktop: '/images/home-scenes/bartender/bartender-front-ice-citrus-1100.webp', width: 1100, height: 266 },
     ],
   },
   {
@@ -94,9 +102,9 @@ export const homeServiceScenes: HomeServiceScene[] = [
     ids: ['menaje-evento'],
     visualMode: 'cutout',
     layers: [
-      { name: 'back', mobile: '/images/home-scenes/menaje/menaje-back-serving-elements-640.webp', desktop: '/images/home-scenes/menaje/menaje-back-serving-elements-1100.webp', width: 1100, height: 408 },
-      { name: 'main', mobile: '/images/home-scenes/menaje/menaje-main-tableware-640.webp', desktop: '/images/home-scenes/menaje/menaje-main-tableware-1100.webp', width: 1100, height: 641 },
-      { name: 'front', mobile: '/images/home-scenes/menaje/menaje-front-place-setting-640.webp', desktop: '/images/home-scenes/menaje/menaje-front-place-setting-1100.webp', width: 1100, height: 267 },
+      { name: 'back', mobile: '/images/home-scenes/menaje/menaje-back-serving-elements-640.webp', mobileWidth: 640, mobileHeight: 237, desktop: '/images/home-scenes/menaje/menaje-back-serving-elements-1100.webp', width: 1100, height: 408 },
+      { name: 'main', mobile: '/images/home-scenes/menaje/menaje-main-tableware-640.webp', mobileWidth: 640, mobileHeight: 373, desktop: '/images/home-scenes/menaje/menaje-main-tableware-1100.webp', width: 1100, height: 641 },
+      { name: 'front', mobile: '/images/home-scenes/menaje/menaje-front-place-setting-640.webp', mobileWidth: 640, mobileHeight: 155, desktop: '/images/home-scenes/menaje/menaje-front-place-setting-1100.webp', width: 1100, height: 267 },
     ],
   },
   {
@@ -112,9 +120,9 @@ export const homeServiceScenes: HomeServiceScene[] = [
     ids: ['mozos-evento', 'sillas-evento'],
     visualMode: 'cutout',
     layers: [
-      { name: 'back', mobile: '/images/home-scenes/attention/attention-back-chairs-640.webp', desktop: '/images/home-scenes/attention/attention-back-chairs-640.webp', width: 517, height: 783 },
-      { name: 'main', mobile: '/images/home-scenes/attention/attention-main-service-tray-640.webp', desktop: '/images/home-scenes/attention/attention-main-service-tray-1100.webp', width: 1100, height: 714 },
-      { name: 'front', mobile: '/images/home-scenes/attention/attention-front-napkin-flowers-card-640.webp', desktop: '/images/home-scenes/attention/attention-front-napkin-flowers-card-1100.webp', width: 1100, height: 412 },
+      { name: 'back', mobile: '/images/home-scenes/attention/attention-back-chairs-640.webp', mobileWidth: 517, mobileHeight: 783, desktop: '/images/home-scenes/attention/attention-back-chairs-640.webp', width: 517, height: 783 },
+      { name: 'main', mobile: '/images/home-scenes/attention/attention-main-service-tray-640.webp', mobileWidth: 640, mobileHeight: 415, desktop: '/images/home-scenes/attention/attention-main-service-tray-1100.webp', width: 1100, height: 714 },
+      { name: 'front', mobile: '/images/home-scenes/attention/attention-front-napkin-flowers-card-640.webp', mobileWidth: 640, mobileHeight: 240, desktop: '/images/home-scenes/attention/attention-front-napkin-flowers-card-1100.webp', width: 1100, height: 412 },
     ],
   },
   {
@@ -131,6 +139,8 @@ export const homeServiceScenes: HomeServiceScene[] = [
     visualMode: 'slice',
     layers: slicedLayers(
       '/images/home-scenes/personalizados/personalizados-cutout-celebration-details-640.webp',
+      640,
+      451,
       '/images/home-scenes/personalizados/personalizados-cutout-celebration-details-1100.webp',
       1100,
       775,
@@ -150,9 +160,11 @@ export const homeServiceScenes: HomeServiceScene[] = [
     visualMode: 'slice',
     layers: slicedLayers(
       '/images/mesa/flores-480.jpg',
+      480,
+      320,
       '/images/mesa/flores-1280.jpg',
       1280,
-      960,
+      853,
     ),
   },
 ];
