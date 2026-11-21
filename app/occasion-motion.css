@@ -37,7 +37,7 @@
 .occasion-stage-band {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   padding: 20px 24px;
   border-bottom: 1px solid var(--line);
@@ -46,11 +46,11 @@
 }
 .occasion-stage-context { position: relative; padding-top: 10px; }
 .occasion-stage-context--a,
+.occasion-stage-context--c,
+.occasion-stage-context--b { grid-area: 1 / 1; }
 .occasion-stage-context--c { grid-area: 1 / 1; }
-.occasion-stage-context--b { grid-area: 1 / 2; }
 .occasion-stage-context--c,
 .occasion-stage-context--b { opacity: 0; }
-.occasion-stage-context--c p { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .occasion-stage-context::before { content: ''; position: absolute; inset: 0 0 auto; height: 2px; background: var(--olive); }
 .occasion-stage-context--b::before { opacity: 0; }
 .occasion-stage-context strong { display: block; font: 500 22px/1.15 Lora, Georgia, serif; }

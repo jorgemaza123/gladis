@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import type { MediaAsset } from '@/models/content';
-import { OccasionStage } from './occasion-stage';
+import { OccasionInteractiveLayout } from './occasion-interactive-layout';
 import '@/app/occasion-motion.css';
 
 export type OccasionCard = {
@@ -15,8 +14,9 @@ export type OccasionCard = {
 };
 
 export function OccasionGrid({ occasions }: { occasions: OccasionCard[] }) {
+  const normalizedOccasions = occasions.map((occasion) => ({ ...occasion }));
   const contexts = ['reuniones-familiares', 'boda', 'fin-ano-empresas']
-    .flatMap((id) => occasions.find((occasion) => occasion.id === id) || []);
+    .flatMap((id) => normalizedOccasions.find((occasion) => occasion.id === id) || []);
   return (
     <section className="occasion-grid-section occasion-prototype" id="ocasiones" aria-labelledby="occasion-title">
       <div className="wrap occasion-grid-heading">
@@ -29,34 +29,7 @@ export function OccasionGrid({ occasions }: { occasions: OccasionCard[] }) {
           los detalles que podrías necesitar.
         </p>
       </div>
-      <div className="occasion-prototype-layout wrap">
-      <OccasionStage contexts={contexts} />
-      <ul className="occasion-grid occasion-index">
-        {occasions.map((occasion, index) => (
-          <li key={occasion.id}>
-            <Link className="occasion-card" href={occasion.href}>
-              <span className="occasion-card-index" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <span className="occasion-card-copy">
-                <small>{occasion.group}</small>
-                <strong className="occasion-card-full-title">{occasion.title}</strong>
-                {occasion.mobileTitle && (
-                  <strong className="occasion-card-mobile-title" aria-hidden="true">
-                    {occasion.mobileTitle}
-                  </strong>
-                )}
-                {occasion.typicalMix && (
-                  <em className="occasion-card-mix">{occasion.typicalMix}</em>
-                )}
-                <span>{occasion.description}</span>
-                <b>Preparar esta ocasión <i aria-hidden="true">↗</i></b>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      </div>
+      <OccasionInteractiveLayout occasions={normalizedOccasions} contexts={contexts} />
     </section>
   );
 }
