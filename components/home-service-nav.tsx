@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { homeServiceNav } from '@/data/home-service-scenes';
 
 const serviceIcons = [
@@ -27,6 +30,35 @@ const serviceIcons = [
 ] as const;
 
 export function HomeServiceNav() {
+  const [activeHref, setActiveHref] = useState<string>('');
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+    const targets = homeServiceNav.flatMap((item) => {
+      const id = item.href.replace(/^#/, '');
+      const el = document.getElementById(id);
+      return el ? [{ href: item.href, el }] : [];
+    });
+
+    if (!targets.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) {
+          const match = targets.find((item) => item.el === visible[0].target);
+          if (match) setActiveHref(match.href);
+        }
+      },
+      { rootMargin: '-28% 0px -48% 0px', threshold: [0.15, 0.45] },
+    );
+
+    targets.forEach(({ el }) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <nav
       className="home-service-nav"
@@ -40,21 +72,28 @@ export function HomeServiceNav() {
           </span>
         </h2>
         <ul>
-          {homeServiceNav.map((item, index) => (
-            <li key={item.label}>
-              <a href={item.href}>
-                <span className="home-service-nav-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    {serviceIcons[index]}
+          {homeServiceNav.map((item, index) => {
+            const isActive = activeHref === item.href;
+            return (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  data-active={isActive ? 'true' : undefined}
+                  aria-current={isActive ? 'true' : undefined}
+                >
+                  <span className="home-service-nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      {serviceIcons[index]}
+                    </svg>
+                  </span>
+                  <span className="home-service-nav-label">{item.label}</span>
+                  <svg className="home-service-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg>
-                </span>
-                <span className="home-service-nav-label">{item.label}</span>
-                <svg className="home-service-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg>
-              </a>
-            </li>
-          ))}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="home-service-nav-mist" aria-hidden="true">

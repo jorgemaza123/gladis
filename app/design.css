@@ -1656,25 +1656,77 @@ body {
 .stepper { scroll-margin-top: 24px; }
 .public-site .home-assurance {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.95fr);
   align-items: center;
-  gap: 16px 36px;
-  padding-block: 20px;
+  gap: 24px 48px;
+  padding-block: 36px;
+  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
-.home-assurance strong { font-weight: 600; color: var(--ink); }
-.public-site .home-assurance p { margin: 5px 0 0; font-size: 16px; }
-.home-assurance-links { display: flex; align-items: start; flex-direction: column; }
-.home-assurance-links a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding-block: 8px;
-  color: var(--olive);
+.home-assurance-kicker {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+.home-assurance strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.public-site .home-assurance-lead > p:not(.home-assurance-kicker) {
+  margin: 10px 0 0;
+  max-width: 56ch;
   font-size: 16px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.home-assurance-links {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 8px;
+}
+.home-assurance-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 46, 38, 0.1);
+  background: rgba(255, 253, 248, 0.65);
+  color: var(--forest);
+  font-size: 15px;
+  font-weight: 500;
   line-height: 1.35;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  text-decoration: none;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+.home-assurance-links a:hover,
+.home-assurance-links a:focus-visible {
+  border-color: rgba(31, 46, 38, 0.28);
+  background: #fffdf8;
+  transform: translate3d(0, -1px, 0);
+}
+.home-assurance-arrow {
+  flex-shrink: 0;
+  color: var(--copper);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home-assurance-links a:hover .home-assurance-arrow,
+.home-assurance-links a:focus-visible .home-assurance-arrow {
+  transform: translate3d(3px, -2px, 0);
 }
 .home-assurance-links a:focus-visible { outline: 3px solid var(--olive); outline-offset: 3px; }
 .quote-aside ul {
@@ -3327,8 +3379,14 @@ body {
   to { opacity: 1; transform: none; }
 }
 @keyframes story-media-scroll {
-  from { transform: none; }
-  to { transform: scale(var(--story-media-scale, 1.035)) translate3d(0, var(--story-media-shift, -0.7%), 0); }
+  from {
+    transform: none;
+    clip-path: inset(0 round 0px);
+  }
+  to {
+    transform: scale(var(--story-media-scale, 0.95)) translate3d(0, var(--story-media-shift, -1.2%), 0);
+    clip-path: inset(12px 18px 18px 18px round 24px);
+  }
 }
 @keyframes story-copy-scroll {
   from { opacity: 1; transform: translate3d(0, -50%, 0); }
@@ -7340,16 +7398,33 @@ body {
 .home-assurance-pillars {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 18px;
-  margin: 12px 0 0;
+  gap: 10px 20px;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
   font-size: 0.92rem;
-  color: var(--olive);
+  color: var(--forest);
 }
-.home-assurance-pillars li::before {
-  content: '✓ ';
-  font-weight: 700;
+.home-assurance-pillars li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.home-assurance-pillars li svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--copper);
+}
+
+/* Home service nav active scroll-spy */
+.home-service-nav a[data-active='true'] {
+  border-color: rgba(154, 91, 52, 0.45);
+  box-shadow: 0 10px 24px rgba(31, 46, 38, 0.08);
+  transform: translate3d(0, -2px, 0);
+}
+.home-service-nav a[data-active='true'] .home-service-nav-icon {
+  color: var(--copper);
 }
 
 /* Occasion typical mix line */

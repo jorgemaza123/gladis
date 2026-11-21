@@ -106,19 +106,50 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       <StoryHero serviceSearch={<ServiceSearchTrigger className="service-search-hero-trigger">Buscar o ver servicios</ServiceSearchTrigger>} />
       <HomeServiceNav />
       <aside className="home-assurance wrap" aria-label="Una consulta con condiciones claras">
-        <div>
+        <div className="home-assurance-lead">
+          <p className="home-assurance-kicker">Coordinación directa</p>
           <strong>Un servicio o varios. Una sola conversación.</strong>
           <p>Antes de reservar, confirmamos contigo disponibilidad, precio, alcance y traslado en Lima Metropolitana.</p>
           <ul className="home-assurance-pillars" aria-label="Garantías de atención">
-            <li>Atención directa por equipo de Cocina o Eventos</li>
-            <li>Propuesta clara sin compromisos ocultos</li>
-            <li>Cobertura en todo Lima Metropolitana</li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="9" cy="7" r="3" />
+                <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+                <path d="M16 11l2 2 4-4" />
+              </svg>
+              <span>Atención directa por equipo de Cocina o Eventos</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="4" y="3" width="16" height="18" rx="2" />
+                <path d="M8 8h8M8 12h8M8 16h5" />
+              </svg>
+              <span>Propuesta clara sin compromisos ocultos</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 21s-6-5.4-6-10a6 6 0 1 1 12 0c0 4.6-6 10-6 10Z" />
+                <circle cx="12" cy="11" r="2" />
+              </svg>
+              <span>Cobertura en todo Lima Metropolitana</span>
+            </li>
           </ul>
         </div>
         <div className="home-assurance-links">
-          <Link href="/cotizar#consulta-inicial">¿Todavía estás definiendo el evento? Consulta por WhatsApp <span aria-hidden="true">↗</span></Link>
-          <Link href="/paginas/nosotros">Cómo coordinamos tu evento</Link>
-          {reviewsUrl && <a href={reviewsUrl} target="_blank" rel="noopener noreferrer">Leer reseñas de clientes <span aria-hidden="true">↗</span></a>}
+          <Link href="/cotizar#consulta-inicial">
+            <span>¿Todavía estás definiendo el evento? Consulta por WhatsApp</span>
+            <span className="home-assurance-arrow" aria-hidden="true">↗</span>
+          </Link>
+          <Link href="/paginas/nosotros">
+            <span>Cómo coordinamos tu evento</span>
+            <span className="home-assurance-arrow" aria-hidden="true">→</span>
+          </Link>
+          {reviewsUrl && (
+            <a href={reviewsUrl} target="_blank" rel="noopener noreferrer">
+              <span>Leer reseñas de clientes</span>
+              <span className="home-assurance-arrow" aria-hidden="true">↗</span>
+            </a>
+          )}
         </div>
       </aside>
       <HomeServiceJourney site={site} />
