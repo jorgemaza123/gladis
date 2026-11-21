@@ -6,6 +6,7 @@ import { initialEnquiry, type EnquiryService, type EnquiryEvent } from '@/lib/in
 import { serviceGroup, serviceGroupOrder } from '@/lib/service-groups';
 import { useQuoteCart } from './quote-cart-provider';
 import { useAttribution } from './attribution-provider';
+import { useAnalytics } from './analytics-provider';
 
 export function InitialEnquiry({
   entries,
@@ -18,6 +19,7 @@ export function InitialEnquiry({
 }) {
   const { cart, restored } = useQuoteCart();
   const { recordCta } = useAttribution();
+  const { trackWhatsAppLead } = useAnalytics();
   const id = useId();
   const [topic, setTopic] = useState('');
   const [note, setNote] = useState('');
@@ -61,7 +63,21 @@ export function InitialEnquiry({
       {restored && enquiry ? (
         <>
           <p className="initial-enquiry-recipient">Te atenderá <strong>{enquiry.recipientLabel}</strong> · +51 {enquiry.destination.slice(2, 5)} {enquiry.destination.slice(5, 8)} {enquiry.destination.slice(8)}</p>
-          <Link className="button" href={enquiry.href} target="_blank" rel="noopener noreferrer" onClick={() => recordCta(enquiry.entryId, 'quote_form')}>
+          <Link
+            className="button"
+            href={enquiry.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              recordCta(enquiry.entryId, 'quote_form');
+              trackWhatsAppLead({
+                leadType: 'initial_enquiry',
+                serviceId: enquiry.entryId || 'orientacion',
+                itemsCount: cart.items.length,
+                recipientTeam: enquiry.recipientLabel,
+              });
+            }}
+          >
             Consultar por WhatsApp <span aria-hidden="true">↗</span>
           </Link>
         </>

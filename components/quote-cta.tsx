@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { useAttribution } from '@/components/attribution-provider';
 import { useQuoteCart } from '@/components/quote-cart-provider';
+import { useAnalytics } from '@/components/analytics-provider';
 import type { CtaPlacement } from '@/lib/attribution';
 
 type QuoteCtaProps = {
@@ -44,6 +45,7 @@ export function QuoteCta({
 }: QuoteCtaProps) {
   const { add, cart } = useQuoteCart();
   const { recordCta } = useAttribution();
+  const { trackQuoteStarted } = useAnalytics();
   const destination = quoteHref(href, entryId);
   const selected =
     !!entryId && cart.items.some((item) => item.entryId === entryId);
@@ -64,6 +66,11 @@ export function QuoteCta({
         onClick={() => {
           if (selected) return;
           recordCta(entryId, placement);
+          trackQuoteStarted({
+            placement,
+            serviceId: entryId,
+            itemsCount: cart.items.length + (entryId && addToCart ? 1 : 0),
+          });
           if (entryId && addToCart) add(entryId);
         }}
         type="button"
@@ -100,6 +107,11 @@ export function QuoteCta({
       rel={rel}
       onClick={() => {
         recordCta(entryId, placement);
+        trackQuoteStarted({
+          placement,
+          serviceId: entryId,
+          itemsCount: cart.items.length + (entryId && addToCart ? 1 : 0),
+        });
         if (entryId && addToCart) add(entryId);
       }}
     >

@@ -18,6 +18,7 @@ import { resolveBusinessContact, resolveWhatsAppDestination } from '@/lib/busine
 import { publicReviewsUrl } from '@/config/commercial-evidence';
 import { ServiceSearchTrigger } from './service-search';
 import { SiteHeader } from './site-header';
+import { AnalyticsPreferencesButton } from './analytics-preferences';
 import { serviceFamilyLinks } from '@/lib/service-navigation';
 import { EventLanding } from './event-landing';
 import { ServiceExplorer } from './service-explorer';
@@ -220,6 +221,7 @@ export function Shell({
           <span>{s.tagline}</span>
           <Link href="/paginas/nosotros">Nosotros</Link>
           <Link href="/privacidad">Privacidad</Link>
+          <AnalyticsPreferencesButton />
         </div>      </footer>
     </div>
   );

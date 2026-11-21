@@ -1,6 +1,7 @@
 import { readSite } from '@/repositories/site';
 import { Shell } from '@/components/public';
 import { metadataFor } from '@/lib/seo';
+import { AnalyticsPrivacyControl } from '@/components/analytics-preferences';
 export async function generateMetadata() {
   const site = await readSite();
   return metadataFor(
@@ -16,6 +17,7 @@ export default async function Privacy() {
       <section className="section wrap privacy-copy">
         <h1 className="page-title">{site.settings.copy.privacyTitle}</h1>
         <p className="prose">{site.settings.copy.privacyBody}</p>
+        <AnalyticsPrivacyControl />
         {site.settings.email && (
           <a className="text-link" href={`mailto:${site.settings.email}`}>
             {site.settings.email}

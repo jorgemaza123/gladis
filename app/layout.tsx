@@ -11,6 +11,7 @@ import { AttributionProvider } from '@/components/attribution-provider';
 import { isPublicAvailability } from '@/models/content';
 import { ServiceSearchProvider } from '@/components/service-search';
 import { serviceGroup } from '@/lib/service-groups';
+import { AnalyticsProvider } from '@/components/analytics-provider';
 
 export const metadata: Metadata = {
   icons: {
@@ -44,18 +45,20 @@ export default async function RootLayout({
   return (
     <html lang="es-PE">
       <body>
-        <AttributionProvider>
-          <QuoteCartProvider entryIds={entryIds} personEntryIds={personEntryIds}>
-            <ServiceSearchProvider entries={requestableEntries.map((entry) => ({
-              id: entry.id,
-              title: entry.title,
-              href: `/${entry.kind}/${entry.slug}`,
-              family: serviceGroup(entry),
-            }))}>
-              {children}
-            </ServiceSearchProvider>
-          </QuoteCartProvider>
-        </AttributionProvider>
+        <AnalyticsProvider>
+          <AttributionProvider>
+            <QuoteCartProvider entryIds={entryIds} personEntryIds={personEntryIds}>
+              <ServiceSearchProvider entries={requestableEntries.map((entry) => ({
+                id: entry.id,
+                title: entry.title,
+                href: `/${entry.kind}/${entry.slug}`,
+                family: serviceGroup(entry),
+              }))}>
+                {children}
+              </ServiceSearchProvider>
+            </QuoteCartProvider>
+          </AttributionProvider>
+        </AnalyticsProvider>
       </body>
     </html>
   );

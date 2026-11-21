@@ -9,6 +9,7 @@ import {
 import type { PublicBusinessContact } from '@/lib/business-contacts';
 import { useQuoteCart } from './quote-cart-provider';
 import { useAttribution } from './attribution-provider';
+import { useAnalytics } from './analytics-provider';
 import { EventSelection } from './event-selection';
 import {
   describeItem,
@@ -68,6 +69,7 @@ export function Quote({
 }) {
   const { cart, restored, add, restoreNotice } = useQuoteCart();
   const { attribution, recordCta } = useAttribution();
+  const { trackQuoteStarted, trackWhatsAppLead } = useAnalytics();
   const [step, setStep] = useState(1);
   const [data, setData] = useState(() => ({ ...emptyEvent, occasion }));
   const [loaded, setLoaded] = useState(false);
@@ -235,6 +237,13 @@ export function Quote({
       return;
     }
     setAttemptedStep(0);
+    if (step === 1) {
+      trackQuoteStarted({
+        placement: 'quote_form',
+        serviceId: chosen?.id || 'general',
+        itemsCount: cart.items.length,
+      });
+    }
     setStep(step + 1);
   }
   const field = (
@@ -369,6 +378,11 @@ export function Quote({
                             onClick={() => {
                               add(entry.id);
                               recordCta(entry.id, 'quote_form');
+                              trackQuoteStarted({
+                                placement: 'quote_form',
+                                serviceId: entry.id,
+                                itemsCount: cart.items.length + 1,
+                              });
                               setShowServices(true);
                             }}
                           >
@@ -501,7 +515,15 @@ export function Quote({
                   href={url}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => recordCta(chosen?.id || null, 'quote_form')}
+                  onClick={() => {
+                    recordCta(chosen?.id || null, 'quote_form');
+                    trackWhatsAppLead({
+                      leadType: 'detailed_quote',
+                      serviceId: chosen?.id || 'general',
+                      itemsCount: cart.items.length,
+                      recipientTeam: chosen?.recipient.label || 'general',
+                    });
+                  }}
                 >
                   Abrir WhatsApp <span aria-hidden="true">↗</span>
                 </Link>
