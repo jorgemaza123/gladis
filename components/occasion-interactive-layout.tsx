@@ -52,6 +52,9 @@ export function OccasionInteractiveLayout({
           </div>
         )}
       </div>
+      <p className="occasion-mobile-swipe-hint" aria-hidden="true">
+        Desliza para ver las {occasions.length} ocasiones →
+      </p>
       <ul className="occasion-grid occasion-index">
         {occasions.map((occasion, index) => (
           <li key={occasion.id}>

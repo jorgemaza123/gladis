@@ -8166,3 +8166,170 @@ body {
 :root {
   --forest: #1f2e26;
 }
+
+/* ==========================================================================
+   Mobile 10/10 Studio Polish & Zero-Overlap Thumb Zone (<= 960px / 760px)
+   ========================================================================== */
+
+.mobile-scroll-progress,
+.occasion-mobile-swipe-hint {
+  display: none;
+}
+
+/* Prevent analytics banner from ever colliding with FloatingEventBar */
+body:has(.floating-event-bar) .analytics-consent-banner {
+  bottom: 96px;
+}
+
+@media (max-width: 960px) {
+  .mobile-scroll-progress {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 75;
+    background: var(--copper);
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .occasion-mobile-swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 14px 0 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--copper);
+  }
+}
+
+@media (max-width: 760px) {
+  /* Compact frosted analytics consent pill so Hero CTA stays unobstructed */
+  .analytics-consent-banner {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 12px;
+    gap: 8px;
+    border-radius: 14px;
+    background: rgba(251, 248, 243, 0.92);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  body:has(.floating-event-bar) .analytics-consent-banner {
+    bottom: 96px;
+  }
+  .analytics-consent-copy p {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  /* Act I mobile tightening */
+  .public-site .home-assurance {
+    padding-block: 24px;
+    gap: 16px;
+  }
+  .home-assurance-pillars {
+    gap: 8px 12px;
+    margin-top: 12px;
+  }
+  .home-assurance-pillars li {
+    font-size: 0.84rem;
+  }
+
+  /* Act II Option A: scannable, compact service chapters without wall-of-text */
+  .service-garden {
+    padding-block: 44px 36px;
+  }
+  .garden-heading {
+    margin-bottom: 24px;
+  }
+  .shared-service-panel,
+  .service-family:not(.shared-service-panel) {
+    padding-block: 20px;
+  }
+  .shared-service-panel .service-visual,
+  .service-family:not(.shared-service-panel) .service-visual {
+    border-radius: 16px;
+    overflow: hidden;
+    max-height: 215px;
+  }
+  .service-copy > p:not(.service-scene-kicker):not(.service-scene-meta) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.94rem;
+    line-height: 1.45;
+  }
+  .service-copy .service-essentials {
+    gap: 6px;
+    margin-block: 10px 12px;
+  }
+  .service-copy .service-essentials li {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+  .service-family .service-copy .service-scene-meta {
+    display: none;
+  }
+  .service-family .service-options {
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .service-family .service-options li {
+    padding: 6px 10px;
+    min-height: 44px;
+  }
+
+  /* Act III: EventPresets horizontal touch-snap carousel on mobile */
+  .event-presets {
+    margin: 16px 0 24px;
+    padding: 16px;
+  }
+  .event-presets-grid {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(82%, 288px);
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .event-preset-card {
+    scroll-snap-align: start;
+  }
+
+  /* Act V: Tighter #como-cotizar steps on phone */
+  .conversation-section {
+    padding-block: 48px;
+    gap: 28px;
+  }
+  .conversation-steps li {
+    min-height: auto;
+    padding: 20px 0;
+    gap: 14px;
+  }
+  .conversation-steps h3 {
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+  }
+  .quote-preview-card {
+    margin-top: 18px;
+    padding: 14px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-scroll-progress {
+    display: none;
+  }
+}

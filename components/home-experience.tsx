@@ -15,6 +15,7 @@ import { ServiceSearchTrigger } from './service-search';
 import { CompanyMoments } from './company-moments';
 import { QuotePreviewCard } from './quote-preview-card';
 import { MesaClosingLabel } from './mesa-closing-cta';
+import { MobileScrollProgress } from './mobile-scroll-progress';
 
 function TableDrawing() {
   return (
@@ -108,6 +109,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
   });
   return (
     <>
+      <MobileScrollProgress />
       <HomeSmoothScroll />
       <StoryHero serviceSearch={<ServiceSearchTrigger className="service-search-hero-trigger">Buscar o ver servicios</ServiceSearchTrigger>} />
       <HomeServiceNav />
