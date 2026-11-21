@@ -35,7 +35,7 @@ export function InitialEnquiry({
       </div>
       <p>Consulta por WhatsApp aunque todavía no tengas fecha, cantidades o preferencias. El precio y la disponibilidad se confirman después.</p>
       {hasSelection ? (
-        <p className="initial-enquiry-selection">Incluiremos los {cart.items.length} {cart.items.length === 1 ? 'servicio que elegiste' : 'servicios que elegiste'}. El principal determina qué equipo recibe toda la consulta.</p>
+        <p className="initial-enquiry-selection">Incluiremos los {cart.items.length} {cart.items.length === 1 ? 'servicio que elegiste' : 'servicios que elegiste'}. Un solo equipo coordinará toda tu consulta.</p>
       ) : (
         <label className="field" htmlFor={`${id}-service`}>
           ¿Sobre qué necesitas orientación?

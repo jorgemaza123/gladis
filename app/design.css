@@ -1689,16 +1689,21 @@ body {
   .initial-enquiry .button { max-width: 100%; white-space: normal; }
 }
 .quote-cart-dialog {
-  background: var(--surface);
+  background: rgba(250, 248, 241, 0.92);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: 0 24px 60px rgba(16, 38, 31, 0.18);
   color: var(--ink);
   font:
     17px/1.55 'Source Sans 3',
     sans-serif;
+  border: 1px solid var(--line);
   border-radius: 14px;
   padding: 30px;
   width: min(760px, 100%);
   max-height: calc(100dvh - 40px);
   overflow: auto;
+  transform-origin: top right;
 }
 .quote-cart-heading {
   margin-bottom: 14px;
@@ -1799,13 +1804,13 @@ body {
   }
   .quote-cart-dialog[data-motion='on'] {
     transition:
-      opacity 0.18s,
-      transform 0.18s;
+      opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .quote-cart-dialog[data-motion='on'][data-starting-style],
   .quote-cart-dialog[data-motion='on'][data-ending-style] {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(-8px) scale(0.97);
   }
 }
 @media (min-width: 761px) and (max-width: 1100px) {
@@ -7313,5 +7318,241 @@ body {
     left: 16px;
     bottom: 16px;
     width: auto;
+  }
+}
+
+/* Tactile press feedback (Apple Design) */
+@media (prefers-reduced-motion: no-preference) {
+  .public-site :is(.button, .service-option-add, .service-explorer-toggle, .event-preset-card, .detail-quick-add):not(:disabled):active {
+    transform: scale(0.97);
+    transition: transform 100ms ease-out;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .quote-cart-dialog {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Home assurance verifiable pillars */
+.home-assurance-pillars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.92rem;
+  color: var(--olive);
+}
+.home-assurance-pillars li::before {
+  content: '✓ ';
+  font-weight: 700;
+}
+
+/* Occasion typical mix line */
+.occasion-card-mix {
+  display: block;
+  margin-bottom: 6px;
+  font-style: normal;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--olive);
+}
+
+/* Detail micro-guide chips */
+.detail-microguide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+  margin: 18px 0 20px;
+}
+.detail-microguide-chip {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+}
+.detail-microguide-chip span {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+}
+.detail-microguide-chip strong {
+  font-size: 0.96rem;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.detail-quick-add {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 6px 12px;
+  min-height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--olive);
+  background: transparent;
+  color: var(--olive);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.detail-quick-add[data-selected='true'] {
+  background: rgba(23, 100, 89, 0.1);
+  border-color: transparent;
+  cursor: default;
+}
+
+/* Event presets (1-click combos) */
+.event-presets {
+  margin: 22px 0 32px;
+  padding: 22px 24px;
+  border-radius: 14px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+}
+.event-presets-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
+.event-presets-heading h3 {
+  margin: 4px 0 0;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+}
+.event-presets-heading p:last-child {
+  margin: 0;
+  color: var(--muted);
+  max-width: 42ch;
+}
+.event-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.event-preset-card {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 16px;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+.event-preset-card[data-selected='true'] {
+  border-color: var(--olive);
+  background: rgba(23, 100, 89, 0.06);
+}
+.event-preset-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--olive);
+}
+.event-preset-summary {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.event-preset-action {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--olive);
+}
+@media (max-width: 900px) {
+  .event-presets-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Floating Apple-style translucent "Mi evento" pill */
+.floating-event-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 65;
+  width: min(640px, calc(100vw - 24px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 12px 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(41, 60, 44, 0.18);
+  background: rgba(251, 248, 243, 0.86);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 14px 36px rgba(16, 38, 31, 0.16);
+  color: var(--ink);
+  animation: floating-bar-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.floating-event-bar-info {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.floating-event-bar-status {
+  font-size: 0.94rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.floating-event-bar-team {
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.floating-event-bar-cta {
+  flex: 0 0 auto;
+  border-radius: 999px !important;
+  white-space: nowrap;
+}
+@keyframes floating-bar-enter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+@media (max-width: 640px) {
+  .floating-event-bar {
+    bottom: 12px;
+    border-radius: 16px;
+    padding: 10px 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floating-event-bar {
+    animation: none;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .floating-event-bar {
+    background: var(--paper);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }

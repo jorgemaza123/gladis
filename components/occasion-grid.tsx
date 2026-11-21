@@ -7,6 +7,7 @@ export type OccasionCard = {
   id: string;
   title: string;
   mobileTitle?: string;
+  typicalMix?: string;
   description: string;
   href: string;
   group: string;
@@ -44,6 +45,9 @@ export function OccasionGrid({ occasions }: { occasions: OccasionCard[] }) {
                   <strong className="occasion-card-mobile-title" aria-hidden="true">
                     {occasion.mobileTitle}
                   </strong>
+                )}
+                {occasion.typicalMix && (
+                  <em className="occasion-card-mix">{occasion.typicalMix}</em>
                 )}
                 <span>{occasion.description}</span>
                 <b>Preparar esta ocasión <i aria-hidden="true">↗</i></b>

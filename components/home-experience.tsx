@@ -76,13 +76,24 @@ export function HomeExperience({ site }: { site: SiteContent }) {
     'desayunos-corporativos': 'Desayunos corporativos',
     corporativo: 'Eventos de empresa',
   };
+  const occasionTypicalMix: Record<string, string> = {
+    cumpleanos: 'Buffet o menú criollo + Menaje + Mozos',
+    graduaciones: 'Buffet + Barra + Recuerdos personalizados',
+    'fin-ano-empresas': 'Buffet + Bartender + Producción y sonido',
+    'bautizos-comuniones': 'Menú o buffet + Decoración + Sillas y menaje',
+    boda: 'Buffet completo + Bartender + Atención y flores',
+    'reuniones-familiares': 'Menú criollo + Menaje + Sillas',
+    'desayunos-corporativos': 'Desayuno o coffee break + Menaje + Mozos',
+    corporativo: 'Coffee break o almuerzo + Mobiliario + Producción',
+  };
   const occasions = occasionIds.flatMap((id) => {
     const entry = site.entries.find((item) => item.id === id);
     if (!entry) return [];
     return [{
       id: entry.id,
-      title: entry.title,
+      title: occasionMobileTitles[entry.id] || entry.title,
       mobileTitle: occasionMobileTitles[entry.id],
+      typicalMix: occasionTypicalMix[entry.id],
       description: entry.description,
       href: `/${entry.kind}/${entry.slug}`,
       group: entry.category || 'Celebraciones',
@@ -97,7 +108,12 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       <aside className="home-assurance wrap" aria-label="Una consulta con condiciones claras">
         <div>
           <strong>Un servicio o varios. Una sola conversación.</strong>
-          <p>Antes de reservar, confirmamos contigo disponibilidad, precio, alcance y traslado.</p>
+          <p>Antes de reservar, confirmamos contigo disponibilidad, precio, alcance y traslado en Lima Metropolitana.</p>
+          <ul className="home-assurance-pillars" aria-label="Garantías de atención">
+            <li>Atención directa por equipo de Cocina o Eventos</li>
+            <li>Propuesta clara sin compromisos ocultos</li>
+            <li>Cobertura en todo Lima Metropolitana</li>
+          </ul>
         </div>
         <div className="home-assurance-links">
           <Link href="/cotizar#consulta-inicial">¿Todavía estás definiendo el evento? Consulta por WhatsApp <span aria-hidden="true">↗</span></Link>
@@ -130,7 +146,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
               Tú lo disfrutas.
             </h2>
             <QuoteCta className="button" placement="navigation">
-              Preparar mi evento <span aria-hidden="true">↗</span>
+              Cotizar mi evento <span aria-hidden="true">↗</span>
             </QuoteCta>
           </div>
           <ol className="conversation-steps">
@@ -208,7 +224,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           La vamos viendo contigo.
         </p>
         <QuoteCta className="button light" placement="footer">
-          Preparar mi evento <span aria-hidden="true">↗</span>
+          Cotizar mi evento <span aria-hidden="true">↗</span>
         </QuoteCta>
       </section>
       <HomeMotion />

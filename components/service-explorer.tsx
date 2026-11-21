@@ -9,6 +9,7 @@ import { useQuoteCart } from './quote-cart-provider';
 import type { ExplorerService } from '@/lib/public-services';
 import { serviceGroup, serviceGroupOrder } from '@/lib/service-groups';
 import { serviceFamilyMeta as homeFamilyMeta, serviceFamilyAnchor as familyAnchor } from '@/lib/service-navigation';
+import { EventPresets } from './event-presets';
 
 export function ServiceExplorer({
   entries,
@@ -128,6 +129,7 @@ export function ServiceExplorer({
         </div>
         <p>{intro}</p>
       </div>
+      {homeProgressive && <EventPresets />}
       {homeProgressive && (
         <div className="service-explorer-section-heading">
           <h3>Esenciales para empezar</h3>

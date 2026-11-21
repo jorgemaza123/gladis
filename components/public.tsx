@@ -19,6 +19,8 @@ import { publicReviewsUrl } from '@/config/commercial-evidence';
 import { ServiceSearchTrigger } from './service-search';
 import { SiteHeader } from './site-header';
 import { AnalyticsPreferencesButton } from './analytics-preferences';
+import { FloatingEventBar } from './floating-event-bar';
+import { DetailQuickAddButton } from './detail-quick-add';
 import { serviceFamilyLinks } from '@/lib/service-navigation';
 import { EventLanding } from './event-landing';
 import { ServiceExplorer } from './service-explorer';
@@ -223,6 +225,13 @@ export function Shell({
           <Link href="/privacidad">Privacidad</Link>
           <AnalyticsPreferencesButton />
         </div>      </footer>
+      <FloatingEventBar
+        entries={quoteCartEntries.map((entry) => ({
+          id: entry.id,
+          title: entry.title,
+          ownerLabel: entry.recipient.label || 'Gladys',
+        }))}
+      />
     </div>
   );
 }
@@ -714,6 +723,65 @@ export function EntryDetail({
             </p>
             <h1 className="page-title">{e.title}</h1>
             <p className="lead">{e.description}</p>
+            {e.requestable && e.quoteConfig && (() => {
+              const bestMatchId =
+                e.recommendations[0]?.entryId || e.addOnIds[0] || '';
+              const bestMatch = bestMatchId
+                ? publicEntries(site).find(
+                    (item) =>
+                      item.id === bestMatchId &&
+                      item.requestable &&
+                      !!item.quoteConfig,
+                  )
+                : undefined;
+              const min = e.quoteConfig.minimum;
+              const unitLabel =
+                e.quoteConfig.quantityUnit === 'person'
+                  ? min === 1
+                    ? 'persona'
+                    : 'personas'
+                  : e.quoteConfig.quantityUnit === 'hour'
+                    ? min === 1
+                      ? 'hora'
+                      : 'horas'
+                    : e.quoteConfig.quantityUnit === 'unit'
+                      ? min === 1
+                        ? 'unidad'
+                        : 'unidades'
+                      : 'servicio';
+              const solves =
+                e.details[0] ||
+                e.category ||
+                site.settings.catalogs[e.kind].title;
+              return (
+                <div
+                  className="detail-microguide"
+                  aria-label="Resumen rápido del servicio"
+                >
+                  <div className="detail-microguide-chip">
+                    <span>Capacidad mínima</span>
+                    <strong>
+                      Desde {e.quoteConfig.minimum} {unitLabel}
+                    </strong>
+                  </div>
+                  <div className="detail-microguide-chip">
+                    <span>Qué resuelve</span>
+                    <strong>{solves}</strong>
+                  </div>
+                  {bestMatch && (
+                    <div className="detail-microguide-chip detail-microguide-chip--action">
+                      <span>Se combina mejor con</span>
+                      <strong>{bestMatch.title}</strong>
+                      <DetailQuickAddButton
+                        entryId={bestMatch.id}
+                        entryTitle={bestMatch.title}
+                        minimum={bestMatch.quoteConfig?.minimum || 1}
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
             <div className="actions">
               <QuoteCta
                 className="button"

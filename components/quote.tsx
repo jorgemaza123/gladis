@@ -343,7 +343,7 @@ export function Quote({
             <>
               <p>
                 {cart.items.length
-                  ? 'Revisa lo que elegiste. El servicio principal define quién recibe toda tu consulta; puedes sumar otros cuando quieras.'
+                  ? 'Revisa lo que elegiste. Puedes sumar otros servicios o ajustar el equipo coordinador si combinas áreas.'
                   : 'Elige lo que necesitas. Después podrás añadir otros servicios y consultar todo en una sola conversación.'}
               </p>
               {!!cart.items.length && (
@@ -351,7 +351,7 @@ export function Quote({
               )}
               {chosen && (
                 <p className="quote-recipient-inline">
-                  Toda la consulta irá a <strong>{chosen.recipient.label}</strong>
+                  Equipo que coordinará tu evento: <strong>{chosen.recipient.label}</strong>
                   {chosen.whatsappDestination &&
                     ' · +51 ' + chosen.whatsappDestination.slice(2)}
                 </p>

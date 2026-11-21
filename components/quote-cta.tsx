@@ -15,6 +15,7 @@ type QuoteCtaProps = {
   className?: string;
   mode?: 'navigate' | 'add';
   addToCart?: boolean;
+  dynamicCartLabel?: boolean;
   target?: string;
   rel?: string;
   children: ReactNode;
@@ -39,16 +40,21 @@ export function QuoteCta({
   className,
   mode = 'navigate',
   addToCart = true,
+  dynamicCartLabel = false,
   target,
   rel,
   children,
 }: QuoteCtaProps) {
-  const { add, cart } = useQuoteCart();
+  const { add, cart, restored } = useQuoteCart();
   const { recordCta } = useAttribution();
   const { trackQuoteStarted } = useAnalytics();
   const destination = quoteHref(href, entryId);
   const selected =
     !!entryId && cart.items.some((item) => item.entryId === entryId);
+  const showDynamicCartLabel =
+    (dynamicCartLabel || (placement === 'footer' && href === '/cotizar' && !entryId)) &&
+    restored &&
+    cart.items.length > 0;
 
   if (mode === 'add')
     return (
@@ -115,7 +121,15 @@ export function QuoteCta({
         if (entryId && addToCart) add(entryId);
       }}
     >
-      {children}
+      {showDynamicCartLabel ? (
+        <>
+          Revisar mis {cart.items.length}{' '}
+          {cart.items.length === 1 ? 'servicio' : 'servicios'} y cotizar{' '}
+          <span aria-hidden="true">↗</span>
+        </>
+      ) : (
+        children
+      )}
     </Link>
   );
 }

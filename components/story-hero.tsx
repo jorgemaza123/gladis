@@ -97,7 +97,7 @@ export function StoryHero({ serviceSearch }: { serviceSearch: ReactNode }) {
                   className="button"
                   placement="hero"
                 >
-                  Armar mi evento <i aria-hidden="true">↗</i>
+                  Cotizar mi evento <i aria-hidden="true">↗</i>
                 </QuoteCta>
                 {serviceSearch}
               </div>

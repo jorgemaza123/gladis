@@ -52,7 +52,7 @@ export function QuoteCartDialog({
             </div>
             <Dialog.Description>
               {cart.items.length
-                ? 'Aquí están los servicios que elegiste. El equipo del principal recibirá la consulta completa.'
+                ? 'Aquí están los servicios que elegiste para tu evento.'
                 : 'Elige los servicios que te interesan y consúltalos en una sola conversación.'}
             </Dialog.Description>
             {!restored && <p>Preparando tu selección…</p>}
@@ -73,7 +73,7 @@ export function QuoteCartDialog({
             )}
             {recipient && (
               <p className="quote-cart-recipient">
-                Toda la consulta irá a: <strong>{recipient.label}</strong>
+                Equipo que coordinará tu evento: <strong>{recipient.label}</strong>
                 {primaryEntry?.whatsappDestination && (
                   <> · +51 {primaryEntry.whatsappDestination.slice(2)}</>
                 )}
