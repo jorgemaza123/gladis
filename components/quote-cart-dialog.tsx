@@ -22,10 +22,13 @@ export function QuoteCartDialog({
   recommendationEntries: RecommendationEntry[];
   motionEnabled: boolean;
 }) {
-  const { cart, restored, restoreNotice } = useQuoteCart();
+  const { cart, restored, restoreNotice, lastRemoved, undoRemove, dismissRemoved } = useQuoteCart();
   const { recordCta } = useAttribution();
   const primary = cart.items.find((item) => item.itemId === cart.primaryItemId);
   const primaryEntry = entries.find((entry) => entry.id === primary?.entryId);
+  const removedEntry = lastRemoved
+    ? entries.find((entry) => entry.id === lastRemoved.item.entryId)
+    : undefined;
   const recipient = primaryEntry?.recipient;
   return (
     <Dialog.Root modal>
@@ -59,6 +62,26 @@ export function QuoteCartDialog({
             {restoreNotice && <p className="notice">{restoreNotice}</p>}
             {!cart.items.length ? (
               <div className="quote-cart-empty">
+                {lastRemoved && (
+                  <output className="undo-remove-bar">
+                    <span>
+                      Quitaste <strong>{removedEntry?.title || 'un servicio'}</strong>.
+                    </span>
+                    <div className="undo-remove-actions">
+                      <button type="button" className="text-link" onClick={undoRemove}>
+                        Deshacer
+                      </button>
+                      <button
+                        type="button"
+                        className="undo-remove-dismiss"
+                        aria-label="Ocultar aviso"
+                        onClick={dismissRemoved}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </output>
+                )}
                 <p>¿Empezamos? Añade los servicios que te interesan.</p>
                 <Link className="text-link" href="/tipos-evento">Ver ocasiones</Link>
                 <Link className="text-link" href="/servicios">Ver servicios</Link>

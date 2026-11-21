@@ -17,13 +17,20 @@ import {
   serializeQuoteCart,
   type QuoteCartAction,
 } from '@/lib/quote-cart';
-import type { CartV2 } from '@/models/quote-v2';
+import type { CartV2, QuoteItemV2 } from '@/models/quote-v2';
 
 const legacyStorageKey = 'catering.quote-draft.v2';
+type RemovedCartItem = {
+  item: QuoteItemV2;
+  wasPrimary: boolean;
+};
 type QuoteCartContextValue = {
   cart: CartV2;
   restored: boolean;
   restoreNotice: string;
+  lastRemoved: RemovedCartItem | null;
+  undoRemove: () => void;
+  dismissRemoved: () => void;
   dispatch: (action: QuoteCartAction) => void;
   add: (
     entryId: string,
@@ -53,6 +60,7 @@ export function QuoteCartProvider({
   );
   const [restored, setRestored] = useState(false);
   const [restoreNotice, setRestoreNotice] = useState('');
+  const [lastRemoved, setLastRemoved] = useState<RemovedCartItem | null>(null);
   const validEntryIds = useMemo(() => new Set(entryIds), [entryIds]);
   const personEntries = useMemo(() => new Set(personEntryIds), [personEntryIds]);
   useEffect(() => {
@@ -119,13 +127,37 @@ export function QuoteCartProvider({
       cart,
       restored,
       restoreNotice,
-      dispatch,
+      lastRemoved,
+      undoRemove: () => {
+        if (!lastRemoved) return;
+        dispatch({ type: 'add', item: lastRemoved.item });
+        if (lastRemoved.wasPrimary) {
+          dispatch({ type: 'setPrimary', itemId: lastRemoved.item.itemId });
+        }
+        setLastRemoved(null);
+      },
+      dismissRemoved: () => setLastRemoved(null),
+      dispatch: (action) => {
+        if (action.type === 'remove') {
+          const target = cart.items.find((i) => i.itemId === action.itemId);
+          if (target) {
+            setLastRemoved({
+              item: target,
+              wasPrimary: cart.primaryItemId === target.itemId,
+            });
+          }
+        } else if (action.type === 'add' || action.type === 'reset') {
+          setLastRemoved(null);
+        }
+        dispatch(action);
+      },
       add: (entryId, quantity = 1, optionValues = {}) => {
         if (
           !validEntryIds.has(entryId) ||
           cart.items.some((item) => item.entryId === entryId)
         )
           return;
+        setLastRemoved(null);
         dispatch({
           type: 'add',
           item: {
@@ -137,7 +169,7 @@ export function QuoteCartProvider({
         });
       },
     }),
-    [cart, restored, restoreNotice, validEntryIds, personEntries],
+    [cart, restored, restoreNotice, lastRemoved, validEntryIds, personEntries],
   );
   return (
     <QuoteCartContext.Provider value={value}>

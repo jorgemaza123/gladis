@@ -11,9 +11,32 @@ export function EventSelection({
   prefix?: string;
   showErrors?: boolean;
 }) {
-  const { cart, dispatch } = useQuoteCart();
+  const { cart, lastRemoved, undoRemove, dismissRemoved, dispatch } = useQuoteCart();
+  const removedEntry = lastRemoved
+    ? entries.find((e) => e.id === lastRemoved.item.entryId)
+    : undefined;
   return (
     <div className="event-lines">
+      {lastRemoved && (
+        <output className="undo-remove-bar">
+          <span>
+            Quitaste <strong>{removedEntry?.title || 'un servicio'}</strong>.
+          </span>
+          <div className="undo-remove-actions">
+            <button type="button" className="text-link" onClick={undoRemove}>
+              Deshacer
+            </button>
+            <button
+              type="button"
+              className="undo-remove-dismiss"
+              aria-label="Ocultar aviso"
+              onClick={dismissRemoved}
+            >
+              ×
+            </button>
+          </div>
+        </output>
+      )}
       {cart.items.map((item) => {
         const entry = entries.find((e) => e.id === item.entryId);
         const primary = item.itemId === cart.primaryItemId;

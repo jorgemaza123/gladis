@@ -15,6 +15,7 @@ type EventPreset = {
   badge: string;
   title: string;
   summary: string;
+  benefit: string;
   items: PresetItem[];
 };
 
@@ -24,6 +25,7 @@ const EVENT_PRESETS: EventPreset[] = [
     badge: '30 personas',
     title: 'Cumpleaños en casa',
     summary: 'Menú criollo + Menaje completo + 2 mozos',
+    benefit: 'Ideal para no preocuparte por platos, cubiertos ni servicio en casa.',
     items: [
       { entryId: 'menu-criollo-eventos', quantity: 30 },
       { entryId: 'menaje-evento', quantity: 30 },
@@ -35,6 +37,7 @@ const EVENT_PRESETS: EventPreset[] = [
     badge: '25 personas',
     title: 'Coffee break corporativo',
     summary: 'Desayuno y coffee break + Menaje + 1 mozo',
+    benefit: 'Pensado para reuniones o capacitaciones puntuales sin improvisar.',
     items: [
       { entryId: 'desayuno-corporativo', quantity: 25 },
       { entryId: 'menaje-evento', quantity: 25 },
@@ -46,6 +49,7 @@ const EVENT_PRESETS: EventPreset[] = [
     badge: '50 personas',
     title: 'Celebración o aniversario',
     summary: 'Buffet para eventos + Bartender + Menaje + 3 mozos',
+    benefit: 'Cubre comida, barra y atención continua para que solo te dediques a recibir.',
     items: [
       { entryId: 'buffet-para-eventos', quantity: 50 },
       { entryId: 'bar-bartender', quantity: 1 },
@@ -104,6 +108,7 @@ export function EventPresets() {
               <span className="event-preset-badge">{preset.badge}</span>
               <strong>{preset.title}</strong>
               <span className="event-preset-summary">{preset.summary}</span>
+              <span className="event-preset-benefit">{preset.benefit}</span>
               <span className="event-preset-action">
                 {active ? '✓ Cargado en Mi evento' : '+ Cargar combinación'}
               </span>

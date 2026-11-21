@@ -10,6 +10,7 @@ import type { ExplorerService } from '@/lib/public-services';
 import { serviceGroup, serviceGroupOrder } from '@/lib/service-groups';
 import { serviceFamilyMeta as homeFamilyMeta, serviceFamilyAnchor as familyAnchor } from '@/lib/service-navigation';
 import { EventPresets } from './event-presets';
+import { QuoteTransparency } from './quote-transparency';
 
 export function ServiceExplorer({
   entries,
@@ -129,34 +130,34 @@ export function ServiceExplorer({
         </div>
         <p>{intro}</p>
       </div>
-      {homeProgressive && <EventPresets />}
-      {homeProgressive && (
-        <div className="service-explorer-section-heading">
-          <h3>Esenciales para empezar</h3>
-          <p>Una base práctica para servir, montar y atender tu evento.</p>
+      {homeProgressive ? (
+        <>
+          <EventPresets />
+          <QuoteTransparency compact />
+        </>
+      ) : (
+        <div className="service-explorer-featured">
+          {suggestions.map((entry) => (
+            <article className="service-explorer-card" key={entry.id} data-selected={!!selectedItem(entry.id)}>
+              <Photo asset={entry.image} sizes="(max-width: 760px) 24vw, 140px" />
+              <div>
+                <h3>{entry.title}</h3>
+                {entry.id === currentId && <span className="service-explorer-current">Este servicio</span>}
+                <p>{featuredReasons?.[entry.id] || entry.description}</p>
+                <div className="service-explorer-card-controls">
+                  <Link
+                    href={'/' + entry.kind + '/' + entry.slug}
+                    aria-label={`Ver detalles de ${entry.title}`}
+                  >
+                    Ver detalles
+                  </Link>
+                  {action(entry)}
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       )}
-      <div className="service-explorer-featured">
-        {suggestions.map((entry) => (
-          <article className="service-explorer-card" key={entry.id} data-selected={!!selectedItem(entry.id)}>
-            <Photo asset={entry.image} sizes="(max-width: 760px) 24vw, 140px" />
-            <div>
-              <h3>{entry.title}</h3>
-              {entry.id === currentId && <span className="service-explorer-current">Este servicio</span>}
-              <p>{featuredReasons?.[entry.id] || entry.description}</p>
-              <div className="service-explorer-card-controls">
-                <Link
-                  href={'/' + entry.kind + '/' + entry.slug}
-                  aria-label={`Ver detalles de ${entry.title}`}
-                >
-                  Ver detalles
-                </Link>
-                {action(entry)}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
       {homeProgressive ? (
         <div className="service-family-directory" aria-labelledby={`${headingId}-directory`}>
           <div className="service-family-directory-heading">

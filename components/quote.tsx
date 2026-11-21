@@ -19,6 +19,7 @@ import {
 import { todayInLima } from '@/lib/quote-validation';
 import { serviceGroup, serviceGroupOrder } from '@/lib/service-groups';
 import { InitialEnquiry } from './initial-enquiry';
+import { QuoteTransparency } from './quote-transparency';
 
 export type QuoteSite = {
   settings: {
@@ -567,6 +568,7 @@ export function Quote({
           Tu selección se conserva en esta pestaña durante 24 horas, si tu
           navegador lo permite. <Link href="/privacidad">Privacidad</Link>
         </p>
+        <QuoteTransparency compact />
       </div>
       <aside className="quote-aside">
         <span className="table-symbol" aria-hidden="true">
