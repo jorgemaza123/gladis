@@ -242,3 +242,46 @@ export function faqData(site: SiteContent, entry: ContentEntry) {
     })),
   };
 }
+
+export function homeFaqData(site: SiteContent) {
+  if (site.settings.demo || !site.faqs.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: site.faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export function websiteData(site: SiteContent) {
+  const s = site.settings;
+  if (s.demo || !s.businessVerified || !s.name.trim()) return null;
+  const url = absoluteUrl(site, '/');
+  const searchTarget = absoluteUrl(site, '/servicios?q={search_term_string}');
+  if (!url) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': absoluteUrl(site, '/#website'),
+    name: s.name,
+    url,
+    ...(searchTarget
+      ? {
+          potentialAction: {
+            '@type': 'SearchAction',
+            target: {
+              '@type': 'EntryPoint',
+              urlTemplate: searchTarget,
+            },
+            'query-input': 'required name=search_term_string',
+          },
+        }
+      : {}),
+  };
+}

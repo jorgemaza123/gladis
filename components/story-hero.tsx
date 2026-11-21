@@ -81,10 +81,10 @@ export function StoryHero({ serviceSearch }: { serviceSearch: ReactNode }) {
                   <span>Tú celebra.</span>
                 </span>{' '}
                 <span className="story-title-line">
-                  <span>Nosotros te ayudamos con</span>
+                  <span>Catering y eventos en Lima</span>
                 </span>{' '}
                 <span className="story-title-line">
-                  <span>lo que necesitas.</span>
+                  <span>hechos a tu medida.</span>
                 </span>
               </h1>
               <span>

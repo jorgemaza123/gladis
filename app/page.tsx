@@ -1,5 +1,5 @@
 import { readSite } from '@/repositories/site';
-import { metadataFor, businessData } from '@/lib/seo';
+import { metadataFor, businessData, homeFaqData, websiteData } from '@/lib/seo';
 import { Shell, JsonLd } from '@/components/public';
 import { HomeExperience } from '@/components/home-experience';
 export async function generateMetadata() {
@@ -16,6 +16,8 @@ export default async function Home() {
   return (
     <Shell site={site}>
       <JsonLd data={businessData(site)} />
+      <JsonLd data={websiteData(site)} />
+      <JsonLd data={homeFaqData(site)} />
       <HomeExperience site={site} />
     </Shell>
   );

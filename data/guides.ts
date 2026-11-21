@@ -615,6 +615,134 @@ export const guides: Guide[] = [
       { label: 'Cotizar mozos', href: '/servicios/mozos-evento' },
     ],
   },
+  practicalGuide(
+    'cuanto-buffet-calcular-30-50-personas-lima',
+    'Presupuesto y porciones',
+    'Cuánto buffet calcular para 30 o 50 personas en Lima',
+    'Aprende a calcular entradas, platos de fondo, guarniciones y personal de servicio para 30 o 50 invitados en Lima sin desperdicios.',
+    [
+      {
+        title: 'Define la duración y horario del evento',
+        paragraphs: [
+          'Un almuerzo familiar de 3 horas no consume igual que una celebración nocturna de 6 horas. El horario define si conviene menú servido, buffet criollo o estaciones con bocaditos.',
+        ],
+        bullets: ['30 personas: ideal 1 a 2 entradas y 2 fondos', '50 personas: conviene buffet completo con reposición', 'Confirma adultos, niños y restricciones alimentarias'],
+      },
+      {
+        title: 'Equilibra platos principales, guarniciones y menaje',
+        paragraphs: [
+          'Calcula una base clara por invitado y suma platos, cubiertos y vasos con un pequeño margen de reposición para que el servicio no se detenga.',
+        ],
+      },
+      {
+        title: 'Cuándo sumar mozos al buffet',
+        paragraphs: [
+          'Para 30 personas en casa suele bastar 1 o 2 mozos de apoyo; para 50 personas conviene contar con 2 o 3 mozos que ordenen la mesa, repongan fuentes y retiren menaje.',
+        ],
+      },
+    ],
+    [
+      { label: 'Cotizar buffet para eventos', href: '/servicios/buffet-para-eventos' },
+      { label: 'Cotizar mozos para eventos', href: '/servicios/mozos-evento' },
+      { label: 'Armar mi cotización', href: '/cotizar' },
+    ],
+  ),
+  practicalGuide(
+    'coffee-break-corporativo-san-isidro-miraflores',
+    'Empresas',
+    'Coffee break corporativo en San Isidro y Miraflores',
+    'Guía práctica para coordinar desayunos y coffee break puntuales en oficinas de San Isidro, Miraflores y centros empresariales de Lima.',
+    [
+      {
+        title: 'Anticipa ingresos, ascensores y horarios de oficina',
+        paragraphs: [
+          'En edificios corporativos de San Isidro y Miraflores, confirmar el registro de personal y el uso de montacargas evita retrasos antes de iniciar la reunión.',
+        ],
+        bullets: ['Horario exacto de montaje previo', 'Contacto de recepción o seguridad del edificio', 'Cantidad de asistentes y pausas programadas'],
+      },
+      {
+        title: 'Qué incluir según la duración de la jornada',
+        paragraphs: [
+          'Para pausas de 20 minutos funciona mejor una mesa de café, infusiones, jugos y bocaditos fáciles de tomar de pie; para medias mañanas conviene reforzar con sándwiches y fruta.',
+        ],
+      },
+      {
+        title: 'Una sola coordinación con menaje incluido',
+        paragraphs: [
+          'Incluir tazas, servilletas, termo y mozo de apoyo evita improvisar con descartables cuando recibes clientes o directivos.',
+        ],
+      },
+    ],
+    [
+      { label: 'Cotizar desayuno y coffee break', href: '/servicios/desayunos-corporativos-coffee-break' },
+      { label: 'Ver soluciones para empresas', href: '/empresas' },
+      { label: 'Cotizar mi evento', href: '/cotizar' },
+    ],
+  ),
+  practicalGuide(
+    'catering-buffet-miraflores-surco-la-molina',
+    'Cobertura en Lima',
+    'Catering y buffet en Miraflores, Surco y La Molina',
+    'Qué revisar al contratar catering, buffet, barra y mobiliario para celebraciones en casa o local en Miraflores, Surco, San Borja y La Molina.',
+    [
+      {
+        title: 'Evalúa el acceso y espacio de cocina o montaje',
+        paragraphs: [
+          'Departamentos en Miraflores o San Borja requieren validar ascensor y estacionamiento de descarga; casas y jardines en Surco o La Molina permiten estaciones amplias y barra.',
+        ],
+        bullets: ['Tipo de inmueble: departamento, casa o terraza', 'Punto de apoyo para calentamiento y emplatado', 'Horario límite de música y desmontaje'],
+      },
+      {
+        title: 'Combina solo lo que el lugar necesita',
+        paragraphs: [
+          'Si ya cuentas con mesas, puedes pedir únicamente comida, menaje y mozos. Si partes desde cero, agrupa buffet, barra, sillas y toldo en una sola propuesta.',
+        ],
+      },
+      {
+        title: 'Confirmación de traslado antes de reservar',
+        paragraphs: [
+          'Con el distrito, la fecha y el número aproximado de invitados confirmamos disponibilidad, alcance y costo de traslado por escrito antes de cerrar.',
+        ],
+      },
+    ],
+    [
+      { label: 'Ver servicios de catering', href: '/servicios' },
+      { label: 'Cotizar buffet para eventos', href: '/servicios/buffet-para-eventos' },
+      { label: 'Consultar por WhatsApp', href: '/cotizar' },
+    ],
+  ),
+  practicalGuide(
+    'como-combinar-buffet-menaje-mozos-en-casa',
+    'Planificación',
+    'Cómo combinar buffet, menaje y mozos en casa en Lima',
+    'Organiza una reunión en casa sin estrés combinando comida lista, menaje completo y atención en mesa en una sola cotización en Lima.',
+    [
+      {
+        title: 'Empieza por el plato y el estilo de atención',
+        paragraphs: [
+          'Decide si prefieres buffet criollo para que cada invitado se sirva o menú servido en mesa con apoyo de mozos.',
+        ],
+        bullets: ['Buffet o menú criollo según espacio', 'Menaje acorde a entradas, fondo y bebidas', 'Mozos proporcionales al número de mesas'],
+      },
+      {
+        title: 'Evita lavar o improvisar vajilla al final',
+        paragraphs: [
+          'Alquilar el menaje junto con el servicio de cocina garantiza uniformidad en la mesa y retiro al terminar el evento.',
+        ],
+      },
+      {
+        title: 'Arma tu lista en un solo pedido',
+        paragraphs: [
+          'Agrega comida, menaje y personal a Mi evento para recibir disponibilidad y propuesta unificada en una sola conversación.',
+        ],
+      },
+    ],
+    [
+      { label: 'Cotizar buffet para eventos', href: '/servicios/buffet-para-eventos' },
+      { label: 'Cotizar menaje completo', href: '/servicios/menaje-evento' },
+      { label: 'Armar mi evento', href: '/cotizar' },
+    ],
+  ),
   ...additionalGuides.map((guide) => ({
     ...guide,
     sections: [
