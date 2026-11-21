@@ -45,8 +45,9 @@ function ensureGa4Loaded(): void {
 
   window.dataLayer = window.dataLayer || [];
   if (typeof window.gtag !== 'function') {
-    window.gtag = function gtag(...args: unknown[]) {
-      window.dataLayer?.push(args);
+    window.gtag = function gtag() {
+      // eslint-disable-next-line prefer-rest-params -- gtag requires native IArguments.
+      window.dataLayer?.push(arguments);
     };
     window.gtag('consent', 'default', {
       analytics_storage: 'granted',
@@ -54,6 +55,7 @@ function ensureGa4Loaded(): void {
       ad_user_data: 'denied',
       ad_personalization: 'denied',
     });
+    window.gtag('set', { send_page_view: false });
     window.gtag('js', new Date());
     // Disable automatic page_view to avoid duplicates with SPA route tracking.
     window.gtag('config', GA4_MEASUREMENT_ID, {
