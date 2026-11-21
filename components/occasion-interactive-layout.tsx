@@ -64,6 +64,14 @@ export function OccasionInteractiveLayout({
               onFocus={() => setHoveredId(occasion.id)}
               onBlur={() => setHoveredId((current) => (current === occasion.id ? null : current))}
             >
+              {occasion.image ? (
+                <div className="occasion-card-mobile-thumb" aria-hidden="true">
+                  <Photo
+                    asset={occasion.image}
+                    sizes="(max-width: 960px) 80vw, 1px"
+                  />
+                </div>
+              ) : null}
               <span className="occasion-card-index" aria-hidden="true">
                 {String(index + 1).padStart(2, '0')}
               </span>

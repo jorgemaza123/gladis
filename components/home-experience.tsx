@@ -12,6 +12,9 @@ import { C4DirectoryEntrance } from './c4-directory-entrance';
 import { explorerServices, quoteSiteFor } from '@/lib/public-services';
 import { publicReviewsUrl } from '@/config/commercial-evidence';
 import { ServiceSearchTrigger } from './service-search';
+import { CompanyMoments } from './company-moments';
+import { QuotePreviewCard } from './quote-preview-card';
+import { MesaClosingLabel } from './mesa-closing-cta';
 
 function TableDrawing() {
   return (
@@ -38,19 +41,22 @@ function TableDrawing() {
 
 function CompanyGateway() {
   return (
-    <section className="company-gateway wrap" aria-labelledby="company-gateway-title">
-      <span className="company-coordination-rule" data-motion-decoration aria-hidden="true" />
-      <div className="company-gateway-heading" data-motion-content>
-        <p className="section-kicker">Para empresas y equipos</p>
-        <h2 id="company-gateway-title">Una consulta clara para una operación bien coordinada.</h2>
-      </div>
-      <div>
-        <p className="company-gateway-copy" data-motion-content>
-          Desayunos, coffee break, reuniones, capacitaciones, lanzamientos y fechas internas. Elige alimentación, personal, mobiliario, audiovisuales, producción o personalizados según el programa.
-        </p>
-        <Link className="button" href="/empresas">Ver soluciones para empresas <span aria-hidden="true">↗</span></Link>
-      </div>
-    </section>
+    <div className="company-chapter">
+      <section className="company-gateway wrap" aria-labelledby="company-gateway-title">
+        <span className="company-coordination-rule" data-motion-decoration aria-hidden="true" />
+        <div className="company-gateway-heading" data-motion-content>
+          <p className="section-kicker">Para empresas y equipos</p>
+          <h2 id="company-gateway-title">Una consulta clara para una operación bien coordinada.</h2>
+        </div>
+        <div>
+          <p className="company-gateway-copy" data-motion-content>
+            Desayunos, coffee break, reuniones, capacitaciones, lanzamientos y fechas internas. Elige alimentación, personal, mobiliario, audiovisuales, producción o personalizados según el programa.
+          </p>
+          <CompanyMoments />
+          <Link className="button" href="/empresas">Ver soluciones para empresas <span aria-hidden="true">↗</span></Link>
+        </div>
+      </section>
+    </div>
   );
 }
 export function HomeExperience({ site }: { site: SiteContent }) {
@@ -179,6 +185,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
             <QuoteCta className="button" placement="navigation">
               Cotizar mi evento <span aria-hidden="true">↗</span>
             </QuoteCta>
+            <QuotePreviewCard />
           </div>
           <ol className="conversation-steps">
             <li>
@@ -255,7 +262,7 @@ export function HomeExperience({ site }: { site: SiteContent }) {
           La vamos viendo contigo.
         </p>
         <QuoteCta className="button light" placement="footer">
-          Cotizar mi evento <span aria-hidden="true">↗</span>
+          <MesaClosingLabel />
         </QuoteCta>
       </section>
       <HomeMotion />

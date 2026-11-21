@@ -116,6 +116,17 @@ export function EventPresets() {
           );
         })}
       </div>
+      {restored && cart.items.length > 0 ? (
+        <output className="event-presets-live-status" aria-live="polite">
+          <span>
+            Listo en tu evento:{' '}
+            <strong>
+              {cart.items.length} {cart.items.length === 1 ? 'servicio cargado' : 'servicios cargados'}
+            </strong>
+          </span>
+          <a href="#como-cotizar">Ver cómo se envía por WhatsApp ↓</a>
+        </output>
+      ) : null}
     </div>
   );
 }
