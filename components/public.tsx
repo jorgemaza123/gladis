@@ -170,7 +170,7 @@ export function Shell({
           </div>
           <nav aria-label="Celebraciones">
             <h2>Celebraciones</h2>
-            {['cumpleanos', 'graduaciones', 'boda', 'bautizos-comuniones', 'reuniones-familiares']
+            {['cumpleanos', 'cumpleanos-infantiles', 'quinceanos', 'graduaciones', 'boda', 'bautizos-comuniones', 'reuniones-familiares']
               .flatMap((id) => publicEntries(site).filter((entry) => entry.id === id))
               .map((entry) => (
                 <Link key={entry.id} href={'/' + entry.kind + '/' + entry.slug}>
@@ -199,9 +199,11 @@ export function Shell({
             <Link href="/alquiler">Alquileres para eventos</Link>
             <Link href="/personalizados">Personalizados</Link>
             <Link href="/entretenimiento">Entretenimiento</Link>
+            <Link href="/servicios/animacion-eventos">Animadores para eventos</Link>
+            <Link href="/servicios/orquesta-musica-vivo">Orquestas y música en vivo</Link>
+            <Link href="/servicios/alquiler-vehiculo-eventos">Vehículo ceremonial</Link>
             <Link href="/produccion">Producción audiovisual</Link>
             <Link href="/decoracion">Decoración</Link>
-            <Link href="/foto-video">Cabina y 360</Link>
             <Link href="/guias">Guías para organizar tu evento</Link>
             <Link href="/servicios">Ver todos los servicios</Link>
           </nav>
@@ -650,10 +652,10 @@ export function EntryDetail({
   if (e.kind === 'tipos-evento') {
     const featuredByOccasion: Record<string, string[]> = {
       cumpleanos: ['buffet-para-eventos', 'menu-criollo-eventos', 'mozos-evento'],
-      graduaciones: ['buffet-para-eventos', 'mozos-evento', 'recuerdos-evento'],
+      graduaciones: ['buffet-para-eventos', 'alquiler-vehiculo-eventos', 'animacion-eventos', 'orquesta-musica-vivo'],
       'fin-ano-empresas': ['buffet-para-eventos', 'desayuno-corporativo', 'mozos-evento'],
       'bautizos-comuniones': ['buffet-para-eventos', 'menaje-evento', 'recuerdos-evento'],
-      boda: ['buffet-para-eventos', 'mozos-evento', 'arreglos-florales'],
+      boda: ['buffet-para-eventos', 'alquiler-vehiculo-eventos', 'orquesta-musica-vivo', 'arreglos-florales'],
       'reuniones-familiares': ['buffet-para-eventos', 'menu-criollo-eventos', 'menaje-evento'],
       'desayunos-corporativos': ['desayuno-corporativo', 'menaje-evento', 'mozos-evento'],
       corporativo: ['buffet-para-eventos', 'desayuno-corporativo', 'mozos-evento'],

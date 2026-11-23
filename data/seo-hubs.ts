@@ -20,8 +20,8 @@ export const seoHubPages = {
     eyebrow: 'Detalles para invitados y equipos',
     title: 'Personalizados para eventos en Lima',
     description:
-      'Elige recuerdos, polos, tazas, tomatodos, cuadros, fotorecuerdos, llaveros, papelería o kits para celebraciones, equipos y marcas.',
-    audience: 'Para familias, promociones, equipos y marcas que necesitan un detalle con nombre, foto, mensaje o identidad visual.',
+      'Elige recuerdos, polos, tazas, tomatodos, llaveros, papelería o kits para celebraciones, equipos y marcas.',
+    audience: 'Para familias, promociones, equipos y marcas que necesitan un detalle con nombre, mensaje o identidad visual.',
     decisionIntro: 'Define primero para quién es el detalle, cuántas unidades necesitas y cuándo debe estar listo. El material, la técnica y el empaque se confirman en la propuesta.',
     choiceTips: [
       { title: 'Uso y destinatario', description: 'Un recuerdo para invitados, un uniforme de equipo y un regalo corporativo requieren acabados distintos.' },
@@ -31,14 +31,14 @@ export const seoHubPages = {
     relatedLinks: [{ label: 'Eventos y celebraciones', href: '/eventos' }, { label: 'Soluciones para empresas', href: '/empresas' }],
     entryIds: [
       'recuerdos-evento', 'polos-estampados', 'tazas-personalizadas',
-      'tomatodos-personalizados', 'cuadros-fotorecuerdos',
-      'llaveros-personalizados', 'papeleria-eventos', 'kits-regalos-corporativos',
+      'tomatodos-personalizados', 'llaveros-personalizados',
+      'papeleria-eventos', 'kits-regalos-corporativos',
     ],
     secondaryLink: { label: 'Ver soluciones para empresas', href: '/empresas' },
     seo: {
       title: 'Recuerdos y personalizados para eventos en Lima | Gladys',
       description:
-        'Cotiza recuerdos, polos, tazas, tomatodos, cuadros, fotorecuerdos, llaveros, papelería y kits personalizados para eventos y empresas en Lima.',
+        'Cotiza recuerdos, polos, tazas, tomatodos, llaveros, papelería y kits personalizados para eventos y empresas en Lima.',
       noindex: false,
     },
   },
@@ -47,24 +47,26 @@ export const seoHubPages = {
     eyebrow: 'Alquileres disponibles',
     title: 'Alquiler para eventos en Lima',
     description:
-      'Cotiza menaje, sillas, mesas, toldos, mantelería y mobiliario. Indica cantidades, fecha y distrito para revisar disponibilidad y traslado.',
-    audience: 'Para celebraciones en casa, locales, recepciones y reuniones de empresa que necesitan completar mesa, asientos o áreas de servicio.',
-    decisionIntro: 'El punto de partida es el número de asistentes y el espacio útil. Después se revisan el tipo de montaje, el acceso, la entrega y el retiro.',
+      'Cotiza menaje, sillas, mesas, toldos, mobiliario y vehículo ceremonial. Indica cantidades, fecha, distrito y ruta para revisar disponibilidad y traslado.',
+    audience: 'Para celebraciones en casa, locales, recepciones y reuniones de empresa que necesitan completar mesa, asientos, montaje o una llegada ceremonial.',
+    decisionIntro: 'Para mobiliario, parte del número de asistentes y el espacio útil. Para vehículo ceremonial, comparte recojo, destino, hora de llegada y espera prevista.',
     choiceTips: [
       { title: 'Mide el espacio', description: 'Reserva circulación, zonas de comida y salidas antes de calcular mesas, sillas o mobiliario.' },
       { title: 'Relaciona piezas y menú', description: 'El menaje cambia según los platos y bebidas que se servirán; no todas las reuniones necesitan lo mismo.' },
       { title: 'Confirma la logística', description: 'Distrito, pisos, ascensor, horario y superficie influyen en traslado, instalación y retiro.' },
+      { title: 'Coordina la llegada', description: 'Para boda, quinceaños o graduación, confirma ruta, hora exacta, estacionamiento y tiempo de espera del vehículo.' },
     ],
     relatedLinks: [{ label: 'Calcular menaje', href: '/guias/como-calcular-menaje-para-evento' }, { label: 'Organizar un evento en casa', href: '/guias/como-organizar-evento-en-casa' }],
     entryIds: [
       'menaje-evento', 'sillas-evento', 'alquiler-mesas-eventos',
       'alquiler-toldos-carpas', 'manteleria-eventos', 'mobiliario-eventos',
+      'alquiler-vehiculo-eventos',
     ],
     secondaryLink: { label: 'Ver todos los servicios', href: '/servicios' },
     seo: {
-      title: 'Alquiler de menaje, sillas y mobiliario en Lima | Gladys',
+      title: 'Alquiler y vehículo ceremonial para eventos en Lima | Gladys',
       description:
-        'Cotiza alquiler de menaje, sillas, mesas, toldos, mantelería y mobiliario para celebraciones y eventos de empresa en Lima Metropolitana.',
+        'Cotiza menaje, sillas, mesas, toldos, mobiliario y vehículo ceremonial para bodas, quinceaños, graduaciones y eventos en Lima Metropolitana.',
       noindex: false,
     },
   },
@@ -146,7 +148,7 @@ export const seoHubPages = {
       { title: 'Presentación en vivo', description: 'Una orquesta o artista necesita espacio, tiempos de montaje, pausas y sonido adecuados.' },
       { title: 'Actividad puntual', description: 'Animación, karaoke u hora loca funcionan mejor cuando se define público, duración y momento del programa.' },
     ],
-    relatedLinks: [{ label: 'DJ u orquesta: cómo elegir', href: '/guias/dj-u-orquesta-para-evento' }, { label: 'Producción audiovisual', href: '/produccion' }],
+    relatedLinks: [{ label: 'DJ u orquesta: cómo elegir', href: '/guias/dj-u-orquesta-para-evento' }, { label: 'Quinceaños en Lima', href: '/tipos-evento/servicios-quinceanos-lima' }, { label: 'Producción audiovisual', href: '/produccion' }],
     entryIds: ['dj-eventos', 'orquesta-musica-vivo', 'animacion-eventos', 'hora-loca-shows', 'karaoke-eventos', 'fiestas-infantiles-servicios'],
     secondaryLink: { label: 'Ver producción audiovisual', href: '/produccion' },
     seo: {
@@ -196,28 +198,6 @@ export const seoHubPages = {
     seo: {
       title: 'Decoración, flores y candy bar para eventos en Lima | Gladys',
       description: 'Cotiza decoración, arreglos florales, candy bar y mesas de postres para eventos en Lima Metropolitana.',
-      noindex: false,
-    },
-  },
-  fotoVideo: {
-    path: '/foto-video',
-    eyebrow: 'Recuerdos de tu celebración',
-    title: 'Cabina y experiencia 360 para celebraciones en Lima',
-    description:
-      'Cotiza cabina fotográfica y experiencia 360 según el espacio, la duración y el formato de participación de tus invitados.',
-    audience: 'Para familias, promociones y empresas que quieren sumar una actividad participativa para sus invitados.',
-    decisionIntro: 'Una cabina es una actividad para los invitados. Revisa el área disponible, el tiempo de uso y la forma de compartir el contenido; el formato se confirma antes de reservar.',
-    choiceTips: [
-      { title: 'Duración', description: 'Define durante qué bloque del evento estará disponible la actividad y cuántas personas podrían participar.' },
-      { title: 'Contenido', description: 'Consulta la forma de compartir los archivos, el fondo y las opciones disponibles antes de confirmar el alcance.' },
-      { title: 'Cabina o 360', description: 'Revisa espacio, energía, flujo de personas, fondo y forma de compartir los archivos.' },
-    ],
-    relatedLinks: [{ label: 'Graduaciones y promociones', href: '/tipos-evento/catering-graduaciones-lima' }, { label: 'Eventos y celebraciones', href: '/eventos' }],
-    entryIds: ['cabina-fotografica-360'],
-    secondaryLink: { label: 'Ver eventos y celebraciones', href: '/eventos' },
-    seo: {
-      title: 'Cabina y experiencia 360 para eventos en Lima | Gladys',
-      description: 'Cotiza cabina fotográfica y experiencia 360 para invitados de celebraciones y eventos en Lima Metropolitana. Formato, duración y disponibilidad a consulta.',
       noindex: false,
     },
   },

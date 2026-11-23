@@ -195,8 +195,8 @@ export const demoContent: SiteContent = normalizeSite({
     demo: false,
     businessVerified: true,
     seo: seo(
-      'Catering, buffet y eventos en Lima a tu medida | Gladys',
-      'Catering, buffet, menaje, barra y atención para reuniones pequeñas, bodas, graduaciones y empresas en Lima. Cotiza a tu medida por WhatsApp.',
+      'Catering y servicios para eventos en Lima | Gladys',
+      'Organiza desde una reunión pequeña hasta una boda, quinceaños, graduación o gran evento en Lima. Cotiza catering, alquileres, animación, orquesta y más por WhatsApp.',
     ),
     navigation: [
       { label: 'Servicios', href: '/servicios' },
@@ -208,10 +208,10 @@ export const demoContent: SiteContent = normalizeSite({
       servicios: {
         title: 'Servicios para eventos en Lima',
         description:
-          'Encuentra cocina, bar, personal, alquileres, entretenimiento, producción, decoración y personalizados para eventos en Lima.',
+          'Encuentra cocina, bar, personal, alquileres, transporte ceremonial, entretenimiento, producción, decoración y personalizados para eventos en Lima.',
         seo: seo(
           'Servicios para eventos en Lima | Gladys',
-          'Explora servicios de cocina, bar, personal, alquileres, entretenimiento, producción, decoración y personalizados en Lima.',
+          'Explora catering, personal, alquileres, vehículo ceremonial, animación, orquestas, producción, decoración y personalizados para eventos en Lima.',
         ),
       },
       complementos: {
@@ -397,21 +397,22 @@ export const demoContent: SiteContent = normalizeSite({
         featured: false,
         sortOrder: 3,
         category: 'Celebraciones',
-        body: 'Esta página está pensada para recepciones de boda y aniversarios de pareja. Si organizarás únicamente una ceremonia civil o una comida íntima, encontrarás una opción específica. Aquí puedes combinar buffet, barra, atención, menaje, sillas, flores y recuerdos para una recepción más amplia.',
+        body: 'Esta página está pensada para recepciones de boda y aniversarios de pareja. Si organizarás únicamente una ceremonia civil o una comida íntima, encontrarás una opción específica. Aquí puedes combinar buffet, barra, atención, menaje, sillas, flores, música, vehículo ceremonial y recuerdos para una recepción más amplia.',
         details: [
           'Elige únicamente los servicios que necesita tu celebración',
           'Ajustamos cantidades, estilo y logística contigo',
           'Recibe la propuesta y disponibilidad por WhatsApp',
         ],
         serviceIds: ['buffet-para-eventos'],
-        addOnIds: ['bar-bartender', 'mozos-evento', 'menaje-evento', 'sillas-evento', 'arreglos-florales', 'recuerdos-evento'],
+        addOnIds: ['bar-bartender', 'mozos-evento', 'menaje-evento', 'sillas-evento', 'arreglos-florales', 'orquesta-musica-vivo', 'alquiler-vehiculo-eventos', 'recuerdos-evento'],
         seo: seo(
           'Catering para bodas y aniversarios de pareja en Lima | Gladys',
-          'Cotiza buffet, bartender, mozos, menaje, sillas, flores y recuerdos para recepciones de boda y aniversarios de pareja en Lima.',
+          'Cotiza catering, orquesta, vehículo ceremonial, bartender, atención, flores y recuerdos para bodas y aniversarios en Lima Metropolitana.',
         ),
         faqItems: [
           { id: 'boda-paquete', question: '¿Tengo que contratar todos los servicios?', answer: 'No. Puedes elegir un solo servicio o combinar varios. Preparamos la cotización según lo que realmente necesites.' },
           { id: 'boda-cobertura', question: '¿Atienden bodas en todo Lima?', answer: 'Atendemos Lima Metropolitana. Confírmanos el distrito, la fecha y el acceso al lugar para revisar el traslado.' },
+          { id: 'boda-vehiculo', question: '¿Puedo cotizar el vehículo que lleva a la novia?', answer: 'Sí. Indica punto de recojo, ceremonia o recepción, hora de llegada y tiempo de espera para revisar una opción con conductor.' },
         ],
       },
     ),

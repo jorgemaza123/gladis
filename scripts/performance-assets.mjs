@@ -162,7 +162,8 @@ assert.ok(homeNavSource.includes('homeServiceNav.map'));
 for (const label of ['Cocina', 'Bartender', 'Menaje', 'Mozos y sillas', 'Personalizados', 'Flores'])
   assert.ok(homeSceneDataSource.includes(`label: '${label}'`), `Missing ${label} quick link`);
 assert.ok(storySource.includes('Soluciones para celebraciones y eventos en Lima'));
-assert.match(storySource, /alquileres, personalizados y\s+flores/);
+assert.match(storySource, /alquileres, animación, orquestas/);
+assert.match(storySource, /vehículo ceremonial, decoración y personalizados/);
 console.log(
   `PASS: 24 variantes JPEG con dimensiones reales: ${total} bytes; 2 fuentes locales: ${fontTotal} bytes; 4 activos runtime del relato: ${storyTotal} bytes; seis escenas comerciales con capas y ${homeSceneTotal} bytes de WebP lazy. Esto no mide Core Web Vitals.`,
 );

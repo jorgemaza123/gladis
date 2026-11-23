@@ -967,13 +967,16 @@ console.log(
 // Actual public catalog: all services must be independently quotable, with complete item descriptions.
 const eventSelection = await import(await moduleUrl('lib/event-selection.ts'));
 const actualEntries = demo.demoContent.entries.filter((e) => e.requestable);
-assert.equal(actualEntries.length, 39);
-assert.ok(!demo.demoContent.entries.some((entry) => entry.id === 'fotografia-video-eventos'), 'la cobertura de fotografía retirada no debe ofrecerse');
+assert.equal(actualEntries.length, 38);
+for (const retiredId of ['fotografia-video-eventos', 'cabina-fotografica-360', 'cuadros-fotorecuerdos'])
+  assert.ok(!demo.demoContent.entries.some((entry) => entry.id === retiredId), `${retiredId}: la oferta fotográfica retirada no debe publicarse`);
 for (const entry of demo.demoContent.entries)
   for (const key of ['serviceIds', 'menuIds', 'addOnIds', 'recommendations'])
-    assert.ok(!entry[key].some((item) => (typeof item === 'string' ? item : item.entryId) === 'fotografia-video-eventos'), `${entry.id}: referencia a fotografía retirada`);
+    for (const retiredId of ['fotografia-video-eventos', 'cabina-fotografica-360', 'cuadros-fotorecuerdos'])
+      assert.ok(!entry[key].some((item) => (typeof item === 'string' ? item : item.entryId) === retiredId), `${entry.id}: referencia a oferta fotográfica retirada`);
+assert.ok(actualEntries.some((entry) => entry.id === 'alquiler-vehiculo-eventos'), 'debe existir el vehículo ceremonial');
 const partnerEntries = actualEntries.filter((entry) => entry.availability === 'partner');
-assert.equal(partnerEntries.length, 29);
+assert.equal(partnerEntries.length, 28);
 const cocinaServiceIds = new Set([
   'buffet-para-eventos',
   'menu-criollo-eventos',
@@ -1151,7 +1154,7 @@ for (const [primaryItemId, destination] of [['food', '51923106197'], ['music', '
 assert.equal(initialEnquiry({ entries: enquiryEntries, cart: { ...mixedEnquiry, primaryItemId: null }, topic: 'orientacion-eventos' }), null);
 assert.equal(initialEnquiry({ entries: enquiryEntries, cart: { ...mixedEnquiry, items: [...mixedEnquiry.items, { itemId: 'missing', entryId: 'missing', quantity: 1, optionValues: {} }] }, topic: '' }), null);
 console.log(
-  'PASS: treinta y nueve servicios, dieciocho ocasiones y consultas iniciales sin datos obligatorios; selección completa y responsables correctos en ambas vías.',
+  'PASS: treinta y ocho servicios, dieciocho ocasiones y consultas iniciales sin datos obligatorios; selección completa y responsables correctos en ambas vías.',
 );
 
 const serviceSearch = await import(await moduleUrl('lib/service-search.ts'));
@@ -1163,8 +1166,8 @@ const searchEntries = actualEntries.map((entry) => ({
   href: `/${entry.kind}/${entry.slug}`,
   family: serviceGroups.serviceGroup(entry),
 }));
-assert.equal(serviceSearch.searchServices(searchEntries, '').length, 39);
-assert.equal(new Set(searchEntries.map((entry) => entry.family)).size, 9);
+assert.equal(serviceSearch.searchServices(searchEntries, '').length, 38);
+assert.equal(new Set(searchEntries.map((entry) => entry.family)).size, 8);
 for (const id of Object.keys(serviceSearch.serviceSearchAliases))
   assert.ok(searchEntries.some((entry) => entry.id === id), `alias sin servicio real: ${id}`);
 for (const entry of searchEntries) {
@@ -1179,23 +1182,24 @@ for (const [query, expected] of [
   ['taza', 'tazas-personalizadas'],
   ['coffee break', 'desayuno-corporativo'],
   ['meseros', 'mozos-evento'],
+  ['carro para quinceañera', 'alquiler-vehiculo-eventos'],
+  ['auto para novia', 'alquiler-vehiculo-eventos'],
 ]) assert.equal(serviceSearch.searchServices(searchEntries, query)[0]?.id, expected, query);
-assert.equal(serviceSearch.searchServices(searchEntries, '', 'Personalizados').length, 8);
+assert.equal(serviceSearch.searchServices(searchEntries, '', 'Personalizados').length, 7);
 assert.equal(serviceSearch.searchServices(searchEntries, '', 'Música y entretenimiento').length, 6);
-assert.equal(serviceSearch.searchServices(searchEntries, '', 'Cabina y 360').length, 1);
 assert.deepEqual(serviceSearch.searchServices(searchEntries, 'fotógrafo'), []);
 assert.deepEqual(serviceSearch.searchServices(searchEntries, 'FOTOGRAFO'), []);
 assert.ok(serviceSearch.searchServices(searchEntries, 'alquiler').every((entry) => searchEntries.some((actual) => actual.id === entry.id)));
 assert.deepEqual(serviceSearch.searchServices(searchEntries, 'un-servicio-inexistente-xyz'), []);
 assert.deepEqual(serviceSearch.searchServices(searchEntries, '<script>alert(1)</script>'), []);
-console.log('PASS SEARCH: treinta y nueve servicios y nueve familias, términos relacionados, acentos, orden de relevancia y rutas reales; fotografía retirada.');
+console.log('PASS SEARCH: treinta y ocho servicios y ocho familias, términos relacionados, vehículo ceremonial, acentos, orden de relevancia y rutas reales; oferta fotográfica retirada.');
 
 const navigation = await import(await moduleUrl('lib/service-navigation.ts', [
   ["from './service-groups'", `from ${JSON.stringify(serviceGroupsUrl)}`],
 ]));
 const navigationFamilies = navigation.serviceFamilyLinks(actualEntries);
-assert.equal(navigationFamilies.length, 9);
-assert.equal(new Set(navigationFamilies.map((family) => family.id)).size, 9);
+assert.equal(navigationFamilies.length, 8);
+assert.equal(new Set(navigationFamilies.map((family) => family.id)).size, 8);
 assert.equal(navigationFamilies.reduce((total, family) => total + family.count, 0), actualEntries.length);
 for (const group of serviceGroups.serviceGroupOrder) {
   const family = navigationFamilies.find((item) => item.id === navigation.serviceFamilyAnchor(group));
@@ -1211,8 +1215,8 @@ assert.equal(navigationFamilies.find((family) => family.label === 'Personal')?.c
 assert.equal(navigationFamilies.find((family) => family.label === 'Empresas')?.count, 1);
 for (const [path, expected] of [
   ['/servicios', 'servicios'], ['/servicios/dj-eventos', 'servicios'],
-  ['/menus/menu-criollo-eventos', 'servicios'], ['/foto-video', 'servicios'],
+  ['/menus/menu-criollo-eventos', 'servicios'],
   ['/eventos', 'ocasiones'], ['/tipos-evento/catering-cumpleanos-lima', 'ocasiones'],
   ['/empresas', 'empresas'], ['/cotizar', ''], ['/guias', ''],
 ]) assert.equal(navigation.navigationSectionForPath(path), expected, path);
-console.log('PASS NAVIGATION: nueve familias y treinta y nueve servicios con anclas únicas; Personal completo, Empresas y sección de ruta correctos.');
+console.log('PASS NAVIGATION: ocho familias y treinta y ocho servicios con anclas únicas; Personal completo, Empresas y sección de ruta correctos.');

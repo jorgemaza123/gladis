@@ -88,9 +88,9 @@ export function StoryHero({ serviceSearch }: { serviceSearch: ReactNode }) {
                 </span>
               </h1>
               <span>
-                Cocina, bartender, menaje, mozos, alquileres, personalizados y
-                flores. Contrata un servicio o combina varios en Lima
-                Metropolitana.
+                Catering, bar, personal, alquileres, animación, orquestas,
+                vehículo ceremonial, decoración y personalizados. Contrata un
+                servicio o combina varios en Lima Metropolitana.
               </span>
               <div className="story-actions">
                 <QuoteCta

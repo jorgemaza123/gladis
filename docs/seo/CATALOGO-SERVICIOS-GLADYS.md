@@ -1,6 +1,6 @@
 # Catálogo público de servicios de Gladys
 
-Actualizado: 2026-10-19. Solo aparecen ofertas publicadas, cotizables y con responsable asignado. Inventario: 39 servicios, 10 propios y 29 coordinados con aliados. Retirada la cobertura de fotografía y video por indicación comercial del propietario.
+Actualizado: 2026-11-23. Solo aparecen ofertas publicadas, cotizables y con responsable asignado. Inventario: 38 servicios, 10 propios y 28 coordinados con aliados. Retiradas la cobertura de fotografía/video, la cabina/360 y los fotorecuerdos por indicación comercial del propietario.
 
 ## Servicios propios (`active`)
 
@@ -23,12 +23,11 @@ Actualizado: 2026-10-19. Solo aparecen ofertas publicadas, cotizables y con resp
 |---|---|
 | Comida y bebidas | Bocaditos y piqueos; brunch y box; almuerzos y cenas corporativas; bebidas y barra |
 | Personal | Maestro de ceremonias |
-| Alquileres | Mesas; toldos y carpas; mantelería; mobiliario |
+| Alquileres | Mesas; toldos y carpas; mantelería; mobiliario; vehículo ceremonial con conductor |
 | Producción | Sonido; iluminación; pantallas y proyección; escenarios y tarimas; streaming |
 | Música y entretenimiento | DJ; orquesta y música en vivo; animación; hora loca y shows; karaoke; fiestas infantiles |
 | Decoración | Decoración integral; candy bar y mesas de postres |
-| Cabina y 360 | Cabina fotográfica y experiencia 360 |
-| Personalizados | Tazas; tomatodos; cuadros y fotorecuerdos; llaveros; papelería; kits y regalos corporativos |
+| Personalizados | Tazas; tomatodos; llaveros; papelería; kits y regalos corporativos |
 
 ## Reglas aplicadas
 

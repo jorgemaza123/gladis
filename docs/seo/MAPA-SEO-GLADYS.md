@@ -1,6 +1,6 @@
 # Arquitectura SEO actual de Gladys
 
-Actualizado: 2026-10-19 (retirada comercial de fotografía y video).
+Actualizado: 2026-11-23 (retirada total de fotografía/cabina y alta de vehículo ceremonial).
 
 ## Capas públicas
 
@@ -10,11 +10,10 @@ Actualizado: 2026-10-19 (retirada comercial de fotografía y video).
 | Servicios | `/servicios` | Explorar todos los servicios cotizables |
 | Eventos | `/eventos` | Empezar por el tipo de celebración o evento |
 | Empresas | `/empresas` | Resolver necesidades de equipos y organizaciones |
-| Alquileres | `/alquiler` | Encontrar menaje, sillas, mesas, toldos, mantelería y mobiliario |
+| Alquileres | `/alquiler` | Encontrar menaje, sillas, mesas, toldos, mantelería, mobiliario y vehículo ceremonial |
 | Entretenimiento | `/entretenimiento` | Encontrar música, animación y experiencias |
 | Producción | `/produccion` | Encontrar sonido, luces, pantallas, escenarios y streaming |
 | Decoración | `/decoracion` | Encontrar decoración, flores y mesas de postres |
-| Cabina y 360 | `/foto-video` | Encontrar una experiencia participativa para invitados; no cobertura profesional de fotografía o video |
 | Personalizados | `/personalizados` | Encontrar recuerdos, productos y kits |
 | Guías | `/guias` | Resolver preguntas previas a la contratación |
 | Cobertura | `/cobertura/lima-metropolitana` | Confirmar atención en Lima Metropolitana |
@@ -22,10 +21,10 @@ Actualizado: 2026-10-19 (retirada comercial de fotografía y video).
 
 ## Inventario indexable
 
-- 39 servicios cotizables: 10 propios y 29 coordinados con aliados.
+- 38 servicios cotizables: 10 propios y 28 coordinados con aliados.
 - 18 páginas de eventos sociales y empresariales.
 - 19 guías informativas.
-- 8 hubs temáticos adicionales al inicio y los catálogos.
+- 7 hubs temáticos adicionales al inicio y los catálogos.
 - Una página de cobertura con los 43 distritos, sin páginas puerta.
 
 ## Reglas técnicas

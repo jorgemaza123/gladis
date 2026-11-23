@@ -34,11 +34,12 @@ const h1s = new Map();
 const links = new Set();
 for (const publishedUrl of urls) {
   const { response, text } = await get(localUrl(publishedUrl));
+  const head = text.match(/<head[^>]*>([\s\S]*?)<\/head>/i)?.[1] || text;
   assert.equal(response.status, 200, `${publishedUrl} debe responder 200`);
   assert.doesNotMatch(text, /<meta[^>]+name=["']robots["'][^>]+noindex/i, `${publishedUrl} no debe tener noindex`);
-  const pageTitles = matches(text, /<title[^>]*>(.*?)<\/title>/gis);
-  const descriptions = matches(text, /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/gi);
-  const canonicals = matches(text, /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/gi);
+  const pageTitles = matches(head, /<title[^>]*>(.*?)<\/title>/gis);
+  const descriptions = matches(head, /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/gi);
+  const canonicals = matches(head, /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/gi);
   const pageH1s = matches(text, /<h1[^>]*>([\s\S]*?)<\/h1>/gi).map((value) => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim());
   assert.equal(pageTitles.length, 1, `${publishedUrl} debe tener un title`);
   assert.equal(descriptions.length, 1, `${publishedUrl} debe tener una description`);
@@ -52,9 +53,9 @@ for (const publishedUrl of urls) {
   const h1Key = pageH1s[0].toLowerCase();
   assert.ok(!h1s.has(h1Key), `H1 duplicado entre ${publishedUrl} y ${h1s.get(h1Key)}`);
   h1s.set(h1Key, publishedUrl);
-  assert.match(text, /<meta[^>]+property=["']og:title["']/i, `${publishedUrl} necesita og:title`);
-  assert.match(text, /<meta[^>]+property=["']og:description["']/i, `${publishedUrl} necesita og:description`);
-  assert.match(text, /<meta[^>]+property=["']og:url["']/i, `${publishedUrl} necesita og:url`);
+  assert.match(head, /<meta[^>]+property=["']og:title["']/i, `${publishedUrl} necesita og:title`);
+  assert.match(head, /<meta[^>]+property=["']og:description["']/i, `${publishedUrl} necesita og:description`);
+  assert.match(head, /<meta[^>]+property=["']og:url["']/i, `${publishedUrl} necesita og:url`);
   const schemas = matches(text, /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)
     .flatMap((json) => {
       const parsed = JSON.parse(json);
@@ -77,6 +78,22 @@ const retired = await get(new URL(retiredPhotography, base));
 assert.equal(retired.response.status, 404, 'la cobertura de fotografía retirada no debe seguir publicada');
 assert.ok(!urls.some((url) => new URL(url).pathname === retiredPhotography), 'la ficha retirada no debe estar en el sitemap');
 assert.ok(!links.has(retiredPhotography), 'no deben quedar enlaces internos al servicio retirado');
+
+for (const [retiredPath, target] of [
+  ['/foto-video', '/entretenimiento'],
+  ['/servicios/cabina-fotografica-360', '/entretenimiento'],
+  ['/servicios/cuadros-fotorecuerdos', '/personalizados'],
+]) {
+  const retiredPage = await get(new URL(retiredPath, base));
+  assert.ok([301, 308].includes(retiredPage.response.status), `${retiredPath} debe redirigir permanentemente`);
+  assert.equal(new URL(retiredPage.response.headers.get('location'), base).pathname, target);
+  assert.ok(!urls.some((url) => new URL(url).pathname === retiredPath), `${retiredPath} no debe estar en sitemap`);
+  assert.ok(!links.has(retiredPath), `${retiredPath} no debe conservar enlaces internos`);
+}
+
+const ceremonialVehicle = '/servicios/alquiler-vehiculo-eventos';
+assert.ok(urls.some((url) => new URL(url).pathname === ceremonialVehicle), 'el vehículo ceremonial debe estar en sitemap');
+assert.ok(links.has(ceremonialVehicle), 'el vehículo ceremonial necesita enlaces internos rastreables');
 
 for (const noindexPath of [
   '/cotizar',

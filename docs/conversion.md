@@ -1,7 +1,7 @@
 # Conversión y contacto
 
 - El CTA general del Hero abre `/cotizar` sin seleccionar servicios. Los CTA de fichas y escenas conservan su selección específica.
-- El Hero y el menú abren un mismo buscador de los 39 servicios, con nueve familias y términos relacionados. El catálogo completo sigue enlazado en `/servicios`. El enlace de consulta inicial también está disponible antes del Capítulo 3 y en el footer.
+- El Hero y el menú abren un mismo buscador de los 38 servicios, con ocho familias y términos relacionados. El catálogo completo sigue enlazado en `/servicios`. El enlace de consulta inicial también está disponible antes del Capítulo 3 y en el footer.
 - La consulta inicial no exige fecha, cantidades ni opciones. Si existen servicios en Mi evento, el principal determina el WhatsApp y se incluyen todos. El cotizador detallado conserva sus validaciones comerciales.
 - No se envía ningún formulario a un backend: el visitante revisa el mensaje en WhatsApp y decide enviarlo.
 - El diálogo de Mi evento y su backdrop se muestran por encima del encabezado.
@@ -10,7 +10,7 @@
 
 `ServiceSearchProvider` recibe del catálogo público únicamente ID, nombre, ruta y familia. El panel se abre desde el Hero y los menús, sin añadir una sección al Home. Muestra cinco resultados inicialmente y permite ver el resto dentro del mismo panel. El catálogo existente conserva sus nombres y enlaces en HTML.
 
-Corrección comercial del 19/10/2026: retirada la ficha `fotografia-video-eventos`, sus recomendaciones, selecciones y referencias comerciales en ocasiones, guías, metadatos y buscador. Quedan 39 servicios: 9 hacia Cocina y 30 hacia Eventos. Cabina y experiencia 360 conserva su ficha independiente; `/foto-video` mantiene su URL y describe únicamente esa experiencia. La antigua ficha de cobertura responde 404 y deja de aparecer en el sitemap. El historial de validación inferior corresponde al inventario anterior.
+Corrección comercial actualizada el 23/11/2026: retiradas las fichas `fotografia-video-eventos`, `cabina-fotografica-360` y `cuadros-fotorecuerdos`, junto con sus recomendaciones, selecciones y referencias comerciales. `/foto-video` redirige permanentemente a `/entretenimiento`; la URL de fotorecuerdos redirige a `/personalizados`. El catálogo queda en 38 servicios después de añadir `alquiler-vehiculo-eventos` para la llegada ceremonial en bodas, quinceaños y graduaciones. El historial de validación inferior puede corresponder a inventarios anteriores.
 
 El foco del buscador se aplica ahora al contenedor completo con un único borde redondeado; el input interior no dibuja un rectángulo superpuesto. Los demás controles mantienen su foco de teclado.
 
@@ -36,11 +36,11 @@ La eficacia real debe medirse con visitas, consultas recibidas y ventas. La atri
 - Revisados 360, 390, 768, 1024 y 1440 px: sin overflow, controles del panel de al menos 44 px, Escape, retorno y confinamiento del foco, navegación a ficha y vuelta, scroll interno y compatibilidad con Native/Lenis. Cero errores de consola tras corregir la hidratación.
 - El buscador usa un portal fijo y no añade una sección al Home. Capítulo 3, Lenis y dependencias permanecen intactos. Capturas de validación guardadas fuera del repositorio. Sin commit ni push.
 
-## Cierre de la retirada de fotografía y corrección de foco — 19/10/2026
+## Cierre actualizado de fotografía/cabina y expansión ceremonial — 23/11/2026
 
-- Inventario validado: 39 servicios, nueve familias, nueve servicios de Cocina y 30 de Eventos. Las 18 ocasiones conservan sus demás opciones.
-- `quality`, `test:commerce`, `test:seo`, `test:content`, `test:redirects` y `git diff --check` aprobados. SEO: 88 URLs, titles y H1 únicos, 138 enlaces internos verificados; la ficha retirada responde 404 y no tiene enlaces internos ni entrada en sitemap. Las otras 36 fichas migradas conservan su 301 directo.
-- El informe de contenido registra una URL con menos de 240 palabras tras reducir el hub a la experiencia de cabina; no se añadió relleno para compensar la retirada.
+- Inventario validado: 38 servicios, ocho familias y 18 ocasiones. Animación, orquesta y vehículo ceremonial aparecen en las ocasiones pertinentes.
+- `typecheck`, `lint`, `test:commerce`, `test:performance`, `build`, `test:seo`, `test:content` y `git diff --check` aprobados. SEO: 95 URLs, titles y H1 únicos y 144 enlaces internos verificados.
+- El informe de contenido registra cero URLs por debajo de 240 palabras y cero pares con riesgo alto de plantilla por coincidencia exacta.
 - Foco comprobado a 1440 y 390 px: un solo borde redondeado en el contenedor, sin outline visible en el input interior y sin overflow. La compilación de producción local no presentó errores de consola. Una advertencia de IDs durante HMR se verificó separadamente del build.
 - En esta corrección el navbar quedó pendiente de implementación; la integración posterior se documenta a continuación. Capítulo 3 y Lenis permanecen intactos. Sin commit ni push.
 

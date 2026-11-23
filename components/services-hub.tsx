@@ -21,7 +21,7 @@ const foodIds = byId([
 ]);
 const barIds = byId(['bar-bartender', 'bebidas-barra-eventos']);
 const staffIds = byId(['mozos-evento', 'maestro-ceremonias']);
-const rentalIds = byId(['menaje-evento', 'sillas-evento']);
+const rentalIds = byId(['menaje-evento', 'sillas-evento', 'alquiler-vehiculo-eventos']);
 const decorationIds = byId(['arreglos-florales']);
 const personalizedIds = byId(['recuerdos-evento', 'polos-estampados']);
 
@@ -48,7 +48,7 @@ export const serviceFamilies: readonly ServiceFamily[] = [
   {
     id: 'alquileres',
     title: 'Alquileres',
-    description: 'Menaje, sillas, mesas, toldos, mantelería y mobiliario según cantidades, espacio y acceso.',
+    description: 'Menaje, sillas, mesas, toldos, mobiliario y vehículo ceremonial según cantidades, espacio, ruta y acceso.',
     hub: { href: '/alquiler', label: 'Explorar alquileres' },
     matches: (entry) => rentalIds.has(entry.id) || entry.category === 'Alquileres',
   },
@@ -72,13 +72,6 @@ export const serviceFamilies: readonly ServiceFamily[] = [
     description: 'Ambientación, arreglos florales, candy bar y mesas de postres para los puntos más visibles.',
     hub: { href: '/decoracion', label: 'Explorar decoración' },
     matches: (entry) => decorationIds.has(entry.id) || entry.category === 'Decoración',
-  },
-  {
-    id: 'foto-video',
-    title: 'Cabina y 360',
-    description: 'Cabina y experiencia 360 para que tus invitados participen y compartan momentos del evento.',
-    hub: { href: '/foto-video', label: 'Explorar cabina y experiencia 360' },
-    matches: (entry) => entry.category === 'Cabinas',
   },
   {
     id: 'personalizados',

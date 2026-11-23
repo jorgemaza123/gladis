@@ -63,13 +63,13 @@ const additionalGuides: Guide[] = [
   practicalGuide(
     'como-organizar-quinceanos', 'Celebraciones',
     'Cómo organizar un quinceaños',
-    'Una guía para ordenar ceremonia, recepción, comida, música, producción y recuerdos de un quinceaños.',
+    'Una guía para ordenar vehículo ceremonial, recepción, comida, animación, orquesta, producción y recuerdos de un quinceaños.',
     [
-      { title: 'Arma el programa', paragraphs: ['Define recepción, ingreso, brindis, comida, baile y momentos especiales antes de elegir proveedores.'] },
+      { title: 'Arma el programa', paragraphs: ['Define recojo, llegada, recepción, ingreso, brindis, comida, baile y momentos especiales antes de elegir proveedores.'] },
       { title: 'Separa lo esencial de lo opcional', paragraphs: ['Prioriza espacio, comida y atención; después distribuye el presupuesto entre música, producción, decoración y recuerdos.'] },
       { title: 'Confirma la parte técnica', paragraphs: ['Comparte horarios, medidas y restricciones del local para revisar sonido, luces, escenario y montaje.'] },
     ],
-    [{ label: 'Servicios para quinceaños', href: '/tipos-evento/servicios-quinceanos-lima' }, { label: 'Producción audiovisual', href: '/produccion' }],
+    [{ label: 'Servicios para quinceaños', href: '/tipos-evento/servicios-quinceanos-lima' }, { label: 'Vehículo ceremonial', href: '/servicios/alquiler-vehiculo-eventos' }, { label: 'Animación y orquestas', href: '/entretenimiento' }],
   ),
   practicalGuide(
     'como-organizar-baby-shower', 'Celebraciones',
@@ -77,7 +77,7 @@ const additionalGuides: Guide[] = [
     'Define invitados, lugar, comida, mobiliario y decoración para un baby shower o revelación de género.',
     [
       { title: 'Escoge un formato cómodo', paragraphs: ['Un desayuno, brunch o reunión por la tarde permite ajustar la duración y el tipo de comida.'] },
-      { title: 'Diseña a partir del espacio', paragraphs: ['Antes de elegir decoración, confirma mesas, sillas, circulación y zona para fotografías.'] },
+      { title: 'Diseña a partir del espacio', paragraphs: ['Antes de elegir decoración, confirma mesas, sillas, circulación y la zona principal de la celebración.'] },
       { title: 'Prepara una sola lista', paragraphs: ['Reúne comida, mobiliario, flores y recuerdos para evitar pedidos duplicados.'] },
     ],
     [{ label: 'Servicios para baby shower', href: '/tipos-evento/baby-shower-revelacion-genero-lima' }, { label: 'Decoración para eventos', href: '/decoracion' }],
@@ -85,24 +85,24 @@ const additionalGuides: Guide[] = [
   practicalGuide(
     'como-organizar-matrimonio-civil', 'Celebraciones',
     'Cómo organizar un matrimonio civil íntimo',
-    'Ordena ceremonia, recepción, comida, montaje y fotografías para un matrimonio civil o boda íntima.',
+    'Ordena traslado, ceremonia, recepción, comida y montaje para un matrimonio civil o boda íntima.',
     [
       { title: 'Define ceremonia y recepción', paragraphs: ['Aclara si ocurrirán en el mismo lugar y cuánto tiempo habrá para transformar el espacio.'] },
       { title: 'Ajusta el servicio a los invitados', paragraphs: ['El número de personas y el estilo de comida orientan el menaje, mobiliario y personal.'] },
-      { title: 'Cuida los tiempos de montaje', paragraphs: ['Coordina accesos, proveedores, fotografías y desmontaje con el lugar antes de reservar.'] },
+      { title: 'Cuida los tiempos de montaje', paragraphs: ['Coordina accesos, proveedores, llegada ceremonial y desmontaje con el lugar antes de reservar.'] },
     ],
-    [{ label: 'Servicios para matrimonio civil', href: '/tipos-evento/servicios-matrimonio-civil-lima' }, { label: 'Alquileres para eventos', href: '/alquiler' }],
+    [{ label: 'Servicios para matrimonio civil', href: '/tipos-evento/servicios-matrimonio-civil-lima' }, { label: 'Vehículo ceremonial', href: '/servicios/alquiler-vehiculo-eventos' }, { label: 'Alquileres para eventos', href: '/alquiler' }],
   ),
   practicalGuide(
     'como-organizar-graduacion', 'Celebraciones',
     'Cómo organizar una graduación o fiesta de promoción',
-    'Planifica una graduación escolar o universitaria con comida, atención, alquileres y recuerdos.',
+    'Planifica una graduación escolar o universitaria con comida, animación, orquesta, vehículo ceremonial, atención y recuerdos.',
     [
       { title: 'Alinea al grupo', paragraphs: ['Define responsables, presupuesto aproximado y tipo de celebración antes de pedir propuestas.'] },
       { title: 'Calcula asistentes y servicio', paragraphs: ['Distingue alumnos, familiares y docentes para estimar comida, mesas, sillas y atención.'] },
-      { title: 'Reserva con datos claros', paragraphs: ['Comparte fecha, distrito, horario y servicios elegidos para revisar disponibilidad real.'] },
+      { title: 'Reserva con datos claros', paragraphs: ['Comparte fecha, distrito, horario, ruta del vehículo y servicios elegidos para revisar disponibilidad real.'] },
     ],
-    [{ label: 'Catering para graduaciones', href: '/tipos-evento/catering-graduaciones-lima' }, { label: 'Personalizados', href: '/personalizados' }],
+    [{ label: 'Servicios para graduaciones', href: '/tipos-evento/catering-graduaciones-lima' }, { label: 'Vehículo ceremonial', href: '/servicios/alquiler-vehiculo-eventos' }, { label: 'Animación y orquestas', href: '/entretenimiento' }],
   ),
   practicalGuide(
     'como-organizar-evento-en-casa', 'Celebraciones',
@@ -244,7 +244,7 @@ const guideDeepening: Record<string, GuideSection> = {
   'como-organizar-baby-shower': {
     title: 'Organiza una reunión cómoda',
     paragraphs: [
-      'Piensa en la comodidad de la persona homenajeada y de invitados de distintas edades. Evita una distribución que obligue a permanecer de pie o que bloquee el acceso a comida, baños y fotografías.',
+      'Piensa en la comodidad de la persona homenajeada y de invitados de distintas edades. Evita una distribución que obligue a permanecer de pie o que bloquee el acceso a comida, baños y la actividad principal.',
       'Si habrá revelación, explica con anticipación qué dinámica imaginas y qué puede hacerse en el lugar. Cualquier elemento especial debe revisarse por espacio, limpieza y seguridad antes de confirmarlo.',
       'Deja esa coordinación a una persona identificada.',
     ],
@@ -254,17 +254,17 @@ const guideDeepening: Record<string, GuideSection> = {
     title: 'Ordena una ceremonia íntima',
     paragraphs: [
       'Define dónde esperarán los invitados, por dónde ingresará la pareja y qué ocurrirá inmediatamente después de la ceremonia. Ese recorrido determina sillas, sonido, flores y el cambio hacia el almuerzo o recepción.',
-      'Prepara una lista breve de momentos que deben registrarse y de personas que participarán. Coordinarla con el maestro de ceremonias evita interrumpir la reunión para decidir sobre la marcha.',
+      'Prepara una lista breve de momentos y personas que participarán. Coordinarla con el maestro de ceremonias evita interrumpir la reunión para decidir sobre la marcha.',
       'Comparte la versión final con todos.',
     ],
-    bullets: ['Hora de la ceremonia y recepción', 'Distribución de asientos', 'Palabras o brindis', 'Tiempo disponible para fotografías'],
+    bullets: ['Hora de la ceremonia y recepción', 'Ruta y hora de llegada', 'Distribución de asientos', 'Palabras o brindis'],
   },
   'como-organizar-graduacion': {
     title: 'Evita decisiones dispersas en el grupo',
     paragraphs: [
       'Nombra a pocas personas para aprobar presupuesto, menú y cambios. Cuando cada familia conversa por separado con proveedores, aparecen versiones distintas sobre cantidades, horarios y servicios incluidos.',
       'Registra alumnos, familiares, docentes y proveedores por separado. Esa división ayuda a calcular asientos y comida, y permite decidir si habrá recuerdos para todos o únicamente para la promoción.',
-      'Antes de pagar una reserva, circula un resumen con fecha, lugar, asistentes considerados, servicios incluidos y condiciones para cambios. El grupo debe aprobar la misma versión.',
+      'Antes de pagar una reserva, circula un resumen con fecha, lugar, asistentes, ruta de llegada, servicios incluidos y condiciones para cambios. El grupo debe aprobar la misma versión.',
     ],
     bullets: ['Lista consolidada de asistentes', 'Responsables autorizados', 'Fecha límite para cambios', 'Programa de ceremonia y celebración'],
   },
@@ -373,13 +373,13 @@ const guideFinalChecks: Record<string, GuideSection> = {
   'como-organizar-quinceanos': {
     title: 'Deja margen entre los momentos principales',
     paragraphs: [
-      'No programes ingreso, vals, brindis, cena y fotografías sin pausas. Considera los desplazamientos de la familia y el tiempo que necesita cada proveedor para preparar el siguiente momento. Una pauta realista reduce anuncios improvisados y permite que la comida se sirva a una hora adecuada sin cortar el baile o las palabras.',
+      'No programes traslado, ingreso, vals, brindis y cena sin pausas. Considera los desplazamientos de la familia y el tiempo que necesita cada proveedor para preparar el siguiente momento. Una pauta realista reduce anuncios improvisados y permite que la comida se sirva a una hora adecuada sin cortar el baile o las palabras.',
     ],
   },
   'como-organizar-baby-shower': {
     title: 'Confirma quién atenderá cada momento',
     paragraphs: [
-      'Define quién recibe regalos, repone bebidas, dirige los juegos y ayuda con las fotografías. Si el encuentro será corto, sirve la comida en un horario claro para que no compita con las dinámicas. Comunica con anticipación si asistirán niños pequeños, personas mayores o invitados con necesidades alimentarias que deban revisarse.',
+      'Define quién recibe regalos, repone bebidas, dirige los juegos y acompaña los momentos principales. Si el encuentro será corto, sirve la comida en un horario claro para que no compita con las dinámicas. Comunica con anticipación si asistirán niños pequeños, personas mayores o invitados con necesidades alimentarias que deban revisarse.',
     ],
   },
   'como-organizar-matrimonio-civil': {
@@ -403,7 +403,7 @@ const guideFinalChecks: Record<string, GuideSection> = {
   'como-organizar-evento-corporativo': {
     title: 'Cierra el evento con evidencia útil',
     paragraphs: [
-      'Define antes qué necesita conservar la empresa: registro de asistentes, fotografías, grabación, materiales sobrantes o comprobantes. Señala quién recibe cada entrega y en qué formato. Después, compara el resultado con el objetivo inicial y registra incidencias de acceso, tiempos y atención que sirvan para la siguiente actividad.',
+      'Define antes qué necesita conservar la empresa: registro de asistentes, grabación, materiales sobrantes o comprobantes. Señala quién recibe cada entrega y en qué formato. Después, compara el resultado con el objetivo inicial y registra incidencias de acceso, tiempos y atención que sirvan para la siguiente actividad.',
     ],
   },
   'cuanta-comida-calcular-evento': {
@@ -433,7 +433,7 @@ const guideFinalChecks: Record<string, GuideSection> = {
   'como-elegir-toldo-carpa-evento': {
     title: 'Solicita una revisión del punto de montaje',
     paragraphs: [
-      'Envía fotografías y medidas, pero permite que el proveedor pida una visita cuando la superficie, la altura o los accesos no estén claros. Informa sobre tuberías, jardines, cables y reglas del local. Antes del evento, confirma quién decide si el clima obliga a modificar o suspender el montaje y cómo se comunicará.',
+      'Envía imágenes de referencia y medidas, pero permite que el proveedor pida una visita cuando la superficie, la altura o los accesos no estén claros. Informa sobre tuberías, jardines, cables y reglas del local. Antes del evento, confirma quién decide si el clima obliga a modificar o suspender el montaje y cómo se comunicará.',
     ],
   },
   'dj-u-orquesta-para-evento': {
@@ -451,7 +451,7 @@ const guideFinalChecks: Record<string, GuideSection> = {
   'checklist-lanzamiento-inauguracion': {
     title: 'Planifica la salida y el seguimiento',
     paragraphs: [
-      'Define cómo terminará la actividad, quién despedirá a los invitados y qué materiales se entregarán. Organiza el retiro de equipos sin interferir con asistentes o personal del local. Después, reúne fotografías, contactos, incidencias y pendientes comerciales; el cierre operativo también forma parte del lanzamiento y debe tener responsables.',
+      'Define cómo terminará la actividad, quién despedirá a los invitados y qué materiales se entregarán. Organiza el retiro de equipos sin interferir con asistentes o personal del local. Después, reúne contactos, incidencias y pendientes comerciales; el cierre operativo también forma parte del lanzamiento y debe tener responsables.',
     ],
   },
 };
@@ -640,6 +640,19 @@ export const guides: Guide[] = [
           'Para 30 personas en casa suele bastar 1 o 2 mozos de apoyo; para 50 personas conviene contar con 2 o 3 mozos que ordenen la mesa, repongan fuentes y retiren menaje.',
         ],
       },
+      {
+        title: 'Calcula por el menú real, no solo por el número de invitados',
+        paragraphs: [
+          'La cantidad final cambia si habrá niños, si el buffet será la comida principal o si antes se ofrecerán bocaditos. También influye si eliges uno o varios fondos: al ofrecer más alternativas, cada fuente necesita margen suficiente para que los últimos invitados conserven opciones.',
+          'Al cotizar, comparte el horario, la duración, cuántos adultos y niños asistirán y si existen restricciones alimentarias. Con esos datos se puede recomendar una combinación concreta y comparable, sin inflar todas las partidas por igual.',
+        ],
+      },
+      {
+        title: 'Compara propuestas con el mismo alcance',
+        paragraphs: [
+          'Antes de decidir por precio, revisa si la propuesta incluye traslado, montaje, fuentes de servicio, menaje para invitados, reposición y retiro. Una opción aparentemente económica puede terminar costando más si esos elementos deben contratarse por separado.',
+        ],
+      },
     ],
     [
       { label: 'Cotizar buffet para eventos', href: '/servicios/buffet-para-eventos' },
@@ -670,6 +683,19 @@ export const guides: Guide[] = [
         title: 'Una sola coordinación con menaje incluido',
         paragraphs: [
           'Incluir tazas, servilletas, termo y mozo de apoyo evita improvisar con descartables cuando recibes clientes o directivos.',
+        ],
+      },
+      {
+        title: 'Alinea la pausa con la agenda de la reunión',
+        paragraphs: [
+          'Indica a qué hora termina cada bloque, cuánto durará la pausa y si los asistentes permanecerán en la misma sala. Así se define si conviene dejar una estación disponible, servir en un horario puntual o preparar porciones individuales para no interrumpir una presentación.',
+          'Para jornadas largas, separa la primera recepción de la pausa principal. Esto ayuda a calcular bebidas calientes, opciones saladas y dulces sin montar toda la propuesta desde el inicio.',
+        ],
+      },
+      {
+        title: 'Datos que aceleran una cotización corporativa',
+        paragraphs: [
+          'Comparte sede, piso, cantidad confirmada y estimada, horario de acceso, restricciones del edificio y necesidad de comprobante. Aclara también si hay dietas especiales y quién recibirá al equipo. Una solicitud completa reduce cambios de última hora y permite comparar alternativas con el mismo alcance.',
         ],
       },
     ],
@@ -704,6 +730,19 @@ export const guides: Guide[] = [
           'Con el distrito, la fecha y el número aproximado de invitados confirmamos disponibilidad, alcance y costo de traslado por escrito antes de cerrar.',
         ],
       },
+      {
+        title: 'La logística cambia según el tipo de espacio',
+        paragraphs: [
+          'En un departamento conviene priorizar preparaciones que lleguen listas para servir y confirmar ascensor, estacionamiento y horario de áreas comunes. En una casa o jardín puede haber más espacio para buffet, barra y mobiliario, pero se deben revisar energía, iluminación, cobertura frente al clima y ruta de ingreso.',
+          'En un local, pregunta qué elementos ya están incluidos y qué proveedores tienen restricciones. Ese inventario evita duplicar mesas, menaje o equipos que el espacio ya ofrece.',
+        ],
+      },
+      {
+        title: 'Pide una propuesta que permita comparar',
+        paragraphs: [
+          'Una cotización útil debe separar comida, bebidas, personal, alquileres, traslado y horarios. También debe indicar qué requiere confirmación por disponibilidad. Así puedes empezar con lo indispensable para una reunión pequeña o escalar hasta una celebración completa sin perder control del presupuesto.',
+        ],
+      },
     ],
     [
       { label: 'Ver servicios de catering', href: '/servicios' },
@@ -734,6 +773,19 @@ export const guides: Guide[] = [
         title: 'Arma tu lista en un solo pedido',
         paragraphs: [
           'Agrega comida, menaje y personal a Mi evento para recibir disponibilidad y propuesta unificada en una sola conversación.',
+        ],
+      },
+      {
+        title: 'Define responsabilidades antes del montaje',
+        paragraphs: [
+          'Aclara quién recibe el pedido, dónde se instalará el buffet, qué debe aportar la casa y qué retirará el proveedor. Si habrá bebidas propias, reserva una superficie y hielo suficientes; si la cocina es pequeña, evita depender de preparaciones que necesiten calentamiento simultáneo.',
+          'También conviene acordar la hora de llegada, el inicio del servicio y el momento de retiro. Ese orden mantiene libres los accesos y evita que el anfitrión tenga que resolver la operación cuando ya llegaron los invitados.',
+        ],
+      },
+      {
+        title: 'Revisa el alcance del menaje y la atención',
+        paragraphs: [
+          'Confirma cuántos platos, cubiertos y vasos incluye la propuesta, si existe margen de reposición y cómo se registra la devolución. En el caso de los mozos, compara horas de servicio y tareas incluidas: montaje, reposición, atención de mesa, retiro y apoyo al cierre.',
         ],
       },
     ],
@@ -768,6 +820,19 @@ export const guides: Guide[] = [
           'Envía tu distrito, fecha y número aproximado de invitados para confirmar disponibilidad y traslado por WhatsApp sin compromisos.',
         ],
       },
+      {
+        title: 'Usa lo que ya tienes en casa',
+        paragraphs: [
+          'Antes de pedir alquileres, cuenta las mesas, sillas y superficies disponibles. Una reunión pequeña puede funcionar con buffet compacto, bebidas en una zona separada y pocos elementos de menaje. Deja libres los pasillos hacia la cocina, el baño y la salida para que el servicio no interrumpa la conversación.',
+          'Si el espacio o el presupuesto es limitado, prioriza primero comida, conservación y presentación. Después evalúa si realmente necesitas mozo, vajilla adicional, decoración o bebidas preparadas.',
+        ],
+      },
+      {
+        title: 'Información mínima para recibir una opción realista',
+        paragraphs: [
+          'Indica adultos y niños, horario, duración, tipo de vivienda, piso o acceso, plato preferido y servicios que ya tienes resueltos. Esto permite sugerir una solución proporcionada para 10, 20 o 30 personas en lugar de convertir una reunión familiar en un paquete innecesariamente grande.',
+        ],
+      },
     ],
     [
       { label: 'Cotizar buffet para eventos', href: '/servicios/buffet-para-eventos' },
@@ -800,6 +865,19 @@ export const guides: Guide[] = [
           'Revisamos plano del local, horarios de montaje, ingreso de proveedores y alcance completo antes de confirmar la fecha.',
         ],
       },
+      {
+        title: 'Coordina los momentos que afectan a todos los proveedores',
+        paragraphs: [
+          'La llegada de la novia, quinceañera o persona graduada, la recepción, la comida, el brindis y el inicio del baile deben compartir un solo cronograma. Si habrá vehículo ceremonial, animador u orquesta, incluye ruta, estacionamiento, prueba de sonido, tiempo de espera y responsable de cada confirmación.',
+          'La animación y la música en vivo necesitan conocer los horarios de cocina y servicio para no competir con anuncios, discursos o retiro de platos. Esa coordinación protege la experiencia sin obligar a contratar todos los servicios con el mismo proveedor.',
+        ],
+      },
+      {
+        title: 'Cierra alcance, capacidad y contingencias',
+        paragraphs: [
+          'Confirma cantidad estimada y fecha límite para el número final, restricciones del local, potencia eléctrica, acceso de carga y plan frente a lluvia o retrasos. Pide que cada partida indique montaje, operación, desmontaje, traslado y condiciones de disponibilidad antes de separar la fecha.',
+        ],
+      },
     ],
     [
       { label: 'Ver tipos de evento', href: '/eventos' },
@@ -825,6 +903,19 @@ export const guides: Guide[] = [
           'Elige desde un desayuno ejecutivo o almuerzo familiar hasta buffet completo con barra y personal de atención.',
         ],
       },
+      {
+        title: 'Qué revisar antes de pedir una propuesta',
+        paragraphs: [
+          'Indica si el evento será en departamento, casa, terraza, oficina o local; cada espacio cambia el montaje y el tipo de servicio conveniente. Confirma piso, ascensor, estacionamiento temporal, horario permitido para proveedores y disponibilidad de cocina o punto eléctrico antes de definir buffet, barra o mobiliario.',
+          'Para una reunión pequeña puede bastar comida lista y menaje. En celebraciones mayores conviene sumar personal, reposición y un cronograma de montaje para que los accesos no se crucen con la llegada de invitados.',
+        ],
+      },
+      {
+        title: 'Cotiza con un alcance que puedas verificar',
+        paragraphs: [
+          'Comparte fecha, dirección aproximada en Miraflores, horario, adultos y niños, restricciones alimentarias y servicios ya resueltos. Solicita que la propuesta diferencie comida, atención, alquileres, traslado y retiro; así podrás ajustar el presupuesto sin eliminar elementos esenciales para la operación.',
+        ],
+      },
     ],
     [
       { label: 'Ver servicios en Lima', href: '/servicios' },
@@ -841,13 +932,26 @@ export const guides: Guide[] = [
       {
         title: 'Precisión en torres empresariales y directorios',
         paragraphs: [
-          'Enviamos datos de personal con anticipación para cumplir protocolos de seguridad en edificios de San Isidro y tener la mesa lista antes de que lleguen tus invitados.',
+          'Conviene compartir con anticipación los datos de ingreso que solicite el edificio, el contacto de recepción y el horario permitido para proveedores. Esto reduce demoras y ayuda a tener la mesa lista antes de que lleguen los asistentes.',
         ],
       },
       {
         title: 'Opciones flexibles para equipos pequeños o lanzamientos',
         paragraphs: [
           'Desde coffee break de 20 personas hasta cócteles de lanzamiento o cenas de fin de año con barra y sonido.',
+        ],
+      },
+      {
+        title: 'Organiza el servicio alrededor de la agenda',
+        paragraphs: [
+          'Para un directorio o capacitación, especifica la hora de inicio, duración de la pausa y si la sala debe permanecer despejada. Para un cóctel, define recepción, brindis y cierre. Con esa secuencia se puede decidir entre estación continua, servicio puntual o atención con mozos sin interrumpir la actividad.',
+          'Si la oficina tiene control de acceso, montacargas o restricciones para alimentos, confírmalos antes de elegir el formato. También informa si se necesita comprobante, opciones vegetarianas o identificación individual de productos.',
+        ],
+      },
+      {
+        title: 'Compara el costo total del servicio',
+        paragraphs: [
+          'Solicita que la cotización detalle alimentos, bebidas, menaje, personal, traslado, montaje y retiro. Añade sede, piso, cantidad estimada y responsable en el lugar. Esto evita que una propuesta incompleta parezca más económica y permite ajustar porciones o atención sin afectar la puntualidad.',
         ],
       },
     ],
@@ -873,6 +977,19 @@ export const guides: Guide[] = [
         title: 'Propuesta clara según cantidad de invitados',
         paragraphs: [
           'Adaptamos la combinación desde reuniones familiares pequeñas hasta bodas, graduaciones y aniversarios grandes.',
+        ],
+      },
+      {
+        title: 'Revisa jardín, accesos y servicios disponibles',
+        paragraphs: [
+          'En casas y jardines, confirma por dónde ingresarán comida, mobiliario y equipos sin atravesar la zona de invitados. Revisa puntos eléctricos, iluminación, baños, superficie del piso y alternativa frente a lluvia o viento. Si el evento será en club o local, valida horarios y proveedores permitidos antes de reservar.',
+          'Para reuniones en departamento o condominio, añade reglas de estacionamiento, ascensor y áreas comunes. Estos datos influyen más en la propuesta que el nombre del distrito por sí solo.',
+        ],
+      },
+      {
+        title: 'Escala desde lo esencial hasta una producción completa',
+        paragraphs: [
+          'Una reunión familiar puede resolverse con buffet, menaje y apoyo puntual. En una boda, quinceaños o graduación, conviene coordinar barra, mozos, mobiliario, animador u orquesta y, si corresponde, el vehículo ceremonial para la llegada. Cada partida debe indicar horario, traslado y condiciones de disponibilidad.',
         ],
       },
     ],

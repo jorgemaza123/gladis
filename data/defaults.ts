@@ -101,7 +101,7 @@ export const defaultCopy: PublicCopy = {
   successTitle: 'La conversación está lista',
   successDescription:
     'La conversación se prepara en tu navegador; no se crea una solicitud ni un número de referencia.',
-  demoNotice: 'Vista de demostración · Fotografías y propuestas de muestra',
+  demoNotice: 'Vista de demostración · Imágenes y propuestas de muestra',
 };
 export const defaultSettings: SiteSettings = {
   name: 'Nombre de la marca',

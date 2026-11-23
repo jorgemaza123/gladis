@@ -5,8 +5,8 @@ Fecha: 2026-10-12
 ## Arquitectura de servicios implementada
 
 - `/servicios` es el hub general para quien sabe qué servicio necesita o quiere explorar toda la oferta.
-- El hub organiza la oferta en nueve familias: cocina, bar, personal, alquileres, entretenimiento, producción, decoración, cabina y 360, y personalizados. La cobertura de fotografía y video se retiró el 19/10/2026.
-- Los hubs `/alquiler`, `/entretenimiento`, `/produccion`, `/decoracion`, `/foto-video` y `/personalizados` conservan una intención especializada y ayudan a comparar opciones de una sola familia.
+- El hub organiza la oferta en ocho familias navegables. La cobertura de fotografía y video y la cabina/360 están retiradas del catálogo público.
+- Los hubs `/alquiler`, `/entretenimiento`, `/produccion`, `/decoracion` y `/personalizados` conservan una intención especializada y ayudan a comparar opciones de una sola familia.
 - `/eventos` organiza la oferta por ocasión; `/empresas`, por necesidad de una organización. No sustituyen al catálogo general.
 - Las fichas de alimentación existentes conservan sus rutas y `/menus/menu-criollo-eventos` sigue separada.
 
@@ -19,23 +19,22 @@ La antigua arquitectura de complementos quedó retirada de la navegación, los e
 | `/servicios` | Descubrir o localizar cualquier servicio por familia |
 | `/eventos` | Empezar por la ocasión que se está organizando |
 | `/empresas` | Resolver reuniones, celebraciones y necesidades de una organización |
-| `/alquiler` | Comparar menaje, mobiliario, mantelería, mesas y toldos |
+| `/alquiler` | Comparar menaje, mobiliario, mantelería, mesas, toldos y vehículo ceremonial |
 | `/entretenimiento` | Comparar música, animación y experiencias |
 | `/produccion` | Comparar recursos técnicos y audiovisuales |
 | `/decoracion` | Comparar ambientación, flores y mesas de postres |
-| `/foto-video` | Comparar formatos de cabina y experiencia 360 para invitados |
 | `/personalizados` | Comparar recuerdos, productos y kits personalizados |
 
 ## Cambio futuro al dominio definitivo
 
-El canonical actual permanece en `https://gladis-vr6r.vercel.app`.
+El canonical actual permanece en `https://www.gladyseventos.com`.
 
 Cuando se conecte el dominio definitivo hay que cambiar:
 
-1. `data/demo.ts`: valor `demoContent.settings.origin`.
-2. `scripts/seo-http-audit.mjs` y `scripts/redirect-tests.mjs`: constante `productionOrigin`.
-3. Vercel: asignar el dominio principal y redirigir permanentemente el host anterior al nuevo dominio canónico.
-4. Documentación operativa activa que mencione el host temporal.
+1. Mantener `data/demo.ts`: valor `demoContent.settings.origin` en el dominio principal.
+2. Mantener `scripts/seo-http-audit.mjs` y `scripts/redirect-tests.mjs` alineados con el origen de producción.
+3. Verificar en Vercel que el host temporal y las variantes sin `www` redirijan al dominio canónico.
+4. Verificar en Search Console el sitemap y las URLs principales después de cada cambio de arquitectura.
 
 `lib/seo.ts`, el sitemap, robots, Open Graph, breadcrumbs y JSON-LD derivan sus URLs desde `site.settings.origin`; no requieren editar canonicals individualmente.
 

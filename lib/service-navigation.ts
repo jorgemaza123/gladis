@@ -9,11 +9,10 @@ export const serviceFamilyMeta: Partial<Record<ServiceFamilyName, {
 }>> = {
   'Comida y bebidas': { label: 'Comida y bebidas', description: 'Para servir, brindar y compartir.', href: '/servicios/cocina-para-eventos-lima' },
   'Personal para eventos': { label: 'Personal', description: 'Para recibir y acompañar a tus invitados.', href: '/servicios' },
-  Alquileres: { label: 'Alquileres', description: 'Para montar el espacio y vestir la mesa.', href: '/alquiler' },
+  Alquileres: { label: 'Alquileres', description: 'Para montar el espacio o coordinar una llegada ceremonial.', href: '/alquiler' },
   'Música y entretenimiento': { label: 'Música y entretenimiento', description: 'Para darle ritmo a la celebración.', href: '/entretenimiento' },
   'Producción audiovisual': { label: 'Producción audiovisual', description: 'Para que el evento se vea y se escuche bien.', href: '/produccion' },
   Decoración: { label: 'Decoración', description: 'Para definir el ambiente y los detalles.', href: '/decoracion' },
-  'Cabina y 360': { label: 'Cabina y 360', description: 'Una experiencia participativa para tus invitados.', href: '/foto-video' },
   Personalizados: { label: 'Personalizados', description: 'Para convertir la idea en recuerdos y piezas propias.', href: '/personalizados' },
   'Soluciones para empresas': { label: 'Empresas', description: 'Para reuniones, equipos y fechas corporativas.', href: '/empresas' },
 };
@@ -37,7 +36,7 @@ export type HeaderSection = 'servicios' | 'ocasiones' | 'empresas' | 'como-cotiz
 
 export function navigationSectionForPath(path: string): HeaderSection {
   const segment = path.split('/')[1];
-  if (['servicios', 'menus', 'alquiler', 'entretenimiento', 'produccion', 'decoracion', 'foto-video', 'personalizados'].includes(segment)) return 'servicios';
+  if (['servicios', 'menus', 'alquiler', 'entretenimiento', 'produccion', 'decoracion', 'personalizados'].includes(segment)) return 'servicios';
   if (['eventos', 'tipos-evento'].includes(segment)) return 'ocasiones';
   if (segment === 'empresas') return 'empresas';
   return '';

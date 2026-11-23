@@ -3,6 +3,10 @@ import { readSite, resolveRedirect } from '@/repositories/site';
 import { metadataFor, breadcrumbsData, serviceData, faqData } from '@/lib/seo';
 import { Shell, EntryDetail, publicEntries, JsonLd } from '@/components/public';
 type Props = { params: Promise<{ kind: string; slug: string }> };
+const retiredServiceRedirects: Readonly<Record<string, string>> = {
+  '/servicios/cabina-fotografica-360': '/entretenimiento',
+  '/servicios/cuadros-fotorecuerdos': '/personalizados',
+};
 async function resolve(params: Props['params']) {
   const { kind, slug } = await params;
   const site = await readSite();
@@ -10,6 +14,8 @@ async function resolve(params: Props['params']) {
     (e) => e.kind === kind && e.slug === slug,
   );
   if (!entry) {
+    const retiredTarget = retiredServiceRedirects[`/${kind}/${slug}`];
+    if (retiredTarget) permanentRedirect(retiredTarget);
     const target = await resolveRedirect(`/${kind}/${slug}`);
     if (
       target &&
