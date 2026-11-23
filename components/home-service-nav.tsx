@@ -78,6 +78,7 @@ export function HomeServiceNav() {
               <li key={item.label}>
                 <a
                   href={item.href}
+                  aria-label={`${item.label}: ${item.hint}`}
                   data-active={isActive ? 'true' : undefined}
                   aria-current={isActive ? 'true' : undefined}
                 >
@@ -86,7 +87,10 @@ export function HomeServiceNav() {
                       {serviceIcons[index]}
                     </svg>
                   </span>
-                  <span className="home-service-nav-label">{item.label}</span>
+                  <span className="home-service-nav-text">
+                    <span className="home-service-nav-label">{item.label}</span>
+                    <small className="home-service-nav-hint">{item.hint}</small>
+                  </span>
                   <svg className="home-service-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg>

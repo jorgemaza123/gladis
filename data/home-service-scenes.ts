@@ -41,12 +41,12 @@ const slicedLayers = (
   }));
 
 export const homeServiceNav = [
-  { label: 'Cocina', href: '#servicio-cocina' },
-  { label: 'Bartender', href: '#servicio-bartender' },
-  { label: 'Menaje', href: '#servicio-menaje' },
-  { label: 'Mozos y sillas', href: '#servicio-atencion' },
-  { label: 'Personalizados', href: '#servicio-personalizados' },
-  { label: 'Flores', href: '#servicio-flores' },
+  { label: 'Cocina', hint: 'Buffet, criollo y desayunos', href: '#servicio-cocina' },
+  { label: 'Bartender', hint: 'Barra, bebidas y cristalería', href: '#servicio-bartender' },
+  { label: 'Menaje', hint: 'Platos, copas y cubiertos', href: '#servicio-menaje' },
+  { label: 'Mozos y sillas', hint: 'Atención, mozos y sillas', href: '#servicio-atencion' },
+  { label: 'Personalizados', hint: 'Recuerdos, polos y tazas', href: '#servicio-personalizados' },
+  { label: 'Flores', hint: 'Centros y arreglos florales', href: '#servicio-flores' },
 ] as const;
 
 export const homeServiceScenes: HomeServiceScene[] = [
