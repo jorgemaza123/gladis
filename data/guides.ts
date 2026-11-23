@@ -743,6 +743,145 @@ export const guides: Guide[] = [
       { label: 'Armar mi evento', href: '/cotizar' },
     ],
   ),
+  practicalGuide(
+    'catering-para-reuniones-pequenas-en-casa-lima',
+    'Presupuestos accesibles',
+    'Catering para reuniones pequeñas y familiares en casa en Lima',
+    'Arma una reunión íntima de 10 a 30 personas en casa en Lima contratando solo lo necesario: comida lista, menaje o apoyo puntual según tu presupuesto.',
+    [
+      {
+        title: 'Contrata solo el módulo que te falta',
+        paragraphs: [
+          'No necesitas un paquete gigante para celebrar en casa. Puedes pedir únicamente fuentes de buffet o menú criollo y encargarte de las bebidas, o sumar solo menaje y 1 mozo de apoyo.',
+        ],
+        bullets: ['Reuniones de 10 a 30 personas', 'Sin obligación de contratar todo el catálogo', 'Ajuste por tipo de plato y horario'],
+      },
+      {
+        title: 'Optimiza el presupuesto sin bajar la presentación',
+        paragraphs: [
+          'Un menú criollo bien presentado o piqueos compartidos con menaje uniforme lucen ordenados en mesa y evitan gastar de más en mobiliario que ya tienes en casa.',
+        ],
+      },
+      {
+        title: 'Confirma costo real antes de reservar',
+        paragraphs: [
+          'Envía tu distrito, fecha y número aproximado de invitados para confirmar disponibilidad y traslado por WhatsApp sin compromisos.',
+        ],
+      },
+    ],
+    [
+      { label: 'Cotizar buffet para eventos', href: '/servicios/buffet-para-eventos' },
+      { label: 'Cotizar menaje completo', href: '/servicios/menaje-evento' },
+      { label: 'Armar mi cotización', href: '/cotizar' },
+    ],
+  ),
+  practicalGuide(
+    'catering-bodas-graduaciones-eventos-grandes-lima',
+    'Grandes celebraciones',
+    'Catering para bodas, graduaciones y eventos grandes en Lima',
+    'Coordina buffet completo, barra de cócteles, menaje, mozos, flores y producción para bodas, graduaciones, quinceaños y eventos masivos en Lima.',
+    [
+      {
+        title: 'Integra alimentación, barra y personal en una sola línea',
+        paragraphs: [
+          'En eventos de 80, 150 o más invitados, alinear cocina, bartender, mozos y menaje bajo una misma coordinación evita cruces de horarios en recepción, cena y brindis.',
+        ],
+        bullets: ['Buffet completo o servicio emplatado', 'Barra de cócteles con bartender', 'Equipo completo de mozos y jefe de sala'],
+      },
+      {
+        title: 'Escala mobiliario, flores y recuerdos personalizados',
+        paragraphs: [
+          'Puedes sumar sillas, mesas, arreglos florales, sonido o recuerdos personalizados en la misma consulta para mantener coherencia visual en todo el salón.',
+        ],
+      },
+      {
+        title: 'Planificación por etapas y cronograma escrito',
+        paragraphs: [
+          'Revisamos plano del local, horarios de montaje, ingreso de proveedores y alcance completo antes de confirmar la fecha.',
+        ],
+      },
+    ],
+    [
+      { label: 'Ver tipos de evento', href: '/eventos' },
+      { label: 'Cotizar bartender y barra', href: '/servicios/bar-bartender' },
+      { label: 'Cotizar mi evento', href: '/cotizar' },
+    ],
+  ),
+  practicalGuide(
+    'catering-eventos-miraflores-lima',
+    'Distritos de Lima',
+    'Catering y eventos en Miraflores para casa o empresa',
+    'Coordina catering, buffet, coffee break, menaje y mozos en Miraflores para departamentos, terrazas, salas de directorio y celebraciones.',
+    [
+      {
+        title: 'Montaje adaptado a departamentos, terrazas y oficinas',
+        paragraphs: [
+          'En Miraflores coordinamos con anticipación horarios de ascensor de servicio, estacionamiento y áreas comunes para llegar puntuales tanto en reuniones íntimas como en eventos corporativos.',
+        ],
+      },
+      {
+        title: 'Desde 15 invitados hasta celebraciones completas',
+        paragraphs: [
+          'Elige desde un desayuno ejecutivo o almuerzo familiar hasta buffet completo con barra y personal de atención.',
+        ],
+      },
+    ],
+    [
+      { label: 'Ver servicios en Lima', href: '/servicios' },
+      { label: 'Soluciones para empresas', href: '/empresas' },
+      { label: 'Cotizar en Miraflores', href: '/cotizar' },
+    ],
+  ),
+  practicalGuide(
+    'catering-eventos-san-isidro-lima',
+    'Distritos de Lima',
+    'Catering y coffee break en San Isidro para empresas y casas',
+    'Servicio de catering, desayunos corporativos, almuerzos ejecutivos, menaje y mozos en San Isidro con coordinación puntual para oficinas y residencias.',
+    [
+      {
+        title: 'Precisión en torres empresariales y directorios',
+        paragraphs: [
+          'Enviamos datos de personal con anticipación para cumplir protocolos de seguridad en edificios de San Isidro y tener la mesa lista antes de que lleguen tus invitados.',
+        ],
+      },
+      {
+        title: 'Opciones flexibles para equipos pequeños o lanzamientos',
+        paragraphs: [
+          'Desde coffee break de 20 personas hasta cócteles de lanzamiento o cenas de fin de año con barra y sonido.',
+        ],
+      },
+    ],
+    [
+      { label: 'Cotizar coffee break', href: '/servicios/desayunos-corporativos-coffee-break' },
+      { label: 'Ver soluciones para empresas', href: '/empresas' },
+      { label: 'Cotizar en San Isidro', href: '/cotizar' },
+    ],
+  ),
+  practicalGuide(
+    'catering-eventos-surco-la-molina-san-borja',
+    'Distritos de Lima',
+    'Catering en Surco, La Molina y San Borja a tu presupuesto',
+    'Catering, buffet criollo, barra, alquileres y decoración para casas, jardines y locales en Santiago de Surco, La Molina y San Borja.',
+    [
+      {
+        title: 'Celebraciones en casa, jardín o club',
+        paragraphs: [
+          'Aprovecha espacios amplios en Surco, La Molina y San Borja combinando buffet, estaciones de bebidas, mobiliario y atención sin contratar proveedores sueltos.',
+        ],
+      },
+      {
+        title: 'Propuesta clara según cantidad de invitados',
+        paragraphs: [
+          'Adaptamos la combinación desde reuniones familiares pequeñas hasta bodas, graduaciones y aniversarios grandes.',
+        ],
+      },
+    ],
+    [
+      { label: 'Cotizar buffet para eventos', href: '/servicios/buffet-para-eventos' },
+      { label: 'Ver alquileres para eventos', href: '/alquiler' },
+      { label: 'Cotizar mi evento', href: '/cotizar' },
+    ],
+  ),
   ...additionalGuides.map((guide) => ({
     ...guide,
     sections: [

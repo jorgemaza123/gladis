@@ -4,7 +4,7 @@ import type { SiteContent } from '@/models/content';
 import { QuoteCta } from './quote-cta';
 import { SharedServiceStory } from './shared-service-story';
 
-function SceneLayerImage({ layer }: { layer: HomeSceneLayer }) {
+function SceneLayerImage({ layer, alt = '' }: { layer: HomeSceneLayer; alt?: string }) {
   const aspectRatio = `${layer.width} / ${layer.height}`;
   return (
     <picture
@@ -22,7 +22,7 @@ function SceneLayerImage({ layer }: { layer: HomeSceneLayer }) {
         width={layer.width}
         height={layer.height}
         style={{ aspectRatio }}
-        alt=""
+        alt={alt}
         loading="lazy"
         decoding="async"
       />
@@ -123,7 +123,13 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
                 <span className="service-scene-orbit" />
                 {scene.layers
                   .filter((layer) => scene.visualMode === 'cutout' || layer.name === 'main')
-                  .map((layer) => <SceneLayerImage layer={layer} key={layer.name} />)}
+                  .map((layer) => (
+                    <SceneLayerImage
+                      layer={layer}
+                      alt={layer.name === 'main' ? `${scene.kicker} para eventos en Lima` : ''}
+                      key={layer.name}
+                    />
+                  ))}
               </div>
               {sceneContent(scene, index)}
             </article>
@@ -150,7 +156,11 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
                 <div className="service-visual" aria-hidden="true">
                   <span className="service-scene-orbit" />
                   {scene.layers.filter((layer) => scene.visualMode === 'cutout' || layer.name === 'main').map((layer) => (
-                    <SceneLayerImage layer={layer} key={layer.name} />
+                    <SceneLayerImage
+                      layer={layer}
+                      alt={layer.name === 'main' ? `${scene.kicker} para eventos en Lima` : ''}
+                      key={layer.name}
+                    />
                   ))}
                 </div>
                 {sceneContent(scene, index)}

@@ -8333,3 +8333,43 @@ body:has(.floating-event-bar) .analytics-consent-banner {
     display: none;
   }
 }
+
+/* Home SEO internal-linking strip for all budgets & Lima districts */
+.home-guides-strip {
+  padding-block: clamp(32px, 5vw, 56px);
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 18px;
+}
+.home-guides-strip-head h2 {
+  margin-top: 6px;
+  font-size: clamp(1.35rem, 2.3vw, 1.9rem);
+}
+.home-guides-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.home-guides-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 46, 38, 0.16);
+  background: var(--paper);
+  color: var(--forest);
+  font-size: 0.94rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home-guides-links a:hover,
+.home-guides-links a:focus-visible {
+  border-color: var(--copper);
+  transform: translate3d(0, -1px, 0);
+}

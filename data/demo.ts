@@ -195,8 +195,8 @@ export const demoContent: SiteContent = normalizeSite({
     demo: false,
     businessVerified: true,
     seo: seo(
-      'Gladys | Servicios para eventos y celebraciones en Lima',
-      'Comida, personal, alquileres, entretenimiento, producción, decoración y personalizados para eventos en Lima. Cotiza por WhatsApp.',
+      'Catering, buffet y eventos en Lima a tu medida | Gladys',
+      'Catering, buffet, menaje, barra y atención para reuniones pequeñas, bodas, graduaciones y empresas en Lima. Cotiza a tu medida por WhatsApp.',
     ),
     navigation: [
       { label: 'Servicios', href: '/servicios' },

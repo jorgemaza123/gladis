@@ -173,6 +173,39 @@ export function HomeExperience({ site }: { site: SiteContent }) {
       />
       <OccasionGrid occasions={occasions} />
       <CompanyGateway />
+      <section className="home-guides-strip wrap" aria-labelledby="home-guides-title">
+        <div className="home-guides-strip-head">
+          <p className="section-kicker">Guías prácticas para tu presupuesto</p>
+          <h2 id="home-guides-title">Desde reuniones pequeñas en casa hasta grandes celebraciones.</h2>
+        </div>
+        <ul className="home-guides-links">
+          <li>
+            <Link href="/guias/catering-para-reuniones-pequenas-en-casa-lima">
+              Reuniones pequeñas en casa <span aria-hidden="true">→</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/guias/cuanto-buffet-calcular-30-50-personas-lima">
+              Calcular buffet para 30 o 50 personas <span aria-hidden="true">→</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/guias/catering-bodas-graduaciones-eventos-grandes-lima">
+              Bodas, graduaciones y eventos grandes <span aria-hidden="true">→</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/guias/coffee-break-corporativo-san-isidro-miraflores">
+              Coffee break en San Isidro y Miraflores <span aria-hidden="true">→</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/guias">
+              Ver todas las guías <span aria-hidden="true">↗</span>
+            </Link>
+          </li>
+        </ul>
+      </section>
       <section className="conversation-chapter" id="como-cotizar">
         <div className="conversation-section wrap">
           <div data-motion-content>
