@@ -8373,3 +8373,131 @@ body:has(.floating-event-bar) .analytics-consent-banner {
   border-color: var(--copper);
   transform: translate3d(0, -1px, 0);
 }
+
+/* ==========================================================================
+   Mobile App-Shell Transformation (<= 760px) — Desktop Untouched
+   ========================================================================== */
+
+.services-mobile-swipe-hint {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  /* 1. Clean breathing room in StoryHero on phone */
+  .story-chapter > span {
+    display: none;
+  }
+  .story-chapter h1 {
+    font-size: clamp(2.15rem, 9.2vw, 2.85rem);
+    line-height: 1.04;
+  }
+
+  /* 2. HomeServiceNav as sleek single-row horizontal pill rail */
+  .home-service-nav {
+    padding-block: 18px 16px;
+  }
+  .home-service-nav h2 {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+  }
+  .home-service-nav ul {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: 10px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .home-service-nav li {
+    scroll-snap-align: start;
+  }
+  .home-service-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 8px 14px;
+    border-radius: 999px;
+  }
+  .home-service-nav-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .home-service-nav-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .home-service-nav-arrow {
+    display: none;
+  }
+
+  /* 3. #servicios as Editorial Swipe Card Carousel on phone */
+  .services-mobile-swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 0 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--copper);
+  }
+  .shared-service-sequence-placeholder {
+    display: none;
+  }
+  .shared-service-layout > div:last-child {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(84vw, 316px);
+    gap: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding: 4px 16px 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .shared-service-panel.service-family {
+    scroll-snap-align: start;
+    margin: 0;
+    padding: 14px;
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    box-shadow: 0 10px 26px rgba(31, 46, 38, 0.06);
+    display: grid;
+    align-content: start;
+    gap: 12px;
+  }
+  .shared-service-panel.service-family + .shared-service-panel {
+    margin-top: 0;
+  }
+  .shared-service-panel .service-visual {
+    height: 190px;
+    min-height: 190px;
+    border-radius: 16px;
+  }
+  .shared-service-panel .service-copy {
+    padding: 0;
+  }
+  .shared-service-panel h3 {
+    font-size: 1.45rem;
+    line-height: 1.12;
+  }
+  .shared-service-panel .service-options {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .service-families > .service-family:not(.shared-service-panel) {
+    margin-inline: 16px;
+    margin-top: 14px;
+    padding: 0;
+  }
+  .service-families > .service-family:not(.shared-service-panel) .service-card {
+    padding: 14px;
+    border-radius: 22px;
+  }
+}
