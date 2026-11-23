@@ -109,9 +109,6 @@ export function HomeServiceJourney({ site }: { site: SiteContent }) {
         </p>
       </div>
 
-      <p className="services-mobile-swipe-hint wrap" aria-hidden="true">
-        Desliza para explorar los servicios →
-      </p>
       <div className="service-families">
         <SharedServiceStory>
           {sharedScenes.map((scene, index) => (
